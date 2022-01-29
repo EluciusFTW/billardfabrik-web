@@ -1,0 +1,87 @@
+$color-primary-red: rgba(0, 0,0, 0.04);
+$color-primary-green:rgba(0, 0,0, 0.02);
+$color-primary-blue: #edeee3;
+
+$color-quarter-darken: rgba(0, 0,0, 0.02);
+$color-half-darken:  rgba(0, 0,0, 0.04);
+$color-darken: rgba(0, 0,0, 0.08);
+$color-lighten: rgba(255, 255,255, 0.3);
+
+$color-attention-tile: #f9cea9;
+$color-news-tile: #c2efc2;
+$color-general-tile: $color-darken;
+
+$color-font-grey: #272727;
+$color-font-menu: #272727;
+
+$color-menu-active: $color-primary-blue;
+$color-menu-section: $color-primary-green;
+$color-menu-section-header: $color-darken;
+
+.toolbar {
+  display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    background-color: $color-lighten;
+
+    padding-left: 2rem;
+    padding-right:2rem;
+}
+
+div.menu-bar {
+  :first-child{
+      margin-left: 0rem;
+  }
+
+  :hover {
+      opacity: 0.5;
+      cursor: pointer;
+  }
+}
+
+span.menu-item {
+  margin-left: 20px;
+  padding: 10px;
+
+  .menu-item-text{
+      margin-left: 6px;
+  }
+
+  .special{
+      padding-bottom:2px;
+  }
+}
+
+#logo{
+  height: 50px;
+}
+
+.menu-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0.5rem;
+}
+
+.menu-horizontal .menu-item{
+  padding: 5px 15px;
+  font-size: .75rem;
+  display: flex;
+  cursor: pointer;
+  background-color: #791008;
+  margin-top: 1rem;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  border-width: 1px;
+  // border-color: white;
+  // border-style: dashed;
+  text-transform: uppercase;
+}
+
+.menu-horizontal-outlet{
+  margin-top: 2rem;
+}
+
+.menu-horizontal .active-menu-point {
+  background: $color-darken;
+}

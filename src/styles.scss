@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+html, body {
+  width: 100%;
+  min-width: 780px;
+  height: 100%;
+  margin: 0;
+}
+
+p::first-letter {
+  font-size: 1.5rem;
+  line-height: 1rem;
+}
+
+a {
+  color:whitesmoke;
+  text-transform: uppercase;
+}
+
+.fill-remaining-space {
+  flex: 1 1 auto;
+}
