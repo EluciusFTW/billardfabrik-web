@@ -1,0 +1,58 @@
+@import '~@angular/material/theming';
+
+// Complete Typography config as per 14.09.2020.
+// $general-typography: mat-typography-config(
+//  $font-family: '"Raleway", sans-serif',
+//
+//  $display-4: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+//  $display-3: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+//  $display-2: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+//  $display-1: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+//  $headline: mat-typography-level(32px, 42px, 500),
+//  $title: mat-typography-level(28px, 34px, 500),
+//  $subheading-2: mat-typography-level(28px, 34px, 500),
+//  $subheading-1: mat-typography-level(28px, 34px, 500),
+//  $body-1: mat-typography-level(18px, 28px, 400, '"Raleway", sans-serif'),
+//  $body-2: mat-typography-level(18px, 28px, 500, '"Raleway", sans-serif'),
+//  $caption: mat-typography-level(18px, 28px, 500, '"Raleway", sans-serif'),
+//  $button: mat-typography-level(18px, 28px, 500, '"Raleway", sans-serif'),
+//  $input: which leads to compilation error (em vs px)
+//);
+
+$general-typography: mat-typography-config(
+  $font-family: '"Raleway", sans-serif',
+
+  $display-4: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+  $display-3: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+  $display-2: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+  $display-1: mat-typography-level(32px, 42px, 500, '"Raleway", sans-serif'),
+  $headline: mat-typography-level(32px, 42px, 500),
+  $title: mat-typography-level(28px, 34px, 500),
+  $subheading-2: mat-typography-level(24px, 34px, 500),
+  $subheading-1: mat-typography-level(22px, 34px, 500),
+  $body-1: mat-typography-level(16px, 28px, 400, '"Raleway", sans-serif'),
+  $body-2: mat-typography-level(16px, 28px, 500, '"Raleway", sans-serif'),
+  $caption: mat-typography-level(16px, 28px, 500, '"Raleway", sans-serif'),
+  $button: mat-typography-level(16px, 28px, 500, '"Raleway", sans-serif'),
+);
+@include mat-core($general-typography);
+
+// Color palette
+// Available color palettes: https://www.google.com/design/spec/style/color.html
+$primary: mat-palette($mat-blue-grey, 200, 100, 400);
+$accent:  mat-palette($mat-orange, 300, 200, 600);
+$warn:    mat-palette($mat-red);
+
+$app-theme: mat-dark-theme($primary, $accent, $warn);
+@include angular-material-theme($app-theme);
+
+// Custom
+@import '../assets/scss/color.mixin.scss';
+@import '../assets/scss/layout.mixin.scss';
+
+@mixin custom-components-theme($app-theme) {
+  @include app-colors($app-theme);
+  @include app-layout();
+}
+
+@include custom-components-theme($app-theme);
