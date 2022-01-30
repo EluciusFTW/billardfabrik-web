@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 
 import { MenuComponent } from './menu/menu.component';
 import { BillardFabrikTourneysComponent } from './billard-tourneys/billard-fabrik-tourneys.component';
-import { BillardFabrikAboutComponent } from './billard-fabrik-about/billard-fabrik-about.component';
+import { AboutComponent } from './about/about.component';
 import { BillardFabrikContactComponent } from './billard-fabrik-contact/billard-fabrik-contact.component';
 import { BillardFabrikLeagueComponent } from './billard-fabrik-league/billard-fabrik-league.component';
 import { BillardFabrikMembershipComponent } from './billard-fabrik-membership/billard-fabrik-membership.component';
@@ -22,7 +22,7 @@ import { SharedModule } from './shared/shared.module';
   declarations: [
     AppComponent,
     MenuComponent,
-    BillardFabrikAboutComponent,
+    AboutComponent,
     BillardFabrikMembershipComponent,
     BillardFabrikLeagueComponent,
     BillardFabrikTrainingComponent,

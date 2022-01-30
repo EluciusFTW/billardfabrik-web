@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BillardFabrikAboutComponent } from './billard-fabrik-about/billard-fabrik-about.component';
+import { AboutComponent } from './about/about.component';
 import { BillardFabrikContactComponent } from './billard-fabrik-contact/billard-fabrik-contact.component';
 import { BillardFabrikLeagueComponent } from './billard-fabrik-league/billard-fabrik-league.component';
 import { BillardFabrikMembershipComponent } from './billard-fabrik-membership/billard-fabrik-membership.component';
@@ -9,7 +9,7 @@ import { BillardFabrikTourneysComponent } from './billard-tourneys/billard-fabri
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
-  { path: 'about', component: BillardFabrikAboutComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'league', component: BillardFabrikLeagueComponent },
   { path: 'membership', component: BillardFabrikMembershipComponent },
   { path: 'training', component: BillardFabrikTrainingComponent },
