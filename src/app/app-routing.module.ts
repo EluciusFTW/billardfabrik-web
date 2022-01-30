@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
-import { BillardFabrikContactComponent } from './billard-fabrik-contact/billard-fabrik-contact.component';
+import { ContactComponent } from './contact/billard-fabrik-contact.component';
 import { BillardFabrikLeagueComponent } from './billard-fabrik-league/billard-fabrik-league.component';
 import { BillardFabrikMembershipComponent } from './billard-fabrik-membership/billard-fabrik-membership.component';
 import { BillardFabrikTrainingComponent } from './billard-fabrik-training/billard-fabrik-training.component';
@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'league', component: BillardFabrikLeagueComponent },
   { path: 'membership', component: BillardFabrikMembershipComponent },
   { path: 'training', component: BillardFabrikTrainingComponent },
-  { path: 'contact', component: BillardFabrikContactComponent },
+  { path: 'contact', component: ContactComponent },
   { path: 'tourneys', component: BillardFabrikTourneysComponent },
   // {
   //   path: 'tourney-series', component: TourneysLandingPageComponent, children: [
