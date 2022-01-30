@@ -10,9 +10,9 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { BillardFabrikTourneysComponent } from './tourneys/tourneys.component';
 import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/billard-fabrik-contact.component';
+import { ContactComponent } from './contact/contact.component';
 import { LeagueComponent } from './league/league.component';
-import { BillardFabrikMembershipComponent } from './membership/membership.component';
+import { MembershipComponent } from './membership/membership.component';
 import { TrainingComponent } from './training/training.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
@@ -23,7 +23,7 @@ import { SharedModule } from './shared/shared.module';
     AppComponent,
     MenuComponent,
     AboutComponent,
-    BillardFabrikMembershipComponent,
+    MembershipComponent,
     LeagueComponent,
     TrainingComponent,
     ContactComponent,
