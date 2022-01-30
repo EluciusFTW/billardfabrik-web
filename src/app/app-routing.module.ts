@@ -4,7 +4,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/billard-fabrik-contact.component';
 import { BillardFabrikLeagueComponent } from './billard-fabrik-league/billard-fabrik-league.component';
 import { BillardFabrikMembershipComponent } from './billard-fabrik-membership/billard-fabrik-membership.component';
-import { BillardFabrikTrainingComponent } from './billard-fabrik-training/billard-fabrik-training.component';
+import { TrainingComponent } from './training/training.component';
 import { BillardFabrikTourneysComponent } from './billard-tourneys/billard-fabrik-tourneys.component';
 
 const routes: Routes = [
@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'league', component: BillardFabrikLeagueComponent },
   { path: 'membership', component: BillardFabrikMembershipComponent },
-  { path: 'training', component: BillardFabrikTrainingComponent },
+  { path: 'training', component: TrainingComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'tourneys', component: BillardFabrikTourneysComponent },
   // {

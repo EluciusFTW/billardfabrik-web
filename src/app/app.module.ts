@@ -13,7 +13,7 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/billard-fabrik-contact.component';
 import { BillardFabrikLeagueComponent } from './billard-fabrik-league/billard-fabrik-league.component';
 import { BillardFabrikMembershipComponent } from './billard-fabrik-membership/billard-fabrik-membership.component';
-import { BillardFabrikTrainingComponent } from './billard-fabrik-training/billard-fabrik-training.component';
+import { TrainingComponent } from './training/training.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 
@@ -25,7 +25,7 @@ import { SharedModule } from './shared/shared.module';
     AboutComponent,
     BillardFabrikMembershipComponent,
     BillardFabrikLeagueComponent,
-    BillardFabrikTrainingComponent,
+    TrainingComponent,
     ContactComponent,
     BillardFabrikTourneysComponent
   ],
