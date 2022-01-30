@@ -1,0 +1,52 @@
+<mat-card style="margin-top: 2rem;" *ngIf="tourney">
+
+    <mat-card-content>
+        <div class="row">
+            <div class="col col-sm-4">
+                <app-content-header [header]="'Meta'" [size]="3"></app-content-header>
+                <table>
+                    <tr>
+                        <td>
+                            <i class="fas fa-user-friends"></i>
+                        </td>
+                        <td> {{ getCount() }} Teilnehmer</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <i class="fas fa-gamepad"></i>
+                        </td>
+                        <td> {{ getDiscipline()}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col col-sm-8">
+                <app-content-header [header]="'Ergebnisse'" [size]="3"></app-content-header>
+                <table>
+                    <tr>
+                        <td>
+                            <i class="fas fa-trophy"></i>
+                        </td>
+                        <td> {{ getWinner() }} </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            2.
+                        </td>
+                        <td> {{ getSecondPlace() }} </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            3.
+                        </td>
+                        <td> {{ getThirdPlace() }} </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button *ngIf="canStart() && tourney.meta.status === 0" (click)="start()">Start</button>
+        <button *ngIf="canCompute()" (click)="calculate()">Calculate</button>
+    </mat-card-actions>
+</mat-card>

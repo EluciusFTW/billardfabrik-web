@@ -1,0 +1,7 @@
+<mat-card [ngClass]="type">
+    <app-content-header [header]="header" [icon]="''" [size]="2"></app-content-header>
+    <span *ngIf="link" [routerLink]="link" class="link">(MORE INFO)</span>
+    <div class="tile-content">
+        <ng-content></ng-content>
+    </div>
+</mat-card>

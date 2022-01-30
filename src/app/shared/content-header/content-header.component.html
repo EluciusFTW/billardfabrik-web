@@ -1,0 +1,5 @@
+<i *ngIf="classExpr()" [class]="classExpr()"></i>
+<h1 *ngIf="!size || size === 0 || size === 1">::: {{ header }}</h1>
+<h2 *ngIf="size === 2">::: {{ header }}</h2>
+<h3 *ngIf="size === 3">{{ header }}</h3>
+<h4 *ngIf="size === 4">{{ header }}</h4>

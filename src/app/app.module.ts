@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { MenuComponent } from './menu/menu.component';
+import { BillardFabrikModule } from './billardfabrik/billard-fabrik.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { MenuComponent } from './menu/menu.component';
     BrowserModule,
     BrowserAnimationsModule,
     MaterialModule,
+    BillardFabrikModule,
     AppRoutingModule,
   ],
   providers: [],

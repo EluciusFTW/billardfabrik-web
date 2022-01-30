@@ -1,0 +1,23 @@
+<app-content-header [header]="tourney ? tourney.meta.name + ' ' + tourney.meta.date : 'Loading ...'" [icon]="''">
+</app-content-header>
+
+<div class="menu-horizontal">
+  <div class="menu-item" (click)="activate('summary')">
+    Zusammenfassung
+  </div>
+  <div class="menu-item" (click)="activate('group')">
+    Gruppenphase
+  </div>
+  <div class="menu-item" (click)="activate('elimination')">
+    Endrunde
+  </div>
+
+</div>
+
+<app-tourney-summary *ngIf="!showGroup && !showElimination" [tourney]="tourney" (change)="update($event)">
+</app-tourney-summary>
+
+<app-tourney-group-stage *ngIf="showGroup" [tourney]="tourney" (change)="update($event)"></app-tourney-group-stage>
+
+<app-tourney-elimination-stages *ngIf="showElimination" [tourney]="tourney" (change)="update($event)">
+</app-tourney-elimination-stages>

@@ -1,0 +1,85 @@
+<app-content-tile [header]="'Details'">
+
+
+  Gespielt wird 8-Ball, 9-Ball und 10-Ball im zweiwöchentlichen Wechsel. Das Startgeld beträgt 8€ (7€ davon werden
+  direkt am Abend ausgeschüttet, 1€ geht in den Jackpot).
+  Zusätzlich gibt es ein Leaderboard für das Du Punkte sammeln kannst. Die Ausschüttung, der genaue Modus und die
+  Leaderboard-Punkte variieren etwas, je nach Teilnehmerzahl: <br>
+  <div class="mat-elevation-z2" style="margin-top:1rem;">
+    <mat-table #tourneyModeTable [dataSource]="detailsDataSource">
+      <ng-container matColumnDef="nrOf">
+        <th mat-header-cell *matHeaderCellDef> Anzahl Teilnehmer </th>
+        <td mat-cell *matCellDef="let element"> {{element.nrOf}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Turniermodus </th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="places">
+        <th mat-header-cell *matHeaderCellDef> Plazierung </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let place of element.places">{{place}}</div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="payout">
+        <th mat-header-cell *matHeaderCellDef> Ausschüttung </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let payout of element.payout">{{payout}}</div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef> Punkte </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngFor="let entry of element.points">{{entry}}</div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayDetails"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayDetails;"></tr>
+    </mat-table>
+  </div>
+  <span style="font-size: 12px; ">
+    <b>*gelost wird nach folgenden Regeln:</b> In der ersten K.O.-Runde trifft man nicht auf einen Spieler aus
+    der eigenen Gruppe, aber die Erstplazierten werden nicht gesetzt.
+  </span>
+  <br>
+
+  <app-content-header [header]="'Achievements'" [icon]="''" [size]="2"></app-content-header>
+  Neben dem Preisgeld und dem Fame des Leaderboards kannst Du auch noch Achievements sammeln.
+  Jedes Achievement bringt neben den Bragging Rights auch einen kleinen Preis mit sich: Die Mensa und die
+  Billardfabrik sponsoren Gutscheine und
+  Sachpreise je nach Schwierigkeit des Erfolgs. Mehr Details dazu in Kürze!
+  <div class="mat-elevation-z2" style="margin-top:1rem;">
+    <mat-table class="full-width" #tourneyModeTable [dataSource]="achievementsDataSource" mat-elevation-z2>
+
+      <ng-container matColumnDef="icon">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let element"> <i [class]="element.icon"></i></td>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Achievement </th>
+        <td mat-cell *matCellDef="let element">
+          <i [class]="element.icon" style="margin-right:10px"></i> <span>{{element.title}} </span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="criterion">
+        <th mat-header-cell *matHeaderCellDef> Kriterium </th>
+        <td mat-cell *matCellDef="let element"> {{element.criterion}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="prize">
+        <th mat-header-cell *matHeaderCellDef> Preis </th>
+        <td mat-cell *matCellDef="let element"> {{element.prize}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayAchievements"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayAchievements;"></tr>
+    </mat-table>
+  </div>
+</app-content-tile>

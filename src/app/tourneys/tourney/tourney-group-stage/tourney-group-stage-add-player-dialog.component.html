@@ -1,0 +1,17 @@
+<h1 mat-dialog-title>Neuen Spieler hinzufügen </h1>
+<div mat-dialog-content>
+
+  <form #playerAddForm="ngForm">
+    <mat-form-field>
+      <input name="fP" placeholder="Vorname" matInput [(ngModel)]="firstName" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input name="fP" placeholder="Nachname" matInput [(ngModel)]="lastName" required>
+    </mat-form-field>
+</form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="submit()" [disabled]="!playerAddForm.form.valid"> Hinzufügen </button>
+  <button mat-button (click)="abort()">Abbrechen</button>
+</div>

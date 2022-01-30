@@ -1,0 +1,30 @@
+<mat-toolbar>
+    Turnierübersicht
+    <span class="fill-remaining-space"></span>
+    <div *ngIf="isTourneyAuthenticated()" class="ui-toolbar-group-left menu-item"
+        [routerLink]="'../create'">Neues Turnier erstellen
+    </div>
+</mat-toolbar>
+<div>
+    <mat-table #tourneys [dataSource]="tourneyDataSource">
+
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{item.meta.name}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef> Datum </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{niceName(item.meta.date)}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+            <mat-cell *matCellDef="let item"> {{ mapTourneyState(item.meta.status)}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" [routerLink]="'../' + row.key + '/tourney'"></mat-row>
+
+    </mat-table>
+</div>

@@ -1,0 +1,76 @@
+<app-content-tile [header]="'Leaderboard'">
+  <div>
+    <mat-table #tourneys [dataSource]="leaderBoardDataSource">
+
+      <ng-container matColumnDef="place">
+        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Platz </mat-header-cell>
+        <mat-cell class="centered" *matCellDef="let i = index;" [ngClass]="'narrow'"> {{i+1}}. </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+        <mat-cell *matCellDef="let item"> {{item.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="placements">
+        <mat-header-cell *matHeaderCellDef> Plazierungen </mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <div class="space-right" *ngIf="item.placements.gold"
+            [matBadge]="item.placements.gold > 1 ? item.placements.gold : null" matBadgeSize="small">
+            <i style="color: gold" class="fas fa-medal"></i>
+          </div>
+          <div class="space-right" *ngIf="item.placements.silver"
+            [matBadge]="item.placements.silver > 1 ? item.placements.silver : null" matBadgeSize="small">
+            <i style="color: silver" class="fas fa-medal"></i>
+          </div>
+          <div class="space-right" *ngIf="item.placements.bronze"
+            [matBadge]="item.placements.bronze > 1 ? item.placements.bronze : null" matBadgeSize="small">
+            <i style="color: burlywood" class="fas fa-medal"></i>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="achievements">
+        <mat-header-cell *matHeaderCellDef> Achievements </mat-header-cell>
+        <mat-cell *matCellDef="let item">
+          <div *ngFor="let achievement of existingAchievements">
+            <div class="space-right" *ngIf="item.achievements.includes(achievement.id)">
+              <i [ngStyle]="{'color': achievement.color}" [ngClass]="achievement.icon" title="{{achievement.title}}"></i>
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="participations">
+        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Teilnahmen </mat-header-cell>
+        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.participations}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="matches">
+        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Matches </mat-header-cell>
+        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.matches}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Spiele </mat-header-cell>
+        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.scored}} : {{item.received}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="winPercentage">
+        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Quote </mat-header-cell>
+        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.winPercentage | percent}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Punkte </mat-header-cell>
+        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{ item.points }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
+
+    </mat-table>
+  </div>
+</app-content-tile>

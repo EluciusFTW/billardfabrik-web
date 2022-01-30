@@ -1,0 +1,44 @@
+<div class="centered-container">
+  <div class="row">
+    <div class="col col-9 col-sm-8">
+      <app-content-header [header]="'Billardfabrik Leipzig e.V.'" [icon]="''"></app-content-header>
+      <p>
+        Die noch junge Billardfabrik Leipzig gründete sich parallel zur Eröffnung des vermutlich
+        attraktivsten Billardsalons der neuen Bundesländer: der Mensa. Das besondere
+        Spielambiente dort möchte keiner von uns missen.
+      </p>
+    </div>
+
+    <div class="col col-3 col-sm-4">
+      <img src="../assets/logos/billardfabrik/logo.svg" alt="Logo of Billardfabrik Leipzig e.V.">
+    </div>
+  </div>
+
+  <div class="menu-horizontal">
+    <div class="menu-item" [routerLink]="'overview'" routerLinkActive="bgcol-primary-darker">
+      Über uns
+    </div>
+    <div class="menu-item" [routerLink]="'membership'" routerLinkActive="bgcol-primary-darker">
+      Mitgliedschaft
+    </div>
+    <div class="menu-item" [routerLink]="'training'" routerLinkActive="bgcol-primary-darker">
+      Training
+    </div>
+    <div class="menu-item" [routerLink]="'tourneys'" routerLinkActive="bgcol-primary-darker">
+      Turniere
+    </div>
+    <div class="menu-item" [routerLink]="'tourney-series'" routerLinkActive="bgcol-primary-darker">
+      Die Donnerstags-Serie
+    </div>
+    <div class="menu-item" [routerLink]="'league'" routerLinkActive="bgcol-primary-darker">
+      Ligabetrieb
+    </div>
+    <div class="menu-item" [routerLink]="'contact'" routerLinkActive="bgcol-primary-darker">
+      Kontakt
+    </div>
+  </div>
+
+  <div class="menu-horizontal-outlet">
+    <router-outlet></router-outlet>
+  </div>
+</div>

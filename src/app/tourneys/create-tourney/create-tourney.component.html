@@ -1,0 +1,60 @@
+<app-content-tile [header]="'Neues Turnier erstellen'">
+  <div class="row">
+    <div class="col-sm-8" style="display:flex; flex-direction: column;">
+      <mat-selection-list #selectPlayers style="flex-grow: 1;">
+        <mat-list-option style="height: auto; font-size: 1rem;" *ngFor="let player of players" [value]="player">
+          {{ this.displayName(player) }}
+        </mat-list-option>
+      </mat-selection-list>
+
+      <div>
+        <button (click)="addPlayer()">Neuer Spieler</button>
+      </div>
+    </div>
+
+    <div class="col-sm-4" style="display:flex; flex-direction: column; padding-top:8px;">
+
+      <div>
+        <span>Ausgewählte Spieler: </span>
+        <span>{{selectPlayers.selectedOptions.selected.length}}</span>
+      </div>
+
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Anzahl Gruppen</mat-label>
+          <mat-select [(value)]="nrOfGroupsSelected">
+            <mat-option *ngFor="let nr of possibleNrOfGroups" [value]="nr">
+              {{ nr }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="fill">
+          <mat-label>Disziplin</mat-label>
+          <mat-select [(value)]="disciplineSelected">
+            <mat-option *ngFor="let discipline of disciplines" [value]="discipline">
+              {{ discipline }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="flex-grow: 1;">
+        <mat-form-field appearance="fill">
+          <mat-label>Ausspielziel</mat-label>
+          <mat-select [(value)]="raceLengthSelected">
+            <mat-option *ngFor="let nr of raceLengths" [value]="nr">
+              {{ nr }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div>
+        <button (click)="submitSelected(selectPlayers.selectedOptions.selected)">Erstellen</button>
+      </div>
+
+    </div>
+  </div>
+</app-content-tile>>
