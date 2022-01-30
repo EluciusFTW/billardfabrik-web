@@ -8,11 +8,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { MenuComponent } from './menu/menu.component';
-import { BillardFabrikTourneysComponent } from './billard-tourneys/billard-fabrik-tourneys.component';
+import { BillardFabrikTourneysComponent } from './tourneys/tourneys.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/billard-fabrik-contact.component';
-import { BillardFabrikLeagueComponent } from './billard-fabrik-league/billard-fabrik-league.component';
-import { BillardFabrikMembershipComponent } from './billard-fabrik-membership/billard-fabrik-membership.component';
+import { LeagueComponent } from './league/league.component';
+import { BillardFabrikMembershipComponent } from './membership/membership.component';
 import { TrainingComponent } from './training/training.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
@@ -24,7 +24,7 @@ import { SharedModule } from './shared/shared.module';
     MenuComponent,
     AboutComponent,
     BillardFabrikMembershipComponent,
-    BillardFabrikLeagueComponent,
+    LeagueComponent,
     TrainingComponent,
     ContactComponent,
     BillardFabrikTourneysComponent
