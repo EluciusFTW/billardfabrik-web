@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 $color-primary-red: rgba(0, 0,0, 0.04);
 $color-primary-green:rgba(0, 0,0, 0.02);
 $color-primary-blue: #edeee3;
@@ -16,3 +18,8 @@ $color-font-menu: #272727;
 $color-menu-active: $color-primary-blue;
 $color-menu-section: $color-primary-green;
 $color-menu-section-header: $color-darken;
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$warn: map-get($app-theme, warn);
+
