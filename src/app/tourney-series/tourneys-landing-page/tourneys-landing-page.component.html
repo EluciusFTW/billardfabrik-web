@@ -1,22 +1,23 @@
 <div class="container">
-    <div class="row">
-        <div class="col col-8 col-sm-6">
-            <app-content-header [header]="'Die Donnerstags-Serie'" [size]='2'></app-content-header>
-            <p>
-                Das Turnier jeden zweiten Donnerstag in der Mensa! Einfach da sein und mitspielen, keine Voranmeldung
-                nötig!
-            </p>
-            <ul>
-                <li>Anmeldung bis 19:00 (bei leichter Verspätung bitte Beschied geben)</li>
-                <li>Startgeld 8€, 100% Ausschüttung</li>
-                <li>8-/9-/10-Ball im Wechsel</li>
-            </ul>
-        </div>
-        <div class="col col-4 col-sm-6">
-            <img style="max-width:100%; height: auto;" src="../../../assets/other/thursday-series-poster.png"
+  <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile>
+      <app-content-tile [header]="'Die Donnerstags-Serie'">
+      <p>
+          Das Turnier jeden zweiten Donnerstag in der Mensa! Einfach da sein und mitspielen, keine Voranmeldung
+          nötig!
+      </p>
+      <ul>
+          <li>Anmeldung bis 19:00 (bei leichter Verspätung bitte Beschied geben)</li>
+          <li>Startgeld 8€, 100% Ausschüttung</li>
+          <li>8-/9-/10-Ball im Wechsel</li>
+      </ul>
+    </app-content-tile>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <img style="max-height:100%; " src="../../../assets/pics/thursday-series-poster.png"
                 alt="Donnerstags-Turnier Poster">
-        </div>
-    </div>
+    </mat-grid-tile>
+  </mat-grid-list>
 
     <div class="menu-horizontal">
         <div class="menu-item" [routerLink]="'overview'" routerLinkActive="bgcol-primary-darker">

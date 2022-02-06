@@ -1,0 +1,32 @@
+.menu-horizontal-outlet{
+  margin-top: 2rem;
+}
+
+.menu-horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+    .menu-item{
+      padding: 5px 15px;
+      font-size: .75rem;
+      display: flex;
+      cursor: pointer;
+      background-color: $prim;
+      margin: 0.5rem 0.5rem 0.5rem 0;
+      border-radius: 4px;
+      border-width: 1px;
+      border-color: white;
+      border-style: dashed;
+      text-transform: uppercase;
+
+      :hover {
+        cursor: pointer;
+      }
+  }
+
+  .active-menu-point {
+    background: $color-darken;
+  }
+}
+

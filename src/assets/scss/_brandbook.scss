@@ -1,4 +1,5 @@
 @import '~@angular/material/theming';
+@import '../../app/app-theme.scss';
 
 $color-primary-red: rgba(0, 0,0, 0.04);
 $color-primary-green:rgba(0, 0,0, 0.02);
@@ -6,7 +7,7 @@ $color-primary-blue: #edeee3;
 
 $color-quarter-darken: rgba(0, 0,0, 0.02);
 $color-half-darken:  rgba(0, 0,0, 0.04);
-$color-darken: rgba(0, 0,0, 0.08);
+$color-darken: red;
 
 $color-attention-tile: #f9cea9;
 $color-news-tile: #c2efc2;
@@ -19,7 +20,9 @@ $color-menu-active: $color-primary-blue;
 $color-menu-section: $color-primary-green;
 $color-menu-section-header: $color-darken;
 
-$primary: map-get($app-theme, primary);
-$accent: map-get($app-theme, accent);
-$warn: map-get($app-theme, warn);
+$prim:  green;
+// map-get($app-theme, primary);
+// $primary: map-get($app-theme, primary);
+// $accent: map-get($app-theme, accent);
+// $warn: map-get($app-theme, warn);
 

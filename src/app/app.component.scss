@@ -7,10 +7,28 @@
   background-size: cover;
 }
 
-.main-content{
-  padding: 1rem 2rem 1rem 2rem
+.all-content{
+  display: flex;
+  justify-content: center;
+}
+
+.main-content {
+  padding: 1rem 2rem 1rem 2rem;
+  width: 1024px;
 }
 
 .full-height {
   height:100%
+}
+
+@media only screen and (max-width: 1092px) {
+  .main-content {
+      width: 800px;
+  }
+}
+
+@media only screen and (max-width: 850px) {
+  .main-content {
+      width: 720px;
+  }
 }
