@@ -6,7 +6,7 @@ import { PoolDisciplineMapper } from '../../models/pool-discipline';
 import { TourneyEvaluationService } from '../../services/tourney-evaluation-service';
 import { TourneyStatisticsService } from '../../services/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
-import { UserService } from 'src/app/authenticated-area/user.service';
+// import { UserService } from 'src/app/authenticated-area/user.service';
 
 @Component({
   selector: 'app-tourney-summary',
@@ -27,7 +27,7 @@ export class TourneySummaryComponent {
     private evaluationService: TourneyEvaluationService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
-    private userService: UserService
+    // private userService: UserService
   ) { }
 
   displayStatus(): string {
@@ -67,11 +67,13 @@ export class TourneySummaryComponent {
   }
 
   canStart(): boolean {
-    return this.userService.canHandleTourneys();
+    return true;
+    // return this.userService.canHandleTourneys();
   }
 
   canCompute(): boolean {
-    return this.userService.isAdmin() && this.tourney.meta.status !== TourneyStatus.postProcessed;
+    return true;
+    // return this.userService.isAdmin() && this.tourney.meta.status !== TourneyStatus.postProcessed;
   }
 
   start() {

@@ -14,7 +14,7 @@ import { PlayersService } from './services/players.service';
 import { TourneysService } from './services/tourneys.service';
 import { TourneyComponent } from './tourney/tourney.component';
 // import { TourneyGroupStageComponent } from './tourney/tourney-group-stage/tourney-group-stage.component';
-// import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summary.component';
+import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summary.component';
 // import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
 // import { TourneyEliminationStageComponent } from './tourney-elimination-stage/tourney-elimination-stage.component';
 import { TourneyEventService } from './services/tourney-event.service';
@@ -22,9 +22,9 @@ import { TourneyStandingCalculationService } from './services/tourney-standing-c
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 // import { TourneyGroupStageAddPlayerDialogComponent } from './tourney/tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-// import { TourneyEvaluationService } from './services/tourney-evaluation-service';
-// import { TourneyStatisticsService } from './services/tourney-statistics.service';
-// import { TourneyPointsService } from './services/tourney-points.service';
+import { TourneyEvaluationService } from './services/tourney-evaluation-service';
+import { TourneyStatisticsService } from './services/tourney-statistics.service';
+import { TourneyPointsService } from './services/tourney-points.service';
 
 import { TourneysLandingPageComponent } from './tourneys-landing-page/tourneys-landing-page.component';
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
@@ -52,7 +52,7 @@ import { RouterModule } from '@angular/router';
     // TourneyGroupStageAddPlayerDialogComponent,
     // TourneyEliminationStagesComponent,
     // TourneyEliminationStageComponent,
-    // TourneySummaryComponent,
+    TourneySummaryComponent,
     TourneysLeaderBoardComponent,
     TourneySeriesOverviewComponent,
     TourneysLandingPageComponent
@@ -66,9 +66,9 @@ import { RouterModule } from '@angular/router';
     TourneysService,
     TourneyEventService,
     TourneyStandingCalculationService,
-    // TourneyEvaluationService,
-    // TourneyStatisticsService,
-    // TourneyPointsService,
+    TourneyEvaluationService,
+    TourneyStatisticsService,
+    TourneyPointsService,
     PlayersService
   ]
 })

@@ -18,7 +18,7 @@ export class TourneyStatisticsService {
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {
     if (tourney.meta.status !== TourneyStatus.completed) {
-      return;
+      return { players: [] };
     }
 
     const matchesByPlayer = this.GetMachesByPlayer(tourney);
@@ -84,6 +84,7 @@ export class TourneyStatisticsService {
     switch (type) {
       case TourneyEliminationStageType.thirdPlace: return TourneyPlacementType.ThirdPlace;
       case TourneyEliminationStageType.final: return TourneyPlacementType.Winner;
+      default: throw Error;
     }
   }
 
@@ -93,6 +94,7 @@ export class TourneyStatisticsService {
       case TourneyEliminationStageType.quarterFinal: return TourneyPlacementType.QuarterFinal;
       case TourneyEliminationStageType.thirdPlace: return TourneyPlacementType.FourthPlace;
       case TourneyEliminationStageType.final: return TourneyPlacementType.RunnerUp;
+      default: throw Error;
     }
   }
 
