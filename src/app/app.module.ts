@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // External modules
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+// import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+// import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { firebaseConfig } from '../secrets/firebase';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -41,8 +43,11 @@ import { TourneysModule } from './tourney-series/tourneys.module';
     SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideFirestore(() => getFirestore()),
+    // provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    // provideFirestore(() => getFirestore()),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireDatabaseModule,
+    // AngularFireAuthModule,
     MaterialModule,
     AppRoutingModule,
     TourneysModule

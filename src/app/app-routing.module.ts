@@ -15,16 +15,6 @@ const routes: Routes = [
   { path: 'training', component: TrainingComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'tourneys', component: BillardFabrikTourneysComponent },
-  // {
-  //   path: 'tourney-series', component: TourneysLandingPageComponent, children: [
-  //     { path: '', redirectTo: 'overview', pathMatch: 'full' },
-  //     { path: 'overview', component: TourneySeriesOverviewComponent },
-  //     { path: ':id/tourney', component: TourneyComponent },
-  //     { path: 'create', component: CreateTourneyComponent },
-  //     { path: 'list', component: TourneyListComponent },
-  //     { path: 'leaderboard', component: TourneysLeaderBoardComponent }
-  //   ]
-  // },
 ];
 
 @NgModule({

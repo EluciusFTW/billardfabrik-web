@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PlayerResultsRecord, TourneyPlayer } from '../models/tourney-player';
-import { AngularFireDatabase } from '@angular/fire/database';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { first, map } from 'rxjs/operators';
 import { PlayerMatchRecord, TourneyPlacementType, TourneyPlayerEvaluation } from '../models/tourney-evaluation';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 
-const DB_PLAYERS_LPATH = 'billardfabrik/tourney/players';
-const DB_PLAYERRESULTS_LPATH = 'billardfabrik/tourney/playerResults';
+const DB_PLAYERS_LPATH = 'tourneySeries/players';
+const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
 
 @Injectable()
 export class PlayersService {
