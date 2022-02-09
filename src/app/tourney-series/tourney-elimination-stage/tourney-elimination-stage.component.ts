@@ -5,7 +5,7 @@ import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { MatchPlayer } from '../models/match-player';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
-import { UserService } from 'src/app/authenticated-area/user.service';
+// import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
 
 @Component({
@@ -21,10 +21,11 @@ export class TourneyEliminationStageComponent {
   @Output()
   change: EventEmitter<any> = new EventEmitter();
 
-  matches = new MatTableDataSource<Match>(this.stage?.matches);
+  // this.stage?.matches
+  matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score'];
 
-  constructor(private userService: UserService) { }
+  // constructor(private userService: UserService) { }
 
   name(): string {
     switch (this.stage.type) {
@@ -94,7 +95,8 @@ export class TourneyEliminationStageComponent {
   }
 
   canHandleTourney(): boolean {
-    return this.userService.canHandleTourneys();
+    return true;
+    // return this.userService.canHandleTourneys();
   }
 
   getMatchClass(match: Match): string {

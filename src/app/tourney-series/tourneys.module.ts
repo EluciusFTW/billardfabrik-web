@@ -18,8 +18,8 @@ import { TourneyGroupStageAddPlayerDialogComponent } from './tourney/tourney-gro
 // import { TourneyPlayerCreateDialogComponent } from './tourney-player-create-dialog/tourney-player-create-dialog.component';
 import { TourneysService } from './services/tourneys.service';
 
-// import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
-// import { TourneyEliminationStageComponent } from './tourney-elimination-stage/tourney-elimination-stage.component';
+import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
+import { TourneyEliminationStageComponent } from './tourney-elimination-stage/tourney-elimination-stage.component';
 import { TourneyEventService } from './services/tourney-event.service';
 import { TourneyStandingCalculationService } from './services/tourney-standing-calculation.service';
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
@@ -53,8 +53,8 @@ import { TourneySeriesRoutingModule } from './tourneys-routing.module';
     // CreateTourneyComponent,
     TourneyGroupStageComponent,
     TourneyGroupStageAddPlayerDialogComponent,
-    // TourneyEliminationStagesComponent,
-    // TourneyEliminationStageComponent,
+    TourneyEliminationStagesComponent,
+    TourneyEliminationStageComponent,
     TourneySummaryComponent,
     TourneysLeaderBoardComponent,
     TourneySeriesOverviewComponent,
