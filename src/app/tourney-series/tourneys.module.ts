@@ -17,8 +17,8 @@ import { TourneyComponent } from './tourney/tourney.component';
 // import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summary.component';
 // import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
 // import { TourneyEliminationStageComponent } from './tourney-elimination-stage/tourney-elimination-stage.component';
-// import { TourneyEventService } from './services/tourney-event.service';
-// import { TourneyStandingCalculationService } from './services/tourney-standing-calculation.service';
+import { TourneyEventService } from './services/tourney-event.service';
+import { TourneyStandingCalculationService } from './services/tourney-standing-calculation.service';
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 // import { TourneyGroupStageAddPlayerDialogComponent } from './tourney/tourney-group-stage/tourney-group-stage-add-player-dialog.component';
@@ -64,8 +64,8 @@ import { RouterModule } from '@angular/router';
   providers: [
     // TourneyCreationService,
     TourneysService,
-    // TourneyEventService,
-    // TourneyStandingCalculationService,
+    TourneyEventService,
+    TourneyStandingCalculationService,
     // TourneyEvaluationService,
     // TourneyStatisticsService,
     // TourneyPointsService,

@@ -14,7 +14,7 @@ export class TourneysService {
 
   constructor(
     private db: AngularFireDatabase,
-    //private eventService: TourneyEventService,
+    private eventService: TourneyEventService,
     //private messageService: OwnMessageService
   ) { }
 
@@ -34,34 +34,34 @@ export class TourneysService {
       );
   }
 
-  // update(tourney: Tourney, event: TourneyPhaseEvent): void {
-  //   this.eventService.apply(tourney, event);
-  //   const key = this.getKey(tourney);
-  //   if (!!key) {
-  //     this.db.list(DB_TOURNEYS_LPATH).update(key, tourney);
-  //   } else {
-  //     this.save(tourney);
-  //   }
-  // }
+  update(tourney: Tourney, event: TourneyPhaseEvent): void {
+    this.eventService.apply(tourney, event);
+    const key = this.getKey(tourney);
+    if (!!key) {
+      this.db.list(DB_TOURNEYS_LPATH).update(key, tourney);
+    } else {
+      this.save(tourney);
+    }
+  }
 
-  // save(tourney: Tourney): void {
-  //   this.db.object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
-  //     .set(tourney)
-  //     .then(
-  //       () => this.messageService.success('Neues Turnier gespeichert', '')
-  //     );
-  // }
+  save(tourney: Tourney): void {
+    this.db.object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
+      .set(tourney)
+      .then(
+        // () => this.messageService.success('Neues Turnier gespeichert', '')
+      );
+  }
 
-  // private getDateString(): string {
-  //   const date = new Date();
-  //   const yy = date.getFullYear();
-  //   const mm = date.getMonth() + 1;
-  //   const dd = date.getDate();
-  //   return [yy,
-  //     (mm > 9 ? '' : '0') + mm,
-  //     (dd > 9 ? '' : '0') + dd
-  //   ].join('');
-  // }
+  private getDateString(): string {
+    const date = new Date();
+    const yy = date.getFullYear();
+    const mm = date.getMonth() + 1;
+    const dd = date.getDate();
+    return [yy,
+      (mm > 9 ? '' : '0') + mm,
+      (dd > 9 ? '' : '0') + dd
+    ].join('');
+  }
 
   private getKey(n: Tourney): string {
     return (<any>n).key;
