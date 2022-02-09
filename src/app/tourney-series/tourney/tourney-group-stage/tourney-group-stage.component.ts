@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { UserService } from 'src/app/authenticated-area/user.service';
+// import { UserService } from 'src/app/authenticated-area/user.service';
 import { Match } from '../../models/match';
 import { MatchStatus } from '../../models/match-status';
 import { Tourney } from '../../models/tourney';
@@ -22,7 +22,10 @@ export class TourneyGroupStageComponent {
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
-  constructor(public dialog: MatDialog, private userService: UserService) { }
+  constructor(
+    public dialog: MatDialog,
+  //  private userService: UserService
+  ) { }
 
   emitChange(event: TourneyPhaseEvent): void {
     this.change.emit(event);
@@ -33,7 +36,8 @@ export class TourneyGroupStageComponent {
   }
 
   canAddPlayers(): boolean {
-    return this.userService.canHandleTourneys();
+    return true;
+    // return this.userService.canHandleTourneys();
   }
 
   addPlayer(): void {

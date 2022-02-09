@@ -8,7 +8,7 @@ import { TourneyPhaseStatus } from "../models/tourney-phase-status";
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyStandingCalculationService } from '../services/tourney-standing-calculation.service';
 import { MatchStatus } from '../models/match-status';
-import { UserService } from 'src/app/authenticated-area/user.service';
+// import { UserService } from 'src/app/authenticated-area/user.service';
 
 @Component({
   selector: 'app-tourney-group',
@@ -23,14 +23,17 @@ export class TourneyGroupComponent implements OnChanges {
   @Output()
   change: EventEmitter<any> = new EventEmitter();
 
-  matches = new MatTableDataSource<Match>(this.group?.matches);
+  matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score', 'cancel'];
 
-  standing: GroupStanding[];
+  standing: GroupStanding[] = [];
   totals = new MatTableDataSource<GroupStanding>(this.standing);
   displayedColumnsTotals = ['name', 'games', 'won', 'goals'];
 
-  constructor(private standingsCalculator: TourneyStandingCalculationService, private userService: UserService) { }
+  constructor(
+    private standingsCalculator: TourneyStandingCalculationService,
+    // private userService: UserService
+  ) { }
 
   ngOnChanges(changes: SimpleChanges) {
     this.matches = new MatTableDataSource<Match>(this.group?.matches);
@@ -38,7 +41,8 @@ export class TourneyGroupComponent implements OnChanges {
   }
 
   canFinalize(): boolean {
-    return this.userService.canHandleTourneys();
+    return true;
+    // return this.userService.canHandleTourneys();
   }
 
   scoreEditDisabled(match: Match): boolean {
