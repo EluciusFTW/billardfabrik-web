@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { CreateTourneyComponent } from "./create-tourney/create-tourney.component";
 import { TourneyListComponent } from "./tourney-list/tourney-list.component";
 import { TourneySeriesOverviewComponent } from "./tourney-series-overview/tourney-series-overview.component";
 import { TourneyComponent } from "./tourney/tourney.component";
@@ -11,7 +12,7 @@ const routes: Routes = [{
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: TourneySeriesOverviewComponent },
       { path: ':id/tourney', component: TourneyComponent },
-      // { path: 'create', component: CreateTourneyComponent },
+      { path: 'create', component: CreateTourneyComponent },
       { path: 'list', component: TourneyListComponent },
       { path: 'leaderboard', component: TourneysLeaderBoardComponent },
       { path: '**', component: TourneysLandingPageComponent }

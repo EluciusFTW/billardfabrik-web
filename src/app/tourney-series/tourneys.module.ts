@@ -7,15 +7,15 @@ import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { PlayersService } from './services/players.service';
-// import { CreateTourneyComponent } from './create-tourney/create-tourney.component';
-// import { TourneyCreationService } from './services/tourney-creation.service';
+import { CreateTourneyComponent } from './create-tourney/create-tourney.component';
+import { TourneyCreationService } from './services/tourney-creation.service';
+
 import { TourneyComponent } from './tourney/tourney.component';
 import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summary.component';
 import { TourneyGroupComponent } from './tourney-group/tourney-group.component';
 import { TourneyGroupStageComponent } from './tourney/tourney-group-stage/tourney-group-stage.component';
 import { TourneyGroupStageAddPlayerDialogComponent } from './tourney/tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-// import { TourneyPlayersComponent } from './tourney-players/tourney-players.component';
-// import { TourneyPlayerCreateDialogComponent } from './tourney-player-create-dialog/tourney-player-create-dialog.component';
+import { TourneyPlayerCreateDialogComponent } from './tourney-player-create-dialog/tourney-player-create-dialog.component';
 import { TourneysService } from './services/tourneys.service';
 
 import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
@@ -48,9 +48,8 @@ import { TourneySeriesRoutingModule } from './tourneys-routing.module';
     TourneyComponent,
     TourneyListComponent,
     TourneyGroupComponent,
-    // TourneyPlayersComponent,
-    // TourneyPlayerCreateDialogComponent,
-    // CreateTourneyComponent,
+    TourneyPlayerCreateDialogComponent,
+    CreateTourneyComponent,
     TourneyGroupStageComponent,
     TourneyGroupStageAddPlayerDialogComponent,
     TourneyEliminationStagesComponent,
@@ -61,11 +60,11 @@ import { TourneySeriesRoutingModule } from './tourneys-routing.module';
     TourneysLandingPageComponent
   ],
   entryComponents: [
-    // TourneyPlayerCreateDialogComponent,
+    TourneyPlayerCreateDialogComponent,
     TourneyGroupStageAddPlayerDialogComponent
   ],
   providers: [
-    // TourneyCreationService,
+    TourneyCreationService,
     TourneysService,
     TourneyEventService,
     TourneyStandingCalculationService,
