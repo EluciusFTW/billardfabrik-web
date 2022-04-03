@@ -36,7 +36,7 @@ export const achievements: any[] = [
     color: 'crimson',
     id: 'hot',
     title: 'HOT',
-    criterion: 'Drei Top-drei Plazierungen hintereinander',
+    criterion: 'Drei Top-drei Platzierungen hintereinander',
     prize: 'Drei Freigetränke!'
   },
   {
