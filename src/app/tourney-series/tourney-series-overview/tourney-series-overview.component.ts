@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { achievements } from 'src/environments/acheivements';
 
 @Component({
   templateUrl: './tourney-series-overview.component.html',
@@ -39,11 +38,6 @@ export class TourneySeriesOverviewComponent {
     }
   ];
 
-  achievements = achievements;
-
-  detailsDataSource = new MatTableDataSource<any>(this.details);
-  achievementsDataSource = new MatTableDataSource<any>(this.achievements);
-
   displayDetails: string[] = ['nrOf', 'description', 'places', 'payout', 'points'];
-  displayAchievements: string[] = ['title', 'criterion', 'prize'];
+  detailsDataSource = new MatTableDataSource<any>(this.details);
 }

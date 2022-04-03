@@ -32,6 +32,7 @@ import { TourneyPointsService } from './services/tourney-points.service';
 import { TourneysLandingPageComponent } from './tourneys-landing-page/tourneys-landing-page.component';
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
 import { TourneySeriesRoutingModule } from './tourneys-routing.module';
+import { TourneyAchievementsComponent } from './tourney-achievements/tourney-achievements.component';
 
 
 
@@ -57,7 +58,8 @@ import { TourneySeriesRoutingModule } from './tourneys-routing.module';
     TourneySummaryComponent,
     TourneysLeaderBoardComponent,
     TourneySeriesOverviewComponent,
-    TourneysLandingPageComponent
+    TourneysLandingPageComponent,
+    TourneyAchievementsComponent
   ],
   entryComponents: [
     TourneyPlayerCreateDialogComponent,

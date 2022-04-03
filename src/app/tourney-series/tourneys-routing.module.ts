@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { CreateTourneyComponent } from "./create-tourney/create-tourney.component";
+import { TourneyAchievementsComponent } from "./tourney-achievements/tourney-achievements.component";
 import { TourneyListComponent } from "./tourney-list/tourney-list.component";
 import { TourneySeriesOverviewComponent } from "./tourney-series-overview/tourney-series-overview.component";
 import { TourneyComponent } from "./tourney/tourney.component";
@@ -15,6 +16,7 @@ const routes: Routes = [{
       { path: 'create', component: CreateTourneyComponent },
       { path: 'list', component: TourneyListComponent },
       { path: 'leaderboard', component: TourneysLeaderBoardComponent },
+      { path: 'achievements', component: TourneyAchievementsComponent },
       { path: '**', component: TourneysLandingPageComponent }
   ]}
 ];
