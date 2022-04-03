@@ -23,10 +23,10 @@
 $general-typography: mat-typography-config(
   $font-family: '"Jost", sans-serif',
 
-  $display-4: mat-typography-level(32px, 42px, 500,),
-  $display-3: mat-typography-level(32px, 42px, 500, '"Jost", sans-serif'),
-  $display-2: mat-typography-level(32px, 42px, 500,),
-  $display-1: mat-typography-level(32px, 42px, 500,),
+  $display-4: mat-typography-level(32px, 42px, 500),
+  $display-3: mat-typography-level(32px, 42px, 500),
+  $display-2: mat-typography-level(32px, 42px, 500),
+  $display-1: mat-typography-level(32px, 42px, 500),
   $headline: mat-typography-level(32px, 42px, 500),
   $title: mat-typography-level(28px, 34px, 500),
   $subheading-2: mat-typography-level(24px, 34px, 500),

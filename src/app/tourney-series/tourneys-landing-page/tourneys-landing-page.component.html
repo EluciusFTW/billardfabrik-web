@@ -1,37 +1,29 @@
 <div class="container">
-  <mat-grid-list cols="2" rowHeight="2:1">
-    <mat-grid-tile>
-      <app-content-tile [header]="'Die Donnerstags-Serie'">
-      <p>
-          Das Turnier jeden zweiten Donnerstag in der Mensa! Einfach da sein und mitspielen, keine Voranmeldung
-          nötig!
-      </p>
-      <ul>
-          <li>Anmeldung bis 19:00 (bei leichter Verspätung bitte Beschied geben)</li>
-          <li>Startgeld 8€, 100% Ausschüttung</li>
-          <li>8-/9-/10-Ball im Wechsel</li>
-      </ul>
-    </app-content-tile>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <img style="max-height:100%; " src="../../../assets/pics/thursday-series-poster.png"
-                alt="Donnerstags-Turnier Poster">
-    </mat-grid-tile>
-  </mat-grid-list>
+  <app-content-tile [header]="'Die Donnerstags-Serie'">
+    <p>
+      Das Turnier jeden zweiten Donnerstag in der Mensa! Einfach da sein und mitspielen, keine Voranmeldung
+      nötig!
+    </p>
+    <ul>
+      <li>Anmeldung bis 19:00 (bei leichter Verspätung bitte Beschied geben)</li>
+      <li>Startgeld 8€, 100% Ausschüttung</li>
+      <li>8-/9-/10-Ball im Wechsel</li>
+    </ul>
+  </app-content-tile>
 
-    <div class="menu-horizontal">
-        <div class="menu-item" [routerLink]="'overview'" routerLinkActive="bgcol-primary-darker">
-            Details
-        </div>
-        <div class="menu-item" [routerLink]="'list'" routerLinkActive="bgcol-primary-darker">
-            Turniere
-        </div>
-        <div class="menu-item" [routerLink]="'leaderboard'" routerLinkActive="bgcol-primary-darker">
-            Leaderboard
-        </div>
+  <div class="menu-horizontal">
+    <div class="menu-item" [routerLink]="'overview'" routerLinkActive="bgcol-primary-darker">
+      Details
     </div>
+    <div class="menu-item" [routerLink]="'list'" routerLinkActive="bgcol-primary-darker">
+      Turniere
+    </div>
+    <div class="menu-item" [routerLink]="'leaderboard'" routerLinkActive="bgcol-primary-darker">
+      Leaderboard
+    </div>
+  </div>
 
-    <div class="menu-horizontal-outlet">
-        <router-outlet></router-outlet>
-    </div>
+  <div class="menu-horizontal-outlet">
+    <router-outlet></router-outlet>
+  </div>
 </div>

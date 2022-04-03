@@ -1,12 +1,61 @@
 @import '../../assets/scss/_brandbook';
 @import '../../assets/scss/_menu';
+@import '../../assets/scss/_layout';
 
 .toolbar {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
+  border-color: black;
+  border-style: dotted;
+  border: 4px;
+}
+
+.bf{
+  margin-bottom: 12px;
+  color: $prim;
+}
+
+.fbIcon{
+  color: $prim;
+  height: 24px;
+}
+
+.burger-icon {
+  color: $prim;
+  display: none;
+}
+
+.menu-horizontal{
+  margin-left: 2rem;
+}
+
+.menu-item-icon {
+  // display: none;
+  color: $prim;
+  margin-right: 5px;
 }
 
 #logo {
-  height: 110px;
+  height: 80px;
+}
+
+@media only screen and (max-width: $breakpoint2) {
+  .menu-horizontal {
+      visibility: hidden;
+  }
+
+  .burger-icon {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: $breakpoint) {
+  .menu-item-text {
+      display: none;
+  }
+
+  .menu-item-icon {
+    display: block;
+  }
 }

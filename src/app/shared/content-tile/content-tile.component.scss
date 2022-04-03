@@ -5,6 +5,14 @@
     max-width: 800px;
 }
 
+.tile-content {
+  color: $third;
+}
+
+.bgCol{
+  background-color: $fourth;
+}
+
 mat-card {
     margin-bottom: 2rem;
 }
