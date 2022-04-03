@@ -26,6 +26,13 @@
   display: none;
 }
 
+.horizontal-separator {
+  height: 1px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  background-color: $prim;
+}
+
 .menu-horizontal{
   margin-left: 2rem;
 }

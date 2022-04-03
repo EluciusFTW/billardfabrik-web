@@ -1,40 +1,32 @@
 <div class="toolbar">
 
-  <!-- <div class="mat-display-3 headline bf">
-    Billardfabrik Leipzig e.V.
-  </div> -->
-  <div [routerLink]="'about'">
-    <img id="logo" src="../assets/logos/logo.svg" alt="Logo der Billardfabrik Leipzig e.V.">
-  </div>
+  <img id="logo" src="../assets/logos/logo.svg" alt="Logo der Billardfabrik Leipzig e.V." [routerLink]="'about'">
   <div class="menu-horizontal">
-      <!-- <div class="menu-item" [routerLink]="'about'" routerLinkActive="bgcol-primary-darker">
-        Über uns
-      </div> -->
-      <div class="menu-item" [routerLink]="'mensa'" routerLinkActive="bgcol-primary-darker">
-        <mat-icon class="menu-item-icon">account_balance</mat-icon>
-        <span class="menu-item-text">Spielstätte</span>
-      </div>
-      <div class="menu-item" [routerLink]="'membership'" routerLinkActive="bgcol-primary-darker">
-        <mat-icon class="menu-item-icon">group</mat-icon>
-        <span class="menu-item-text">Mitgliedschaft</span>
-      </div>
-      <div class="menu-item" [routerLink]="'tourney-series'" routerLinkActive="bgcol-primary-darker">
-        <mat-icon class="menu-item-icon">emoji_events</mat-icon>
-        <span class="menu-item-text">Turniere</span>
-      </div>
-      <div class="menu-item" [routerLink]="'training'" routerLinkActive="bgcol-primary-darker">
-        <mat-icon class="menu-item-icon">sports_kabaddi</mat-icon>
-        <span class="menu-item-text">Training</span>
-      </div>
-      <div class="menu-item" [routerLink]="'league'" routerLinkActive="bgcol-primary-darker">
-        <mat-icon class="menu-item-icon">scoreboard</mat-icon>
-        <span class="menu-item-text">Liga</span>
-      </div>
-      <div class="menu-item" [routerLink]="'contact'" routerLinkActive="bgcol-primary-darker">
-        <mat-icon class="menu-item-icon">contact_mail</mat-icon>
-        <span class="menu-item-text">Kontakt</span>
-      </div>
+    <div class="menu-item" [routerLink]="'mensa'" routerLinkActive="bgcol-primary-darker">
+      <mat-icon class="menu-item-icon">home_work</mat-icon>
+      <span class="menu-item-text">Spielstätte</span>
     </div>
+    <div class="menu-item" [routerLink]="'membership'" routerLinkActive="bgcol-primary-darker">
+      <mat-icon class="menu-item-icon">groups</mat-icon>
+      <span class="menu-item-text">Mitgliedschaft</span>
+    </div>
+    <div class="menu-item" [routerLink]="'tourney-series'" routerLinkActive="bgcol-primary-darker">
+      <mat-icon class="menu-item-icon">emoji_events</mat-icon>
+      <span class="menu-item-text">Turniere</span>
+    </div>
+    <div class="menu-item" [routerLink]="'training'" routerLinkActive="bgcol-primary-darker">
+      <mat-icon class="menu-item-icon">sports_kabaddi</mat-icon>
+      <span class="menu-item-text">Training</span>
+    </div>
+    <div class="menu-item" [routerLink]="'league'" routerLinkActive="bgcol-primary-darker">
+      <mat-icon class="menu-item-icon">scoreboard</mat-icon>
+      <span class="menu-item-text">Liga</span>
+    </div>
+    <div class="menu-item" [routerLink]="'contact'" routerLinkActive="bgcol-primary-darker">
+      <mat-icon class="menu-item-icon">mail_outline</mat-icon>
+      <span class="menu-item-text">Kontakt</span>
+    </div>
+  </div>
 
   <span class="fill-remaining-space"></span>
   <div>
@@ -56,6 +48,7 @@
       <button mat-menu-item [routerLink]="'tourney-series/overview'">Details</button>
       <button mat-menu-item [routerLink]="'tourney-series/leaderboard'">Leaderboard</button>
       <button mat-menu-item [routerLink]="'tourney-series/list'">Turniere</button>
+      <button mat-menu-item [routerLink]="'tourney-series/achievements'">Achievements</button>
     </mat-menu>
   </div>
 
@@ -63,7 +56,5 @@
     <i class="fab fa-facebook-square fa-2x fbIcon"></i>
   </a>
 </div>
-<div style="height: 1px; margin-top: 1rem; margin-bottom: 1rem; background-color: #780F07;">
-
-</div>
+<div class="horizontal-separator"></div>
 
