@@ -24,6 +24,7 @@ import { TrainingComponent } from './training/training.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { TourneysModule } from './tourney-series/tourneys.module';
+import { MensaComponent } from './mensa/mensa.component';
 
 
 
@@ -36,7 +37,8 @@ import { TourneysModule } from './tourney-series/tourneys.module';
     LeagueComponent,
     TrainingComponent,
     ContactComponent,
-    BillardFabrikTourneysComponent
+    BillardFabrikTourneysComponent,
+    MensaComponent
   ],
   imports: [
     CommonModule,

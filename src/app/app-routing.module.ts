@@ -6,10 +6,12 @@ import { LeagueComponent } from './league/league.component';
 import { MembershipComponent } from './membership/membership.component';
 import { TrainingComponent } from './training/training.component';
 import { BillardFabrikTourneysComponent } from './tourneys/tourneys.component';
+import { MensaComponent } from './mensa/mensa.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
+  { path: 'mensa', component: MensaComponent },
   { path: 'league', component: LeagueComponent },
   { path: 'membership', component: MembershipComponent },
   { path: 'training', component: TrainingComponent },
