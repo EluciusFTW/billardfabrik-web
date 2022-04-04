@@ -1,12 +1,14 @@
 {
   "name": "billardfabrik-web",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "deploy": "firebase deploy --only hosting",
+    "deploy-advanced": "npm run cp &&  firebase deploy --only hosting",
+    "build-and-deploy": "npm run build && npm run deploy",
+    "cp": "@powershell copy './sitemap.xml' './dist/mensa-web'"
   },
   "private": true,
   "dependencies": {
