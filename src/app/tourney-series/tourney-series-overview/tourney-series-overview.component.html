@@ -1,10 +1,12 @@
 <app-content-tile [header]="'Details'">
-
-
-  Gespielt wird 8-Ball, 9-Ball und 10-Ball im zweiwöchentlichen Wechsel. Das Startgeld beträgt 8€ (7€ davon werden
-  direkt am Abend ausgeschüttet, 1€ geht in den Jackpot).
-  Zusätzlich gibt es ein Leaderboard für das Du Punkte sammeln kannst. Die Ausschüttung, der genaue Modus und die
-  Leaderboard-Punkte variieren etwas, je nach Teilnehmerzahl: <br>
+  <p>
+    Gespielt wird 8-Ball, 9-Ball und 10-Ball im zweiwöchentlichen Wechsel. Das Startgeld beträgt 8€ (7€ davon werden
+    direkt am Abend ausgeschüttet, 1€ geht in den Jackpot).
+    Zusätzlich gibt es ein Leaderboard für das Du Punkte sammeln kannst.
+  </p>
+  <p> Ausschüttung, der genaue Modus und die
+    Leaderboard-Punkte variieren etwas, je nach Teilnehmerzahl:
+  </p>
   <div class="mat-elevation-z2" style="margin-top:1rem;">
     <mat-table #tourneyModeTable [dataSource]="detailsDataSource">
       <ng-container matColumnDef="nrOf">
