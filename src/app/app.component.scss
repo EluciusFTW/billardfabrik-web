@@ -2,9 +2,9 @@
 
 .bg-img-wrapper{
   position: relative;
-  overflow: hidden;
   min-height: calc(100%);
   width: 100%;
+  height:100%;
   background-attachment: fixed;
   background-size: cover;
 }
@@ -17,10 +17,6 @@
 .main-content {
   padding: 1rem 2rem 1rem 2rem;
   width: 1024px;
-}
-
-.full-height {
-  height:100%
 }
 
 @media only screen and (max-width: $breakpoint) {
