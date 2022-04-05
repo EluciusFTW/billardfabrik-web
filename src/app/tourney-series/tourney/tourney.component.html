@@ -1,5 +1,4 @@
 <app-content-tile [header]="tourney ? tourney.meta.name + ' ' + tourney.meta.date : 'Loading ...'">
-
   <mat-tab-group>
     <mat-tab label="Zusammenfassung">
       <app-tourney-summary [tourney]="tourney"></app-tourney-summary>
@@ -11,5 +10,4 @@
       <app-tourney-elimination-stages [tourney]="tourney"></app-tourney-elimination-stages>
     </mat-tab>
   </mat-tab-group>
-
 </app-content-tile>
