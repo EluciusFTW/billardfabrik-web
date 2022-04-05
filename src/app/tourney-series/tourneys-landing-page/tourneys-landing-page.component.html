@@ -11,22 +11,14 @@
     </ul>
   </app-content-tile>
 
-  <div class="menu-horizontal">
-    <div class="menu-item" [routerLink]="'overview'" routerLinkActive="bgcol-primary-darker">
-      Details
-    </div>
-    <div class="menu-item" [routerLink]="'list'" routerLinkActive="bgcol-primary-darker">
-      Turniere
-    </div>
-    <div class="menu-item" [routerLink]="'leaderboard'" routerLinkActive="bgcol-primary-darker">
-      Leaderboard
-    </div>
-    <div class="menu-item" [routerLink]="'achievements'" routerLinkActive="bgcol-primary-darker">
-      Achievements
-    </div>
-  </div>
+  <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+    <a mat-tab-link *ngFor="let tab of tabs"
+      (click)="activeLink = tab.link"
+      [active]="activeLink == tab.link"
+      [routerLink]="tab.link"> {{tab.label}} </a>
+  </nav>
 
-  <div class="menu-horizontal-outlet">
+  <mat-tab-nav-panel #tabPanel>
     <router-outlet></router-outlet>
-  </div>
+  </mat-tab-nav-panel>
 </div>

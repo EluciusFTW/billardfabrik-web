@@ -1,23 +1,15 @@
-<app-content-header [header]="tourney ? tourney.meta.name + ' ' + tourney.meta.date : 'Loading ...'" [icon]="''">
-</app-content-header>
+<app-content-tile [header]="tourney ? tourney.meta.name + ' ' + tourney.meta.date : 'Loading ...'">
 
-<div class="menu-horizontal">
-  <div class="menu-item" (click)="activate('summary')">
-    Zusammenfassung
-  </div>
-  <div class="menu-item" (click)="activate('group')">
-    Gruppenphase
-  </div>
-  <div class="menu-item" (click)="activate('elimination')">
-    Endrunde
-  </div>
+  <mat-tab-group>
+    <mat-tab label="Zusammenfassung">
+      <app-tourney-summary [tourney]="tourney"></app-tourney-summary>
+    </mat-tab>
+    <mat-tab label="Gruppenphase">
+      <app-tourney-group-stage [tourney]="tourney"></app-tourney-group-stage>
+    </mat-tab>
+    <mat-tab label="Third">
+      <app-tourney-elimination-stages [tourney]="tourney"></app-tourney-elimination-stages>
+    </mat-tab>
+  </mat-tab-group>
 
-</div>
-
-<app-tourney-summary *ngIf="!showGroup && !showElimination" [tourney]="tourney" (change)="update($event)">
-</app-tourney-summary>
-
-<app-tourney-group-stage *ngIf="showGroup" [tourney]="tourney" (change)="update($event)"></app-tourney-group-stage>
-
-<app-tourney-elimination-stages *ngIf="showElimination" [tourney]="tourney" (change)="update($event)">
-</app-tourney-elimination-stages>
+</app-content-tile>

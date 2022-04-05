@@ -7,17 +7,13 @@ import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 
 @Component({
   selector: 'app-tourney',
-  templateUrl: './tourney.component.html',
-  styleUrls: ['./tourney.component.scss']
+  templateUrl: './tourney.component.html'
 })
 export class TourneyComponent implements OnDestroy {
 
   id: string;
   private sub: Subscription;
   tourney: Tourney;
-
-  showGroup = false;
-  showElimination = false;
 
   constructor(private route: ActivatedRoute, private tourneysService: TourneysService) {
     this.sub = this.route.params
@@ -27,23 +23,6 @@ export class TourneyComponent implements OnDestroy {
           tourney => this.tourney = tourney
         );
       });
-  }
-
-  update(event: TourneyPhaseEvent): void {
-    this.tourneysService.update(this.tourney, event);
-  }
-
-  activate(what: string): void {
-    if (what === 'group') {
-      this.showGroup = true;
-      this.showElimination = false;
-    } else if (what === 'elimination') {
-      this.showGroup = false;
-      this.showElimination = true;
-    } else {
-      this.showGroup = false;
-      this.showElimination = false;
-    }
   }
 
   ngOnDestroy(): void {
