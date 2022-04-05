@@ -1,10 +1,11 @@
-<mat-toolbar>
-    Turnierübersicht
-    <span class="fill-remaining-space"></span>
-    <div *ngIf="isTourneyAuthenticated()" class="ui-toolbar-group-left menu-item"
-        [routerLink]="'../create'">Neues Turnier erstellen
-    </div>
-</mat-toolbar>
+<app-content-tile [header]="'Turnierübersicht'">
+<p>
+  Hier findest Du Ergebnisse zu den vergangenen Turnieren.
+  <span *ngIf="isTourneyAuthenticated()">
+    Oder möchtest Du etwa ein neues <button mat-flat-button [routerLink]="'../create'">neues Turnier</button> erstellen?
+  </span>
+</p>
+
 <div>
     <mat-table #tourneys [dataSource]="tourneyDataSource">
 
@@ -28,3 +29,4 @@
 
     </mat-table>
 </div>
+</app-content-tile>
