@@ -1,7 +1,4 @@
 <div style="margin-top: 2rem;">
-
-  <button [disabled]="someGroupFinished()" *ngIf="canAddPlayers()" mat-raised-button color="accent" (click)="addPlayer()">Nachzügler einlosen</button>
-
   <mat-tab-group>
     <mat-tab *ngFor="let group of tourney?.groups" label="Gruppe {{ group.number }}">
       <app-tourney-group [group]="group" (change)="emitChange($event)"></app-tourney-group>
