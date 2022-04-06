@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// External modules
-// import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-// import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { firebaseConfig } from '../secrets/firebase';
@@ -15,7 +12,6 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
 
 import { MenuComponent } from './menu/menu.component';
-import { BillardFabrikTourneysComponent } from './tourneys/tourneys.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { LeagueComponent } from './league/league.component';
@@ -37,7 +33,6 @@ import { MensaComponent } from './mensa/mensa.component';
     LeagueComponent,
     TrainingComponent,
     ContactComponent,
-    BillardFabrikTourneysComponent,
     MensaComponent
   ],
   imports: [
@@ -45,11 +40,8 @@ import { MensaComponent } from './mensa/mensa.component';
     SharedModule,
     BrowserModule,
     BrowserAnimationsModule,
-    // provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    // provideFirestore(() => getFirestore()),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
-    // AngularFireAuthModule,
     MaterialModule,
     AppRoutingModule,
     TourneysModule

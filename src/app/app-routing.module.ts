@@ -5,7 +5,6 @@ import { ContactComponent } from './contact/contact.component';
 import { LeagueComponent } from './league/league.component';
 import { MembershipComponent } from './membership/membership.component';
 import { TrainingComponent } from './training/training.component';
-import { BillardFabrikTourneysComponent } from './tourneys/tourneys.component';
 import { MensaComponent } from './mensa/mensa.component';
 
 const routes: Routes = [
@@ -16,7 +15,6 @@ const routes: Routes = [
   { path: 'membership', component: MembershipComponent },
   { path: 'training', component: TrainingComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'tourneys', component: BillardFabrikTourneysComponent },
 ];
 
 @NgModule({
