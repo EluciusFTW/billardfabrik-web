@@ -1,53 +1,61 @@
 <mat-card style="margin-top: 2rem;" *ngIf="tourney">
 
-    <mat-card-content>
-        <div class="row">
-            <div class="col col-sm-4">
-                <app-content-header [header]="'Meta'" [size]="3"></app-content-header>
-                <table>
-                    <tr>
-                        <td>
-                            <i class="fas fa-user-friends"></i>
-                        </td>
-                        <td> {{ getCount() }} Teilnehmer</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <i class="fas fa-gamepad"></i>
-                        </td>
-                        <td> {{ getDiscipline()}}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="col col-sm-8">
-                <app-content-header [header]="'Ergebnisse'" [size]="3"></app-content-header>
-                <table>
-                    <tr>
-                        <td>
-                            <i class="fas fa-trophy"></i>
-                        </td>
-                        <td> {{ getWinner() }} </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            2.
-                        </td>
-                        <td> {{ getSecondPlace() }} </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            3.
-                        </td>
-                        <td> {{ getThirdPlace() }} </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </mat-card-content>
+  <mat-card-content>
+    <div style="display: flex; flex-direction: row;">
 
-    <mat-card-actions>
-        <button  mat-raised-button *ngIf="canAddPlayers()" [disabled]="someGroupFinished()" (click)="addPlayer()">Nachzügler einlosen</button>
-        <button  mat-raised-button *ngIf="canStart() && tourney.meta.status === 0" (click)="start()">Turnier Eröffnen</button>
-        <button  mat-raised-button *ngIf="canCompute()" (click)="calculate()">Turnier Auswerten</button>
-    </mat-card-actions>
+      <div style="width: 50%;">
+        <app-content-header [header]="'Ergebnisse'" [size]="3"></app-content-header>
+        <table>
+          <tr>
+            <td>
+              <i class="fas fa-trophy"></i>
+            </td>
+            <td> {{ getWinner() }} </td>
+          </tr>
+          <tr>
+            <td>
+              2.
+            </td>
+            <td> {{ getSecondPlace() }} </td>
+          </tr>
+          <tr>
+            <td>
+              3.
+            </td>
+            <td> {{ getThirdPlace() }} </td>
+          </tr>
+        </table>
+      </div>
+
+      <div >
+        <app-content-header [header]="'Meta'" [size]="3"></app-content-header>
+        <table>
+          <tr>
+            <td>
+              <i class="fas fa-user-friends"></i>
+            </td>
+            <td> {{ getCount() }} Teilnehmer</td>
+          </tr>
+          <tr>
+            <td>
+              <i class="fas fa-gamepad"></i>
+            </td>
+            <td> {{ getDiscipline()}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-raised-button *ngIf="canAddPlayers()" [disabled]="someGroupFinished()" (click)="addPlayer()">
+      Nachzügler einlosen
+    </button>
+    <button mat-raised-button *ngIf="canStart() && tourney.meta.status === 0" (click)="start()">
+      Turnier Eröffnen
+    </button>
+    <button mat-raised-button *ngIf="canCompute()" (click)="calculate()">
+      Turnier Auswerten
+    </button>
+  </mat-card-actions>
 </mat-card>
