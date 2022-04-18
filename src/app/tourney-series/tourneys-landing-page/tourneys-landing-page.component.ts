@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
 export class TourneysLandingPageComponent {
   tabs = [
     { link: 'overview', label: 'Details' },
-    { link: 'leaderboard', label: 'Leaderboard' },
     { link: 'list', label: 'Turniere' },
-    { link: 'achievements', label: 'Achievements' }
+    { link: 'achievements', label: 'Achievements' },
+    { link: 'leaderboard', label: 'Leaderboard' }
   ]
 
   activeLink = "overview";
