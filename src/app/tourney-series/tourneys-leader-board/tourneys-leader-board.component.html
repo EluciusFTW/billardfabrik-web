@@ -17,15 +17,15 @@
         <mat-cell *matCellDef="let item">
           <div class="space-right" *ngIf="item.placements.gold"
             [matBadge]="item.placements.gold > 1 ? item.placements.gold : null" matBadgeSize="small">
-            <i style="color: gold" class="fas fa-medal"></i>
+            <i class="fas fa-medal gold-medal"></i>
           </div>
           <div class="space-right" *ngIf="item.placements.silver"
             [matBadge]="item.placements.silver > 1 ? item.placements.silver : null" matBadgeSize="small">
-            <i style="color: silver" class="fas fa-medal"></i>
+            <i class="fas fa-medal silver-medal"></i>
           </div>
           <div class="space-right" *ngIf="item.placements.bronze"
             [matBadge]="item.placements.bronze > 1 ? item.placements.bronze : null" matBadgeSize="small">
-            <i style="color: burlywood" class="fas fa-medal"></i>
+            <i class="fas fa-medal bronze-medal"></i>
           </div>
         </mat-cell>
       </ng-container>
