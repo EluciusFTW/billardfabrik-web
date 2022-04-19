@@ -21,6 +21,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { TourneysModule } from './tourney-series/tourneys.module';
 import { MensaComponent } from './mensa/mensa.component';
+import { AuthenticationModule } from './authentication/authentication.module';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,8 @@ import { MensaComponent } from './mensa/mensa.component';
     LeagueComponent,
     TrainingComponent,
     ContactComponent,
-    MensaComponent
+    MensaComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ import { MensaComponent } from './mensa/mensa.component';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
+    AuthenticationModule,
     MaterialModule,
     AppRoutingModule,
     TourneysModule

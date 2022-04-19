@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Login</h1>
+
+<div mat-dialog-content>
+  <form #LoginForm="ngForm">
+    <mat-form-field>
+      <input matInput type="email" placeholder="Email" [(ngModel)]="email" required name="email"
+      autocomplete="username">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Passwort" [(ngModel)]="pwd" required name="pwd" autocomplete="current-password">
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button color="primary" (click)="login()" [disabled]="!LoginForm.form.valid"> Einloggen </button>
+  <button mat-button color="warn" (click)="abort()">Abbrechen</button>
+</div>

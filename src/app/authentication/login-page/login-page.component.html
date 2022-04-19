@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Login</h1>
+Disclaimer: Das Einloggen ist nur authorisierten Nutzern gestattet.
+<form class="login-form" #LoginForm="ngForm">
+  <mat-form-field class="full-width">
+    <input matInput type="email" placeholder="Email" [(ngModel)]="email" required name="email" autocomplete="username">
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput type="password" placeholder="Passwort" [(ngModel)]="pwd" required name="pwd" autocomplete="current-password">
+  </mat-form-field>
+</form>
+
+<button mat-button (click)="login()" [disabled]="!LoginForm.form.valid"> Einloggen </button>

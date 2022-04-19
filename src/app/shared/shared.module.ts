@@ -15,9 +15,21 @@ import { MaterialModule } from '../material/material.module';
     RouterModule,
     MaterialModule
   ],
-  declarations: [ContentHeaderComponent, ContentTileComponent, TimeTickPipe, ConfirmDialogComponent],
+  declarations: [
+    ContentHeaderComponent,
+    ContentTileComponent,
+    TimeTickPipe,
+    ConfirmDialogComponent
+  ],
   entryComponents: [ConfirmDialogComponent],
-  exports: [ContentHeaderComponent, ContentTileComponent, TimeTickPipe],
-  providers: [OwnMessageService, OwnConfirmService]
+  exports: [
+    ContentHeaderComponent,
+    ContentTileComponent,
+    TimeTickPipe
+  ],
+  providers: [
+    OwnMessageService,
+    OwnConfirmService
+  ]
 })
 export class SharedModule { }

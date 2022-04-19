@@ -12,7 +12,7 @@ export class FooterComponent {
   }
 
   login() : void{
-    window.console.log('Login triggered!');
+    this.userService.login();
   }
 
   logout() : void{
