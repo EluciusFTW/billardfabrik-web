@@ -66,15 +66,14 @@ export class CreateTourneyComponent {
     this.disciplines = PoolDisciplineMapper.getAllValues();
     this.disciplineSelected = PoolDisciplineMapper.map(PoolDiscipline.NineBall);
 
-    this.playerSub = this.playersService
-      .getAll()
-      .subscribe(
-        players => {
-          const currentPlayerNames = this.players.map(player => this.displayName(player));
-          const newPlayers = players.filter(player => !currentPlayerNames.includes(this.displayName(player)));
-          newPlayers.forEach(p => this.players.push(p));
-        },
-      );
+    this.playerSub = this.playersService.getAll().subscribe(
+      players => {
+        const currentPlayerNames = this.players.map(player => this.displayName(player));
+        const newPlayers = players.filter(player => !currentPlayerNames.includes(this.displayName(player)));
+        newPlayers.forEach(p => this.players.push(p));
+      },
+      // e => this.messageService.failure('Fehler', 'Wir konnten leider nicht zum news-feed verbinden. Bitte versuchen Sie die Seite erneut zu laden.')
+    );
   }
 
   addPlayer(): void {

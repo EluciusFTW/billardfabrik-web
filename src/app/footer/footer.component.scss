@@ -1,0 +1,13 @@
+@import '../../assets/scss/_brandbook';
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: .5rem 1rem .5rem 1rem;
+  color: $prim;
+}
+
+.footer.solid {
+  background-color: $fourth;
+}

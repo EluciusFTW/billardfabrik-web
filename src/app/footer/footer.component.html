@@ -1,0 +1,12 @@
+<footer class="footer solid">
+  <span>Copyright 2022 by @EluciusFTW</span>
+  <div *ngIf="isLoggedIn(); else loggedOut" class="material-icons" (click)="login()">
+    login
+  </div>
+
+  <ng-template #loggedOut>
+    <div class="material-icons" (click)="logout()">
+      logout
+    </div>
+  </ng-template>
+</footer>
