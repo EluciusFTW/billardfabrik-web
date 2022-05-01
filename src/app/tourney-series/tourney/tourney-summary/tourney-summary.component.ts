@@ -9,9 +9,6 @@ import { PlayersService } from '../../services/players.service';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-import { TourneyGroup } from '../../models/tourney-group';
-import { Match } from '../../models/match';
-import { MatchStatus } from '../../models/match-status';
 import { TourneyModeMapper } from '../../models/tourney-mode';
 import { TourneyModificationService } from '../../services/tourney-modification.service';
 // import { UserService } from 'src/app/authenticated-area/user.service';
@@ -28,8 +25,6 @@ export class TourneySummaryComponent {
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
-
-  private _mapper = new TourneyStatusMapper();
 
   constructor(
     private modificationService: TourneyModificationService,
@@ -61,7 +56,7 @@ export class TourneySummaryComponent {
 
   displayStatus(): string {
     return this.tourney
-      ? this._mapper.map(this.tourney.meta.status)
+      ? TourneyStatusMapper.map(this.tourney.meta.status)
       : 'Loading ...';
   }
 
@@ -71,11 +66,11 @@ export class TourneySummaryComponent {
   }
 
   getDiscipline(): string {
-    return new PoolDisciplineMapper().map(this.tourney?.meta?.discipline);
+    return PoolDisciplineMapper.map(this.tourney?.meta?.discipline);
   }
 
   getModus(): string {
-    return new TourneyModeMapper().map(this.tourney?.meta?.modus);
+    return TourneyModeMapper.map(this.tourney?.meta?.modus);
   }
 
   getWinner(): string {

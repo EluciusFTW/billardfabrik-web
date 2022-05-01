@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { TourneyMode } from '../models/tourney-mode';
 
 @Component({
   templateUrl: './create-tourney.component.html',
@@ -26,7 +27,6 @@ export class CreateTourneyComponent {
   raceLengths: number[] = [3, 4, 5, 6];
   raceLengthSelected: number = 4;
 
-  private _disciplineMapper: PoolDisciplineMapper
   disciplines: string[] = [];
   disciplineSelected: string;
 
@@ -39,9 +39,8 @@ export class CreateTourneyComponent {
     private playersService: PlayersService,
     public dialog: MatDialog
   ) {
-    this._disciplineMapper = new PoolDisciplineMapper();
-    this.disciplines = this._disciplineMapper.getAllValues();
-    this.disciplineSelected = this._disciplineMapper.map(PoolDiscipline.NineBall);
+    this.disciplines = PoolDisciplineMapper.getAllValues();
+    this.disciplineSelected = PoolDisciplineMapper.map(PoolDiscipline.NineBall);
 
     this.playerSub = this.playersService.getAll().subscribe(
       players => {
@@ -76,14 +75,15 @@ export class CreateTourneyComponent {
         players: s.map(e => this.displayName(e.value)),
         nrOfGroups: this.nrOfGroupsSelected,
         raceLength: this.raceLengthSelected,
-        discipline: this._disciplineMapper.mapToEnum(this.disciplineSelected),
-        name: 'Donnerstags-Turnier'
+        discipline: PoolDisciplineMapper.mapToEnum(this.disciplineSelected),
+        name: 'Donnerstags-Turnier',
+        mode: TourneyMode.GruopsThenSingleElimination
       });
 
     this.tourneysService.update(this.tourney, TourneyPhaseEvent.created);
   }
 
-  displayName(player: TourneyPlayer) : string{
+  displayName(player: TourneyPlayer): string {
     return player.firstName + ' ' + player.lastName;
   }
 

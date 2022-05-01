@@ -5,16 +5,16 @@ export enum TourneyMode {
 
 export class TourneyModeMapper {
 
-    _strings = [
+    private static _strings = [
         'Gruppe + Einfach-K.O.',
         'Doppel-K.O.'
     ];
 
-    map(mode: TourneyMode): string {
+    static map(mode: TourneyMode): string {
         return this._strings[mode];
     }
 
-    mapToEnum(value: string): TourneyMode {
+    static mapToEnum(value: string): TourneyMode {
         const index = this._strings.indexOf(value);
         if (index < 0 || index > 5) {
             throw Error('Cannot map ' + value + ' to a tourney mode.');
@@ -22,7 +22,7 @@ export class TourneyModeMapper {
         return index;
     }
 
-    getAllValues(){
+    static getAllValues(){
         return this._strings;
     }
 }
