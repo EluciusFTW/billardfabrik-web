@@ -4,7 +4,9 @@ import { PlayerResultsRecord, TourneyPlayer } from '../models/tourney-player';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { first, map } from 'rxjs/operators';
-import { PlayerMatchRecord, TourneyPlacementType, TourneyPlayerEvaluation } from '../models/tourney-evaluation';
+import { TourneyPlayerEvaluation } from '../models/evaluation/tourney-player-evaluation';
+import { PlayerMatchRecord } from '../models/evaluation/player-match-record';
+import { TourneyPlacementType } from '../models/evaluation/tourney-placement-type';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 
 const DB_PLAYERS_LPATH = 'tourneySeries/players';

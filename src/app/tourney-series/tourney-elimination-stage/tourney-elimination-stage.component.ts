@@ -31,7 +31,7 @@ export class TourneyEliminationStageComponent {
     return TourneyEliminationStageType.map(this.stage.type)
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(_: SimpleChanges) {
     this.matches = new MatTableDataSource<Match>(this.stage?.matches);
   }
 

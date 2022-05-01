@@ -1,4 +1,5 @@
-import { PlacementRecord, PlayerMatchRecord } from './tourney-evaluation';
+import { PlacementRecord } from './evaluation/placement-record';
+import { PlayerMatchRecord } from './evaluation/player-match-record';
 
 export interface TourneyPlayer {
   firstName: string;

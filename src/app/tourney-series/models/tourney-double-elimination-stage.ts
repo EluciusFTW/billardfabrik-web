@@ -16,6 +16,6 @@ export namespace TourneyDoubleEliminationStageType {
     ];
     
     export function map(stage: TourneyDoubleEliminationStageType){
-        return this._stageStrings[stage]
+        return _stageStrings[stage]
     }
 }
