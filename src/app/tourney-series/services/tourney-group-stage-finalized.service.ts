@@ -9,7 +9,7 @@ export class TourneyGroupStageFinalizedService {
 
   constructor(private standingsCalculator: TourneyStandingCalculationService) { }
 
-  handle(tourney: Tourney) : void{
+  handle(tourney: Tourney): void {
     const ongoingGroups = tourney.groups.filter(group => group.status !== TourneyPhaseStatus.finalized);
     if (ongoingGroups.length === 0) {
       tourney.eliminationStages[0].status = TourneyPhaseStatus.readyOrOngoing;
@@ -22,18 +22,20 @@ export class TourneyGroupStageFinalizedService {
     }
   }
 
-  private extractWinnersToRandomChunks(tourney: Tourney) : string [][]{
-    let reorderedChunked: string [][] = [];
+  private extractWinnersToRandomChunks(tourney: Tourney): string[][] {
+    let reorderedChunked: string[][] = [];
     let winnersPerGroup = tourney.groups
-        .map(group => this.standingsCalculator.calculcateStanding(group))
-        .map(standings => standings.slice(0, 2))
-        .map(standings => standings.map(s => s.name));
+      .map(group => this.standingsCalculator.calculcateStanding(group))
+      .map(standings => standings.slice(0, 2))
+      .map(standings => standings.map(s => s.name));
+
     do {
       reorderedChunked = this.chunk(this.reOrderRandomly(winnersPerGroup.reduce((a, b) => a.concat(b))), 2);
-     } while(reorderedChunked.some(chunk => this.fromSameGroup(chunk, winnersPerGroup)))
+    } while (reorderedChunked.some(chunk => this.fromSameGroup(chunk, winnersPerGroup)))
+
     return reorderedChunked;
   }
-  
+
   private populatePlayers(match: Match, pairOfPlayers: string[]): void {
     match.playerOne.name = pairOfPlayers[0];
     match.playerTwo.name = pairOfPlayers[1];

@@ -12,7 +12,7 @@ export interface TourneyInfo {
 }
 
 export interface GruopsThenSingleEliminationTourneyInfo extends TourneyInfo {
-    nrOfGroups: number;   
+    nrOfGroups: number;
 }
 
 export interface DoubleEliminationTourneyInfo extends TourneyInfo {

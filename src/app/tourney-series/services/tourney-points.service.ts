@@ -11,7 +11,6 @@ export class TourneyPointsService {
       throw new Error("Can't calculate points when there are " + numberOfGroups + " groups.");
     }
 
-
     switch (placement) {
       case TourneyPlacementType.GroupStage: return 1;
       case TourneyPlacementType.EigthFinal: return 3;

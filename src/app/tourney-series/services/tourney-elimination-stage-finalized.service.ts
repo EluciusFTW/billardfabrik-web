@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Match } from '../models/match';
+import { Looser, Match, Winner } from '../models/match';
 import { Tourney } from '../models/tourney';
 import { TourneyEliminationStageType } from '../models/tourney-elimination-stage';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
@@ -8,9 +8,7 @@ import { TourneyStatus } from '../models/tourney-status';
 @Injectable()
 export class TourneyEliminationStageFinalizedService {
 
-  constructor() { }
-
-  handle(tourney: Tourney) : void {
+  handle(tourney: Tourney): void {
     let finalizedStageIndex = tourney.eliminationStages.findIndex(stage => stage.status !== TourneyPhaseStatus.finalized) - 1;
     if (finalizedStageIndex < 0) {
       tourney.meta.status = TourneyStatus.completed
@@ -24,10 +22,10 @@ export class TourneyEliminationStageFinalizedService {
       this.prepareStage(tourney, next, pairs);
 
     } else if (finalizedStage.type === TourneyEliminationStageType.semiFinal) {
-      let winners = finalizedStage.matches.map(match => this.getMatchWinner(match));
+      let winners = finalizedStage.matches.map(match => Winner(match).name);
       this.prepareStage(tourney, TourneyEliminationStageType.final, [winners]);
 
-      let losers = finalizedStage.matches.map(match => this.getMatchLoser(match));
+      let losers = finalizedStage.matches.map(match => Looser(match).name);
       this.prepareStage(tourney, TourneyEliminationStageType.thirdPlace, [losers]);
     }
   }
@@ -42,7 +40,7 @@ export class TourneyEliminationStageFinalizedService {
   }
 
   private getWinnersChunked(matches: Match[]): string[][] {
-    let winners = matches.map(match => this.getMatchWinner(match));
+    let winners = matches.map(match => Winner(match).name);
     let pairs: string[][] = [];
     while (winners.length > 0) {
       pairs.push(winners.splice(0, 2));
@@ -53,17 +51,5 @@ export class TourneyEliminationStageFinalizedService {
   private populatePlayers(match: Match, pairOfPlayers: string[]): void {
     match.playerOne.name = pairOfPlayers[0];
     match.playerTwo.name = pairOfPlayers[1];
-  }
-
-  private getMatchWinner(match: Match): string {
-    return match.playerOne.points === match.length
-      ? match.playerOne.name
-      : match.playerTwo.name;
-  }
-
-  private getMatchLoser(match: Match): string {
-    return match.playerOne.points === match.length
-      ? match.playerTwo.name
-      : match.playerOne.name;
   }
 }
