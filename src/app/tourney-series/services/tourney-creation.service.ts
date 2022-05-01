@@ -2,29 +2,47 @@ import { Injectable } from '@angular/core';
 import { TourneyInfo } from '../models/tourney-info';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
-import { TourneyPhaseStatus } from "../models/tourney-phase-status";
+import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { Match } from '../models/match';
-import { MatchStatus } from "../models/match-status";
-import { MatchPlayer } from "../models/match-player";
+import { MatchStatus } from '../models/match-status';
+import { MatchPlayer } from '../models/match-player';
 import { TourneyMeta } from '../models/tourney-meta';
 import { TourneyStatus } from '../models/tourney-status';
-import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/Tourney-elimination-stage';
+import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/tourney-elimination-stage';
+import { TourneyMode } from '../models/tourney-mode';
+import { TourneyDoubleEliminationStage } from '../models/tourney-double-elimination-stage';
 
 @Injectable()
 export class TourneyCreationService {
 
   create(info: TourneyInfo): Tourney {
-
-    let randomOrderedPlayers = this.reOrderRandomly(info.players);
-    let groups = this.buildGroups(randomOrderedPlayers, info);
-    let stages = this.buildStages(info);
-    let meta = this.buildMeta(info);
+    let tourney = info.mode === TourneyMode.GruopsThenSingleElimination
+      ? this.CreateGroupsAndSingleElimination(info)
+      : this.CreateDoubleElimination(info);
 
     return {
-      groups: groups,
-      meta: meta,
-      eliminationStages: stages
+      ...tourney,
+      meta: this.buildMeta(info)
     }
+  }
+
+  private CreateGroupsAndSingleElimination(info: TourneyInfo): Tourney {
+    let randomOrderedPlayers = this.reOrderRandomly(info.players);
+    return {
+      groups: this.buildGroups(randomOrderedPlayers, info),
+      eliminationStages: this.buildStages(info)
+    }
+  }
+
+  private CreateDoubleElimination(info: TourneyInfo) {
+    return {
+      doubleEliminationStages: this.buildDoubleEliminationStages(info),
+      eliminationStages: this.buildStages(info)
+    }
+  }
+
+  private buildDoubleEliminationStages(info: TourneyInfo): TourneyDoubleEliminationStage[] {
+    throw new Error('Method not implemented.');
   }
 
   private buildMeta(info: TourneyInfo): TourneyMeta {
@@ -32,6 +50,7 @@ export class TourneyCreationService {
       date: this.getDateString(),
       name: info.name,
       discipline: info.discipline,
+      modus: info.mode,
       status: TourneyStatus.new
     }
   }
@@ -67,10 +86,25 @@ export class TourneyCreationService {
     return groups;
   }
 
+  private determineStartingStage(info: TourneyInfo): TourneyEliminationStageType {
+    if (info.mode === TourneyMode.GruopsThenSingleElimination) {
+      return info.nrOfGroups === 8
+        ? TourneyEliminationStageType.eigthFinal
+        : info.nrOfGroups >= 4
+          ? TourneyEliminationStageType.quarterFinal
+          : info.nrOfGroups >= 2
+            ? TourneyEliminationStageType.semiFinal
+            : TourneyEliminationStageType.final;
+    }
+
+    return TourneyEliminationStageType.final;
+  }
+
   private buildStages(info: TourneyInfo): TourneyEliminationStage[] {
     let stages: TourneyEliminationStage[] = [];
+    let startingStage = this.determineStartingStage(info);
 
-    if (info.nrOfGroups === 8) {
+    if (startingStage === TourneyEliminationStageType.eigthFinal) {
       stages.push({
         type: TourneyEliminationStageType.eigthFinal,
         players: [],
@@ -79,7 +113,7 @@ export class TourneyCreationService {
       });
     };
 
-    if (info.nrOfGroups >= 4) {
+    if (startingStage <= TourneyEliminationStageType.quarterFinal) {
       stages.push({
         type: TourneyEliminationStageType.quarterFinal,
         players: [],
@@ -88,7 +122,7 @@ export class TourneyCreationService {
       });
     };
 
-    if (info.nrOfGroups >= 2) {
+    if (startingStage <= TourneyEliminationStageType.semiFinal) {
       stages.push({
         type: TourneyEliminationStageType.semiFinal,
         players: [],
