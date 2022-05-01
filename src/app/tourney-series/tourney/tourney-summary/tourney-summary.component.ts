@@ -12,6 +12,8 @@ import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stag
 import { TourneyGroup } from '../../models/tourney-group';
 import { Match } from '../../models/match';
 import { MatchStatus } from '../../models/match-status';
+import { TourneyModeMapper } from '../../models/tourney-mode';
+import { TourneyModificationService } from '../../services/tourney-modification.service';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 
 @Component({
@@ -30,6 +32,7 @@ export class TourneySummaryComponent {
   private _mapper = new TourneyStatusMapper();
 
   constructor(
+    private modificationService: TourneyModificationService,
     private evaluationService: TourneyEvaluationService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
@@ -44,42 +47,16 @@ export class TourneySummaryComponent {
       hasBackdrop: true
     });
 
-    dialogRef.afterClosed().subscribe(
-      name => {
-        if (name) {
-          this.inject(name)
+    dialogRef
+      .afterClosed()
+      .subscribe(
+        name => {
+          if (name) {
+            this.modificationService.injectPlayer(this.tourney, name);
+            this.change.emit(TourneyPhaseEvent.scoreChanged);
+          }
         }
-      }
-    )
-  }
-
-  inject(name: any) {
-    let group = this.chooseRandomGroup()
-    this.addMatches(name, group);
-    group.players.push(name);
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
-  }
-
-  chooseRandomGroup(): TourneyGroup {
-    var smallestGroupsize = this.tourney.groups.map(group => group.players.length).sort()[0];
-    const viableGroups = this.tourney.groups.filter(group => group.players.length === smallestGroupsize);
-    let chosenGroup = viableGroups[Math.floor(Math.random() * viableGroups.length)];
-
-    return chosenGroup;
-  }
-
-  addMatches(newPlayerName: any, group: TourneyGroup) {
-    var referenceMatch = group.matches[0];
-    const matches = group.players
-      .map(player => <Match>
-      {
-        playerOne: { name: newPlayerName, points: 0 },
-        playerTwo: { name: player, points: 0 },
-        discipline: referenceMatch.discipline,
-        length: referenceMatch.length,
-        status: MatchStatus.notStarted
-      });
-    group.matches.push(...matches);
+      )
   }
 
   displayStatus(): string {
@@ -93,8 +70,12 @@ export class TourneySummaryComponent {
     // return this.userService.canHandleTourneys();
   }
 
-  getDiscipline() {
+  getDiscipline(): string {
     return new PoolDisciplineMapper().map(this.tourney?.meta?.discipline);
+  }
+
+  getModus(): string {
+    return new TourneyModeMapper().map(this.tourney?.meta?.modus);
   }
 
   getWinner(): string {
@@ -137,7 +118,7 @@ export class TourneySummaryComponent {
     // return this.userService.isAdmin() && this.tourney.meta.status !== TourneyStatus.postProcessed;
   }
 
-  start() {
+  start(): void {
     this.change.emit(TourneyPhaseEvent.started);
   }
 }

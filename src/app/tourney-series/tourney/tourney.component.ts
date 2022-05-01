@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
 import { Subscription } from 'rxjs';
-import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 
 @Component({
   selector: 'app-tourney',
@@ -23,6 +22,18 @@ export class TourneyComponent implements OnDestroy {
           tourney => this.tourney = tourney
         );
       });
+  }
+
+  hasGroupStage(): boolean {
+    return (this.tourney.groups?.length ?? 0) > 0;
+  }
+
+  hasDoubleEliminationStage(): boolean{
+    return (this.tourney.doubleEliminationStages?.length ?? 0) > 0
+  }
+
+  hasSingleEliminationStage(): boolean{
+    return (this.tourney.eliminationStages?.length ?? 0) > 0
   }
 
   ngOnDestroy(): void {
