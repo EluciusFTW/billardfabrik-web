@@ -1,4 +1,3 @@
-
 export interface GroupStanding {
   name: string;
   games: number;

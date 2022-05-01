@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Match, MatchType } from '../models/match';
+import { Match } from '../models/match';
+import { MatchType } from '../models/match-type';
 import { MatchPlayer } from '../models/match-player';
 import { MatchStatus } from '../models/match-status';
 import { Tourney } from '../models/tourney';
-import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/Tourney-elimination-stage';
+import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/tourney-elimination-stage';
 import { PlacementRecord, PlayerMatchRecord, TourneyEvaluation, TourneyPlacementType } from '../models/tourney-evaluation';
 import { TourneyGroup } from '../models/tourney-group';
 import { TourneyMeta } from '../models/tourney-meta';

@@ -1,4 +1,4 @@
-import { MatchType } from './match';
+import { MatchType } from './match-type';
 import { PoolDiscipline } from './pool-discipline';
 
 export interface TourneyEvaluation {
