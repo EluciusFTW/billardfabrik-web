@@ -1,5 +1,5 @@
 import { Component, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/Tourney-elimination-stage';
+import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/tourney-elimination-stage';
 import { MatTableDataSource } from '@angular/material/table';
 import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
@@ -28,13 +28,7 @@ export class TourneyEliminationStageComponent {
   // constructor(private userService: UserService) { }
 
   name(): string {
-    switch (this.stage.type) {
-      case TourneyEliminationStageType.eigthFinal: return "Achtelfinale";
-      case TourneyEliminationStageType.quarterFinal: return "ViertelFinale";
-      case TourneyEliminationStageType.semiFinal: return "Halbfinale";
-      case TourneyEliminationStageType.thirdPlace: return "Spiel um Platz 3";
-      case TourneyEliminationStageType.final: return "Finale";
-    }
+    return TourneyEliminationStageType.map(this.stage.type)
   }
 
   ngOnChanges(changes: SimpleChanges) {

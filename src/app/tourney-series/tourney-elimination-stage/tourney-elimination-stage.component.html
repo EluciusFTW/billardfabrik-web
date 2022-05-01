@@ -1,7 +1,7 @@
 <mat-card style="margin-top:2rem;" *ngIf="!!stage">
     <mat-card-title>{{ name() }}</mat-card-title>
     <mat-card-subtitle>
-        <span style="color:red;" *ngIf="this.stage.status == 2">
+        <span class="roundOver" *ngIf="this.stage.status == 2">
             Die Runde ist beendet.
         </span>
     </mat-card-subtitle>

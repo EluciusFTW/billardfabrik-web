@@ -33,6 +33,10 @@ import { TourneysLandingPageComponent } from './tourneys-landing-page/tourneys-l
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
 import { TourneySeriesRoutingModule } from './tourneys-routing.module';
 import { TourneyAchievementsComponent } from './tourney-achievements/tourney-achievements.component';
+import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
+import { TourneyGroupStageFinalizedService } from './services/tourney-group-stage-finalized.service';
+import { TourneyEliminationStageFinalizedService } from './services/tourney-elimination-stage-finalized.service';
+import { TourneyModificationService } from './services/tourney-modification.service';
 
 
 
@@ -59,7 +63,8 @@ import { TourneyAchievementsComponent } from './tourney-achievements/tourney-ach
     TourneysLeaderBoardComponent,
     TourneySeriesOverviewComponent,
     TourneysLandingPageComponent,
-    TourneyAchievementsComponent
+    TourneyAchievementsComponent,
+    TourneyDoubleEliminationStagesComponent
   ],
   entryComponents: [
     TourneyPlayerCreateDialogComponent,
@@ -67,8 +72,11 @@ import { TourneyAchievementsComponent } from './tourney-achievements/tourney-ach
   ],
   providers: [
     TourneyCreationService,
+    TourneyModificationService,
     TourneysService,
     TourneyEventService,
+    TourneyGroupStageFinalizedService,
+    TourneyEliminationStageFinalizedService,
     TourneyStandingCalculationService,
     TourneyEvaluationService,
     TourneyStatisticsService,
