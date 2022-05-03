@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { PlayersService } from './services/players.service';
 import { CreateTourneyComponent } from './create-tourney/create-tourney.component';
-import { TourneyCreationService } from './services/tourney-creation.service';
+import { TourneyCreationService } from './services/creation/tourney-creation.service';
 
 import { TourneyComponent } from './tourney/tourney.component';
 import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summary.component';
@@ -37,6 +37,13 @@ import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-doubl
 import { TourneyGroupStageFinalizedService } from './services/tourney-group-stage-finalized.service';
 import { TourneyEliminationStageFinalizedService } from './services/tourney-elimination-stage-finalized.service';
 import { TourneyModificationService } from './services/tourney-modification.service';
+import { TourneyDoubleEliminationStageComponent } from './tourney-double-elimination-stage/tourney-double-elimination-stage.component';
+import { CreatingMockTourneysService } from './services/dev/creating-mock-tourneys.service';
+import { SingleEliminationCreationService } from './services/creation/single-elimination-creation.service';
+import { DoubleEliminationCreationService } from './services/creation/double-elimination-creation.service';
+import { GroupsThenSingleEliminationCreationService } from './services/creation/groups-then-single-elimination-creation.service';
+import { DoubleEliminationStageCreationService } from './services/creation/double-elimination-stage-creation.service';
+import { GroupsCreationService } from './services/creation/groups-creation.service';
 
 
 
@@ -64,7 +71,8 @@ import { TourneyModificationService } from './services/tourney-modification.serv
     TourneySeriesOverviewComponent,
     TourneysLandingPageComponent,
     TourneyAchievementsComponent,
-    TourneyDoubleEliminationStagesComponent
+    TourneyDoubleEliminationStagesComponent,
+    TourneyDoubleEliminationStageComponent
   ],
   entryComponents: [
     TourneyPlayerCreateDialogComponent,
@@ -72,8 +80,14 @@ import { TourneyModificationService } from './services/tourney-modification.serv
   ],
   providers: [
     TourneyCreationService,
+    SingleEliminationCreationService,
+    DoubleEliminationCreationService,
+    DoubleEliminationStageCreationService,
+    GroupsCreationService,
+    GroupsThenSingleEliminationCreationService,
     TourneyModificationService,
-    TourneysService,
+    // TourneysService,
+    { provide: TourneysService, useClass: CreatingMockTourneysService },
     TourneyEventService,
     TourneyGroupStageFinalizedService,
     TourneyEliminationStageFinalizedService,
