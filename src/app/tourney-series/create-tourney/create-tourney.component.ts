@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TourneyCreationService } from '../services/tourney-creation.service';
+import { TourneyCreationService } from '../services/creation/tourney-creation.service';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
 import { PoolDisciplineMapper, PoolDiscipline } from '../models/pool-discipline';
