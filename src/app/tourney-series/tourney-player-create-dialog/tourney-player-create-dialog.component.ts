@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TourneyPlayer } from '../models/tourney-player';
+import { TourneyPlayer } from '../models/evaluation/tourney-player';
 
 @Component({
   selector: 'app-tourney-player-create-dialog',

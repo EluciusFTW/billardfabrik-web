@@ -79,15 +79,14 @@ import { GroupsCreationService } from './services/creation/groups-creation.servi
     TourneyGroupStageAddPlayerDialogComponent
   ],
   providers: [
-    TourneyCreationService,
+    { provide: TourneyCreationService, useClass: CreatingMockTourneysService },
     SingleEliminationCreationService,
     DoubleEliminationCreationService,
     DoubleEliminationStageCreationService,
     GroupsCreationService,
     GroupsThenSingleEliminationCreationService,
     TourneyModificationService,
-    // TourneysService,
-    { provide: TourneysService, useClass: CreatingMockTourneysService },
+    TourneysService,
     TourneyEventService,
     TourneyGroupStageFinalizedService,
     TourneyEliminationStageFinalizedService,

@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { PlayersService } from '../services/players.service';
 import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dialog/tourney-player-create-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { TourneyPlayer } from '../models/tourney-player';
+import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyMode } from '../models/tourney-mode';

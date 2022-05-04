@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PlayerResultsRecord, TourneyPlayer } from '../models/tourney-player';
+import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { first, map } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { TourneyPlayerEvaluation } from '../models/evaluation/tourney-player-eva
 import { PlayerMatchRecord } from '../models/evaluation/player-match-record';
 import { TourneyPlacementType } from '../models/evaluation/tourney-placement-type';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
+import { PlayerResultsRecord } from '../models/evaluation/player-results-record';
 
 const DB_PLAYERS_LPATH = 'tourneySeries/players';
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';

@@ -94,7 +94,7 @@ export class TourneyStatisticsService {
 
   private MapStageLooserToPlacement(type: TourneyEliminationStageType): TourneyPlacementType {
     switch (type) {
-      case TourneyEliminationStageType.eigthFinal: return TourneyPlacementType.EigthFinal;
+      case TourneyEliminationStageType.last16: return TourneyPlacementType.EigthFinal;
       case TourneyEliminationStageType.quarterFinal: return TourneyPlacementType.QuarterFinal;
       case TourneyEliminationStageType.thirdPlace: return TourneyPlacementType.FourthPlace;
       case TourneyEliminationStageType.final: return TourneyPlacementType.RunnerUp;
