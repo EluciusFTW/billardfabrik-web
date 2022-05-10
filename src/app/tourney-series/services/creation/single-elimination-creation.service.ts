@@ -9,7 +9,7 @@ import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 @Injectable()
 export class SingleEliminationCreationService {
 
-  create(info: TourneyInfo, startingStage: TourneyEliminationStageType): TourneyEliminationStage[] {
+  createAllEmpty(info: TourneyInfo, startingStage: TourneyEliminationStageType): TourneyEliminationStage[] {
     return TourneyEliminationStageType
       .all()
       .filter(stageType => stageType <= startingStage)
@@ -22,7 +22,7 @@ export class SingleEliminationCreationService {
   }
 
   private buildEliminationMatches(nrOfMatches: number, info: TourneyInfo): Match[] {
-    const unknownPlayer = this.toMatchPlayer('t.b.a.');
+    const unknownPlayer = MatchPlayer.Unknown();
     const matchPlaceHolder = {
       playerOne: unknownPlayer,
       playerTwo: unknownPlayer,
@@ -36,12 +36,5 @@ export class SingleEliminationCreationService {
       matches.push(matchPlaceHolder);
     }
     return matches;
-  }
-
-  private toMatchPlayer(name: string): MatchPlayer {
-    return {
-      name: name,
-      points: 0
-    }
   }
 }

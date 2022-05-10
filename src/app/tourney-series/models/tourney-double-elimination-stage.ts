@@ -1,5 +1,4 @@
 import { Match } from './match';
-import { TourneyEliminationStageType } from './tourney-elimination-stage';
 import { TourneyPhaseStatus } from './tourney-phase-status';
 
 export interface TourneyDoubleEliminationStage {
@@ -48,20 +47,77 @@ export namespace TourneyDoubleEliminationStageType {
     return _stageStrings[stage]
   }
 
+  export function all(): TourneyDoubleEliminationStageType[] {
+    return Object
+      .keys(TourneyDoubleEliminationStageType)
+      .filter(value => !isNaN(Number(value)))
+      .map(value => +value);
+  }
+
+  export function getWinnerStages(): TourneyDoubleEliminationStageType[] {
+    return all()
+        .filter(value => value < TourneyDoubleEliminationStageType.Final)
+        .filter(value => value % 4 === 2)
+  }
+
+  export function getLooserStages(): TourneyDoubleEliminationStageType[] {
+    return all()
+        .filter(value => value < TourneyDoubleEliminationStageType.Final )
+        .filter(value => value % 2 === 1)
+  }
+
+  export function getStartingStages(): TourneyDoubleEliminationStageType[] {
+    return all()
+        .filter(value => value < TourneyDoubleEliminationStageType.Final )
+        .filter(value => value % 4 === 0)
+  }
+
   export function startingStage(numberOfPlayers: number): TourneyDoubleEliminationStageType {
     if (numberOfPlayers > 256) {
       throw Error(`${numberOfPlayers} is too many players for a double elimination tourney.`)
     }
 
     let entryStage = TourneyDoubleEliminationStageType.Entry256;
-    while (this.numberOfPlayers((entryStage + 4) as TourneyDoubleEliminationStageType) > numberOfPlayers) {
-      entryStage + 4;
+    while (numberOfPlayersInStartingStage((entryStage + 4) as TourneyDoubleEliminationStageType) > numberOfPlayers) {
+      entryStage = entryStage + 4;
     }
 
     return entryStage;
   }
 
-  export function numberOfPlayers(value: TourneyDoubleEliminationStageType) {
+  export function lastWinnerStage(numberOfPlayersToRemain: number): TourneyDoubleEliminationStageType {
+    if (numberOfPlayersToRemain <= 2) {
+      return TourneyDoubleEliminationStageType.Final
+    }
+
+    let exitStage = TourneyDoubleEliminationStageType.WinnerFinal;
+    while (playersInWinnerStage(exitStage) < numberOfPlayersToRemain) {
+      exitStage = exitStage - 4;
+    }
+
+    return exitStage;
+  }
+
+  function playersInWinnerStage(stage: TourneyDoubleEliminationStageType) {
+    return Math.pow(2, 8 - (stage - 2) / 4)
+  }
+
+  function isPowerOfTwo(number: number): boolean {
+    if (number == 0) {
+      return false;
+    }
+
+    while (number % 2 == 0) {
+      number = number / 2;
+    }
+    return number === 1;
+  }
+
+  export function lastLooserStage(numberOfPlayersToRemain: number): TourneyDoubleEliminationStageType {
+    return lastWinnerStage(numberOfPlayersToRemain) - 1;
+  }
+
+  export function numberOfPlayersInStartingStage(value: TourneyDoubleEliminationStageType) {
     if (value === TourneyDoubleEliminationStageType.Final) {
       return 2;
     }

@@ -15,12 +15,12 @@ export class DoubleEliminationCreationService {
     private doubleEliminationStageCreationService: DoubleEliminationStageCreationService) { }
 
   create(info: DoubleEliminationTourneyInfo): Tourney {
-    let firstEliminationStage = info.firstEliminationStage;
+    // let firstEliminationStage = info.firstEliminationStage;
     let doubleEliminationDownTo = TourneyEliminationStageType.numberOfPlayers(info.firstEliminationStage);
 
     return {
       doubleEliminationStages: this.doubleEliminationStageCreationService.create(info, doubleEliminationDownTo),
-      eliminationStages: this.singleEliminationStageCreationService.create(info, firstEliminationStage)
+      // eliminationStages: this.singleEliminationStageCreationService.create(info, firstEliminationStage)
     }
   }
 }

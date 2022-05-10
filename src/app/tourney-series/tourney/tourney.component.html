@@ -1,8 +1,8 @@
 <app-content-tile [header]="tourney ? tourney.meta.name + ' ' + tourney.meta.date : 'Loading ...'">
   <mat-tab-group>
-    <mat-tab label="Zusammenfassung">
+    <!-- <mat-tab label="Zusammenfassung">
       <app-tourney-summary [tourney]="tourney"></app-tourney-summary>
-    </mat-tab>
+    </mat-tab> -->
     <mat-tab *ngIf="hasGroupStage()" label="Gruppenphase">
       <app-tourney-group-stage [tourney]="tourney"></app-tourney-group-stage>
     </mat-tab>

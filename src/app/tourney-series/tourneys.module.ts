@@ -44,6 +44,7 @@ import { DoubleEliminationCreationService } from './services/creation/double-eli
 import { GroupsThenSingleEliminationCreationService } from './services/creation/groups-then-single-elimination-creation.service';
 import { DoubleEliminationStageCreationService } from './services/creation/double-elimination-stage-creation.service';
 import { GroupsCreationService } from './services/creation/groups-creation.service';
+import { EliminationMatchesCreationService } from './services/creation/elimination-matches-creation.service';
 
 
 
@@ -79,14 +80,16 @@ import { GroupsCreationService } from './services/creation/groups-creation.servi
     TourneyGroupStageAddPlayerDialogComponent
   ],
   providers: [
-    { provide: TourneyCreationService, useClass: CreatingMockTourneysService },
+    TourneyCreationService,
+    EliminationMatchesCreationService,
     SingleEliminationCreationService,
     DoubleEliminationCreationService,
     DoubleEliminationStageCreationService,
     GroupsCreationService,
     GroupsThenSingleEliminationCreationService,
     TourneyModificationService,
-    TourneysService,
+    // TourneysService,
+    { provide: TourneysService, useClass: CreatingMockTourneysService },
     TourneyEventService,
     TourneyGroupStageFinalizedService,
     TourneyEliminationStageFinalizedService,

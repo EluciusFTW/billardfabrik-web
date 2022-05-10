@@ -17,7 +17,7 @@ export class GroupsThenSingleEliminationCreationService {
 
     return {
       groups: this.groupStageCreationService.create(info),
-      eliminationStages: this.eliminationStageCreationService.create(info, this.determineStartingStage(info))
+      eliminationStages: this.eliminationStageCreationService.createAllEmpty(info, this.determineStartingStage(info))
     }
   }
 

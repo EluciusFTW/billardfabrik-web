@@ -85,18 +85,11 @@ export class GroupsCreationService {
 
   private ToMatch(listing: number[], players: string[], info: TourneyInfo): Match {
     return {
-      playerOne: this.toMatchPlayer(players[listing[0] - 1]),
-      playerTwo: this.toMatchPlayer(players[listing[1] - 1]),
+      playerOne: MatchPlayer.From(players[listing[0] - 1]),
+      playerTwo: MatchPlayer.From(players[listing[1] - 1]),
       discipline: info.discipline,
       length: info.raceLength,
       status: MatchStatus.notStarted
-    }
-  }
-
-  private toMatchPlayer(name: string): MatchPlayer {
-    return {
-      name: name,
-      points: 0
     }
   }
 }
