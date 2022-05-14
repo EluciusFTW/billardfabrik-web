@@ -7,6 +7,7 @@ import { MatchPlayer } from '../models/match-player';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
+import { TourneyDoubleEliminationStage, TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
@@ -16,7 +17,7 @@ import { MatchStatus } from '../models/match-status';
 export class TourneyEliminationStageComponent {
 
   @Input()
-  stage: TourneyEliminationStage
+  stage: TourneyEliminationStage | TourneyDoubleEliminationStage
 
   @Output()
   change: EventEmitter<any> = new EventEmitter();
@@ -28,7 +29,8 @@ export class TourneyEliminationStageComponent {
   // constructor(private userService: UserService) { }
 
   name(): string {
-    return TourneyEliminationStageType.map(this.stage.type)
+    return TourneyDoubleEliminationStageType.map(this.stage.type as unknown as TourneyDoubleEliminationStageType)
+    return TourneyEliminationStageType.map(this.stage.type as unknown as TourneyEliminationStageType)
   }
 
   ngOnChanges(_: SimpleChanges) {

@@ -1,1 +1,3 @@
-<app-tourney-double-elimination-stage *ngFor="let stage of tourney?.doubleEliminationStages" [stage]="stage" (change)="emitChange($event)"></app-tourney-double-elimination-stage>
+<app-tourney-elimination-stage *ngFor="let stage of tourney?.doubleEliminationStages" [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+
+<!-- <app-tourney-double-elimination-stage *ngFor="let stage of tourney?.doubleEliminationStages" [stage]="stage" (change)="emitChange($event)"></app-tourney-double-elimination-stage> -->

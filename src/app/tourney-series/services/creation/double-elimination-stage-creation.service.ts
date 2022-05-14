@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { MatchPlayer } from '../../models/match-player';
 import { TourneyDoubleEliminationStage, TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage';
 import { DoubleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
@@ -14,12 +15,12 @@ export class DoubleEliminationStageCreationService {
     let entryStage = TourneyDoubleEliminationStageType.startingStage(info.players.length);
     return [
       this.getEntryStage(entryStage, info),
-      // ... this.GetWinnerStages(entryStage, playersRemaining),
-      // ... this.GetLooserStages(entryStage, playersRemaining)
+      ... this.getWinnerStages(entryStage, info, 4),
+      ... this.getLooserStages(entryStage, info, 4)
     ]
   }
 
-  getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): TourneyDoubleEliminationStage {
+  private getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): TourneyDoubleEliminationStage {
     return {
       type: entryStage,
       players: info.players,
@@ -28,11 +29,36 @@ export class DoubleEliminationStageCreationService {
     }
   }
 
-  getWinnerStages(entryStage: TourneyDoubleEliminationStageType, playersRemaining: number): TourneyDoubleEliminationStage[] {
-    throw new Error('Method not implemented.');
+  private getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): TourneyDoubleEliminationStage[] {
+    return TourneyDoubleEliminationStageType
+      .getWinnerStages()
+      .filter(stage => stage > entryStage)
+      .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining)
+      .map(stage => ({stage, players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))}))
+      .map(stageWithPlayers => ({
+        type: stageWithPlayers.stage,
+        players: stageWithPlayers.players,
+        matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
+        status: TourneyPhaseStatus.waitingForApproval
+      }))
   }
 
-  getLooserStages(entryStage: TourneyDoubleEliminationStageType, playersRemaining: number): TourneyDoubleEliminationStage[] {
-    throw new Error('Method not implemented.');
+  private getUnknownPlayers(nr: number): string[] {
+    let name = MatchPlayer.Unknown().name;
+    return Array(nr).fill(name);
+  }
+
+  private getLooserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): TourneyDoubleEliminationStage[] {
+    return TourneyDoubleEliminationStageType
+      .getLooserStages()
+      .filter(stage => stage > entryStage)
+      .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining)
+      .map(stage => ({stage, players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))}))
+      .map(stageWithPlayers => ({
+        type: stageWithPlayers.stage,
+        players: stageWithPlayers.players,
+        matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
+        status: TourneyPhaseStatus.waitingForApproval
+      }))
   }
 }

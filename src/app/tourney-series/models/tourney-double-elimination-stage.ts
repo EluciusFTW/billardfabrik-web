@@ -41,6 +41,35 @@ export enum TourneyDoubleEliminationStageType {
 
 export namespace TourneyDoubleEliminationStageType {
   const _stageStrings = [
+    'Einstieg 256',
+    'Verlierer Letzte 128',
+    'Gewinner Letzte 128',
+    'Verlierer Letzte 96',
+    'Einstieg 128',
+    'Verlierer Letzte 64',
+    'Gewinner Letzte 64',
+    'Verlierer Letzte 48',
+    'Einstieg 64',
+    'Verlierer Letzte 32',
+    'Gewinner Letzte 32',
+    'Verlierer Letzte 24',
+    'Einstieg 32',
+    'Verlierer Achtelfinale',
+    'Gewinner Achtelfinale',
+    'Verlierer Letzte 12',
+    'Einstieg 16',
+    'Verlierer Viertelfinale',
+    'Gewinner Viertelfinale',
+    'Verlierer Letzte 6',
+    'Einstieg 8',
+    'Verlierer Halbfinale',
+    'Gewinner Halbfinale',
+    'Verlierer Letzte 3',
+    'Einstieg 4',
+    'Verlierer Finale',
+    'Gewinner Finale',
+    '-', '-', '-',
+    'Finale',
   ];
 
   export function map(stage: TourneyDoubleEliminationStageType) {
@@ -91,16 +120,23 @@ export namespace TourneyDoubleEliminationStageType {
     }
 
     let exitStage = TourneyDoubleEliminationStageType.WinnerFinal;
-    while (playersInWinnerStage(exitStage) < numberOfPlayersToRemain) {
+    while (playersInStage(exitStage) < numberOfPlayersToRemain) {
       exitStage = exitStage - 4;
     }
 
     return exitStage;
   }
 
-  function playersInWinnerStage(stage: TourneyDoubleEliminationStageType) {
-    return Math.pow(2, 8 - (stage - 2) / 4)
+  export function playersInStage(stage: TourneyDoubleEliminationStageType) {
+    switch(stage % 4){
+      case 0: return Math.pow(2, 8 - stage / 4);
+      case 1: return Math.pow(2, 8 - (stage + 3) / 4);
+      case 2: return Math.pow(2, 8 - (stage + 2) / 4);
+      case 3: return Math.pow(2, 8 - (stage + 1) / 4) + Math.pow(2, 8 - (stage + 5) / 4) / 2;
+    }
+    return 0;
   }
+
 
   function isPowerOfTwo(number: number): boolean {
     if (number == 0) {
@@ -117,15 +153,15 @@ export namespace TourneyDoubleEliminationStageType {
     return lastWinnerStage(numberOfPlayersToRemain) - 1;
   }
 
-  export function numberOfPlayersInStartingStage(value: TourneyDoubleEliminationStageType) {
-    if (value === TourneyDoubleEliminationStageType.Final) {
+  export function numberOfPlayersInStartingStage(stage: TourneyDoubleEliminationStageType) {
+    if (stage === TourneyDoubleEliminationStageType.Final) {
       return 2;
     }
 
-    if (value % 4 !== 0) {
+    if (stage % 4 !== 0) {
       throw Error('In a double elimination tourney, it only makes sense to ask this for entry point stages.')
     }
 
-    return Math.pow(2, 8 - value / 4);
+    return Math.pow(2, 8 - stage / 4);
   }
 }
