@@ -1,5 +1,5 @@
 <mat-card style="margin-top:2rem;" *ngIf="!!stage">
-    <mat-card-title>{{ name() }}</mat-card-title>
+    <mat-card-title>{{ stage.title }}</mat-card-title>
     <mat-card-subtitle>
         <span class="roundOver" *ngIf="this.stage.status == 2">
             Die Runde ist beendet.

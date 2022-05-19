@@ -28,11 +28,6 @@ export class TourneyEliminationStageComponent {
 
   // constructor(private userService: UserService) { }
 
-  name(): string {
-    return TourneyDoubleEliminationStageType.map(this.stage.type as unknown as TourneyDoubleEliminationStageType)
-    return TourneyEliminationStageType.map(this.stage.type as unknown as TourneyEliminationStageType)
-  }
-
   ngOnChanges(_: SimpleChanges) {
     this.matches = new MatTableDataSource<Match>(this.stage?.matches);
   }
