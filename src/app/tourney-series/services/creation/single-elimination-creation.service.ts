@@ -15,6 +15,7 @@ export class SingleEliminationCreationService {
       .filter(stageType => stageType <= startingStage)
       .map(stageType => ({
         type: stageType,
+        title: TourneyEliminationStageType.map(stageType),
         players: [],
         matches: this.buildEliminationMatches(TourneyEliminationStageType.numberOfPlayers(stageType), info),
         status: TourneyPhaseStatus.waitingForApproval

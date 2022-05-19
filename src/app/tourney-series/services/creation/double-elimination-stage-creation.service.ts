@@ -23,6 +23,7 @@ export class DoubleEliminationStageCreationService {
   private getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): TourneyDoubleEliminationStage {
     return {
       type: entryStage,
+      title: TourneyDoubleEliminationStageType.map(entryStage),
       players: info.players,
       matches: this.eliminationCreationService.getMatches(info.players, info.raceLength, info.discipline),
       status: TourneyPhaseStatus.waitingForApproval
@@ -37,6 +38,7 @@ export class DoubleEliminationStageCreationService {
       .map(stage => ({stage, players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))}))
       .map(stageWithPlayers => ({
         type: stageWithPlayers.stage,
+        title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
         players: stageWithPlayers.players,
         matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
         status: TourneyPhaseStatus.waitingForApproval
@@ -56,6 +58,7 @@ export class DoubleEliminationStageCreationService {
       .map(stage => ({stage, players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))}))
       .map(stageWithPlayers => ({
         type: stageWithPlayers.stage,
+        title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
         players: stageWithPlayers.players,
         matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
         status: TourneyPhaseStatus.waitingForApproval
