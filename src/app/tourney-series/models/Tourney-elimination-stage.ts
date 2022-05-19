@@ -3,6 +3,7 @@ import { TourneyPhaseStatus } from './tourney-phase-status';
 
 export interface TourneyEliminationStage {
   type: TourneyEliminationStageType;
+  title: string;
   players: string[];
   matches: Match[];
   status: TourneyPhaseStatus;

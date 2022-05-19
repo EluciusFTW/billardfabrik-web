@@ -3,6 +3,7 @@ import { TourneyPhaseStatus } from './tourney-phase-status';
 
 export interface TourneyDoubleEliminationStage {
   type: TourneyDoubleEliminationStageType;
+  title: string;
   players: string[];
   matches: Match[];
   status: TourneyPhaseStatus;
@@ -86,19 +87,19 @@ export namespace TourneyDoubleEliminationStageType {
   export function getWinnerStages(): TourneyDoubleEliminationStageType[] {
     return all()
         .filter(value => value < TourneyDoubleEliminationStageType.Final)
-        .filter(value => value % 4 === 2)
+        .filter(value => isWinnerStage(value))
   }
 
   export function getLooserStages(): TourneyDoubleEliminationStageType[] {
     return all()
         .filter(value => value < TourneyDoubleEliminationStageType.Final )
-        .filter(value => value % 2 === 1)
+        .filter(value => isLooserStage(value))
   }
 
   export function getStartingStages(): TourneyDoubleEliminationStageType[] {
     return all()
         .filter(value => value < TourneyDoubleEliminationStageType.Final )
-        .filter(value => value % 4 === 0)
+        .filter(value => isEntryStage(value))
   }
 
   export function startingStage(numberOfPlayers: number): TourneyDoubleEliminationStageType {
@@ -137,6 +138,17 @@ export namespace TourneyDoubleEliminationStageType {
     return 0;
   }
 
+  export function isWinnerStage(stage: TourneyDoubleEliminationStageType){
+    return stage % 4 === 2;
+  }
+
+  export function isLooserStage(stage: TourneyDoubleEliminationStageType){
+    return stage % 2 === 1;
+  }
+
+  export function isEntryStage(stage: TourneyDoubleEliminationStageType){
+    return stage % 4 === 0;
+  }
 
   function isPowerOfTwo(number: number): boolean {
     if (number == 0) {
@@ -158,10 +170,10 @@ export namespace TourneyDoubleEliminationStageType {
       return 2;
     }
 
-    if (stage % 4 !== 0) {
+    if (!isEntryStage(stage)) {
       throw Error('In a double elimination tourney, it only makes sense to ask this for entry point stages.')
     }
 
-    return Math.pow(2, 8 - stage / 4);
+    return playersInStage(stage);
   }
 }
