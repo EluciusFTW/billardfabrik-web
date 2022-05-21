@@ -133,7 +133,7 @@ export namespace TourneyDoubleEliminationStageType {
       case 0: return Math.pow(2, 8 - stage / 4);
       case 1: return Math.pow(2, 8 - (stage + 3) / 4);
       case 2: return Math.pow(2, 8 - (stage + 2) / 4);
-      case 3: return Math.pow(2, 8 - (stage + 1) / 4) + Math.pow(2, 8 - (stage + 5) / 4) / 2;
+      case 3: return Math.pow(2, 8 - (stage + 1) / 4) - Math.pow(2, 7 - (stage + 5) / 4);
     }
     return 0;
   }

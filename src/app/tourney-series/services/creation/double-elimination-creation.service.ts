@@ -5,9 +5,7 @@ import { DoubleEliminationTourneyInfo } from '../../models/tourney-info';
 import { DoubleEliminationStageCreationService } from './double-elimination-stage-creation.service';
 import { SingleEliminationCreationService } from './single-elimination-creation.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DoubleEliminationCreationService {
 
   constructor(

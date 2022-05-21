@@ -1,13 +1,14 @@
 import { Component, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
 import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/tourney-elimination-stage';
 import { MatTableDataSource } from '@angular/material/table';
-import { Match } from '../models/match';
+import { IsOver, Match, Started } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { MatchPlayer } from '../models/match-player';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
 import { TourneyDoubleEliminationStage, TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage';
+import { NumberFormatStyle } from '@angular/common';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
@@ -91,7 +92,6 @@ export class TourneyEliminationStageComponent {
   }
 
   getMatchClass(match: Match): string {
-
     if (this.stage.status === TourneyPhaseStatus.finalized) {
       return '';
     } else if (match.status === MatchStatus.cancelled) {
@@ -101,15 +101,15 @@ export class TourneyEliminationStageComponent {
     } else if (this.nooneOverTheHill(match)) {
       return 'running';
     }
+
     return 'gameOver';
   }
 
   notStarted(match: Match): boolean {
-    return match.playerOne.points + match.playerTwo.points === 0;
+    return !Started(match)
   }
 
   nooneOverTheHill(match: Match): boolean {
-    return match.playerOne.points < match.length
-      && match.playerTwo.points < match.length;
+    return !IsOver(match);
   }
 }

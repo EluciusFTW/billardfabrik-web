@@ -7,22 +7,29 @@ import { PoolDiscipline } from '../../models/pool-discipline';
 @Injectable()
 export class EliminationMatchesCreationService {
 
-  getMatches(players: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
-    const randomizedPlayers = this.reOrderRandomly(players);
+  getMatchesFilledUpWithWalks(players: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
+    const randomizedPlayers = [
+      ... this.reOrderRandomly(players).map(name => MatchPlayer.From(name)),
+      ... this.getWalks(this.nextPowerOfTwo(players.length) - players.length)
+    ];
+
     return this.getMatchesInternal(randomizedPlayers, raceTo, discipline);
   }
 
-  getMatchesInternal(players: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
-    let numberOfMatches = this.getNumberOfMatches(players.length);
+  getMatches(players: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
+    if (players.length % 2 === 1) throw new Error('Number of players has to be even');
 
-    let firstPlayers = players
-      .slice(0, numberOfMatches)
-      .map(player => MatchPlayer.From(player));
+    const randomizedPlayers = this
+      .reOrderRandomly(players)
+      .map(name => MatchPlayer.From(name));
 
-    let lastPlayers = players
-      .slice(numberOfMatches)
-      .map(player => MatchPlayer.From(player))
-      .concat(this.getWalks(2 * numberOfMatches - players.length));
+    return this.getMatchesInternal(randomizedPlayers, raceTo, discipline);
+  }
+
+  private getMatchesInternal(players: MatchPlayer[], raceTo: number, discipline: PoolDiscipline): Match[] {
+    const numberOfMatches = players.length / 2;
+    let firstPlayers = players.slice(0, numberOfMatches)
+    let lastPlayers = players.slice(numberOfMatches)
 
     return firstPlayers
       .map((player, index) => ({
@@ -36,30 +43,30 @@ export class EliminationMatchesCreationService {
       }));
   }
 
-  getWalks(numberOfWalks: number): MatchPlayer[] {
-    let walks = new Array(numberOfWalks);
-    for (let i = 0; i < numberOfWalks; i++) {
-      walks[i] = MatchPlayer.Walk();
-    }
-    return walks;
+  private getWalks(numberOfWalks: number): MatchPlayer[] {
+    return Array(numberOfWalks).fill(MatchPlayer.Walk());
   }
 
   private reOrderRandomly(players: string[]): string[] {
+    let clonedPlayers = [... players];
     let randomOrderedPlayers: string[] = [];
-    while (players.length > 0) {
-      let randomIndex = Math.floor(Math.random() * players.length);
-      randomOrderedPlayers.push(players[randomIndex]);
-      players.splice(randomIndex, 1);
+    while (clonedPlayers.length > 0) {
+      let randomIndex = Math.floor(Math.random() * clonedPlayers.length);
+      randomOrderedPlayers.push(clonedPlayers[randomIndex]);
+      clonedPlayers.splice(randomIndex, 1);
     }
     return randomOrderedPlayers;
   }
 
-  private getNumberOfMatches(numberOfPlayers: number): number {
+  private nextPowerOfTwo(number: number): number {
+    if (number < 0) throw new Error('Parameter has to be positive');
+    if (number === 0) return 0;
+
     let counter = 0;
     do {
-      numberOfPlayers = numberOfPlayers / 2;
+      number = number / 2;
       counter++;
-    } while (numberOfPlayers > 1)
-    return Math.pow(2, counter - 1);
+    } while (number > 1)
+    return Math.pow(2, counter);
   }
 }

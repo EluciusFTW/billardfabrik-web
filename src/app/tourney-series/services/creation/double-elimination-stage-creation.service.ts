@@ -25,43 +25,45 @@ export class DoubleEliminationStageCreationService {
       type: entryStage,
       title: TourneyDoubleEliminationStageType.map(entryStage),
       players: info.players,
-      matches: this.eliminationCreationService.getMatches(info.players, info.raceLength, info.discipline),
+      matches: this.eliminationCreationService.getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
       status: TourneyPhaseStatus.waitingForApproval
     }
   }
 
   private getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): TourneyDoubleEliminationStage[] {
-    return TourneyDoubleEliminationStageType
-      .getWinnerStages()
-      .filter(stage => stage > entryStage)
-      .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining)
-      .map(stage => ({stage, players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))}))
-      .map(stageWithPlayers => ({
-        type: stageWithPlayers.stage,
-        title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
-        players: stageWithPlayers.players,
-        matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
-        status: TourneyPhaseStatus.waitingForApproval
-      }))
-  }
-
-  private getUnknownPlayers(nr: number): string[] {
-    let name = MatchPlayer.Unknown().name;
-    return Array(nr).fill(name);
+    return this.fillStages(
+      TourneyDoubleEliminationStageType
+        .getWinnerStages()
+        .filter(stage => stage > entryStage)
+        .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining),
+      info);
   }
 
   private getLooserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): TourneyDoubleEliminationStage[] {
-    return TourneyDoubleEliminationStageType
-      .getLooserStages()
-      .filter(stage => stage > entryStage)
-      .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining)
-      .map(stage => ({stage, players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))}))
+    return this.fillStages(
+      TourneyDoubleEliminationStageType
+        .getLooserStages()
+        .filter(stage => stage > entryStage)
+        .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining),
+      info);
+  }
+
+  private fillStages(stages: TourneyDoubleEliminationStageType[], info: DoubleEliminationTourneyInfo) : TourneyDoubleEliminationStage[] {
+    return stages
+      .map(stage => ({
+        stage,
+        players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))
+      }))
       .map(stageWithPlayers => ({
         type: stageWithPlayers.stage,
         title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
         players: stageWithPlayers.players,
         matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
         status: TourneyPhaseStatus.waitingForApproval
-      }))
+      }));
+  }
+
+  private getUnknownPlayers(numberOfPlayers: number): string[] {
+    return Array(numberOfPlayers).fill(MatchPlayer.Unknown().name);
   }
 }
