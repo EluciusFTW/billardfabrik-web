@@ -56,8 +56,10 @@ export class CreatingMockTourneysService {
   }
 
   update(tourney: Tourney, event: TourneyPhaseEvent): void {
+    console.log('Received update: ',  event);
   }
 
   save(tourney: Tourney): void {
+    console.log('Received save');
   }
 }

@@ -34,15 +34,14 @@ export class EliminationMatchesCreationService {
     let lastPlayers = players.slice(numberOfMatches)
 
     return firstPlayers
-      .map((player, index) => ({
-        playerOne: player,
-        playerTwo: index % 2 === 0
+      .map((player, index) =>
+      [
+        player,
+        index % 2 === 0
           ? lastPlayers[index]
-          : lastPlayers[numberOfMatches - index],
-        discipline: discipline,
-        length: raceTo,
-        status: MatchStatus.notStarted
-      }));
+          : lastPlayers[numberOfMatches - index]
+      ])
+      .map(pair => new Match(pair[0], pair[1], discipline, raceTo));
   }
 
   private getWalks(numberOfWalks: number): MatchPlayer[] {

@@ -150,17 +150,6 @@ export namespace TourneyDoubleEliminationStageType {
     return stage % 4 === 0;
   }
 
-  function isPowerOfTwo(number: number): boolean {
-    if (number == 0) {
-      return false;
-    }
-
-    while (number % 2 == 0) {
-      number = number / 2;
-    }
-    return number === 1;
-  }
-
   export function lastLooserStage(numberOfPlayersToRemain: number): TourneyDoubleEliminationStageType {
     return lastWinnerStage(numberOfPlayersToRemain) - 1;
   }

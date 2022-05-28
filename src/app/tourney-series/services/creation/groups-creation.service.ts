@@ -84,12 +84,11 @@ export class GroupsCreationService {
   }
 
   private ToMatch(listing: number[], players: string[], info: TourneyInfo): Match {
-    return {
-      playerOne: MatchPlayer.From(players[listing[0] - 1]),
-      playerTwo: MatchPlayer.From(players[listing[1] - 1]),
-      discipline: info.discipline,
-      length: info.raceLength,
-      status: MatchStatus.notStarted
-    }
+    return new Match(
+      MatchPlayer.From(players[listing[0] - 1]),
+      MatchPlayer.From(players[listing[1] - 1]),
+      info.discipline,
+      info.raceLength
+    )
   }
 }

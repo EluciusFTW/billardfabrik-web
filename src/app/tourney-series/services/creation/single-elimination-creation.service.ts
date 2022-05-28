@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
-import { MatchPlayer } from '../../models/match-player';
-import { MatchStatus } from '../../models/match-status';
 import { TourneyEliminationStage, TourneyEliminationStageType } from '../../models/tourney-elimination-stage';
 import { TourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
@@ -17,19 +15,10 @@ export class SingleEliminationCreationService {
         type: stageType,
         title: TourneyEliminationStageType.map(stageType),
         players: [],
-        matches: this.buildEliminationMatches(TourneyEliminationStageType.numberOfMatches(stageType), info),
+        matches: Array(TourneyEliminationStageType.numberOfMatches(stageType))
+          .fill(false)
+          .map(_ => Match.placeHolder(info.discipline, info.raceLength)),
         status: TourneyPhaseStatus.waitingForApproval
       }));
-  }
-
-  private buildEliminationMatches(nrOfMatches: number, info: TourneyInfo): Match[] {
-    const matchPlaceHolder = {
-      playerOne: MatchPlayer.Unknown(),
-      playerTwo: MatchPlayer.Unknown(),
-      discipline: info.discipline,
-      length: info.raceLength,
-      status: MatchStatus.notStarted
-    }
-    return Array(nrOfMatches).fill(matchPlaceHolder);
   }
 }

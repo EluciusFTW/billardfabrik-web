@@ -12,7 +12,7 @@ import { TourneyDoubleEliminationStage } from '../models/tourney-double-eliminat
 @Component({
   selector: 'app-tourney-elimination-stage',
   templateUrl: './tourney-elimination-stage.component.html',
-  styleUrls: ['./tourney-elimination-stage.component.scss']
+  styleUrls: ['../tourneys.scss']
 })
 export class TourneyEliminationStageComponent {
 
@@ -33,7 +33,8 @@ export class TourneyEliminationStageComponent {
   }
 
   scoreEditDisabled(): boolean {
-    return this.stage.status !== TourneyPhaseStatus.readyOrOngoing;
+    return false;
+    // return this.stage.status !== TourneyPhaseStatus.readyOrOngoing;
   }
 
   plusDisabled(who: number, match: Match): boolean {
@@ -69,7 +70,7 @@ export class TourneyEliminationStageComponent {
   allGamesOver(): boolean {
     return this.stage.matches
       .filter(match => match.status !== MatchStatus.cancelled)
-      .findIndex(match => match.playerOne.points < match.length && match.playerTwo.points < match.length) === -1;
+      .findIndex(match => !match.isOver()) === -1;
   }
 
   finalize(): void {
@@ -105,10 +106,10 @@ export class TourneyEliminationStageComponent {
   }
 
   notStarted(match: Match): boolean {
-    return !Match.Started(match)
+    return !match.hasStarted();
   }
 
   nooneOverTheHill(match: Match): boolean {
-    return !Match.IsOver(match);
+    return !match.isOver();
   }
 }

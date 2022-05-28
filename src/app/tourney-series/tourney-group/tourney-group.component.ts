@@ -13,7 +13,7 @@ import { MatchStatus } from '../models/match-status';
 @Component({
   selector: 'app-tourney-group',
   templateUrl: './tourney-group.component.html',
-  styleUrls: ['./tourney-group.component.scss']
+  styleUrls: ['../tourneys.scss']
 })
 export class TourneyGroupComponent implements OnChanges {
 
@@ -133,7 +133,7 @@ export class TourneyGroupComponent implements OnChanges {
   allGamesOver(): boolean {
     return this.group.matches
       .filter(match => match.status !== MatchStatus.cancelled)
-      .findIndex(match => match.playerOne.points < match.length && match.playerTwo.points < match.length) === -1;
+      .findIndex(match => !match.isOver()) === -1;
   }
 
   finalize(): void {
