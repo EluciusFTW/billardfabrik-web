@@ -1,27 +1,21 @@
-export interface MatchPlayer {
+export class MatchPlayer {
   name: string;
   points: number;
-}
 
-export namespace MatchPlayer {
-  export function From(name: string): MatchPlayer{
-    return {
-      name: name,
-      points: 0
-    }
+  constructor(name: string, points: number) {
+    this.name = name;
+    this.points = points;
   }
 
-  export function Unknown(): MatchPlayer{
-    return {
-      name: 't.b.d.',
-      points: 0
-    }
+  static From(name: string) {
+    return new MatchPlayer(name, 0);
   }
 
-  export function Walk(): MatchPlayer{
-    return {
-      name: 'Freilos',
-      points: 0
-    }
+  static Unknown() {
+    return new MatchPlayer('t.b.d.', 0);
+  }
+
+  static Walk() {
+    return new MatchPlayer('Freilos', 0);
   }
 }

@@ -1,14 +1,13 @@
 import { Component, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/tourney-elimination-stage';
+import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
 import { MatTableDataSource } from '@angular/material/table';
-import { IsOver, Match, Started } from '../models/match';
+import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { MatchPlayer } from '../models/match-player';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
-import { TourneyDoubleEliminationStage, TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage';
-import { NumberFormatStyle } from '@angular/common';
+import { TourneyDoubleEliminationStage } from '../models/tourney-double-elimination-stage';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
@@ -106,10 +105,10 @@ export class TourneyEliminationStageComponent {
   }
 
   notStarted(match: Match): boolean {
-    return !Started(match)
+    return !Match.Started(match)
   }
 
   nooneOverTheHill(match: Match): boolean {
-    return !IsOver(match);
+    return !Match.IsOver(match);
   }
 }

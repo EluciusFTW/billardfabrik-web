@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { GroupStanding } from '../models/group-standing';
 import { TourneyGroup } from '../models/tourney-group';
-import { Match, Started } from '../models/match';
+import { Match } from '../models/match';
 
 @Injectable()
 export class TourneyStandingCalculationService {
 
   calculcateStanding(group: TourneyGroup) : GroupStanding[]{
-    let startedMatches = group.matches.filter(match => Started(match));
+    let startedMatches = group.matches.filter(match => Match.Started(match));
     return group.players
       .map(player => this.CalculateStanding(player, startedMatches))
       .sort(this.compare);

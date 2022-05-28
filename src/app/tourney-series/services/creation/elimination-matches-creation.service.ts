@@ -9,7 +9,9 @@ export class EliminationMatchesCreationService {
 
   getMatchesFilledUpWithWalks(players: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
     const randomizedPlayers = [
-      ... this.reOrderRandomly(players).map(name => MatchPlayer.From(name)),
+      ... this
+        .reOrderRandomly(players)
+        .map(name => MatchPlayer.From(name)),
       ... this.getWalks(this.nextPowerOfTwo(players.length) - players.length)
     ];
 
@@ -36,7 +38,7 @@ export class EliminationMatchesCreationService {
         playerOne: player,
         playerTwo: index % 2 === 0
           ? lastPlayers[index]
-          : lastPlayers[numberOfMatches - (index + 1) / 2],
+          : lastPlayers[numberOfMatches - index],
         discipline: discipline,
         length: raceTo,
         status: MatchStatus.notStarted
@@ -59,7 +61,7 @@ export class EliminationMatchesCreationService {
   }
 
   private nextPowerOfTwo(number: number): number {
-    if (number < 0) throw new Error('Parameter has to be positive');
+    if (number < 0) throw new Error('Parameter has to be positive.');
     if (number === 0) return 0;
 
     let counter = 0;

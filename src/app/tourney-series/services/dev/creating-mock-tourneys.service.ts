@@ -23,7 +23,7 @@ export class CreatingMockTourneysService {
       raceLength: 2,
       discipline: PoolDiscipline.BankPool,
       mode: TourneyMode.DoubleElimination,
-      firstEliminationStage: TourneyEliminationStageType.semiFinal,
+      firstEliminationStage: TourneyEliminationStageType.quarterFinal,
       name: 'Mock DE Tourney',
     } as DoubleEliminationTourneyInfo;
   }

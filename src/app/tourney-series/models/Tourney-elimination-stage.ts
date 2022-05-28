@@ -11,24 +11,28 @@ export interface TourneyEliminationStage {
 
 // old: eight = 0, quarter = 1, semi = 2, third = 3, final = 4
 export enum TourneyEliminationStageType {
-  final,
-  thirdPlace,
-  semiFinal,
-  quarterFinal,
-  last16,
-  last32,
-  last64,
-  last128,
-  last256
+  final = 0,
+  thirdPlace = 1,
+  semiFinal = 2,
+  quarterFinal = 3,
+  last16 = 4,
+  last32 = 5,
+  last64 = 6,
+  last128 = 7,
+  last256 = 8
 }
 
 export namespace TourneyEliminationStageType {
   const _stageStrings = [
-    'Achtelfinale',
-    'Viertelfinale',
-    'Halbfinale',
+    'Finale',
     'Spiel um Platz 3',
-    'Finale'
+    'Halbfinale',
+    'Viertelfinale',
+    'Achtelfinale',
+    'Letzte 32',
+    'Letzte 64',
+    'Letzte 128',
+    'Letzte 256',
   ];
 
   export function all(): TourneyEliminationStageType[] {
@@ -58,6 +62,10 @@ export namespace TourneyEliminationStageType {
       return 2;
     }
 
-    return Math.pow(2, value - 1);
+    return Math.pow(2, value);
+  }
+
+  export function numberOfMatches(value: TourneyEliminationStageType) {
+    return numberOfPlayers(value) / 2;
   }
 }

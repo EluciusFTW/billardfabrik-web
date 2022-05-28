@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Match } from '../models/match';
 import { MatchStatus } from '../models/match-status';
-import { Looser, Winner } from '../models/match';
 import { Tourney } from '../models/tourney';
 import { TourneyEliminationStageType } from '../models/tourney-elimination-stage';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
@@ -19,7 +19,7 @@ export class TourneyEvaluationService {
         const finalStage = tourney.eliminationStages.filter(stage => stage.type === TourneyEliminationStageType.final)[0];
 
         return finalStage.status === TourneyPhaseStatus.finalized
-            ? Winner(finalStage.matches[0]).name
+            ? Match.Winner(finalStage.matches[0]).name
             : ''
     }
 
@@ -27,7 +27,7 @@ export class TourneyEvaluationService {
         const finalStage = tourney.eliminationStages.filter(stage => stage.type === TourneyEliminationStageType.final)[0];
 
         return finalStage.status === TourneyPhaseStatus.finalized
-            ? Looser(finalStage.matches[0]).name
+            ? Match.Looser(finalStage.matches[0]).name
             : ''
     }
 
@@ -41,7 +41,7 @@ export class TourneyEvaluationService {
         if (thirdPlaceMatch.status === MatchStatus.cancelled) {
           return '** nicht ausgespielt **';
         }
-        
-        return Winner(thirdPlaceMatch).name;
+
+        return Match.Winner(thirdPlaceMatch).name;
     }
 }

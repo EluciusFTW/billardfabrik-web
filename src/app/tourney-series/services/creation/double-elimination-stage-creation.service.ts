@@ -15,8 +15,8 @@ export class DoubleEliminationStageCreationService {
     let entryStage = TourneyDoubleEliminationStageType.startingStage(info.players.length);
     return [
       this.getEntryStage(entryStage, info),
-      ... this.getWinnerStages(entryStage, info, 4),
-      ... this.getLooserStages(entryStage, info, 4)
+      ... this.getWinnerStages(entryStage, info, playersRemaining),
+      ... this.getLooserStages(entryStage, info, playersRemaining)
     ]
   }
 

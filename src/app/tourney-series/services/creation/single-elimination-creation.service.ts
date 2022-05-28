@@ -17,25 +17,19 @@ export class SingleEliminationCreationService {
         type: stageType,
         title: TourneyEliminationStageType.map(stageType),
         players: [],
-        matches: this.buildEliminationMatches(TourneyEliminationStageType.numberOfPlayers(stageType), info),
+        matches: this.buildEliminationMatches(TourneyEliminationStageType.numberOfMatches(stageType), info),
         status: TourneyPhaseStatus.waitingForApproval
-      }))
+      }));
   }
 
   private buildEliminationMatches(nrOfMatches: number, info: TourneyInfo): Match[] {
-    const unknownPlayer = MatchPlayer.Unknown();
     const matchPlaceHolder = {
-      playerOne: unknownPlayer,
-      playerTwo: unknownPlayer,
+      playerOne: MatchPlayer.Unknown(),
+      playerTwo: MatchPlayer.Unknown(),
       discipline: info.discipline,
       length: info.raceLength,
       status: MatchStatus.notStarted
     }
-
-    let matches: Match[] = [];
-    for (let i = 0; i < nrOfMatches; i++) {
-      matches.push(matchPlaceHolder);
-    }
-    return matches;
+    return Array(nrOfMatches).fill(matchPlaceHolder);
   }
 }
