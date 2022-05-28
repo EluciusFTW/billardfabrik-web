@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { PoolDiscipline } from '../../models/pool-discipline';
 import { Tourney } from '../../models/tourney';
 import { TourneyEliminationStageType } from '../../models/tourney-elimination-stage';
-import { DoubleEliminationTourneyInfo, TourneyInfo } from '../../models/tourney-info';
+import { DoubleEliminationTourneyInfo, GroupsThenSingleEliminationTourneyInfo, TourneyInfo } from '../../models/tourney-info';
 import { TourneyMode } from '../../models/tourney-mode';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { TourneyCreationService } from '../creation/tourney-creation.service';
@@ -14,10 +14,14 @@ export class CreatingMockTourneysService {
   constructor(private tcs: TourneyCreationService) { }
 
   get(id: any): Observable<Tourney> {
-    return of(this.tcs.create(this.getTourneyInfo(id)));
+    let info = id % 2 == 0
+      ? this.getDoubleEliminationTourneyInfo(id)
+      : this.getTourneyInfo(id);
+
+    return of(this.tcs.create(info));
   }
 
-  private getTourneyInfo(nr: number): TourneyInfo {
+  private getDoubleEliminationTourneyInfo(nr: number): TourneyInfo {
     return {
       players: this.getPlayers(nr),
       raceLength: 2,
@@ -26,6 +30,17 @@ export class CreatingMockTourneysService {
       firstEliminationStage: TourneyEliminationStageType.quarterFinal,
       name: 'Mock DE Tourney',
     } as DoubleEliminationTourneyInfo;
+  }
+
+  private getTourneyInfo(nr: number): TourneyInfo {
+    return {
+      players: this.getPlayers(nr),
+      raceLength: 4,
+      discipline: PoolDiscipline.NineBall,
+      nrOfGroups: 4,
+      mode: TourneyMode.GruopsThenSingleElimination,
+      name: 'Mock SE Tourney',
+    } as GroupsThenSingleEliminationTourneyInfo;
   }
 
   private getPlayers(amount: number): string[] {
