@@ -8,7 +8,6 @@ import { TimeTickPipe } from './pipes/time-tick.pipe';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { OwnConfirmService } from './services/own-confirm.service';
 import { MaterialModule } from '../material/material.module';
-import { EnumHelperService } from './services/enum-helper.service';
 
 @NgModule({
   imports: [
@@ -19,6 +18,6 @@ import { EnumHelperService } from './services/enum-helper.service';
   declarations: [ContentHeaderComponent, ContentTileComponent, TimeTickPipe, ConfirmDialogComponent],
   entryComponents: [ConfirmDialogComponent],
   exports: [ContentHeaderComponent, ContentTileComponent, TimeTickPipe],
-  providers: [OwnMessageService, OwnConfirmService, EnumHelperService]
+  providers: [OwnMessageService, OwnConfirmService]
 })
 export class SharedModule { }

@@ -20,6 +20,9 @@ export class OwnConfirmService {
                 icon: data.icon || 'fas fa-check-circle'
             }
         });
-        return dialogRef.afterClosed().pipe(map(result => !!result));
+
+        return dialogRef
+          .afterClosed()
+          .pipe(map(result => !!result));
     }
 }
