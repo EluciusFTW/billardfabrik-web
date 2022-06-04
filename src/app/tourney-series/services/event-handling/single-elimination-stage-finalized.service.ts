@@ -1,27 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
 import { Tourney } from '../../models/tourney';
-import { SingleEliminationStageFinalizedEvent } from '../../models/tourney-phase-event';
+import { SingleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
-import { TourneyStatus } from '../../models/tourney-status';
 
 @Injectable()
 export class SingleEliminationStageFinalizedService {
 
-  handle(tourney: Tourney, stage: TourneyEliminationStageType): void {
-    let finalizedStageIndex = tourney.eliminationStages.findIndex(stage => stage.status !== TourneyPhaseStatus.finalized) - 1;
-    if (finalizedStageIndex < 0) {
-      tourney.meta.status = TourneyStatus.completed
-      return;
-    }
-
-    let finalizedStage = tourney.eliminationStages[finalizedStageIndex];
+  handle(tourney: Tourney, finalizedStageType: TourneyEliminationStageType): void {
+    let finalizedStage = this.getStage(tourney, finalizedStageType);
     if (finalizedStage.type >= TourneyEliminationStageType.semiFinal) {
       let pairs = this.getWinnersChunked(finalizedStage.matches);
       const next = TourneyEliminationStageType.after(finalizedStage.type);
       this.prepareStage(tourney, next, pairs);
-
     } else if (finalizedStage.type === TourneyEliminationStageType.semiFinal) {
       let winners = finalizedStage.matches.map(match => match.winner().name);
       this.prepareStage(tourney, TourneyEliminationStageType.final, [winners]);
@@ -29,6 +21,17 @@ export class SingleEliminationStageFinalizedService {
       let losers = finalizedStage.matches.map(match => match.looser().name);
       this.prepareStage(tourney, TourneyEliminationStageType.thirdPlace, [losers]);
     }
+  }
+
+  private getStage(tourney: Tourney, stageType: TourneyEliminationStageType): SingleEliminationEliminationStage {
+    const stage = tourney.eliminationStages.find(stage => stage.type === stageType);
+    if (!stage) {
+      throw Error(`Cannot finalize a stage of type ${stageType}, because the tourney has none.`);
+    }
+    if (stage.status !== TourneyPhaseStatus.finalized) {
+      throw Error(`Cannot process finalization event because the stage ${stageType} is not finalized.`);
+    }
+    return stage;
   }
 
   prepareStage(tourney: Tourney, stageType: TourneyEliminationStageType, playerPairs: string[][]) {
