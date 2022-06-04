@@ -1,14 +1,3 @@
-import { Match } from './match';
-import { TourneyPhaseStatus } from './tourney-phase-status';
-
-export interface TourneyDoubleEliminationStage {
-  type: TourneyDoubleEliminationStageType;
-  title: string;
-  players: string[];
-  matches: Match[];
-  status: TourneyPhaseStatus;
-}
-
 export enum TourneyDoubleEliminationStageType {
   Final = 30,
   WinnerFinal = 26,

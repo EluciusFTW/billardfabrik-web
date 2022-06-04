@@ -1,13 +1,14 @@
 import { Component, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
 import { MatTableDataSource } from '@angular/material/table';
 import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { MatchPlayer } from '../models/match-player';
-import { TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { DoubleEliminationStageFinalizedEvent, ScoreChangedEvent, SingleEliminationStageFinalizedEvent, TourneyPhaseEvent } from '../models/tourney-phase-event';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
-import { TourneyDoubleEliminationStage } from '../models/tourney-double-elimination-stage';
+import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
+import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage-type';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
@@ -17,10 +18,10 @@ import { TourneyDoubleEliminationStage } from '../models/tourney-double-eliminat
 export class TourneyEliminationStageComponent {
 
   @Input()
-  stage: TourneyEliminationStage | TourneyDoubleEliminationStage
+  stage: TourneyEliminationStage
 
   @Output()
-  change: EventEmitter<any> = new EventEmitter();
+  change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   // this.stage?.matches
   matches = new MatTableDataSource<Match>([]);
@@ -59,12 +60,12 @@ export class TourneyEliminationStageComponent {
 
   plus(player: MatchPlayer): void {
     player.points++;
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit(new ScoreChangedEvent());
   }
 
   minus(player: MatchPlayer): void {
     player.points--;
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit(new ScoreChangedEvent());
   }
 
   allGamesOver(): boolean {
@@ -83,7 +84,11 @@ export class TourneyEliminationStageComponent {
       .filter(match => match.status !== MatchStatus.cancelled)
       .forEach(match => match.status = MatchStatus.done);
 
-    this.change.emit(TourneyPhaseEvent.eliminationStageFinalized);
+    const event = this.stage.eliminationType == 'Single'
+      ? new SingleEliminationStageFinalizedEvent(this.stage.type as TourneyEliminationStageType)
+      : new DoubleEliminationStageFinalizedEvent(this.stage.type as TourneyDoubleEliminationStageType)
+
+    this.change.emit(event);
   }
 
   canHandleTourney(): boolean {

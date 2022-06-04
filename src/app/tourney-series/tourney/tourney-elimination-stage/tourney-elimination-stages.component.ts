@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Tourney } from '../../models/tourney';
-import { TourneyPhaseStatus } from "../../models/tourney-phase-status";
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 
 @Component({
@@ -14,7 +13,7 @@ export class TourneyEliminationStagesComponent {
   tourney: Tourney;
 
   @Output()
-  change: EventEmitter<any> = new EventEmitter();
+  change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   emitChange(event: TourneyPhaseEvent): void {
     this.change.emit(event);

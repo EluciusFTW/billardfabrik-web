@@ -9,7 +9,7 @@ import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dia
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
-import { TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { CreationEvent } from '../models/tourney-phase-event';
 import { TourneyMode } from '../models/tourney-mode';
 
 @Component({
@@ -74,7 +74,7 @@ export class CreateTourneyComponent {
   }
 
   submitSelected(s: any[]): void {
-    this.tourney = this.createTourneyService.create(
+    this.tourney = this.createTourneyService.createSingle(
       {
         players: s.map(e => this.displayName(e.value)),
         nrOfGroups: this.nrOfGroupsSelected,
@@ -84,11 +84,11 @@ export class CreateTourneyComponent {
         mode: TourneyMode.GruopsThenSingleElimination
       });
 
-    this.tourneysService.update(this.tourney, TourneyPhaseEvent.created);
+    this.tourneysService.update(this.tourney, new CreationEvent());
   }
 
   displayName(player: TourneyPlayer): string {
-    return player.firstName + ' ' + player.lastName;
+    return `${player.firstName} ${player.lastName}`;
   }
 
   ngOnDestroy() {

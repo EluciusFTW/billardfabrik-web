@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Tourney } from '../../models/tourney';
-import { TourneyEliminationStageType } from '../../models/tourney-elimination-stage';
 import { DoubleEliminationTourneyInfo } from '../../models/tourney-info';
+import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
 import { DoubleEliminationStageCreationService } from './double-elimination-stage-creation.service';
 import { SingleEliminationCreationService } from './single-elimination-creation.service';
 

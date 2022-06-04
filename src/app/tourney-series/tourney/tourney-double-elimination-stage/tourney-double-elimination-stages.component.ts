@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Tourney } from '../../models/tourney';
-import { TourneyDoubleEliminationStage, TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage';
+import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
+import { TourneyEliminationStage } from '../../models/tourney-elimination-stage';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 
 @Component({
@@ -16,15 +17,15 @@ export class TourneyDoubleEliminationStagesComponent {
   @Output()
   change: EventEmitter<any> = new EventEmitter();
 
-  winnerStages(): TourneyDoubleEliminationStage[] {
+  winnerStages(): TourneyEliminationStage[] {
     return this.tourney?.doubleEliminationStages?.filter(stage => TourneyDoubleEliminationStageType.isWinnerStage(stage.type));
   }
 
-  looserStages(): TourneyDoubleEliminationStage[] {
+  looserStages(): TourneyEliminationStage[] {
     return this.tourney?.doubleEliminationStages?.filter(stage => TourneyDoubleEliminationStageType.isLooserStage(stage.type));
   }
 
-  entryStage(): TourneyDoubleEliminationStage {
+  entryStage(): TourneyEliminationStage {
     return this.tourney?.doubleEliminationStages?.filter(stage => TourneyDoubleEliminationStageType.isEntryStage(stage.type))[0];
   }
 

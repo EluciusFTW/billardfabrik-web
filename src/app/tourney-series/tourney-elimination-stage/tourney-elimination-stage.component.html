@@ -21,15 +21,11 @@
         <ng-container matColumnDef="score">
           <mat-header-cell *matHeaderCellDef> Spielstand </mat-header-cell>
           <mat-cell *matCellDef="let item">
-            <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(1, item)"
-              (click)="plus(item.playerOne)">+</button>
-            <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(1, item)" (click)="minus(item.playerOne)"
-              style="margin-left: 10px; margin-right: 20px;">-</button>
+            <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(1, item)" (click)="plus(item.playerOne)">+</button>
+            <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(1, item)" (click)="minus(item.playerOne)" style="margin-left: 10px; margin-right: 20px;">-</button>
             {{item.playerOne.points}} : {{item.playerTwo.points}}
-            <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(2, item)" (click)="plus(item.playerTwo)"
-              style="margin-left: 20px; margin-right: 10px;">+</button>
-            <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(2, item)"
-              (click)="minus(item.playerTwo)">-</button>
+            <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(2, item)" (click)="plus(item.playerTwo)" style="margin-left: 20px; margin-right: 10px;">+</button>
+            <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(2, item)" (click)="minus(item.playerTwo)">-</button>
           </mat-cell>
         </ng-container>
 

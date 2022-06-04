@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DoubleEliminationTourneyInfo, GroupsThenSingleEliminationTourneyInfo, TourneyInfo } from '../../models/tourney-info';
-import { Tourney } from '../../models/tourney';
 import { TourneyMeta } from '../../models/tourney-meta';
 import { TourneyStatus } from '../../models/tourney-status';
-import { TourneyMode } from '../../models/tourney-mode';
 import { GroupsThenSingleEliminationCreationService } from './groups-then-single-elimination-creation.service';
 import { DoubleEliminationCreationService } from './double-elimination-creation.service';
 
@@ -15,13 +13,16 @@ export class TourneyCreationService {
     private double: DoubleEliminationCreationService) {
   }
 
-  create(info: TourneyInfo): Tourney {
-    let tourney = info.mode === TourneyMode.GruopsThenSingleElimination
-      ? this.single.create(info as GroupsThenSingleEliminationTourneyInfo)
-      : this.double.create(info as DoubleEliminationTourneyInfo);
-
+  createSingle(info:GroupsThenSingleEliminationTourneyInfo){
     return {
-      ...tourney,
+      ... this.single.create(info),
+      meta: this.buildMeta(info)
+    }
+  }
+
+  createDouble(info:DoubleEliminationTourneyInfo){
+    return {
+      ... this.double.create(info),
       meta: this.buildMeta(info)
     }
   }

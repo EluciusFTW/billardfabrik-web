@@ -1,7 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status';
-import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
+import { ResultsPostProcessedEvent, ScoreChangedEvent, StartEvent, TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { PoolDisciplineMapper } from '../../models/pool-discipline';
 import { TourneyEvaluationService } from '../../services/tourney-evaluation-service';
 import { TourneyStatisticsService } from '../../services/tourney-statistics.service';
@@ -48,7 +48,7 @@ export class TourneySummaryComponent {
         name => {
           if (name) {
             this.modificationService.injectPlayer(this.tourney, name);
-            this.change.emit(TourneyPhaseEvent.scoreChanged);
+            this.change.emit(new ScoreChangedEvent());
           }
         }
       )
@@ -95,7 +95,7 @@ export class TourneySummaryComponent {
       if (result) {
         result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
       }
-      this.change.emit(TourneyPhaseEvent.resultsPostProcessed);
+      this.change.emit(new ResultsPostProcessedEvent());
     }
   }
 
@@ -114,6 +114,6 @@ export class TourneySummaryComponent {
   }
 
   start(): void {
-    this.change.emit(TourneyPhaseEvent.started);
+    this.change.emit(new StartEvent());
   }
 }

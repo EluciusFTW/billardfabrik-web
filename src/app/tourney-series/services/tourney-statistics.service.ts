@@ -4,7 +4,7 @@ import { MatchType } from '../models/match-type';
 import { MatchPlayer } from '../models/match-player';
 import { MatchStatus } from '../models/match-status';
 import { Tourney } from '../models/tourney';
-import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/tourney-elimination-stage';
+import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
 import { TourneyEvaluation } from '../models/evaluation/tourney-evaluation';
 import { PlacementRecord } from '../models/evaluation/placement-record';
 import { PlayerMatchRecord } from '../models/evaluation/player-match-record';
@@ -14,6 +14,7 @@ import { TourneyMeta } from '../models/tourney-meta';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyStatus } from '../models/tourney-status';
 import { TourneyPointsService } from './tourney-points.service';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 
 @Injectable()
 export class TourneyStatisticsService {
@@ -21,21 +22,22 @@ export class TourneyStatisticsService {
   constructor(private pointsService: TourneyPointsService) { }
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {
-    if (tourney.meta.status !== TourneyStatus.completed) {
-      return { players: [] };
-    }
+    throw Error('Not upgraded yet!');
+    // if (tourney.meta.status !== TourneyStatus.completed) {
+    //   return { players: [] };
+    // }
 
-    const matchesByPlayer = this.GetMachesByPlayer(tourney);
-    const placementsByPlayer = this.GetPlacementsByPlayer(tourney);
+    // const matchesByPlayer = this.GetMachesByPlayer(tourney);
+    // const placementsByPlayer = this.GetPlacementsByPlayer(tourney);
 
-    return {
-      players: [...matchesByPlayer.keys()]
-        .map(player => ({
-          name: player,
-          matches: matchesByPlayer.get(player),
-          placement: placementsByPlayer.get(player)
-        })),
-    }
+    // return {
+    //   players: [...matchesByPlayer.keys()]
+    //     .map(player => ({
+    //       name: player,
+    //       matches: matchesByPlayer.get(player),
+    //       placement: placementsByPlayer.get(player)
+    //     })),
+    // }
   }
 
   private GetPlacementsByPlayer(tourney: Tourney): Map<string, PlacementRecord> {

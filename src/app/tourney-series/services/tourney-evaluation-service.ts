@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Match } from '../models/match';
 import { MatchStatus } from '../models/match-status';
 import { Tourney } from '../models/tourney';
-import { TourneyEliminationStageType } from '../models/tourney-elimination-stage';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 
 
 @Injectable()

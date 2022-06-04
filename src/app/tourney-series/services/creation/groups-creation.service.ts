@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
 import { MatchPlayer } from '../../models/match-player';
-import { MatchStatus } from '../../models/match-status';
 import { TourneyGroup } from '../../models/tourney-group';
-import { TourneyInfo } from '../../models/tourney-info';
+import { GroupsThenSingleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 
 @Injectable()
 export class GroupsCreationService {
 
-  create(info: TourneyInfo): TourneyGroup[] {
+  create(info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
     let randomOrderedPlayers = this.reOrderRandomly(info.players);
     return this.buildGroups(randomOrderedPlayers, info);
   }
@@ -24,7 +23,7 @@ export class GroupsCreationService {
     return randomOrderedPlayers;
   }
 
-  private buildGroups(players: string[], info: TourneyInfo): TourneyGroup[] {
+  private buildGroups(players: string[], info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
     let groups: TourneyGroup[] = [];
     let groupSize = Math.ceil(players.length / info.nrOfGroups);
     let groupNumber = 1
@@ -45,7 +44,7 @@ export class GroupsCreationService {
     return groups;
   }
 
-  private buildMatches(players: string[], info: TourneyInfo): Match[] {
+  private buildMatches(players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match[] {
     var listings = this.listings(players.length);
     return listings.map(listing => this.ToMatch(listing, players, info));
   }
@@ -83,7 +82,7 @@ export class GroupsCreationService {
     }
   }
 
-  private ToMatch(listing: number[], players: string[], info: TourneyInfo): Match {
+  private ToMatch(listing: number[], players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match {
     return new Match(
       MatchPlayer.From(players[listing[0] - 1]),
       MatchPlayer.From(players[listing[1] - 1]),

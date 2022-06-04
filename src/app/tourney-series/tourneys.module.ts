@@ -37,7 +37,6 @@ import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-doubl
 import { TourneyGroupStageFinalizedService } from './services/tourney-group-stage-finalized.service';
 import { TourneyEliminationStageFinalizedService } from './services/tourney-elimination-stage-finalized.service';
 import { TourneyModificationService } from './services/tourney-modification.service';
-import { TourneyDoubleEliminationStageComponent } from './tourney-double-elimination-stage/tourney-double-elimination-stage.component';
 import { CreatingMockTourneysService } from './services/dev/creating-mock-tourneys.service';
 import { SingleEliminationCreationService } from './services/creation/single-elimination-creation.service';
 import { DoubleEliminationCreationService } from './services/creation/double-elimination-creation.service';
@@ -72,8 +71,7 @@ import { EliminationMatchesCreationService } from './services/creation/eliminati
     TourneySeriesOverviewComponent,
     TourneysLandingPageComponent,
     TourneyAchievementsComponent,
-    TourneyDoubleEliminationStagesComponent,
-    TourneyDoubleEliminationStageComponent
+    TourneyDoubleEliminationStagesComponent
   ],
   entryComponents: [
     TourneyPlayerCreateDialogComponent,

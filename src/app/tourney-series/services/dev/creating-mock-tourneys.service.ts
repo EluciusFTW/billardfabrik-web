@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { PoolDiscipline } from '../../models/pool-discipline';
 import { Tourney } from '../../models/tourney';
-import { TourneyEliminationStageType } from '../../models/tourney-elimination-stage';
-import { DoubleEliminationTourneyInfo, GroupsThenSingleEliminationTourneyInfo, TourneyInfo } from '../../models/tourney-info';
+import { DoubleEliminationTourneyInfo, GroupsThenSingleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyMode } from '../../models/tourney-mode';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
+import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
 import { TourneyCreationService } from '../creation/tourney-creation.service';
 
 @Injectable()
@@ -14,14 +14,14 @@ export class CreatingMockTourneysService {
   constructor(private tcs: TourneyCreationService) { }
 
   get(id: any): Observable<Tourney> {
-    let info = id % 2 == 0
-      ? this.getDoubleEliminationTourneyInfo(id)
-      : this.getTourneyInfo(id);
+    let tourney = id % 2 == 0
+      ? this.tcs.createDouble(this.getDoubleEliminationTourneyInfo(id))
+      : this.tcs.createSingle(this.getTourneyInfo(id));
 
-    return of(this.tcs.create(info));
+      return of(tourney);
   }
 
-  private getDoubleEliminationTourneyInfo(nr: number): TourneyInfo {
+  private getDoubleEliminationTourneyInfo(nr: number): DoubleEliminationTourneyInfo {
     return {
       players: this.getPlayers(nr),
       raceLength: 2,
@@ -32,7 +32,7 @@ export class CreatingMockTourneysService {
     } as DoubleEliminationTourneyInfo;
   }
 
-  private getTourneyInfo(nr: number): TourneyInfo {
+  private getTourneyInfo(nr: number): GroupsThenSingleEliminationTourneyInfo {
     return {
       players: this.getPlayers(nr),
       raceLength: 4,

@@ -1,11 +1,11 @@
-import { TourneyDoubleEliminationStageType } from "./tourney-double-elimination-stage";
-import { TourneyEliminationStageType } from "./tourney-elimination-stage"
+import { TourneyDoubleEliminationStageType } from "./tourney-double-elimination-stage-type";
+import { TourneyEliminationStageType } from "./tourney-single-elimination-stage-type";
 
-export type EventType =
+type EventType =
   | 'Created'
   | 'Started'
   | 'ScoreChanged'
-  | 'GroupStageFinalized'
+  | 'GroupFinalized'
   | 'SingleEliminationStageFinalized'
   | 'DoubleEliminationStageFinalized'
   | 'ResultsPostProcessed'
@@ -26,38 +26,39 @@ export class ScoreChangedEvent extends TourneyEventBase {
   type: 'ScoreChanged';
 }
 
-export class GroupStageFinalizedEvent extends TourneyEventBase {
-  type: 'GroupStageFinalized';
+export class GroupFinalizedEvent extends TourneyEventBase {
+  type: 'GroupFinalized';
 }
 
 export class SingleEliminationStageFinalizedEvent extends TourneyEventBase {
   type: 'SingleEliminationStageFinalized';
   stage: TourneyEliminationStageType;
+
+  constructor(stage: TourneyEliminationStageType) {
+    super();
+    this.stage = stage;
+  }
 }
 
 export class DoubleEliminationStageFinalizedEvent extends TourneyEventBase {
   type: 'DoubleEliminationStageFinalized';
   stage: TourneyDoubleEliminationStageType;
+
+  constructor(stage: TourneyDoubleEliminationStageType) {
+    super();
+    this.stage = stage;
+  }
 }
 
 export class ResultsPostProcessedEvent extends TourneyEventBase {
   type: 'ResultsPostProcessed';
 }
 
-export type TPE =
+export type TourneyPhaseEvent =
   | CreationEvent
   | StartEvent
   | ScoreChangedEvent
-  | GroupStageFinalizedEvent
+  | GroupFinalizedEvent
   | DoubleEliminationStageFinalizedEvent
   | SingleEliminationStageFinalizedEvent
   | ResultsPostProcessedEvent
-
-export enum TourneyPhaseEvent{
-    created = 0,
-    started = 1,
-    scoreChanged = 2,
-    groupStageFinalized = 3,
-    eliminationStageFinalized = 4,
-    resultsPostProcessed = 5
-}

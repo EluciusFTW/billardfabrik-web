@@ -5,7 +5,7 @@ import { Match } from '../models/match';
 import { MatchPlayer } from "../models/match-player";
 import { TourneyGroup } from '../models/tourney-group';
 import { TourneyPhaseStatus } from "../models/tourney-phase-status";
-import { TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { GroupFinalizedEvent, ScoreChangedEvent, TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyStandingCalculationService } from '../services/tourney-standing-calculation.service';
 import { MatchStatus } from '../models/match-status';
 // import { UserService } from 'src/app/authenticated-area/user.service';
@@ -21,7 +21,7 @@ export class TourneyGroupComponent implements OnChanges {
   group: TourneyGroup
 
   @Output()
-  change: EventEmitter<any> = new EventEmitter();
+  change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score', 'cancel'];
@@ -79,12 +79,12 @@ export class TourneyGroupComponent implements OnChanges {
     match.playerTwo.points = 0;
     match.status = MatchStatus.cancelled;
     this.calculateTotals();
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit(new ScoreChangedEvent());
   }
 
   uncancel(match: Match): void {
     match.status = MatchStatus.notStarted;
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit(new ScoreChangedEvent());
   }
 
   plusDisabled(who: number, match: Match): boolean {
@@ -121,13 +121,13 @@ export class TourneyGroupComponent implements OnChanges {
   plus(player: MatchPlayer): void {
     player.points++;
     this.calculateTotals();
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit(new ScoreChangedEvent());
   }
 
   minus(player: MatchPlayer): void {
     player.points--;
     this.calculateTotals();
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit(new ScoreChangedEvent());
   }
 
   allGamesOver(): boolean {
@@ -150,7 +150,7 @@ export class TourneyGroupComponent implements OnChanges {
       .slice(0, 2)
       .map(row => row.name);
 
-    this.change.emit(TourneyPhaseEvent.groupStageFinalized);
+    this.change.emit(new GroupFinalizedEvent());
   }
 
   private calculateTotals(): void {

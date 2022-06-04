@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Tourney } from '../../models/tourney';
-import { TourneyEliminationStageType } from '../../models/tourney-elimination-stage';
 import { GroupsThenSingleEliminationTourneyInfo, TourneyInfo } from '../../models/tourney-info';
 import { TourneyMode } from '../../models/tourney-mode';
+import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
 import { GroupsCreationService } from './groups-creation.service';
 import { SingleEliminationCreationService } from './single-elimination-creation.service';
 
@@ -21,7 +21,7 @@ export class GroupsThenSingleEliminationCreationService {
     }
   }
 
-  private determineStartingStage(info: TourneyInfo): TourneyEliminationStageType {
+  private determineStartingStage(info: GroupsThenSingleEliminationTourneyInfo): TourneyEliminationStageType {
     if (info.mode === TourneyMode.GruopsThenSingleElimination) {
       return info.nrOfGroups === 8
         ? TourneyEliminationStageType.last32

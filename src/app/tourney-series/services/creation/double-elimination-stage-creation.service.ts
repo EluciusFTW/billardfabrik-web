@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatchPlayer } from '../../models/match-player';
-import { TourneyDoubleEliminationStage, TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage';
+import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
+import { DoubleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
 import { DoubleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { EliminationMatchesCreationService } from './elimination-matches-creation.service';
@@ -10,7 +11,7 @@ export class DoubleEliminationStageCreationService {
 
   constructor(private eliminationCreationService: EliminationMatchesCreationService) {  }
 
-  create(info: DoubleEliminationTourneyInfo, playersRemaining: number): TourneyDoubleEliminationStage[] {
+  create(info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
 
     let entryStage = TourneyDoubleEliminationStageType.startingStage(info.players.length);
     return [
@@ -20,9 +21,10 @@ export class DoubleEliminationStageCreationService {
     ]
   }
 
-  private getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): TourneyDoubleEliminationStage {
+  private getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): DoubleEliminationEliminationStage {
     return {
       type: entryStage,
+      eliminationType: "Double",
       title: TourneyDoubleEliminationStageType.map(entryStage),
       players: info.players,
       matches: this.eliminationCreationService.getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
@@ -30,7 +32,7 @@ export class DoubleEliminationStageCreationService {
     }
   }
 
-  private getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): TourneyDoubleEliminationStage[] {
+  private getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
     return this.fillStages(
       TourneyDoubleEliminationStageType
         .getWinnerStages()
@@ -39,7 +41,7 @@ export class DoubleEliminationStageCreationService {
       info);
   }
 
-  private getLooserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): TourneyDoubleEliminationStage[] {
+  private getLooserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
     return this.fillStages(
       TourneyDoubleEliminationStageType
         .getLooserStages()
@@ -48,7 +50,7 @@ export class DoubleEliminationStageCreationService {
       info);
   }
 
-  private fillStages(stages: TourneyDoubleEliminationStageType[], info: DoubleEliminationTourneyInfo) : TourneyDoubleEliminationStage[] {
+  private fillStages(stages: TourneyDoubleEliminationStageType[], info: DoubleEliminationTourneyInfo) : DoubleEliminationEliminationStage[] {
     return stages
       .map(stage => ({
         stage,
@@ -56,6 +58,7 @@ export class DoubleEliminationStageCreationService {
       }))
       .map(stageWithPlayers => ({
         type: stageWithPlayers.stage,
+        eliminationType: "Double",
         title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
         players: stageWithPlayers.players,
         matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),

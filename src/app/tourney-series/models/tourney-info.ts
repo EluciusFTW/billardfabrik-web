@@ -1,10 +1,9 @@
 import { PoolDiscipline } from './pool-discipline';
-import { TourneyEliminationStageType } from './tourney-elimination-stage';
 import { TourneyMode } from './tourney-mode';
+import { TourneyEliminationStageType } from './tourney-single-elimination-stage-type';
 
 export interface TourneyInfo {
   players: string[];
-  nrOfGroups: number;
   raceLength: number;
   discipline: PoolDiscipline;
   mode: TourneyMode;
