@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
 import { Tourney } from '../../models/tourney';
+import { SingleEliminationStageFinalizedEvent } from '../../models/tourney-phase-event';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
 import { TourneyStatus } from '../../models/tourney-status';
@@ -8,7 +9,7 @@ import { TourneyStatus } from '../../models/tourney-status';
 @Injectable()
 export class SingleEliminationStageFinalizedService {
 
-  handle(tourney: Tourney): void {
+  handle(tourney: Tourney, stage: TourneyEliminationStageType): void {
     let finalizedStageIndex = tourney.eliminationStages.findIndex(stage => stage.status !== TourneyPhaseStatus.finalized) - 1;
     if (finalizedStageIndex < 0) {
       tourney.meta.status = TourneyStatus.completed

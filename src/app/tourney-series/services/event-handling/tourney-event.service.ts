@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tourney } from '../../models/tourney';
-import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
+import { DoubleEliminationStageFinalizedEvent, SingleEliminationStageFinalizedEvent, TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { TourneyStatus } from '../../models/tourney-status';
 import { SingleEliminationStageFinalizedService } from './single-elimination-stage-finalized.service';
@@ -27,11 +27,13 @@ export class TourneyEventService {
         return;
       }
       case 'SingleEliminationStageFinalized' : {
-        this.eliminationStageFinalizedService.handle(tourney);
+        const finalizedStage = (event as SingleEliminationStageFinalizedEvent).stage;
+        this.eliminationStageFinalizedService.handle(tourney, finalizedStage);
         return;
       }
       case 'DoubleEliminationStageFinalized' : {
-        this.doubleEliminationStageFinalizedService.handle(tourney);
+        const finalizedStage = (event as DoubleEliminationStageFinalizedEvent).stage;
+        this.doubleEliminationStageFinalizedService.handle(tourney, finalizedStage);
         return;
       }
 
