@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Match } from '../models/match';
-import { Tourney } from '../models/tourney';
-import { TourneyPhaseStatus } from '../models/tourney-phase-status';
-import { TourneyStandingCalculationService } from './tourney-standing-calculation.service';
+import { Match } from '../../models/match';
+import { Tourney } from '../../models/tourney';
+import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
+import { TourneyStandingCalculationService } from '../tourney-standing-calculation.service';
 
 @Injectable()
-export class TourneyGroupStageFinalizedService {
+export class GroupStageFinalizedService {
 
   constructor(private standingsCalculator: TourneyStandingCalculationService) { }
 

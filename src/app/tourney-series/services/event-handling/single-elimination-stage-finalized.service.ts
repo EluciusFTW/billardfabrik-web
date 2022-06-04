@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Match } from '../models/match';
-import { Tourney } from '../models/tourney';
-import { TourneyPhaseStatus } from '../models/tourney-phase-status';
-import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
-import { TourneyStatus } from '../models/tourney-status';
+import { Match } from '../../models/match';
+import { Tourney } from '../../models/tourney';
+import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
+import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
+import { TourneyStatus } from '../../models/tourney-status';
 
 @Injectable()
-export class TourneyEliminationStageFinalizedService {
+export class SingleEliminationStageFinalizedService {
 
   handle(tourney: Tourney): void {
     let finalizedStageIndex = tourney.eliminationStages.findIndex(stage => stage.status !== TourneyPhaseStatus.finalized) - 1;

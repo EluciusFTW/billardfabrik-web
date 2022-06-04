@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
-import { TourneyEventService } from './tourney-event.service';
+import { TourneyEventService } from './event-handling/tourney-event.service';
 
 const DB_TOURNEYS_LPATH = 'tourneySeries/tourneys';
 

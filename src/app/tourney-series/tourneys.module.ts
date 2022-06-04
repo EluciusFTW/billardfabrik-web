@@ -20,7 +20,7 @@ import { TourneysService } from './services/tourneys.service';
 
 import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
 import { TourneyEliminationStageComponent } from './tourney-elimination-stage/tourney-elimination-stage.component';
-import { TourneyEventService } from './services/tourney-event.service';
+import { TourneyEventService } from './services/event-handling/tourney-event.service';
 import { TourneyStandingCalculationService } from './services/tourney-standing-calculation.service';
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
@@ -34,8 +34,8 @@ import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourne
 import { TourneySeriesRoutingModule } from './tourneys-routing.module';
 import { TourneyAchievementsComponent } from './tourney-achievements/tourney-achievements.component';
 import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
-import { TourneyGroupStageFinalizedService } from './services/tourney-group-stage-finalized.service';
-import { TourneyEliminationStageFinalizedService } from './services/tourney-elimination-stage-finalized.service';
+import { GroupStageFinalizedService } from './services/event-handling/group-stage-finalized.service';
+import { SingleEliminationStageFinalizedService } from './services/event-handling/single-elimination-stage-finalized.service';
 import { TourneyModificationService } from './services/tourney-modification.service';
 import { CreatingMockTourneysService } from './services/dev/creating-mock-tourneys.service';
 import { SingleEliminationCreationService } from './services/creation/single-elimination-creation.service';
@@ -44,6 +44,7 @@ import { GroupsThenSingleEliminationCreationService } from './services/creation/
 import { DoubleEliminationStageCreationService } from './services/creation/double-elimination-stage-creation.service';
 import { GroupsCreationService } from './services/creation/groups-creation.service';
 import { EliminationMatchesCreationService } from './services/creation/elimination-matches-creation.service';
+import { DoubleEliminationStageFinalizedService } from './services/event-handling/double-elimination-stage-finalized.service';
 
 
 
@@ -89,8 +90,9 @@ import { EliminationMatchesCreationService } from './services/creation/eliminati
     // TourneysService,
     { provide: TourneysService, useClass: CreatingMockTourneysService },
     TourneyEventService,
-    TourneyGroupStageFinalizedService,
-    TourneyEliminationStageFinalizedService,
+    GroupStageFinalizedService,
+    SingleEliminationStageFinalizedService,
+    DoubleEliminationStageFinalizedService,
     TourneyStandingCalculationService,
     TourneyEvaluationService,
     TourneyStatisticsService,

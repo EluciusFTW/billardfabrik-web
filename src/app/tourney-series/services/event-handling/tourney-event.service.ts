@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Tourney } from '../models/tourney';
-import { TourneyPhaseEvent } from '../models/tourney-phase-event';
-import { TourneyPhaseStatus } from '../models/tourney-phase-status';
-import { TourneyStatus } from '../models/tourney-status';
-import { TourneyEliminationStageFinalizedService } from './tourney-elimination-stage-finalized.service';
-import { TourneyGroupStageFinalizedService } from './tourney-group-stage-finalized.service';
+import { Tourney } from '../../models/tourney';
+import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
+import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
+import { TourneyStatus } from '../../models/tourney-status';
+import { SingleEliminationStageFinalizedService } from './single-elimination-stage-finalized.service';
+import { GroupStageFinalizedService } from './group-stage-finalized.service';
+import { DoubleEliminationStageFinalizedService } from './double-elimination-stage-finalized.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TourneyEventService {
 
   constructor(
-    private groupStageFinalizedService: TourneyGroupStageFinalizedService,
-    private eliminationStageFinalizedService: TourneyEliminationStageFinalizedService)
+    private groupStageFinalizedService: GroupStageFinalizedService,
+    private eliminationStageFinalizedService: SingleEliminationStageFinalizedService,
+    private doubleEliminationStageFinalizedService: DoubleEliminationStageFinalizedService)
   { }
 
   apply(tourney: Tourney, event: TourneyPhaseEvent): void {
@@ -31,7 +31,7 @@ export class TourneyEventService {
         return;
       }
       case 'DoubleEliminationStageFinalized' : {
-        this.eliminationStageFinalizedService.handle(tourney);
+        this.doubleEliminationStageFinalizedService.handle(tourney);
         return;
       }
 
