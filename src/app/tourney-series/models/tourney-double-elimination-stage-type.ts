@@ -87,11 +87,9 @@ export namespace TourneyDoubleEliminationStageType {
   }
 
   export function looserAdvancesTo(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageType {
-    return isEntryStage(stageType)
+    return isEntryStage(stageType) || isWinnerStage(stageType)
       ? stageType + 1
-      : isWinnerStage(stageType)
-        ? stageType - 1
-        : NaN
+      : NaN;
   }
 
   export function getWinnerStages(): TourneyDoubleEliminationStageType[] {
@@ -143,7 +141,7 @@ export namespace TourneyDoubleEliminationStageType {
       case 0: return Math.pow(2, 8 - stageType / 4);
       case 1: return Math.pow(2, 8 - (stageType + 3) / 4);
       case 2: return Math.pow(2, 8 - (stageType + 2) / 4);
-      case 3: return Math.pow(2, 8 - (stageType + 1) / 4) - Math.pow(2, 7 - (stageType + 5) / 4);
+      case 3: return Math.pow(2, 8 - (stageType + 3) / 4) - Math.pow(2, 7 - (stageType + 5) / 4);
     }
     return 0;
   }

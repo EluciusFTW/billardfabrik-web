@@ -16,9 +16,8 @@ export class DoubleEliminationStageFinalizedService {
     const nextStageForWinners = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.winnerAdvancesTo(finalizedStageType));
     const nextStageForLoosers = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.looserAdvancesTo(finalizedStageType));
 
-    if (nextStageForWinners && !nextStageForLoosers) {
-      throw Error('Tourney has a next DE stage for winners, but not for loosers.');
-    }
+    console.log('Next Winner: ', nextStageForWinners);
+    console.log('Next Looser: ', nextStageForLoosers);
 
     let winners = stage.matches.map(match => MatchPlayer.From(match.winner().name));
     if (nextStageForWinners) {
@@ -30,13 +29,19 @@ export class DoubleEliminationStageFinalizedService {
             match.playerTwo = winners[2 * index + 1]
           });
           break;
-        case TourneyDoubleEliminationStageKind.Looser: break;
+        case TourneyDoubleEliminationStageKind.Looser:
+          nextStageForWinners.matches.forEach((match, index) => {
+            match.playerOne = winners[2 * index]
+            match.playerTwo = winners[2 * index + 1]
+          });
+          break;
       }
     }
 
     // If there is a next stage for winners, there should always be one for loosers, too.
     if (nextStageForLoosers) {
       let loosers = stage.matches.map(match => MatchPlayer.From(match.looser().name));
+      console.log('Loosers: ', loosers);
       switch (stageKind) {
         case TourneyDoubleEliminationStageKind.Entry:
           nextStageForLoosers.matches.forEach((match, index) => {
@@ -55,7 +60,7 @@ export class DoubleEliminationStageFinalizedService {
     }
 
     // If there is no next stages in the DE stage, then the winners advance to SE and the phase is completed
-    if (!nextStageForLoosers && !nextStageForWinners) {
+    if (!nextStageForWinners) {
       tourney.eliminationStages[0].matches
         .forEach((match, index) => stageKind === TourneyDoubleEliminationStageKind.Winner
           ? match.playerOne = winners[index]

@@ -10,47 +10,33 @@ type EventType =
   | 'DoubleEliminationStageFinalized'
   | 'ResultsPostProcessed'
 
-export abstract class TourneyEventBase {
-  abstract type: EventType
-}
-
-export class CreationEvent extends TourneyEventBase {
+export type CreationEvent = {
   type: 'Created';
 }
 
-export class StartEvent extends TourneyEventBase {
+export type StartEvent = {
   type: 'Started';
 }
 
-export class ScoreChangedEvent extends TourneyEventBase {
+export type ScoreChangedEvent = {
   type: 'ScoreChanged';
 }
 
-export class GroupFinalizedEvent extends TourneyEventBase {
+export type GroupFinalizedEvent = {
   type: 'GroupFinalized';
 }
 
-export class SingleEliminationStageFinalizedEvent extends TourneyEventBase {
+export type SingleEliminationStageFinalizedEvent = {
   type: 'SingleEliminationStageFinalized';
   stage: TourneyEliminationStageType;
-
-  constructor(stage: TourneyEliminationStageType) {
-    super();
-    this.stage = stage;
-  }
 }
 
-export class DoubleEliminationStageFinalizedEvent extends TourneyEventBase {
+export type DoubleEliminationStageFinalizedEvent = {
   type: 'DoubleEliminationStageFinalized';
   stage: TourneyDoubleEliminationStageType;
-
-  constructor(stage: TourneyDoubleEliminationStageType) {
-    super();
-    this.stage = stage;
-  }
 }
 
-export class ResultsPostProcessedEvent extends TourneyEventBase {
+export type ResultsPostProcessedEvent = {
   type: 'ResultsPostProcessed';
 }
 

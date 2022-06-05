@@ -60,12 +60,12 @@ export class TourneyEliminationStageComponent {
 
   plus(player: MatchPlayer): void {
     player.points++;
-    this.change.emit(new ScoreChangedEvent());
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   minus(player: MatchPlayer): void {
     player.points--;
-    this.change.emit(new ScoreChangedEvent());
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   allGamesOver(): boolean {
@@ -85,10 +85,16 @@ export class TourneyEliminationStageComponent {
       .forEach(match => match.status = MatchStatus.done);
 
     const event = this.stage.eliminationType == 'Single'
-      ? new SingleEliminationStageFinalizedEvent(this.stage.type as TourneyEliminationStageType)
-      : new DoubleEliminationStageFinalizedEvent(this.stage.type as TourneyDoubleEliminationStageType)
+      ? ({
+        type: 'SingleEliminationStageFinalized',
+        stage: this.stage.type as TourneyEliminationStageType
+      })
+      : ({
+        type: 'DoubleEliminationStageFinalized',
+        stage: this.stage.type as TourneyDoubleEliminationStageType
+      })
 
-    this.change.emit(event);
+    this.change.emit(event as TourneyPhaseEvent);
   }
 
   canHandleTourney(): boolean {

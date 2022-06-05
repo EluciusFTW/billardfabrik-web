@@ -8,31 +8,36 @@ export class Match {
   discipline: PoolDiscipline;
   length: number;
   status: MatchStatus;
+  walk: string;
 
   constructor(playerOne: MatchPlayer, playerTwo: MatchPlayer, discipline: PoolDiscipline, length: number) {
     this.playerOne = playerOne;
     this.playerTwo = playerTwo;
     this.discipline = discipline;
     this.length = length;
-    this.status = MatchStatus.notStarted;
+    this.walk = MatchPlayer.Walk().name;
+
+    this.status = playerOne.name === this.walk || playerTwo.name === this.walk
+      ? MatchStatus.done
+      : MatchStatus.notStarted
   }
 
-  static placeHolder(discipline: PoolDiscipline, length: number): Match{
+  static placeHolder(discipline: PoolDiscipline, length: number): Match {
     return new Match(MatchPlayer.Unknown(), MatchPlayer.Unknown(), discipline, length);
   }
 
   looser(): MatchPlayer {
     return this.playerOne.points === this.length
-    ? this.playerOne
-    : this.playerTwo.points === this.length
       ? this.playerTwo
-      : null;
+      : this.playerTwo.points === this.length
+        ? this.playerOne
+        : null;
   }
 
   winner(): MatchPlayer {
-    return this.playerOne.points === this.length
+    return this.playerOne.points === this.length || this.playerTwo.name === this.walk
       ? this.playerOne
-      : this.playerTwo.points === this.length
+      : this.playerTwo.points === this.length || this.playerOne.name === this.walk
         ? this.playerTwo
         : null;
   }
@@ -42,6 +47,8 @@ export class Match {
   }
 
   isOver(): boolean {
-    return this.playerOne.points >= this.length || this.playerTwo.points >= this.length;
+    return this.status === MatchStatus.done
+      || this.playerOne.points >= this.length
+      || this.playerTwo.points >= this.length;
   }
 }

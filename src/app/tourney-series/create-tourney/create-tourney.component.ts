@@ -84,7 +84,7 @@ export class CreateTourneyComponent {
         mode: TourneyMode.GruopsThenSingleElimination
       });
 
-    this.tourneysService.update(this.tourney, new CreationEvent());
+    this.tourneysService.update(this.tourney, { type: 'Created' });
   }
 
   displayName(player: TourneyPlayer): string {

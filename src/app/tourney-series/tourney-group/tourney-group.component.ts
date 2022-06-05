@@ -79,12 +79,12 @@ export class TourneyGroupComponent implements OnChanges {
     match.playerTwo.points = 0;
     match.status = MatchStatus.cancelled;
     this.calculateTotals();
-    this.change.emit(new ScoreChangedEvent());
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   uncancel(match: Match): void {
     match.status = MatchStatus.notStarted;
-    this.change.emit(new ScoreChangedEvent());
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   plusDisabled(who: number, match: Match): boolean {
@@ -121,13 +121,13 @@ export class TourneyGroupComponent implements OnChanges {
   plus(player: MatchPlayer): void {
     player.points++;
     this.calculateTotals();
-    this.change.emit(new ScoreChangedEvent());
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   minus(player: MatchPlayer): void {
     player.points--;
     this.calculateTotals();
-    this.change.emit(new ScoreChangedEvent());
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   allGamesOver(): boolean {
@@ -150,7 +150,7 @@ export class TourneyGroupComponent implements OnChanges {
       .slice(0, 2)
       .map(row => row.name);
 
-    this.change.emit(new GroupFinalizedEvent());
+    this.change.emit({type: 'GroupFinalized'});
   }
 
   private calculateTotals(): void {
