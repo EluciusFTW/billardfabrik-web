@@ -7,11 +7,12 @@ import { TourneyMode } from '../../models/tourney-mode';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
 import { TourneyCreationService } from '../creation/tourney-creation.service';
+import { TourneyEventService } from '../event-handling/tourney-event.service';
 
 @Injectable()
 export class CreatingMockTourneysService {
 
-  constructor(private tcs: TourneyCreationService) { }
+  constructor(private tcs: TourneyCreationService, private eventService: TourneyEventService) { }
 
   get(id: any): Observable<Tourney> {
     let tourney = id % 2 == 0
@@ -24,7 +25,7 @@ export class CreatingMockTourneysService {
   private getDoubleEliminationTourneyInfo(nr: number): DoubleEliminationTourneyInfo {
     return {
       players: this.getPlayers(nr),
-      raceLength: 2,
+      raceLength: 1,
       discipline: PoolDiscipline.BankPool,
       mode: TourneyMode.DoubleElimination,
       firstEliminationStage: TourneyEliminationStageType.quarterFinal,
@@ -35,7 +36,7 @@ export class CreatingMockTourneysService {
   private getTourneyInfo(nr: number): GroupsThenSingleEliminationTourneyInfo {
     return {
       players: this.getPlayers(nr),
-      raceLength: 4,
+      raceLength: 1,
       discipline: PoolDiscipline.NineBall,
       nrOfGroups: 4,
       mode: TourneyMode.GruopsThenSingleElimination,
@@ -56,10 +57,8 @@ export class CreatingMockTourneysService {
   }
 
   update(tourney: Tourney, event: TourneyPhaseEvent): void {
-    console.log('Received update: ',  event);
+    this.eventService.apply(tourney, event);
   }
 
-  save(tourney: Tourney): void {
-    console.log('Received save');
-  }
+  save(tourney: Tourney): void { }
 }

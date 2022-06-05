@@ -17,6 +17,7 @@ export class TourneyEventService {
   { }
 
   apply(tourney: Tourney, event: TourneyPhaseEvent): void {
+    console.log('Received event: ', event);
     switch (event.type) {
       case 'Started': {
         this.startTourney(tourney);
@@ -33,10 +34,10 @@ export class TourneyEventService {
       }
       case 'DoubleEliminationStageFinalized' : {
         const finalizedStage = (event as DoubleEliminationStageFinalizedEvent).stage;
+        console.log('Received event: ', event);
         this.doubleEliminationStageFinalizedService.handle(tourney, finalizedStage);
         return;
       }
-
       case 'ResultsPostProcessed' : {
         tourney.meta.status = TourneyStatus.postProcessed;
         return;

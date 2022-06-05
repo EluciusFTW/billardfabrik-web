@@ -4,7 +4,6 @@ import { Tourney } from '../models/tourney';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 
-
 @Injectable()
 export class TourneyEvaluationService {
 

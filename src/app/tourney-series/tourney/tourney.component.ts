@@ -30,16 +30,10 @@ export class TourneyComponent implements OnDestroy {
   }
 
   hasDoubleEliminationStage(): boolean {
-    const r = (this.tourney?.doubleEliminationStages?.length ?? 0) > 0
-    console.log('DE: ', r);
-
     return (this.tourney?.doubleEliminationStages?.length ?? 0) > 0
   }
 
   hasSingleEliminationStage(): boolean {
-    const r = (this.tourney?.eliminationStages?.length ?? 0) > 0
-    console.log('SE: ', this.tourney);
-
     return (this.tourney?.eliminationStages?.length ?? 0) > 0
   }
 

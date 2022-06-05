@@ -29,6 +29,13 @@ export enum TourneyDoubleEliminationStageType {
   Entry256 = 0
 }
 
+export enum TourneyDoubleEliminationStageKind {
+  LooserWithInjection = 3,
+  Winner = 2,
+  Looser = 1,
+  Entry = 0,
+}
+
 export namespace TourneyDoubleEliminationStageType {
   const _stageStrings = [
     'Einstieg 256',
@@ -73,22 +80,36 @@ export namespace TourneyDoubleEliminationStageType {
       .map(value => +value);
   }
 
+  export function winnerAdvancesTo(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageType {
+    return isEntryStage(stageType) || isLooserStage(stageType)
+      ? stageType + 2
+      : stageType + 4
+  }
+
+  export function looserAdvancesTo(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageType {
+    return isEntryStage(stageType)
+      ? stageType + 1
+      : isWinnerStage(stageType)
+        ? stageType - 1
+        : NaN
+  }
+
   export function getWinnerStages(): TourneyDoubleEliminationStageType[] {
     return all()
-        .filter(value => value < TourneyDoubleEliminationStageType.Final)
-        .filter(value => isWinnerStage(value))
+      .filter(value => value < TourneyDoubleEliminationStageType.Final)
+      .filter(value => isWinnerStage(value))
   }
 
   export function getLooserStages(): TourneyDoubleEliminationStageType[] {
     return all()
-        .filter(value => value < TourneyDoubleEliminationStageType.Final )
-        .filter(value => isLooserStage(value))
+      .filter(value => value < TourneyDoubleEliminationStageType.Final)
+      .filter(value => isLooserStage(value))
   }
 
   export function getStartingStages(): TourneyDoubleEliminationStageType[] {
     return all()
-        .filter(value => value < TourneyDoubleEliminationStageType.Final )
-        .filter(value => isEntryStage(value))
+      .filter(value => value < TourneyDoubleEliminationStageType.Final)
+      .filter(value => isEntryStage(value))
   }
 
   export function startingStage(numberOfPlayers: number): TourneyDoubleEliminationStageType {
@@ -96,12 +117,12 @@ export namespace TourneyDoubleEliminationStageType {
       throw Error(`${numberOfPlayers} is too many players for a double elimination tourney.`)
     }
 
-    let entryStage = TourneyDoubleEliminationStageType.Entry256;
-    while (numberOfPlayersInStartingStage((entryStage + 4) as TourneyDoubleEliminationStageType) > numberOfPlayers) {
-      entryStage = entryStage + 4;
+    let entryStageType = TourneyDoubleEliminationStageType.Entry256;
+    while (numberOfPlayersInStartingStage((entryStageType + 4) as TourneyDoubleEliminationStageType) > numberOfPlayers) {
+      entryStageType = entryStageType + 4;
     }
 
-    return entryStage;
+    return entryStageType;
   }
 
   export function lastWinnerStage(numberOfPlayersToRemain: number): TourneyDoubleEliminationStageType {
@@ -109,49 +130,60 @@ export namespace TourneyDoubleEliminationStageType {
       return TourneyDoubleEliminationStageType.Final
     }
 
-    let exitStage = TourneyDoubleEliminationStageType.WinnerFinal;
-    while (playersInStage(exitStage) < numberOfPlayersToRemain) {
-      exitStage = exitStage - 4;
+    let exitStageType = TourneyDoubleEliminationStageType.WinnerFinal;
+    while (playersInStage(exitStageType) < numberOfPlayersToRemain) {
+      exitStageType = exitStageType - 4;
     }
 
-    return exitStage;
+    return exitStageType;
   }
 
-  export function playersInStage(stage: TourneyDoubleEliminationStageType) {
-    switch(stage % 4){
-      case 0: return Math.pow(2, 8 - stage / 4);
-      case 1: return Math.pow(2, 8 - (stage + 3) / 4);
-      case 2: return Math.pow(2, 8 - (stage + 2) / 4);
-      case 3: return Math.pow(2, 8 - (stage + 1) / 4) - Math.pow(2, 7 - (stage + 5) / 4);
+  export function playersInStage(stageType: TourneyDoubleEliminationStageType): number {
+    switch (stageType % 4) {
+      case 0: return Math.pow(2, 8 - stageType / 4);
+      case 1: return Math.pow(2, 8 - (stageType + 3) / 4);
+      case 2: return Math.pow(2, 8 - (stageType + 2) / 4);
+      case 3: return Math.pow(2, 8 - (stageType + 1) / 4) - Math.pow(2, 7 - (stageType + 5) / 4);
     }
     return 0;
   }
 
-  export function isWinnerStage(stage: TourneyDoubleEliminationStageType){
-    return stage % 4 === 2;
+  export function toStageKind(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageKind {
+    const remainder = stageType % 4;
+    return remainder === 0
+      ? TourneyDoubleEliminationStageKind.Entry
+      : remainder === 2
+        ? TourneyDoubleEliminationStageKind.Winner
+        : TourneyDoubleEliminationStageKind.Looser
   }
 
-  export function isLooserStage(stage: TourneyDoubleEliminationStageType){
-    return stage % 2 === 1;
+  export function isWinnerStage(stageType: TourneyDoubleEliminationStageType): boolean {
+    return toStageKind(stageType) === TourneyDoubleEliminationStageKind.Winner;
   }
 
-  export function isEntryStage(stage: TourneyDoubleEliminationStageType){
-    return stage % 4 === 0;
+  export function isLooserStage(stageType: TourneyDoubleEliminationStageType): boolean {
+    const kind = toStageKind(stageType);
+    return kind === TourneyDoubleEliminationStageKind.Looser
+      || kind === TourneyDoubleEliminationStageKind.LooserWithInjection
+  }
+
+  export function isEntryStage(stageType: TourneyDoubleEliminationStageType): boolean {
+    return toStageKind(stageType) === TourneyDoubleEliminationStageKind.Entry;
   }
 
   export function lastLooserStage(numberOfPlayersToRemain: number): TourneyDoubleEliminationStageType {
     return lastWinnerStage(numberOfPlayersToRemain) - 1;
   }
 
-  export function numberOfPlayersInStartingStage(stage: TourneyDoubleEliminationStageType) {
-    if (stage === TourneyDoubleEliminationStageType.Final) {
+  export function numberOfPlayersInStartingStage(stageType: TourneyDoubleEliminationStageType): number {
+    if (stageType === TourneyDoubleEliminationStageType.Final) {
       return 2;
     }
 
-    if (!isEntryStage(stage)) {
+    if (!isEntryStage(stageType)) {
       throw Error('In a double elimination tourney, it only makes sense to ask this for entry point stages.')
     }
 
-    return playersInStage(stage);
+    return playersInStage(stageType);
   }
 }
