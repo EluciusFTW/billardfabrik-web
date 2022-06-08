@@ -34,7 +34,6 @@ export class TourneyEventService {
       }
       case 'DoubleEliminationStageFinalized' : {
         const finalizedStage = (event as DoubleEliminationStageFinalizedEvent).stage;
-        console.log('Received event: ', event);
         this.doubleEliminationStageFinalizedService.handle(tourney, finalizedStage);
         return;
       }

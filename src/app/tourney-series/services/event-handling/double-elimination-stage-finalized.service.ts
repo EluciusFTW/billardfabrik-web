@@ -31,10 +31,15 @@ export class DoubleEliminationStageFinalizedService {
           break;
         case TourneyDoubleEliminationStageKind.Looser:
           nextStageForWinners.matches.forEach((match, index) => {
-            match.playerOne = winners[2 * index]
-            match.playerTwo = winners[2 * index + 1]
+            match.playerTwo = winners[index]
           });
           break;
+        case TourneyDoubleEliminationStageKind.LooserWithInjection:
+            nextStageForWinners.matches.forEach((match, index) => {
+              match.playerOne = winners[2 * index]
+              match.playerTwo = winners[2 * index + 1]
+            });
+            break;
       }
     }
 
@@ -50,7 +55,7 @@ export class DoubleEliminationStageFinalizedService {
           });
           break;
         case TourneyDoubleEliminationStageKind.Winner:
-          nextStageForWinners.matches.forEach((match, index) => {
+          nextStageForLoosers.matches.forEach((match, index) => {
             match.playerOne = loosers[index]
           });
           break;

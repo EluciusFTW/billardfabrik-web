@@ -10,7 +10,7 @@ export class SingleEliminationStageFinalizedService {
 
   handle(tourney: Tourney, finalizedStageType: TourneyEliminationStageType): void {
     let finalizedStage = this.getStage(tourney, finalizedStageType);
-    if (finalizedStage.type >= TourneyEliminationStageType.semiFinal) {
+    if (finalizedStage.type > TourneyEliminationStageType.semiFinal) {
       let pairs = this.getWinnersChunked(finalizedStage.matches);
       const next = TourneyEliminationStageType.after(finalizedStage.type);
       this.prepareStage(tourney, next, pairs);
