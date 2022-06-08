@@ -137,22 +137,28 @@ export namespace TourneyDoubleEliminationStageType {
   }
 
   export function playersInStage(stageType: TourneyDoubleEliminationStageType): number {
-    switch (stageType % 4) {
-      case 0: return Math.pow(2, 8 - stageType / 4);
-      case 1: return Math.pow(2, 8 - (stageType + 3) / 4);
-      case 2: return Math.pow(2, 8 - (stageType + 2) / 4);
-      case 3: return Math.pow(2, 8 - (stageType + 3) / 4) - Math.pow(2, 7 - (stageType + 5) / 4);
+    switch (toStageKind(stageType)) {
+      case TourneyDoubleEliminationStageKind.Entry:
+        return Math.pow(2, 8 - stageType / 4);
+      case TourneyDoubleEliminationStageKind.Looser:
+        return Math.pow(2, 8 - (stageType + 3) / 4);
+      case TourneyDoubleEliminationStageKind.Winner:
+        return Math.pow(2, 8 - (stageType + 2) / 4);
+      case TourneyDoubleEliminationStageKind.LooserWithInjection:
+        return Math.pow(2, 8 - (stageType + 1) / 4);
+      default:
+        throw Error("Determining the number of players of the stageType ${stageType} is not implemented.")
     }
-    return 0;
   }
 
   export function toStageKind(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageKind {
-    const remainder = stageType % 4;
-    return remainder === 0
-      ? TourneyDoubleEliminationStageKind.Entry
-      : remainder === 2
-        ? TourneyDoubleEliminationStageKind.Winner
-        : TourneyDoubleEliminationStageKind.Looser
+    switch (stageType % 4) {
+      case 0: return TourneyDoubleEliminationStageKind.Entry;
+      case 1: return TourneyDoubleEliminationStageKind.Looser;
+      case 2: return TourneyDoubleEliminationStageKind.Winner;
+      case 3: return TourneyDoubleEliminationStageKind.LooserWithInjection;
+      default: throw Error("Something went wrong determining the stage kind from the stage type.")
+    };
   }
 
   export function isWinnerStage(stageType: TourneyDoubleEliminationStageType): boolean {
