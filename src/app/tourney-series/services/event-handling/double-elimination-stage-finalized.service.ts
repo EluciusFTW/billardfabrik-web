@@ -9,17 +9,11 @@ import { TourneyPhaseStatus } from "../../models/tourney-phase-status";
 export class DoubleEliminationStageFinalizedService {
 
   handle(tourney: Tourney, finalizedStageType: TourneyDoubleEliminationStageType): void {
-    console.log('Hi: ', finalizedStageType);
     const stage = this.getStage(tourney, finalizedStageType);
     const stageKind = TourneyDoubleEliminationStageType.toStageKind(finalizedStageType);
 
-    const nextStageForWinners = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.winnerAdvancesTo(finalizedStageType));
-    const nextStageForLoosers = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.looserAdvancesTo(finalizedStageType));
-
-    console.log('Next Winner: ', nextStageForWinners);
-    console.log('Next Looser: ', nextStageForLoosers);
-
     let winners = stage.matches.map(match => MatchPlayer.From(match.winner().name));
+    const nextStageForWinners = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.winnerAdvancesTo(finalizedStageType));
     if (nextStageForWinners) {
       switch (stageKind) {
         case TourneyDoubleEliminationStageKind.Entry:
@@ -43,10 +37,9 @@ export class DoubleEliminationStageFinalizedService {
       }
     }
 
-    // If there is a next stage for winners, there should always be one for loosers, too.
+    const nextStageForLoosers = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.looserAdvancesTo(finalizedStageType));
     if (nextStageForLoosers) {
       let loosers = stage.matches.map(match => MatchPlayer.From(match.looser().name));
-      console.log('Loosers: ', loosers);
       switch (stageKind) {
         case TourneyDoubleEliminationStageKind.Entry:
           nextStageForLoosers.matches.forEach((match, index) => {
@@ -64,13 +57,28 @@ export class DoubleEliminationStageFinalizedService {
       }
     }
 
-    // If there is no next stages in the DE stage, then the winners advance to SE and the phase is completed
+    this.setStatus(nextStageForWinners);
+    this.setStatus(nextStageForLoosers);
+
+    // If there is no next stages in the double elimination phase,
+    // then the winners advance to the single elimination phase and the current phase is completed
     if (!nextStageForWinners) {
       tourney.eliminationStages[0].matches
         .forEach((match, index) => stageKind === TourneyDoubleEliminationStageKind.Winner
           ? match.playerOne = winners[index]
           : match.playerTwo = winners[index]);
       stage.status = TourneyPhaseStatus.finalized;
+    }
+  }
+
+  private setStatus(nextStageForLoosers: DoubleEliminationEliminationStage) {
+    var syntheticPlayerLeftInStage = nextStageForLoosers.matches
+      .flatMap(match => [match.playerOne, match.playerTwo])
+      .map(player => !player.isDetermined())
+      .some(value => value);
+
+    if(!syntheticPlayerLeftInStage) {
+      nextStageForLoosers.status === TourneyPhaseStatus.readyOrOngoing;
     }
   }
 

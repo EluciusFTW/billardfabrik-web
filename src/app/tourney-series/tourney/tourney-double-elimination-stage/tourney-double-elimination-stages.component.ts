@@ -6,8 +6,7 @@ import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 
 @Component({
   selector: 'app-tourney-double-elimination-stages',
-  templateUrl: './tourney-double-elimination-stages.component.html',
-  styleUrls: ['./tourney-double-elimination-stages.component.scss']
+  templateUrl: './tourney-double-elimination-stages.component.html'
 })
 export class TourneyDoubleEliminationStagesComponent {
 

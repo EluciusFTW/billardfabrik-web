@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
 import { MatchPlayer } from '../../models/match-player';
-import { MatchStatus } from '../../models/match-status';
 import { PoolDiscipline } from '../../models/pool-discipline';
 
 @Injectable()

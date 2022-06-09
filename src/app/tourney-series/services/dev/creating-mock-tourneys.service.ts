@@ -19,7 +19,7 @@ export class CreatingMockTourneysService {
       ? this.tcs.createDouble(this.getDoubleEliminationTourneyInfo(id))
       : this.tcs.createSingle(this.getTourneyInfo(id));
 
-      return of(tourney);
+    return of(tourney);
   }
 
   private getDoubleEliminationTourneyInfo(nr: number): DoubleEliminationTourneyInfo {
