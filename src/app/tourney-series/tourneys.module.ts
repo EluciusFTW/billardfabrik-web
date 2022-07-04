@@ -87,8 +87,10 @@ import { DoubleEliminationStageFinalizedService } from './services/event-handlin
     GroupsCreationService,
     GroupsThenSingleEliminationCreationService,
     TourneyModificationService,
-    // TourneysService,
-    { provide: TourneysService, useClass: CreatingMockTourneysService },
+    { 
+      provide: TourneysService, 
+      useClass: TourneysService // CreatingMockTourneysService 
+    },
     TourneyEventService,
     GroupStageFinalizedService,
     SingleEliminationStageFinalizedService,

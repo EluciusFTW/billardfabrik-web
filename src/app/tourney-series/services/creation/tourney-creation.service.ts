@@ -13,14 +13,14 @@ export class TourneyCreationService {
     private double: DoubleEliminationCreationService) {
   }
 
-  createSingle(info:GroupsThenSingleEliminationTourneyInfo){
+  createSingle(info: GroupsThenSingleEliminationTourneyInfo) {
     return {
       ... this.single.create(info),
       meta: this.buildMeta(info)
     }
   }
 
-  createDouble(info:DoubleEliminationTourneyInfo){
+  createDouble(info: DoubleEliminationTourneyInfo) {
     return {
       ... this.double.create(info),
       meta: this.buildMeta(info)

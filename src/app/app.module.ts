@@ -22,8 +22,6 @@ import { SharedModule } from './shared/shared.module';
 import { TourneysModule } from './tourney-series/tourneys.module';
 import { MensaComponent } from './mensa/mensa.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,

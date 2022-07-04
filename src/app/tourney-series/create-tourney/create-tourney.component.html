@@ -19,40 +19,57 @@
         <span>{{selectPlayers.selectedOptions.selected.length}}</span>
       </div>
 
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Anzahl Gruppen</mat-label>
-          <mat-select [(value)]="nrOfGroupsSelected">
-            <mat-option *ngFor="let nr of possibleNrOfGroups" [value]="nr">
-              {{ nr }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>Disziplin</mat-label>
-          <mat-select [(value)]="disciplineSelected">
-            <mat-option *ngFor="let discipline of disciplines" [value]="discipline">
-              {{ discipline }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div >
-        <mat-form-field appearance="fill">
-          <mat-label>Ausspielziel</mat-label>
-          <mat-select [(value)]="raceLengthSelected">
-            <mat-option *ngFor="let nr of raceLengths" [value]="nr">
-              {{ nr }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Spielmodus</mat-label>
+        <mat-select [(value)]="selectedPlayModus">
+          <mat-option *ngFor="let modus of playModi" [value]="modus">
+            {{ modus }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="hasGroups()" appearance="fill">
+        <mat-label>Anzahl Gruppen</mat-label>
+        <mat-select [(value)]="nrOfGroupsSelected">
+          <mat-option *ngFor="let nr of possibleNrOfGroups" [value]="nr">
+            {{ nr }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="hasFirstElimination()" appearance="fill">
+        <mat-label>Einfach-K.O. ab</mat-label>
+        <mat-select [(value)]="firstEliminationSelected">
+          <mat-option *ngFor="let stageType of firstElimination" [value]="stageType">
+            {{ stageType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+
+      <mat-form-field appearance="fill">
+        <mat-label>Disziplin</mat-label>
+        <mat-select [(value)]="disciplineSelected">
+          <mat-option *ngFor="let discipline of disciplines" [value]="discipline">
+            {{ discipline }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Ausspielziel</mat-label>
+        <mat-select [(value)]="raceLengthSelected">
+          <mat-option *ngFor="let nr of raceLengths" [value]="nr">
+            {{ nr }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
       <div>
-        <button mat-raised-button (click)="submitSelected(selectPlayers.selectedOptions.selected)">Turnier Erstellen</button>
+        <button mat-raised-button (click)="submitSelected(selectPlayers.selectedOptions.selected)">Turnier
+          Erstellen
+        </button>
       </div>
     </div>
   </div>
-</app-content-tile>>
+</app-content-tile>
