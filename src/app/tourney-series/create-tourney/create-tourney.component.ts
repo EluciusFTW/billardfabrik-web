@@ -13,6 +13,7 @@ import { TourneyMode } from '../models/tourney-mode';
 import { TourneyInfo } from '../models/tourney-info';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { TourneyModeViewModel } from './tourney-mode-view-model';
+import { dialogConfig } from 'src/app/shared/models/standard-dialog';
 
 @Component({
   templateUrl: './create-tourney.component.html',
@@ -80,11 +81,12 @@ export class CreateTourneyComponent {
 
 
   addPlayer(): void {
-    const dialogRef = this.dialog.open(TourneyPlayerCreateDialogComponent, {
-      data: {},
-      width: '300px',
-      hasBackdrop: true
-    });
+    const dialogRef = this.dialog
+      .open(TourneyPlayerCreateDialogComponent, 
+        {
+          ... dialogConfig,
+          data: {},
+        });
 
     dialogRef
       .afterClosed()
