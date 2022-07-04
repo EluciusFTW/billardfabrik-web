@@ -23,12 +23,12 @@
         <mat-label>Spielmodus</mat-label>
         <mat-select [(value)]="selectedPlayModus">
           <mat-option *ngFor="let modus of playModi" [value]="modus">
-            {{ modus }}
+            {{ modus.label }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="hasGroups()" appearance="fill">
+      <mat-form-field *ngIf="selectedPlayModus?.hasGroups" appearance="fill">
         <mat-label>Anzahl Gruppen</mat-label>
         <mat-select [(value)]="nrOfGroupsSelected">
           <mat-option *ngFor="let nr of possibleNrOfGroups" [value]="nr">
@@ -37,7 +37,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="hasFirstElimination()" appearance="fill">
+      <mat-form-field *ngIf="selectedPlayModus?.hasFirstElimination" appearance="fill">
         <mat-label>Einfach-K.O. ab</mat-label>
         <mat-select [(value)]="firstEliminationSelected">
           <mat-option *ngFor="let stageType of firstElimination" [value]="stageType">

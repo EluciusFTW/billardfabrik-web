@@ -12,6 +12,7 @@ import { TourneysService } from '../services/tourneys.service';
 import { TourneyMode } from '../models/tourney-mode';
 import { TourneyInfo } from '../models/tourney-info';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
+import { TourneyModeViewModel } from './tourney-mode-view-model';
 
 @Component({
   templateUrl: './create-tourney.component.html',
@@ -22,8 +23,20 @@ export class CreateTourneyComponent {
   players: TourneyPlayer[] = [];
   private playerSub: Subscription;
 
-  playModi: string[] = ['Gruppen + Einfach-K.O.', 'Doppel-K.O.'];
-  selectedPlayModus: string;
+  playModi: TourneyModeViewModel[] = [
+    {
+      label: 'Gruppen + Einfach-K.O.',
+      mode: TourneyMode.GruopsThenSingleElimination,
+      hasFirstElimination: false,
+      hasGroups: true
+    },
+    {
+      label: 'Doppel-K.O.',
+      mode: TourneyMode.DoubleElimination,
+      hasFirstElimination: true,
+      hasGroups: false
+    }];
+  selectedPlayModus: TourneyModeViewModel;
 
   possibleNrOfGroups: number[] = [1, 2, 4];
   nrOfGroupsSelected: number = 1;
@@ -64,14 +77,6 @@ export class CreateTourneyComponent {
       );
   }
 
-  hasGroups(): boolean {
-    return this.selectedPlayModus === 'Gruppen + Einfach-K.O.';
-  }
-
-  hasFirstElimination(): boolean {
-    return this.selectedPlayModus === 'Doppel-K.O.';
-  }
-
   addPlayer(): void {
     const dialogRef = this.dialog.open(TourneyPlayerCreateDialogComponent, {
       data: {},
@@ -101,12 +106,10 @@ export class CreateTourneyComponent {
       raceLength: this.raceLengthSelected,
       discipline: PoolDisciplineMapper.mapToEnum(this.disciplineSelected),
       name: 'Donnerstags-Turnier',
-      mode: this.selectedPlayModus === 'Gruppen + Einfach-K.O.'
-        ? TourneyMode.GruopsThenSingleElimination
-        : TourneyMode.DoubleElimination
+      mode: this.selectedPlayModus.mode
     };
 
-    this.tourney = this.selectedPlayModus === 'Gruppen + Einfach-K.O.'
+    this.tourney = this.selectedPlayModus.mode === TourneyMode.GruopsThenSingleElimination
       ? this.createSingle(info)
       : this.createDouble(info)
 
@@ -115,7 +118,7 @@ export class CreateTourneyComponent {
 
   createSingle(info: TourneyInfo): Tourney {
     let enrichedInfo = {
-      ... info,
+      ...info,
       nrOfGroups: this.nrOfGroupsSelected
     }
     return this.createTourneyService.createSingle(enrichedInfo);
@@ -123,7 +126,7 @@ export class CreateTourneyComponent {
 
   createDouble(info: TourneyInfo): Tourney {
     let enrichedInfo = {
-      ... info,
+      ...info,
       firstEliminationStage: TourneyEliminationStageType.final
     }
     return this.createTourneyService.createDouble(enrichedInfo);
