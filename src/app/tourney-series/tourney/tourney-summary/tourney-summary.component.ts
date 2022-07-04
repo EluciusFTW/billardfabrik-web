@@ -36,11 +36,7 @@ export class TourneySummaryComponent {
   ) { }
 
   addPlayer(): void {
-    const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent, {
-      data: {},
-      width: '300px',
-      hasBackdrop: true
-    });
+    const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent);
 
     dialogRef
       .afterClosed()
