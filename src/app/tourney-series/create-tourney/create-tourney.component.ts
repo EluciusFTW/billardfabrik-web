@@ -77,6 +77,8 @@ export class CreateTourneyComponent {
       );
   }
 
+
+
   addPlayer(): void {
     const dialogRef = this.dialog.open(TourneyPlayerCreateDialogComponent, {
       data: {},
@@ -136,7 +138,13 @@ export class CreateTourneyComponent {
     return `${player.firstName} ${player.lastName}`;
   }
 
+  typeName(type: TourneyEliminationStageType): string {
+    return TourneyEliminationStageType.map(type);
+  }
+
   ngOnDestroy() {
-    this.playerSub.unsubscribe();
+    if (this.playerSub) {
+      this.playerSub.unsubscribe();
+    }
   }
 }

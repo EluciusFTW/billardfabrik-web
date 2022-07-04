@@ -41,7 +41,7 @@
         <mat-label>Einfach-K.O. ab</mat-label>
         <mat-select [(value)]="firstEliminationSelected">
           <mat-option *ngFor="let stageType of firstElimination" [value]="stageType">
-            {{ stageType }}
+            {{ typeName(stageType) }}
           </mat-option>
         </mat-select>
       </mat-form-field>
