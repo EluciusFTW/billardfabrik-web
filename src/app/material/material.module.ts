@@ -82,7 +82,7 @@ import {MatBadgeModule} from '@angular/material/badge';
   ],
   declarations: [],
   providers: [
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } }
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { width: '400px', hasBackdrop: true } }
   ]
 })
 export class MaterialModule { }

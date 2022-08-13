@@ -9,8 +9,10 @@ import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dia
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
-import { CreationEvent } from '../models/tourney-phase-event';
 import { TourneyMode } from '../models/tourney-mode';
+import { TourneyInfo } from '../models/tourney-info';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
+import { TourneyModeViewModel } from './tourney-mode-view-model';
 
 @Component({
   templateUrl: './create-tourney.component.html',
@@ -21,6 +23,21 @@ export class CreateTourneyComponent {
   players: TourneyPlayer[] = [];
   private playerSub: Subscription;
 
+  playModi: TourneyModeViewModel[] = [
+    {
+      label: 'Gruppen + Einfach-K.O.',
+      mode: TourneyMode.GruopsThenSingleElimination,
+      hasFirstElimination: false,
+      hasGroups: true
+    },
+    {
+      label: 'Doppel-K.O.',
+      mode: TourneyMode.DoubleElimination,
+      hasFirstElimination: true,
+      hasGroups: false
+    }];
+  selectedPlayModus: TourneyModeViewModel;
+
   possibleNrOfGroups: number[] = [1, 2, 4];
   nrOfGroupsSelected: number = 1;
 
@@ -29,6 +46,13 @@ export class CreateTourneyComponent {
 
   disciplines: string[] = [];
   disciplineSelected: string;
+
+  firstElimination: TourneyEliminationStageType[] = [
+    TourneyEliminationStageType.final,
+    TourneyEliminationStageType.semiFinal,
+    TourneyEliminationStageType.quarterFinal
+  ];
+  firstEliminationSelected: TourneyEliminationStageType;
 
   tourney: Tourney = <Tourney>{};
   group: TourneyGroup[];
@@ -50,16 +74,13 @@ export class CreateTourneyComponent {
           const newPlayers = players.filter(player => !currentPlayerNames.includes(this.displayName(player)));
           newPlayers.forEach(p => this.players.push(p));
         },
-        // e => this.messageService.failure('Fehler', 'Wir konnten leider nicht zum news-feed verbinden. Bitte versuchen Sie die Seite erneut zu laden.')
       );
   }
 
+
+
   addPlayer(): void {
-    const dialogRef = this.dialog.open(TourneyPlayerCreateDialogComponent, {
-      data: {},
-      width: '300px',
-      hasBackdrop: true
-    });
+    const dialogRef = this.dialog.open(TourneyPlayerCreateDialogComponent);
 
     dialogRef
       .afterClosed()
@@ -73,25 +94,53 @@ export class CreateTourneyComponent {
       )
   }
 
-  submitSelected(s: any[]): void {
-    this.tourney = this.createTourneyService.createSingle(
-      {
-        players: s.map(e => this.displayName(e.value)),
-        nrOfGroups: this.nrOfGroupsSelected,
-        raceLength: this.raceLengthSelected,
-        discipline: PoolDisciplineMapper.mapToEnum(this.disciplineSelected),
-        name: 'Donnerstags-Turnier',
-        mode: TourneyMode.GruopsThenSingleElimination
-      });
+  submitSelected(selectedItems: any[]): void {
+    let selectedPlayerNames = selectedItems
+      .map(item => item.value)
+      .map(player => this.displayName(player));
 
-    this.tourneysService.update(this.tourney, { type: 'Created' });
+    let info = {
+      players: selectedPlayerNames,
+      raceLength: this.raceLengthSelected,
+      discipline: PoolDisciplineMapper.mapToEnum(this.disciplineSelected),
+      name: 'Donnerstags-Turnier',
+      mode: this.selectedPlayModus.mode
+    };
+
+    this.tourney = this.selectedPlayModus.mode === TourneyMode.GruopsThenSingleElimination
+      ? this.createSingle(info)
+      : this.createDouble(info)
+
+    //this.tourneysService.update(this.tourney, { type: 'Created' });
+  }
+
+  createSingle(info: TourneyInfo): Tourney {
+    let enrichedInfo = {
+      ...info,
+      nrOfGroups: this.nrOfGroupsSelected
+    }
+    return this.createTourneyService.createSingle(enrichedInfo);
+  }
+
+  createDouble(info: TourneyInfo): Tourney {
+    let enrichedInfo = {
+      ...info,
+      firstEliminationStage: TourneyEliminationStageType.final
+    }
+    return this.createTourneyService.createDouble(enrichedInfo);
   }
 
   displayName(player: TourneyPlayer): string {
     return `${player.firstName} ${player.lastName}`;
   }
 
+  typeName(type: TourneyEliminationStageType): string {
+    return TourneyEliminationStageType.map(type);
+  }
+
   ngOnDestroy() {
-    this.playerSub.unsubscribe();
+    if (this.playerSub) {
+      this.playerSub.unsubscribe();
+    }
   }
 }
