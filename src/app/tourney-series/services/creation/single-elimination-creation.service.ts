@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
-import { SingleEliminationEliminationStage, TourneyEliminationStage } from '../../models/tourney-elimination-stage';
+import { SingleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
 import { TourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';

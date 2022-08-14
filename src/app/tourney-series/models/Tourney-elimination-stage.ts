@@ -5,7 +5,6 @@ import { TourneyEliminationStageType } from './tourney-single-elimination-stage-
 
 interface TourneyEliminationStageBase {
   title: string;
-  players: string[];
   matches: Match[];
   status: TourneyPhaseStatus;
 }

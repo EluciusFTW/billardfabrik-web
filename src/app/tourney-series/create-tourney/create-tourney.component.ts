@@ -77,8 +77,6 @@ export class CreateTourneyComponent {
       );
   }
 
-
-
   addPlayer(): void {
     const dialogRef = this.dialog.open(TourneyPlayerCreateDialogComponent);
 
@@ -111,7 +109,7 @@ export class CreateTourneyComponent {
       ? this.createSingle(info)
       : this.createDouble(info)
 
-    //this.tourneysService.update(this.tourney, { type: 'Created' });
+    this.tourneysService.update(this.tourney, { type: 'Created' });
   }
 
   createSingle(info: TourneyInfo): Tourney {
@@ -125,7 +123,7 @@ export class CreateTourneyComponent {
   createDouble(info: TourneyInfo): Tourney {
     let enrichedInfo = {
       ...info,
-      firstEliminationStage: TourneyEliminationStageType.final
+      firstEliminationStage: this.firstEliminationSelected
     }
     return this.createTourneyService.createDouble(enrichedInfo);
   }

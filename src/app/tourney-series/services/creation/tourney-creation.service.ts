@@ -31,6 +31,7 @@ export class TourneyCreationService {
     return {
       date: this.getDateString(),
       name: info.name,
+      numberOfPlayers: info.players.length,
       discipline: info.discipline,
       modus: info.mode,
       status: TourneyStatus.new

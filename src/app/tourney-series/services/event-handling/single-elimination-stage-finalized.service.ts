@@ -15,10 +15,10 @@ export class SingleEliminationStageFinalizedService {
       const next = TourneyEliminationStageType.after(finalizedStage.type);
       this.prepareStage(tourney, next, pairs);
     } else if (finalizedStage.type === TourneyEliminationStageType.semiFinal) {
-      let winners = finalizedStage.matches.map(match => match.winner().name);
+      let winners = finalizedStage.matches.map(match => Match.winner(match).name);
       this.prepareStage(tourney, TourneyEliminationStageType.final, [winners]);
 
-      let losers = finalizedStage.matches.map(match => match.looser().name);
+      let losers = finalizedStage.matches.map(match => Match.looser(match).name);
       this.prepareStage(tourney, TourneyEliminationStageType.thirdPlace, [losers]);
     }
   }
@@ -44,7 +44,7 @@ export class SingleEliminationStageFinalizedService {
   }
 
   private getWinnersChunked(matches: Match[]): string[][] {
-    let winners = matches.map(match => match.winner().name);
+    let winners = matches.map(match => Match.winner(match).name);
     let pairs: string[][] = [];
     while (winners.length > 0) {
       pairs.push(winners.splice(0, 2));

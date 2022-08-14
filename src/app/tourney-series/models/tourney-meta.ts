@@ -4,6 +4,7 @@ import { TourneyMode } from './tourney-mode';
 
 export interface TourneyMeta {
     name: string;
+    numberOfPlayers: number;
     date: string;
     status: TourneyStatus;
     discipline: PoolDiscipline;

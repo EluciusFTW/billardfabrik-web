@@ -2,9 +2,6 @@ export class MatchPlayer {
   name: string;
   points: number;
 
-  static _toBeDeterminedName = 't.b.d.';
-  static _walkName = 'Freilos';
-
   constructor(name: string, points: number) {
     this.name = name;
     this.points = points;
@@ -16,20 +13,26 @@ export class MatchPlayer {
 
     return new MatchPlayer(name, 0);
   }
+}
 
-  isReal(): boolean {
-    return this.name !== MatchPlayer._toBeDeterminedName && this.name !== MatchPlayer._walkName;
+export module MatchPlayer {
+
+  const _toBeDeterminedName = 't.b.d.';
+  const _walkName = 'Freilos';
+
+  export function isReal(player: MatchPlayer): boolean {
+    return player.name !== _toBeDeterminedName && player.name !== _walkName;
   }
 
-  isDetermined(): boolean {
-    return this.name !== MatchPlayer._toBeDeterminedName;
+  export function isDetermined(player: MatchPlayer): boolean {
+    return player.name !== _toBeDeterminedName;
   }
 
-  static Unknown() {
-    return new MatchPlayer(this._toBeDeterminedName, 0);
+  export function Unknown(): MatchPlayer {
+    return new MatchPlayer(_toBeDeterminedName, 0);
   }
 
-  static Walk() {
-    return new MatchPlayer(this._walkName, 0);
+  export function Walk(): MatchPlayer {
+    return new MatchPlayer(_walkName, 0);
   }
 }

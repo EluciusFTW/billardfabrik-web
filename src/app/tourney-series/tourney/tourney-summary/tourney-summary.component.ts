@@ -6,7 +6,6 @@ import { PoolDisciplineMapper } from '../../models/pool-discipline';
 import { TourneyEvaluationService } from '../../services/tourney-evaluation-service';
 import { TourneyStatisticsService } from '../../services/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
 import { TourneyModeMapper } from '../../models/tourney-mode';
@@ -66,7 +65,7 @@ export class TourneySummaryComponent {
   }
 
   getModus(): string {
-    return TourneyModeMapper.map(this.tourney?.meta?.modus);
+    return TourneyModeMapper.map(this.tourney?.meta?.modus ?? 0);
   }
 
   getWinner(): string {
@@ -95,17 +94,13 @@ export class TourneySummaryComponent {
     }
   }
 
-  someGroupFinished(): boolean {
-    return this.tourney.groups.some(group => group.status === TourneyPhaseStatus.finalized)
-  }
-
   canStart(): boolean {
     return true;
     // return this.userService.canHandleTourneys();
   }
 
   canCompute(): boolean {
-    return true;
+    return false;
     // return this.userService.isAdmin() && this.tourney.meta.status !== TourneyStatus.postProcessed;
   }
 

@@ -40,13 +40,13 @@
             <td>
               <i class="fas fa-gamepad"></i>
             </td>
-            <td> {{ getDiscipline()}}</td>
+            <td> {{ getDiscipline() }}</td>
           </tr>
           <tr>
             <td>
-              <i class="fas fa-gamepad"></i>
+              <i class="far fa-hand-pointer"></i>
             </td>
-            <td> {{ getModus()}}</td>
+            <td> {{ getModus() }}</td>
           </tr>
         </table>
       </div>
@@ -54,9 +54,9 @@
   </mat-card-content>
 
   <mat-card-actions>
-    <button mat-raised-button *ngIf="canAddPlayers()" [disabled]="someGroupFinished()" (click)="addPlayer()">
+    <!-- <button mat-raised-button *ngIf="canAddPlayers()" [disabled]="someGroupFinished()" (click)="addPlayer()">
       Nachzügler einlosen
-    </button>
+    </button> -->
     <button mat-raised-button *ngIf="canStart() && tourney.meta.status === 0" (click)="start()">
       Turnier Eröffnen
     </button>

@@ -3,7 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { MatchPlayer } from '../models/match-player';
-import { DoubleEliminationStageFinalizedEvent, ScoreChangedEvent, SingleEliminationStageFinalizedEvent, TourneyPhaseEvent } from '../models/tourney-phase-event';
+import {TourneyPhaseEvent } from '../models/tourney-phase-event';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
 import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
@@ -23,7 +23,6 @@ export class TourneyEliminationStageComponent {
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
-  // this.stage?.matches
   matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score'];
 
@@ -34,8 +33,7 @@ export class TourneyEliminationStageComponent {
   }
 
   scoreEditDisabled(): boolean {
-    return false;
-    // return this.stage.status !== TourneyPhaseStatus.readyOrOngoing;
+    return this.stage.status !== TourneyPhaseStatus.readyOrOngoing;
   }
 
   plusDisabled(who: number, match: Match): boolean {
@@ -71,7 +69,7 @@ export class TourneyEliminationStageComponent {
   allGamesOver(): boolean {
     return this.stage.matches
       .filter(match => match.status !== MatchStatus.cancelled)
-      .findIndex(match => !match.isOver()) === -1;
+      .findIndex(match => !Match.isOver(match)) === -1;
   }
 
   finalize(): void {
@@ -117,10 +115,10 @@ export class TourneyEliminationStageComponent {
   }
 
   notStarted(match: Match): boolean {
-    return !match.hasStarted();
+    return !Match.hasStarted(match);
   }
 
   nooneOverTheHill(match: Match): boolean {
-    return !match.isOver();
+    return !Match.isOver(match);
   }
 }

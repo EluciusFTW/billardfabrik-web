@@ -26,7 +26,6 @@ export class DoubleEliminationStageCreationService {
       type: entryStage,
       eliminationType: "Double",
       title: TourneyDoubleEliminationStageType.map(entryStage),
-      players: info.players,
       matches: this.eliminationCreationService.getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
       status: TourneyPhaseStatus.waitingForApproval
     }
@@ -60,7 +59,6 @@ export class DoubleEliminationStageCreationService {
         type: stageWithPlayers.stage,
         eliminationType: "Double",
         title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
-        players: stageWithPlayers.players,
         matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
         status: TourneyPhaseStatus.waitingForApproval
       }));

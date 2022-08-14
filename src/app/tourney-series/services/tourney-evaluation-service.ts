@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Match } from '../models/match';
 import { MatchStatus } from '../models/match-status';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
@@ -8,16 +9,16 @@ import { TourneyEliminationStageType } from '../models/tourney-single-eliminatio
 export class TourneyEvaluationService {
 
   public GetPlayerCount(tourney: Tourney): number {
-    return tourney.groups
-      .map(group => group.players)
-      .reduce((acc, curr) => acc + curr.length, 0);
+    return tourney.meta?.numberOfPlayers
+      ?? tourney.groups?.flatMap(group => group.players).length
+      ?? 0;
   }
 
   public GetWinner(tourney: Tourney): string {
     const finalStage = tourney.eliminationStages.filter(stage => stage.type === TourneyEliminationStageType.final)[0];
 
     return finalStage.status === TourneyPhaseStatus.finalized
-      ? finalStage.matches[0].winner().name
+      ? Match.winner(finalStage.matches[0]).name
       : ''
   }
 
@@ -25,7 +26,7 @@ export class TourneyEvaluationService {
     const finalStage = tourney.eliminationStages.filter(stage => stage.type === TourneyEliminationStageType.final)[0];
 
     return finalStage.status === TourneyPhaseStatus.finalized
-      ? finalStage.matches[0].looser().name
+      ? Match.looser(finalStage.matches[0]).name
       : ''
   }
 
@@ -40,6 +41,6 @@ export class TourneyEvaluationService {
       return '** nicht ausgespielt **';
     }
 
-    return thirdPlaceMatch.winner().name;
+    return Match.winner(thirdPlaceMatch).name;
   }
 }
