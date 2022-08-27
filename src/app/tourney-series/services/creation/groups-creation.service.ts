@@ -9,7 +9,7 @@ import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 export class GroupsCreationService {
 
   create(info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
-    let randomOrderedPlayers = this.reOrderRandomly(info.players);
+    let randomOrderedPlayers = this.reOrderRandomly([... info.players]);
     return this.buildGroups(randomOrderedPlayers, info);
   }
 

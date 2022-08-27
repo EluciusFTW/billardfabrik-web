@@ -28,6 +28,7 @@ export class TourneyCreationService {
   }
 
   private buildMeta(info: TourneyInfo): TourneyMeta {
+    console.log('Info: ', info);
     return {
       date: this.getDateString(),
       name: info.name,

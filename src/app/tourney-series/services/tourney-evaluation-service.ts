@@ -9,6 +9,7 @@ import { TourneyEliminationStageType } from '../models/tourney-single-eliminatio
 export class TourneyEvaluationService {
 
   public GetPlayerCount(tourney: Tourney): number {
+    console.log('t: ', tourney);
     return tourney.meta?.numberOfPlayers
       ?? tourney.groups?.flatMap(group => group.players).length
       ?? 0;
@@ -32,11 +33,12 @@ export class TourneyEvaluationService {
 
   public GetThirdPlace(tourney: Tourney): string {
     const thirdPlaceStage = tourney.eliminationStages.filter(stage => stage.type === TourneyEliminationStageType.thirdPlace)[0];
-    const thirdPlaceMatch = thirdPlaceStage.matches[0];
 
-    if (thirdPlaceStage.status !== TourneyPhaseStatus.finalized) {
+    if (thirdPlaceStage?.status !== TourneyPhaseStatus.finalized) {
       return ''
     }
+
+    const thirdPlaceMatch = thirdPlaceStage.matches[0];
     if (thirdPlaceMatch.status === MatchStatus.cancelled) {
       return '** nicht ausgespielt **';
     }
