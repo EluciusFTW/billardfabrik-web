@@ -21,7 +21,11 @@ export module MatchPlayer {
   const _walkName = 'Freilos';
 
   export function isReal(player: MatchPlayer): boolean {
-    return player.name !== _toBeDeterminedName && player.name !== _walkName;
+    return !isWalk(player) && isDetermined(player);
+  }
+
+  export function isWalk(player: MatchPlayer): boolean {
+    return player.name == _walkName;
   }
 
   export function isDetermined(player: MatchPlayer): boolean {

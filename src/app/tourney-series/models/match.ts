@@ -28,6 +28,10 @@ export module Match {
     return new Match(MatchPlayer.Unknown(), MatchPlayer.Unknown(), discipline, length);
   }
 
+  export function isWalk(match: Match) {
+    return MatchPlayer.isReal(match.playerOne)
+  }
+
   export function looser(match: Match): MatchPlayer {
     return match.playerOne.points === match.length
       ? match.playerTwo

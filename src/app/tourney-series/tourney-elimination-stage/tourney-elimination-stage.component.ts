@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, SimpleChanges, EventEmitter, Output, OnChanges, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
@@ -15,7 +15,7 @@ import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elim
   templateUrl: './tourney-elimination-stage.component.html',
   styleUrls: ['../tourneys.scss']
 })
-export class TourneyEliminationStageComponent {
+export class TourneyEliminationStageComponent implements OnChanges {
 
   @Input()
   stage: TourneyEliminationStage
@@ -29,6 +29,20 @@ export class TourneyEliminationStageComponent {
   // constructor(private userService: UserService) { }
 
   ngOnChanges(_: SimpleChanges) {
+    this.stage.matches
+      .filter(match => MatchPlayer.isWalk(match.playerTwo))
+      .forEach(match => {
+        match.playerOne.points = match.length;
+        match.status = MatchStatus.done;
+      });
+
+    this.stage.matches
+      .filter(match => MatchPlayer.isWalk(match.playerOne) && !MatchPlayer.isWalk(match.playerTwo))
+      .forEach(match => {
+        match.playerTwo.points = match.length;
+        match.status = MatchStatus.done;
+      });
+
     this.matches = new MatTableDataSource<Match>(this.stage?.matches);
   }
 
