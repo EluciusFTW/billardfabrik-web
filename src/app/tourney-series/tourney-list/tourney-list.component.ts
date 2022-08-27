@@ -47,7 +47,7 @@ export class TourneyListComponent implements OnDestroy {
   }
 
   mapTourneyState(status: TourneyStatus) {
-    return new TourneyStatusMapper().map(status);
+    return TourneyStatusMapper.map(status);
   }
 
   ngOnDestroy() {

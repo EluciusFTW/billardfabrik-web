@@ -6,12 +6,10 @@ import { PoolDisciplineMapper } from '../../models/pool-discipline';
 import { TourneyEvaluationService } from '../../services/tourney-evaluation-service';
 import { TourneyStatisticsService } from '../../services/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-import { TourneyGroup } from '../../models/tourney-group';
-import { Match } from '../../models/match';
-import { MatchStatus } from '../../models/match-status';
+import { TourneyModeMapper } from '../../models/tourney-mode';
+import { TourneyModificationService } from '../../services/tourney-modification.service';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 
 @Component({
@@ -27,9 +25,8 @@ export class TourneySummaryComponent {
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
-  private _mapper = new TourneyStatusMapper();
-
   constructor(
+    private modificationService: TourneyModificationService,
     private evaluationService: TourneyEvaluationService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
@@ -38,53 +35,23 @@ export class TourneySummaryComponent {
   ) { }
 
   addPlayer(): void {
-    const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent, {
-      data: {},
-      width: '300px',
-      hasBackdrop: true
-    });
+    const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent);
 
-    dialogRef.afterClosed().subscribe(
-      name => {
-        if (name) {
-          this.inject(name)
+    dialogRef
+      .afterClosed()
+      .subscribe(
+        name => {
+          if (name) {
+            this.modificationService.injectPlayer(this.tourney, name);
+            this.change.emit({type: 'ScoreChanged'});
+          }
         }
-      }
-    )
-  }
-
-  inject(name: any) {
-    let group = this.chooseRandomGroup()
-    this.addMatches(name, group);
-    group.players.push(name);
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
-  }
-
-  chooseRandomGroup(): TourneyGroup {
-    var smallestGroupsize = this.tourney.groups.map(group => group.players.length).sort()[0];
-    const viableGroups = this.tourney.groups.filter(group => group.players.length === smallestGroupsize);
-    let chosenGroup = viableGroups[Math.floor(Math.random() * viableGroups.length)];
-
-    return chosenGroup;
-  }
-
-  addMatches(newPlayerName: any, group: TourneyGroup) {
-    var referenceMatch = group.matches[0];
-    const matches = group.players
-      .map(player => <Match>
-      {
-        playerOne: { name: newPlayerName, points: 0 },
-        playerTwo: { name: player, points: 0 },
-        discipline: referenceMatch.discipline,
-        length: referenceMatch.length,
-        status: MatchStatus.notStarted
-      });
-    group.matches.push(...matches);
+      )
   }
 
   displayStatus(): string {
     return this.tourney
-      ? this._mapper.map(this.tourney.meta.status)
+      ? TourneyStatusMapper.map(this.tourney.meta.status)
       : 'Loading ...';
   }
 
@@ -93,8 +60,12 @@ export class TourneySummaryComponent {
     // return this.userService.canHandleTourneys();
   }
 
-  getDiscipline() {
-    return new PoolDisciplineMapper().map(this.tourney?.meta?.discipline);
+  getDiscipline(): string {
+    return PoolDisciplineMapper.map(this.tourney?.meta?.discipline);
+  }
+
+  getModus(): string {
+    return TourneyModeMapper.map(this.tourney?.meta?.modus ?? 0);
   }
 
   getWinner(): string {
@@ -119,12 +90,8 @@ export class TourneySummaryComponent {
       if (result) {
         result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
       }
-      this.change.emit(TourneyPhaseEvent.resultsPostProcessed);
+      this.change.emit({type: 'ResultsPostProcessed'});
     }
-  }
-
-  someGroupFinished(): boolean {
-    return this.tourney.groups.some(group => group.status === TourneyPhaseStatus.finalized)
   }
 
   canStart(): boolean {
@@ -133,11 +100,11 @@ export class TourneySummaryComponent {
   }
 
   canCompute(): boolean {
-    return true;
+    return false;
     // return this.userService.isAdmin() && this.tourney.meta.status !== TourneyStatus.postProcessed;
   }
 
-  start() {
-    this.change.emit(TourneyPhaseEvent.started);
+  start(): void {
+    this.change.emit({type: 'Started'});
   }
 }

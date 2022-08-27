@@ -1,23 +1,22 @@
 import { Match } from './match';
+import { TourneyDoubleEliminationStageType } from './tourney-double-elimination-stage-type';
 import { TourneyPhaseStatus } from './tourney-phase-status';
+import { TourneyEliminationStageType } from './tourney-single-elimination-stage-type';
 
-export interface TourneyEliminationStage {
-    type: TourneyEliminationStageType;
-    players: string[];
-    matches: Match[];
-    status: TourneyPhaseStatus;
+interface TourneyEliminationStageBase {
+  title: string;
+  matches: Match[];
+  status: TourneyPhaseStatus;
 }
 
-export enum TourneyEliminationStageType {
-    eigthFinal,
-    quarterFinal,
-    semiFinal,
-    thirdPlace,
-    final
+export interface SingleEliminationEliminationStage extends TourneyEliminationStageBase {
+  eliminationType: 'Single';
+  type: TourneyEliminationStageType;
 }
 
-export namespace TourneyEliminationStageType {
-    export function after(value: TourneyEliminationStageType): TourneyEliminationStageType {
-        return value + 1;
-    }
+export interface DoubleEliminationEliminationStage extends TourneyEliminationStageBase {
+  eliminationType: 'Double';
+  type: TourneyDoubleEliminationStageType;
 }
+
+export type TourneyEliminationStage = SingleEliminationEliminationStage | DoubleEliminationEliminationStage;

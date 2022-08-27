@@ -1,14 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TourneyPlayer } from '../models/tourney-player';
+import { TourneyPlayer } from '../models/evaluation/tourney-player';
 
 @Component({
   selector: 'app-tourney-player-create-dialog',
-  templateUrl: './tourney-player-create-dialog.component.html'
+  templateUrl: './tourney-player-create-dialog.component.html',
+  styleUrls: ['tourney-player-create-dialog.component.scss']
 })
 export class TourneyPlayerCreateDialogComponent implements OnInit {
 
-  dialogTitle: string = 'Neuen Spieler erstellen';
+  dialogTitle: string = 'Neuen Spieler anlegen';
   firstName: string;
   lastName: string;
   clubName: string;

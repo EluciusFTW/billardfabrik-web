@@ -1,0 +1,11 @@
+<mat-tab-group>
+  <mat-tab label="Einstieg">
+    <app-tourney-elimination-stage [stage]="entryStage()" (change)="emitChange($event)"></app-tourney-elimination-stage>
+  </mat-tab>
+  <mat-tab label="Gewinner-Bracket">
+    <app-tourney-elimination-stage *ngFor="let stage of winnerStages()" [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+  </mat-tab>
+  <mat-tab label="Verlierer-Bracket">
+    <app-tourney-elimination-stage *ngFor="let stage of looserStages()" [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+  </mat-tab>
+</mat-tab-group>

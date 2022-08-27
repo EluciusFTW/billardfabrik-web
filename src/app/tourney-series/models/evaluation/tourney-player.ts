@@ -1,4 +1,5 @@
-import { PlacementRecord, PlayerMatchRecord } from './tourney-evaluation';
+import { PlacementRecord } from './placement-record';
+import { PlayerMatchRecord } from './player-match-record';
 
 export interface TourneyPlayer {
   firstName: string;
@@ -8,10 +9,4 @@ export interface TourneyPlayer {
   enteredInSystem: number;
   placements?: PlacementRecord[];
   matches?: PlayerMatchRecord[];
-}
-
-export interface PlayerResultsRecord {
-  placements?: PlacementRecord[];
-  matches?: PlayerMatchRecord[];
-  achievements?: string[];
 }

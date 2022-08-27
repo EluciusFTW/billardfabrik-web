@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tourney } from '../models/tourney';
-import { TourneyPlacementType } from '../models/tourney-evaluation';
+import { TourneyPlacementType } from '../models/evaluation/tourney-placement-type';
 
 @Injectable()
 export class TourneyPointsService {
@@ -10,7 +10,6 @@ export class TourneyPointsService {
     if(![1,2,4,8].includes(numberOfGroups)){
       throw new Error("Can't calculate points when there are " + numberOfGroups + " groups.");
     }
-
 
     switch (placement) {
       case TourneyPlacementType.GroupStage: return 1;

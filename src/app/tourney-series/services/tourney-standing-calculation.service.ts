@@ -7,8 +7,10 @@ import { Match } from '../models/match';
 export class TourneyStandingCalculationService {
 
   calculcateStanding(group: TourneyGroup) : GroupStanding[]{
-    let startedMatches = group.matches.filter(match => match.playerOne.points + match.playerTwo.points > 0);
-    return group.players.map(player => this.CalculateStanding(player, startedMatches)).sort(this.compare);
+    let startedMatches = group.matches.filter(match => Match.hasStarted(match));
+    return group.players
+      .map(player => this.CalculateStanding(player, startedMatches))
+      .sort(this.compare);
   }
 
   private CalculateStanding(player: string, matches: Match[]): GroupStanding {

@@ -13,7 +13,7 @@ import { MatchStatus } from '../models/match-status';
 @Component({
   selector: 'app-tourney-group',
   templateUrl: './tourney-group.component.html',
-  styleUrls: ['./tourney-group.component.scss']
+  styleUrls: ['../tourneys.scss']
 })
 export class TourneyGroupComponent implements OnChanges {
 
@@ -21,7 +21,7 @@ export class TourneyGroupComponent implements OnChanges {
   group: TourneyGroup
 
   @Output()
-  change: EventEmitter<any> = new EventEmitter();
+  change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score', 'cancel'];
@@ -35,7 +35,7 @@ export class TourneyGroupComponent implements OnChanges {
     // private userService: UserService
   ) { }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(_: SimpleChanges): void {
     this.matches = new MatTableDataSource<Match>(this.group?.matches);
     this.calculateTotals();
   }
@@ -50,7 +50,7 @@ export class TourneyGroupComponent implements OnChanges {
       || match.status === MatchStatus.cancelled;
   }
 
-  cancelled(match: Match) {
+  cancelled(match: Match): boolean {
     return match.status === MatchStatus.cancelled;
   }
 
@@ -61,12 +61,11 @@ export class TourneyGroupComponent implements OnChanges {
   }
 
   notStarted(match: Match): boolean {
-    return match.playerOne.points + match.playerTwo.points === 0;
+    return !Match.hasStarted(match);
   }
 
   nooneOverTheHill(match: Match): boolean {
-    return match.playerOne.points < match.length
-      && match.playerTwo.points < match.length;
+    return !Match.isOver(match);
   }
 
   uncancellable(match: Match): boolean {
@@ -78,13 +77,12 @@ export class TourneyGroupComponent implements OnChanges {
     match.playerOne.points = 0;
     match.playerTwo.points = 0;
     match.status = MatchStatus.cancelled;
-    this.calculateTotals();
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit({ type: 'ScoreChanged' });
   }
 
   uncancel(match: Match): void {
     match.status = MatchStatus.notStarted;
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit({ type: 'ScoreChanged' });
   }
 
   plusDisabled(who: number, match: Match): boolean {
@@ -112,7 +110,7 @@ export class TourneyGroupComponent implements OnChanges {
     return 'gameOver';
   }
 
-  getStandingClass(standing: GroupStanding) {
+  getStandingClass(standing: GroupStanding): string {
     return this.standing.map(s => s.name).slice(0, 2).includes(standing.name)
       ? 'running'
       : '';
@@ -120,20 +118,18 @@ export class TourneyGroupComponent implements OnChanges {
 
   plus(player: MatchPlayer): void {
     player.points++;
-    this.calculateTotals();
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit({ type: 'ScoreChanged' });
   }
 
   minus(player: MatchPlayer): void {
     player.points--;
-    this.calculateTotals();
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit({ type: 'ScoreChanged' });
   }
 
   allGamesOver(): boolean {
     return this.group.matches
       .filter(match => match.status !== MatchStatus.cancelled)
-      .findIndex(match => match.playerOne.points < match.length && match.playerTwo.points < match.length) === -1;
+      .findIndex(match => !Match.isOver(match)) === -1;
   }
 
   finalize(): void {
@@ -150,7 +146,7 @@ export class TourneyGroupComponent implements OnChanges {
       .slice(0, 2)
       .map(row => row.name);
 
-    this.change.emit(TourneyPhaseEvent.groupStageFinalized);
+    this.change.emit({ type: 'GroupFinalized' });
   }
 
   private calculateTotals(): void {

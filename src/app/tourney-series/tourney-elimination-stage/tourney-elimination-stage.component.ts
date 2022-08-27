@@ -1,43 +1,48 @@
-import { Component, Input, SimpleChanges, EventEmitter, Output } from '@angular/core';
-import { TourneyEliminationStage, TourneyEliminationStageType } from '../models/Tourney-elimination-stage';
+import { Component, Input, SimpleChanges, EventEmitter, Output, OnChanges, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { MatchPlayer } from '../models/match-player';
-import { TourneyPhaseEvent } from '../models/tourney-phase-event';
+import {TourneyPhaseEvent } from '../models/tourney-phase-event';
 // import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
+import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
+import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage-type';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
   templateUrl: './tourney-elimination-stage.component.html',
-  styleUrls: ['./tourney-elimination-stage.component.scss']
+  styleUrls: ['../tourneys.scss']
 })
-export class TourneyEliminationStageComponent {
+export class TourneyEliminationStageComponent implements OnChanges {
 
   @Input()
   stage: TourneyEliminationStage
 
   @Output()
-  change: EventEmitter<any> = new EventEmitter();
+  change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
-  // this.stage?.matches
   matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score'];
 
   // constructor(private userService: UserService) { }
 
-  name(): string {
-    switch (this.stage.type) {
-      case TourneyEliminationStageType.eigthFinal: return "Achtelfinale";
-      case TourneyEliminationStageType.quarterFinal: return "ViertelFinale";
-      case TourneyEliminationStageType.semiFinal: return "Halbfinale";
-      case TourneyEliminationStageType.thirdPlace: return "Spiel um Platz 3";
-      case TourneyEliminationStageType.final: return "Finale";
-    }
-  }
+  ngOnChanges(_: SimpleChanges) {
+    this.stage.matches
+      .filter(match => MatchPlayer.isWalk(match.playerTwo))
+      .forEach(match => {
+        match.playerOne.points = match.length;
+        match.status = MatchStatus.done;
+      });
 
-  ngOnChanges(changes: SimpleChanges) {
+    this.stage.matches
+      .filter(match => MatchPlayer.isWalk(match.playerOne) && !MatchPlayer.isWalk(match.playerTwo))
+      .forEach(match => {
+        match.playerTwo.points = match.length;
+        match.status = MatchStatus.done;
+      });
+
     this.matches = new MatTableDataSource<Match>(this.stage?.matches);
   }
 
@@ -67,18 +72,18 @@ export class TourneyEliminationStageComponent {
 
   plus(player: MatchPlayer): void {
     player.points++;
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   minus(player: MatchPlayer): void {
     player.points--;
-    this.change.emit(TourneyPhaseEvent.scoreChanged);
+    this.change.emit({type: 'ScoreChanged'});
   }
 
   allGamesOver(): boolean {
     return this.stage.matches
       .filter(match => match.status !== MatchStatus.cancelled)
-      .findIndex(match => match.playerOne.points < match.length && match.playerTwo.points < match.length) === -1;
+      .findIndex(match => !Match.isOver(match)) === -1;
   }
 
   finalize(): void {
@@ -91,7 +96,17 @@ export class TourneyEliminationStageComponent {
       .filter(match => match.status !== MatchStatus.cancelled)
       .forEach(match => match.status = MatchStatus.done);
 
-    this.change.emit(TourneyPhaseEvent.eliminationStageFinalized);
+    const event = this.stage.eliminationType == 'Single'
+      ? ({
+        type: 'SingleEliminationStageFinalized',
+        stage: this.stage.type as TourneyEliminationStageType
+      })
+      : ({
+        type: 'DoubleEliminationStageFinalized',
+        stage: this.stage.type as TourneyDoubleEliminationStageType
+      })
+
+    this.change.emit(event as TourneyPhaseEvent);
   }
 
   canHandleTourney(): boolean {
@@ -100,7 +115,6 @@ export class TourneyEliminationStageComponent {
   }
 
   getMatchClass(match: Match): string {
-
     if (this.stage.status === TourneyPhaseStatus.finalized) {
       return '';
     } else if (match.status === MatchStatus.cancelled) {
@@ -110,15 +124,15 @@ export class TourneyEliminationStageComponent {
     } else if (this.nooneOverTheHill(match)) {
       return 'running';
     }
+
     return 'gameOver';
   }
 
   notStarted(match: Match): boolean {
-    return match.playerOne.points + match.playerTwo.points === 0;
+    return !Match.hasStarted(match);
   }
 
   nooneOverTheHill(match: Match): boolean {
-    return match.playerOne.points < match.length
-      && match.playerTwo.points < match.length;
+    return !Match.isOver(match);
   }
 }

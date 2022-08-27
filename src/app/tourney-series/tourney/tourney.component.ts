@@ -19,10 +19,27 @@ export class TourneyComponent implements OnDestroy {
     this.sub = this.route.params
       .subscribe(params => {
         this.id = params['id'];
-        this.tourneysService.get(this.id).subscribe(
-          tourney => this.tourney = tourney
-        );
+        this.tourneysService
+          .get(this.id)
+          .subscribe(tourney => this.tourney = tourney);
       });
+  }
+
+  hasGroupStage(): boolean {
+    return (this.tourney?.groups?.length ?? 0) > 0;
+  }
+
+  hasDoubleEliminationStage(): boolean {
+    return (this.tourney?.doubleEliminationStages?.length ?? 0) > 0
+  }
+
+  hasSingleEliminationStage(): boolean {
+    return (this.tourney?.eliminationStages?.length ?? 0) > 0
+  }
+
+
+  update(event: TourneyPhaseEvent): void {
+    this.tourneysService.update(this.tourney, event);
   }
 
   ngOnDestroy(): void {
