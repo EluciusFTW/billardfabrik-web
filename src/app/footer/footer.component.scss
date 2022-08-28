@@ -5,9 +5,9 @@
   flex-direction: row;
   justify-content: space-between;
   padding: .5rem 1rem .5rem 1rem;
-  color: $prim;
 }
 
-.footer.solid {
-  background-color: $fourth;
+a {
+  color: $mat-prim;
+  text-decoration: none;
 }

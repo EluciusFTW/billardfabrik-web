@@ -1,12 +1,15 @@
-<footer class="footer solid">
-  <span>Copyright 2022 by @EluciusFTW</span>
-  <div *ngIf="!isLoggedIn(); else loggedOut" class="material-icons" (click)="login()">
-    login
-  </div>
+<footer class="footer">
+  <button mat-button color="primary" >
+    <a target="_blank" rel="noopener" href="https://github.com/EluciusFTW">Copyright 2022 by @EluciusFTW</a>
+  </button>
 
-  <ng-template #loggedOut>
-    <div class="material-icons" (click)="logout()">
-      logout
-    </div>
+  <button mat-button color="primary" *ngIf="!isLoggedIn(); else loggedIn" (click)="login()">
+    <div class="material-icons">login</div>
+  </button>
+
+  <ng-template #loggedIn>
+    <button mat-button color="primary" (click)="logout()">
+      {{ displayName() }}
+      <div class="material-icons">logout</div></button>
   </ng-template>
 </footer>

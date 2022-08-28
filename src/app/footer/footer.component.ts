@@ -11,12 +11,16 @@ export class FooterComponent {
   constructor(private userService: UserService) {
   }
 
-  login() : void{
+  login(): void {
     this.userService.login();
   }
 
-  logout() : void{
-    window.console.log('Logout triggered!');
+  displayName(): string {
+    return this.userService.userName;
+  }
+
+  logout(): void {
+    this.userService.logout();
   }
 
   isLoggedIn(): boolean {
