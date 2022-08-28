@@ -108,7 +108,6 @@ export class CreateTourneyComponent {
       ? this.createSingle(info)
       : this.createDouble(info)
 
-    console.log('Tourney to be persisted: ', this.tourney);
     this.tourneysService.update(this.tourney, { type: 'Created' });
   }
 

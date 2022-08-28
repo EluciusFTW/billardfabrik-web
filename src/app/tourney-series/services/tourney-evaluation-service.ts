@@ -9,7 +9,6 @@ import { TourneyEliminationStageType } from '../models/tourney-single-eliminatio
 export class TourneyEvaluationService {
 
   public GetPlayerCount(tourney: Tourney): number {
-    console.log('t: ', tourney);
     return tourney.meta?.numberOfPlayers
       ?? tourney.groups?.flatMap(group => group.players).length
       ?? 0;

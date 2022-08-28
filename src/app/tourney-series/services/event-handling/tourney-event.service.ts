@@ -18,7 +18,6 @@ export class TourneyEventService {
     private doubleEliminationStageFinalizedService: DoubleEliminationStageFinalizedService) { }
 
   apply(tourney: Tourney, event: TourneyPhaseEvent): void {
-    console.log('Received event: ', event);
     switch (event.type) {
       case 'Started': {
         this.startTourney(tourney);
