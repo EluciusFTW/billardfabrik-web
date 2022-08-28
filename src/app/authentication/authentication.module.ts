@@ -6,7 +6,6 @@ import { UserService } from './user.service';
 import { UserGuard } from './guards/user.guard';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { MaterialModule } from '../material/material.module';
-import { LoginPageComponent } from './login-page/login-page.component';
 
 @NgModule({
   imports: [
@@ -20,7 +19,7 @@ import { LoginPageComponent } from './login-page/login-page.component';
     UserService,
     UserGuard
   ],
-  declarations: [LoginDialogComponent, LoginPageComponent],
+  declarations: [LoginDialogComponent],
   entryComponents: [LoginDialogComponent]
 })
 export class AuthenticationModule { }

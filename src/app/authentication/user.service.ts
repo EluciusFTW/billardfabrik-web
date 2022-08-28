@@ -25,12 +25,9 @@ export class UserService {
   }
 
   login(): void {
-    const dialogRef = this.dialog.open(LoginDialogComponent, {
-      width: '400px',
-      hasBackdrop: true
-    });
-
-    dialogRef.afterClosed()
+    this.dialog
+      .open(LoginDialogComponent)
+      .afterClosed()
       .pipe(take(1))
       .subscribe(loginData => {
         if (loginData) {
@@ -39,14 +36,13 @@ export class UserService {
       });
   }
 
-  signIn(loginData: LoginData): void {
+  private signIn(loginData: LoginData): void {
     this.authenticationService
       .signInWithEmailAndPassword(loginData.email, loginData.password)
       .then(user => this.getUserInformation(user))
-      .then(user => this.storeUserLogin(user))
-      .catch(error => {
+      .catch(_ => {
         this.resetUserData();
-        this.messageService.failure('Wrong Credentials!')
+        this.messageService.failure('SignIn failed: Wrong Credentials.')
       });
   }
 
@@ -55,40 +51,16 @@ export class UserService {
     this.db
       .object('users/' + this.uid)
       .valueChanges()
-      .pipe(first())
+      .pipe(take(1))
       .subscribe({
         next: userData => {
-          window.console.log('Fetched single user data using object: ', userData);
           this.setUserName(userData);
         },
-        error: _ => window.console.log('Could not fetch user data for uid: ' + this.uid)
       });
   };
 
   private setUserName(userData: any): void {
-    this.userName = userData.displayName;
-  }
-
-  private storeUserLogin(user: any): void {
-    const loginEvent = { 'login': new Date(Date.now()).toLocaleString() };
-    this.db.list('/userHistory/' + this.uid).push(loginEvent);
-  }
-
-  createUserWithEmailAndPassword(userName: string, passWord: string, displayName: string): void {
-    this.authenticationService.createUserWithEmailAndPassword(userName, passWord)
-      .then(
-        user => this.createUserData(user, displayName),
-        error => this.messageService.failure('User kann nicht angelegt werden.', JSON.stringify(error))
-      )
-      .then(
-        () => this.messageService.success('User erfolgreich angelegt!'),
-        error => this.messageService.failure('User angelegt, aber Meta-daten nicht!', JSON.stringify(error))
-      );
-  }
-
-  createUserData(u: any, displayName: string): void {
-    const userData = { 'type': 'just-created', 'displayName': displayName };
-    this.db.object('users/' + u.uid).set(userData);
+    this.userName = "loggy"; userData.displayName;
   }
 
   logout() {
