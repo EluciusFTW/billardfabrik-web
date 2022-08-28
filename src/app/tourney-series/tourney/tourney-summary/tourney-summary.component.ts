@@ -10,7 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
 import { TourneyModeMapper } from '../../models/tourney-mode';
 import { TourneyModificationService } from '../../services/tourney-modification.service';
-// import { UserService } from 'src/app/authenticated-area/user.service';
+import { UserService } from 'src/app/authentication/user.service';
 
 @Component({
   selector: 'app-tourney-summary',
@@ -31,7 +31,7 @@ export class TourneySummaryComponent {
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
     public dialog: MatDialog,
-    // private userService: UserService
+    private userService: UserService
   ) { }
 
   addPlayer(): void {
@@ -43,7 +43,7 @@ export class TourneySummaryComponent {
         name => {
           if (name) {
             this.modificationService.injectPlayer(this.tourney, name);
-            this.change.emit({type: 'ScoreChanged'});
+            this.change.emit({ type: 'ScoreChanged' });
           }
         }
       )
@@ -56,8 +56,7 @@ export class TourneySummaryComponent {
   }
 
   canAddPlayers(): boolean {
-    return true;
-    // return this.userService.canHandleTourneys();
+    return this.userService.canHandleTourneys();
   }
 
   getDiscipline(): string {
@@ -90,21 +89,20 @@ export class TourneySummaryComponent {
       if (result) {
         result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
       }
-      this.change.emit({type: 'ResultsPostProcessed'});
+      this.change.emit({ type: 'ResultsPostProcessed' });
     }
   }
 
   canStart(): boolean {
-    return true;
-    // return this.userService.canHandleTourneys();
+    return this.userService.canHandleTourneys();
   }
 
   canCompute(): boolean {
+    // Need to rework the computation before this can be turned on.
     return false;
-    // return this.userService.isAdmin() && this.tourney.meta.status !== TourneyStatus.postProcessed;
   }
 
   start(): void {
-    this.change.emit({type: 'Started'});
+    this.change.emit({ type: 'Started' });
   }
 }

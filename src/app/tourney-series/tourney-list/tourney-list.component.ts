@@ -2,9 +2,9 @@ import { Component, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { Tourney } from '../models/tourney';
-// import { UserService } from 'src/app/authenticated-area/user.service';
 import { TourneyStatus, TourneyStatusMapper } from '../models/tourney-status';
 import { TourneysService } from '../services/tourneys.service';
+import { UserService } from 'src/app/authentication/user.service';
 
 @Component({
   templateUrl: './tourney-list.component.html',
@@ -18,10 +18,7 @@ export class TourneyListComponent implements OnDestroy {
   tourneyDataSource = new MatTableDataSource<Tourney>(this.tourneys);
   displayedColumns = ['name', 'date', 'status'];
 
-  constructor(
-    private tourneysService: TourneysService,
-    // private userService: UserService
-  ) {
+  constructor(private tourneysService: TourneysService, private userService: UserService) {
     this.tourneysSub = this.tourneysService
       .getAll()
       .subscribe(
@@ -42,8 +39,7 @@ export class TourneyListComponent implements OnDestroy {
   }
 
   isTourneyAuthenticated(): boolean {
-    return true;
-    // return this.userService.isLoggedIn() && (this.userService.isClub() || this.userService.isAdmin());
+    return this.userService.canHandleTourneys();
   }
 
   mapTourneyState(status: TourneyStatus) {

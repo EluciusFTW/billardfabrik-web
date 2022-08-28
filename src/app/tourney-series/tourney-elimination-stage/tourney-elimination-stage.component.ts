@@ -4,11 +4,11 @@ import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { MatchPlayer } from '../models/match-player';
 import {TourneyPhaseEvent } from '../models/tourney-phase-event';
-// import { UserService } from 'src/app/authenticated-area/user.service';
 import { MatchStatus } from '../models/match-status';
 import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage-type';
+import { UserService } from 'src/app/authentication/user.service';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
@@ -26,7 +26,7 @@ export class TourneyEliminationStageComponent implements OnChanges {
   matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score'];
 
-  // constructor(private userService: UserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnChanges(_: SimpleChanges) {
     this.stage.matches
@@ -110,8 +110,7 @@ export class TourneyEliminationStageComponent implements OnChanges {
   }
 
   canHandleTourney(): boolean {
-    return true;
-    // return this.userService.canHandleTourneys();
+    return this.userService.canHandleTourneys();
   }
 
   getMatchClass(match: Match): string {

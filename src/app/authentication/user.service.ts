@@ -24,6 +24,10 @@ export class UserService {
     return !!this.userName;
   }
 
+  canHandleTourneys(): boolean {
+    return this.isLoggedIn();
+  }
+
   login(): void {
     this.dialog
       .open(LoginDialogComponent)
