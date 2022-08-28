@@ -60,7 +60,7 @@ export class UserService {
   };
 
   private setUserName(userData: any): void {
-    this.userName = "loggy"; userData.displayName;
+    this.userName = userData?.displayName || 'No displayName set';
   }
 
   logout() {
