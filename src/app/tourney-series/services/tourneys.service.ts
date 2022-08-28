@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyEventService } from './event-handling/tourney-event.service';
@@ -14,7 +15,7 @@ export class TourneysService {
   constructor(
     private db: AngularFireDatabase,
     private eventService: TourneyEventService,
-    //private messageService: OwnMessageService
+    private messageService: OwnMessageService
   ) { }
 
   get(id: string): Observable<Tourney> {
@@ -47,7 +48,7 @@ export class TourneysService {
     this.db.object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
       .set(tourney)
       .then(
-        // () => this.messageService.success('Neues Turnier gespeichert', '')
+        () => this.messageService.success('Neues Turnier erfolgreich erstellt')
       );
   }
 

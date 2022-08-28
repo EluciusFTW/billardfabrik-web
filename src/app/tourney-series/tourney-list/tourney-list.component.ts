@@ -26,7 +26,7 @@ export class TourneyListComponent implements OnDestroy {
           this.tourneys = this.isTourneyAuthenticated()
             ? tourneys
             : tourneys.filter(tourney => tourney.meta.status !== TourneyStatus.new);
-          this.tourneyDataSource = new MatTableDataSource<Tourney>(this.tourneys);
+          this.tourneyDataSource = new MatTableDataSource<Tourney>(this.tourneys.reverse());
         }
       )
   }
