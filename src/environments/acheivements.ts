@@ -29,7 +29,7 @@ export const achievements: any[] = [
     id: 'back-to-back',
     title: 'BACK-TO-BACK',
     criterion: 'Zwei aufeinanderfolgende Siege',
-    prize: 'tba'
+    prize: '1 Zubehör (Kreide/Handschuh) und ein 10 Euro Getränkegutschein'
   },
   {
     icon: 'fas fa-thermometer-three-quarters',
@@ -61,7 +61,7 @@ export const achievements: any[] = [
     id: 'nerves-of-steel',
     title: 'NERVEN AUS STAHL',
     criterion: '10 Hill-Hill matches gewonnen',
-    prize: 'tba'
+    prize: 'Billardzubehör aus dem Mensa-Shop in Höhe von 25 Euro'
   },
   {
     icon: 'fas fa-gem',
