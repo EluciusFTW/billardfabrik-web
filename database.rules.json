@@ -1,5 +1,14 @@
 {
   "rules": {
-    ".read": true
+    ".read": true,
+    ".write": false,
+    "tourneySeries": {
+      "tourneys": {
+        ".write": true
+      },
+      "players": {
+        ".write": "auth != null"
+      }
+    }
    }
 }
