@@ -19,25 +19,31 @@ import { TourneyEliminationStageType } from '../models/tourney-single-eliminatio
 @Injectable()
 export class TourneyStatisticsService {
 
+  relevantStagesForTourneyRecords = [
+    TourneyEliminationStageType.final,
+    TourneyEliminationStageType.thirdPlace,
+    TourneyEliminationStageType.quarterFinal,
+    TourneyEliminationStageType.last16
+  ];
+
   constructor(private pointsService: TourneyPointsService) { }
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {
-    throw Error('Not upgraded yet!');
-    // if (tourney.meta.status !== TourneyStatus.completed) {
-    //   return { players: [] };
-    // }
+    if (tourney.meta.status !== TourneyStatus.completed) {
+      return { players: [] };
+    }
 
-    // const matchesByPlayer = this.GetMachesByPlayer(tourney);
-    // const placementsByPlayer = this.GetPlacementsByPlayer(tourney);
+    const matchesByPlayer = this.GetMachesByPlayer(tourney);
+    const placementsByPlayer = this.GetPlacementsByPlayer(tourney);
 
-    // return {
-    //   players: [...matchesByPlayer.keys()]
-    //     .map(player => ({
-    //       name: player,
-    //       matches: matchesByPlayer.get(player),
-    //       placement: placementsByPlayer.get(player)
-    //     })),
-    // }
+    return {
+      players: [...matchesByPlayer.keys()]
+        .map(player => ({
+          name: player,
+          matches: matchesByPlayer.get(player),
+          placement: placementsByPlayer.get(player)
+        })),
+    }
   }
 
   private GetPlacementsByPlayer(tourney: Tourney): Map<string, PlacementRecord> {
@@ -50,6 +56,7 @@ export class TourneyStatisticsService {
 
     tourney.eliminationStages
       .filter(stage => stage.status === TourneyPhaseStatus.finalized)
+      .filter(stage => this.relevantStagesForTourneyRecords.find(i => i === stage.type) + 1)
       .forEach(stage => {
         stage.matches
           .filter(match => match.status === MatchStatus.done || match.status === MatchStatus.cancelled)
@@ -64,7 +71,7 @@ export class TourneyStatisticsService {
             loosers.forEach(looser => result.set(looser, looserRecord));
 
             if (match.status === MatchStatus.done
-              && (stage.type === TourneyEliminationStageType.thirdPlace || TourneyEliminationStageType.final)) {
+              && (stage.type === TourneyEliminationStageType.thirdPlace || stage.type === TourneyEliminationStageType.final)) {
               const winner = match.playerOne.points === match.length
                 ? match.playerOne.name
                 : match.playerTwo.name;
@@ -100,7 +107,7 @@ export class TourneyStatisticsService {
       case TourneyEliminationStageType.quarterFinal: return TourneyPlacementType.QuarterFinal;
       case TourneyEliminationStageType.thirdPlace: return TourneyPlacementType.FourthPlace;
       case TourneyEliminationStageType.final: return TourneyPlacementType.RunnerUp;
-      default: throw Error;
+      default: throw new Error("The stage type cannot be mapped to a placement type.")
     }
   }
 
