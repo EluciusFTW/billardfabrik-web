@@ -10,7 +10,7 @@ export class TourneyStatusMapper {
     private static _strings = [
         'Neu',
         'Laufend',
-        'Abgeschlossen',
+        'Beendet',
         'Abgeschlossen']
 
     static map(status: TourneyStatus): string {

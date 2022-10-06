@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
 
@@ -7,7 +7,7 @@ import { TourneyPlayer } from '../models/evaluation/tourney-player';
   templateUrl: './tourney-player-create-dialog.component.html',
   styleUrls: ['tourney-player-create-dialog.component.scss']
 })
-export class TourneyPlayerCreateDialogComponent implements OnInit {
+export class TourneyPlayerCreateDialogComponent {
 
   dialogTitle: string = 'Neuen Spieler anlegen';
   firstName: string;
@@ -21,11 +21,7 @@ export class TourneyPlayerCreateDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<TourneyPlayerCreateDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public player: TourneyPlayer) { }
 
-  ngOnInit(): void {
-  }
-
   submit(): void {
-
     const firstNameError = this.validate(this.firstName)
     if(firstNameError){
       this.error = "First name contains illegal character: " + firstNameError;
@@ -52,12 +48,12 @@ export class TourneyPlayerCreateDialogComponent implements OnInit {
 
     for (var i = 0; i < name.length; i++) {
       if (!name[i].match(letters) ) {
-        this.error = "Invalid character: " + name[i];
+        this.error = 'Invalid character: ' + name[i];
         return name[i];
       }
     }
 
-    return "";
+    return '';
   }
 
   private getClubName(): string{

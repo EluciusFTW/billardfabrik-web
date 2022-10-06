@@ -11,9 +11,6 @@ export class TourneyGroupStageAddPlayerDialogComponent {
 
   constructor(public dialogRef: MatDialogRef<TourneyGroupStageAddPlayerDialogComponent>) { }
 
-  ngOnInit(): void {
-  }
-
   submit(): void {
     this.dialogRef.close(this.firstName + ' ' + this.lastName);
   }
