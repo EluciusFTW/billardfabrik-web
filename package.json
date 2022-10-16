@@ -6,9 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "deploy": "firebase deploy --only hosting",
-    "deploy-advanced": "npm run cp &&  firebase deploy --only hosting",
-    "build-and-deploy": "npm run build && npm run deploy",
-    "cp": "@powershell copy './sitemap.xml' './dist/mensa-web'"
+    "cp": "@powershell copy './sitemap.xml' './dist/billardfabrik-web'",
+    "build-and-deploy": "npm run build && npm run cp && npm run deploy"
   },
   "private": true,
   "dependencies": {
