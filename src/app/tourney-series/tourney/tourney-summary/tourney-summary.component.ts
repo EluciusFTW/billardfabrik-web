@@ -101,7 +101,7 @@ export class TourneySummaryComponent {
     // Evaluation of double elimination tourneys is still not implemented
     return this.userService.canHandleTourneys()
       && this.tourney.meta.status === TourneyStatus.completed
-      && this.tourney.meta.modus === TourneyMode.GruopsThenSingleElimination
+      && this.tourney.meta.modus === TourneyMode.GroupsThenSingleElimination
   }
 
   start(): void {

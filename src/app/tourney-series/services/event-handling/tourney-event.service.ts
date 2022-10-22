@@ -46,7 +46,7 @@ export class TourneyEventService {
 
   startTourney(tourney: Tourney) {
     tourney.meta.status = TourneyStatus.ongoing;
-    if (tourney.meta.modus === TourneyMode.GruopsThenSingleElimination) {
+    if (tourney.meta.modus === TourneyMode.GroupsThenSingleElimination) {
       tourney.groups.forEach(group => group.status = TourneyPhaseStatus.readyOrOngoing);
     }
     else if (tourney.meta.modus === TourneyMode.DoubleElimination) {

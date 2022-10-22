@@ -22,7 +22,7 @@ export class GroupsThenSingleEliminationCreationService {
   }
 
   private determineStartingStage(info: GroupsThenSingleEliminationTourneyInfo): TourneyEliminationStageType {
-    if (info.mode === TourneyMode.GruopsThenSingleElimination) {
+    if (info.mode === TourneyMode.GroupsThenSingleElimination) {
       return info.nrOfGroups === 8
         ? TourneyEliminationStageType.last32
         : info.nrOfGroups >= 4

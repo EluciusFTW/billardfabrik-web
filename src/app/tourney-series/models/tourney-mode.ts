@@ -1,5 +1,5 @@
 export enum TourneyMode {
-    GruopsThenSingleElimination,
+    GroupsThenSingleElimination,
     DoubleElimination
 }
 

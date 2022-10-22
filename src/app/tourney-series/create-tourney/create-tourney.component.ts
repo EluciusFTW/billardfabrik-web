@@ -26,7 +26,7 @@ export class CreateTourneyComponent {
   playModi: TourneyModeViewModel[] = [
     {
       label: 'Gruppen + Einfach-K.O.',
-      mode: TourneyMode.GruopsThenSingleElimination,
+      mode: TourneyMode.GroupsThenSingleElimination,
       hasFirstElimination: false,
       hasGroups: true
     },
@@ -106,7 +106,7 @@ export class CreateTourneyComponent {
       mode: this.selectedPlayModus.mode
     };
 
-    this.tourney = this.selectedPlayModus.mode === TourneyMode.GruopsThenSingleElimination
+    this.tourney = this.selectedPlayModus.mode === TourneyMode.GroupsThenSingleElimination
       ? this.createSingle(info)
       : this.createDouble(info)
 

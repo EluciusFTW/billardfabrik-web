@@ -39,7 +39,7 @@ export class CreatingMockTourneysService {
       raceLength: 1,
       discipline: PoolDiscipline.NineBall,
       nrOfGroups: 4,
-      mode: TourneyMode.GruopsThenSingleElimination,
+      mode: TourneyMode.GroupsThenSingleElimination,
       name: 'Mock SE Tourney',
     } as GroupsThenSingleEliminationTourneyInfo;
   }
