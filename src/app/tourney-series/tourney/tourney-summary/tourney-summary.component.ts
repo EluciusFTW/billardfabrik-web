@@ -8,7 +8,7 @@ import { TourneyStatisticsService } from '../../services/tourney-statistics.serv
 import { PlayersService } from '../../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-import { TourneyModeMapper } from '../../models/tourney-mode';
+import { TourneyMode, TourneyModeMapper } from '../../models/tourney-mode';
 import { TourneyModificationService } from '../../services/tourney-modification.service';
 import { UserService } from 'src/app/authentication/user.service';
 
@@ -98,8 +98,10 @@ export class TourneySummaryComponent {
   }
 
   canCompute(): boolean {
-    // Need to rework the computation before this can be turned on.
-    return false;
+    // Evaluation of double elimination tourneys is still not implemented
+    return this.userService.canHandleTourneys()
+      && this.tourney.meta.status === TourneyStatus.completed
+      && this.tourney.meta.modus === TourneyMode.GruopsThenSingleElimination
   }
 
   start(): void {
