@@ -7,14 +7,4 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'billardfabrik-web';
-  defaultImage = '../assets/pics/player-right.jpg';
-  urlToImage = this.defaultImage;
-
-  // constructor(private router: Router) {
-  //   router.events.subscribe((val) => {
-  //     if (val instanceof ActivationStart) {
-  //       this.urlToImage = val.snapshot.data.bg || this.defaultImage;
-  //     }
-  //   });
-  // }
 }

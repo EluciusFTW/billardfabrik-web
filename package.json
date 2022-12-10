@@ -5,9 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "deploy": "firebase deploy --only hosting",
+    "deploy": "firebase deploy",
     "cp": "@powershell copy './sitemap.xml' './dist/billardfabrik-web'",
-    "build-and-deploy": "npm run build && npm run cp && npm run deploy"
+    "build-and-deploy": "npm run build && npm run cp && npm run deploy",
   },
   "private": true,
   "dependencies": {
