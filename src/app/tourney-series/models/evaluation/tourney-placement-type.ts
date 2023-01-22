@@ -17,6 +17,7 @@ export enum TourneyPlacementTypeNew {
   QuarterFinal = 5, // (Last8),
   Last12 = 6,
   EigthFinal = 7, // (Last16)
-  Lastt24,
+  Lastt24 = 8,
+
   GroupStage = 0,
 }

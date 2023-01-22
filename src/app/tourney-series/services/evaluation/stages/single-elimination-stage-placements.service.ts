@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { PlacementRecord } from "../../models/evaluation/placement-record";
-import { TourneyPlacementType } from "../../models/evaluation/tourney-placement-type";
-import { MatchStatus } from "../../models/match-status";
-import { Tourney } from "../../models/tourney";
-import { TourneyPhaseStatus } from "../../models/tourney-phase-status";
-import { TourneyEliminationStageType } from "../../models/tourney-single-elimination-stage-type";
-import { PlacementRecordBuilder } from "./placement-record.builder";
+import { PlacementRecord } from "../../../models/evaluation/placement-record";
+import { TourneyPlacementType } from "../../../models/evaluation/tourney-placement-type";
+import { MatchStatus } from "../../../models/match-status";
+import { Tourney } from "../../../models/tourney";
+import { TourneyPhaseStatus } from "../../../models/tourney-phase-status";
+import { TourneyEliminationStageType } from "../../../models/tourney-single-elimination-stage-type";
+import { PlacementRecordBuilder } from "../placement-record.builder";
 
 @Injectable()
 export class SingleEliminationStagePlacementsService {
@@ -20,7 +20,7 @@ export class SingleEliminationStagePlacementsService {
   constructor(private readonly recordBuilder: PlacementRecordBuilder) { }
 
   public Add(tourney: Tourney, results: Map<string, PlacementRecord>): void {
-    tourney.eliminationStages
+    (tourney.eliminationStages ?? [])
       .filter(stage => stage.status === TourneyPhaseStatus.finalized)
       .filter(stage => this.relevantStagesForTourneyRecords.find(i => i === stage.type) + 1)
       .forEach(stage => {

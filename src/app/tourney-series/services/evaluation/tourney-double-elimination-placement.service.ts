@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { PlacementRecord } from "../../models/evaluation/placement-record";
 import { Tourney } from "../../models/tourney";
 import { TourneyMode } from "../../models/tourney-mode";
-import { SingleEliminationStagePlacementsService } from "./single-elimination-stage-placements.service";
+import { SingleEliminationStagePlacementsService } from "./stages/single-elimination-stage-placements.service";
 
 @Injectable()
 export class TourneyDoubleEliminationPlacementsService {
