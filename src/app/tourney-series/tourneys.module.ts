@@ -45,8 +45,10 @@ import { DoubleEliminationStageCreationService } from './services/creation/doubl
 import { GroupsCreationService } from './services/creation/groups-creation.service';
 import { EliminationMatchesCreationService } from './services/creation/elimination-matches-creation.service';
 import { DoubleEliminationStageFinalizedService } from './services/event-handling/double-elimination-stage-finalized.service';
-import { TourneyPlacementsService } from './services/evaluation/tourney-placements.service';
 import { TourneyMatchesService } from './services/evaluation/tourney-matches.service';
+import { TourneyDoubleEliminationPlacementsService } from './services/evaluation/tourney-double-elimination-placement.service';
+import { TourneyPlacementsService } from './services/evaluation/tourney-placements.service';
+import { TourneySingleEliminationPlacementsService } from './services/evaluation/tourney-single-elimination-placements.service';
 
 
 
@@ -101,6 +103,8 @@ import { TourneyMatchesService } from './services/evaluation/tourney-matches.ser
     TourneyEvaluationService,
     TourneyStatisticsService,
     TourneyPlacementsService,
+    TourneyDoubleEliminationPlacementsService,
+    TourneySingleEliminationPlacementsService,
     TourneyMatchesService,
     TourneyPointsService,
     PlayersService

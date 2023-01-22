@@ -13,10 +13,18 @@ Injectable()
 export class TourneyMatchesService {
 
   public Evaluate(tourney: Tourney): Map<string, PlayerMatchRecord[]> {
-    const groupMatches = tourney.groups.map(group => this.GetMatchesFromGroup(tourney.meta, group));
-    const stageMatches = tourney.eliminationStages.map(stage => this.GetMatchesFromStage(tourney.meta, stage))
+    const groupMatches = (tourney.groups ?? [])
+      .map(group => this.GetMatchesFromGroup(tourney.meta, group));
+    const singleEliminationMatches = (tourney.eliminationStages ?? [])
+      .map(stage => this.GetMatchesFromStage(tourney.meta, stage));
+    const doubleEliminationMatches = (tourney.doubleEliminationStages ?? [])
+      .map(stage => this.GetMatchesFromStage(tourney.meta, stage));
 
-    return this.ReduceMaps(groupMatches.concat(stageMatches));
+    var allMatches = groupMatches
+      .concat(singleEliminationMatches)
+      .concat(doubleEliminationMatches);
+
+    return this.ReduceMaps(allMatches);
   }
 
   private GetMatchesFromGroup(meta: TourneyMeta, group: TourneyGroup): Map<string, PlayerMatchRecord[]> {

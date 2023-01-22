@@ -24,7 +24,7 @@ export class TourneyStatisticsService {
           name: player,
           matches: matchesByPlayer.get(player),
           placement: placementsByPlayer.get(player)
-        })),
+        }))
     }
   }
 }
