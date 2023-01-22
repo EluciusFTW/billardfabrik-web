@@ -26,8 +26,8 @@ import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 
 import { TourneyEvaluationService } from './services/tourney-evaluation-service';
-import { TourneyStatisticsService } from './services/tourney-statistics.service';
-import { TourneyPointsService } from './services/tourney-points.service';
+import { TourneyStatisticsService } from './services/evaluation/tourney-statistics.service';
+import { TourneyPointsService } from './services/evaluation/tourney-points.service';
 
 import { TourneysLandingPageComponent } from './tourneys-landing-page/tourneys-landing-page.component';
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
@@ -45,6 +45,8 @@ import { DoubleEliminationStageCreationService } from './services/creation/doubl
 import { GroupsCreationService } from './services/creation/groups-creation.service';
 import { EliminationMatchesCreationService } from './services/creation/elimination-matches-creation.service';
 import { DoubleEliminationStageFinalizedService } from './services/event-handling/double-elimination-stage-finalized.service';
+import { TourneyPlacementsService } from './services/evaluation/tourney-placements.service';
+import { TourneyMatchesService } from './services/evaluation/tourney-matches.service';
 
 
 
@@ -87,9 +89,9 @@ import { DoubleEliminationStageFinalizedService } from './services/event-handlin
     GroupsCreationService,
     GroupsThenSingleEliminationCreationService,
     TourneyModificationService,
-    { 
-      provide: TourneysService, 
-      useClass: TourneysService // CreatingMockTourneysService 
+    {
+      provide: TourneysService,
+      useClass: TourneysService // CreatingMockTourneysService
     },
     TourneyEventService,
     GroupStageFinalizedService,
@@ -98,6 +100,8 @@ import { DoubleEliminationStageFinalizedService } from './services/event-handlin
     TourneyStandingCalculationService,
     TourneyEvaluationService,
     TourneyStatisticsService,
+    TourneyPlacementsService,
+    TourneyMatchesService,
     TourneyPointsService,
     PlayersService
   ]

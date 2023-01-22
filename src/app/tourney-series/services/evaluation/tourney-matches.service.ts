@@ -1,49 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Match } from '../models/match';
-import { MatchType } from '../models/match-type';
-import { MatchPlayer } from '../models/match-player';
-import { MatchStatus } from '../models/match-status';
-import { Tourney } from '../models/tourney';
-import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
-import { TourneyEvaluation } from '../models/evaluation/tourney-evaluation';
-import { PlayerMatchRecord } from '../models/evaluation/player-match-record';
-import { TourneyGroup } from '../models/tourney-group';
-import { TourneyMeta } from '../models/tourney-meta';
-import { TourneyStatus } from '../models/tourney-status';
-import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
-import { TourneyPlacementsService } from './tourney-placements.service';
+import { Injectable } from "@angular/core";
+import { PlayerMatchRecord } from "../../models/evaluation/player-match-record";
+import { Match } from "../../models/match";
+import { MatchPlayer } from "../../models/match-player";
+import { MatchStatus } from "../../models/match-status";
+import { MatchType } from "../../models/match-type";
+import { Tourney } from "../../models/tourney";
+import { TourneyEliminationStage } from "../../models/tourney-elimination-stage";
+import { TourneyGroup } from "../../models/tourney-group";
+import { TourneyMeta } from "../../models/tourney-meta";
 
-@Injectable()
-export class TourneyStatisticsService {
+Injectable()
+export class TourneyMatchesService {
 
-  relevantStagesForTourneyRecords = [
-    TourneyEliminationStageType.final,
-    TourneyEliminationStageType.thirdPlace,
-    TourneyEliminationStageType.quarterFinal,
-    TourneyEliminationStageType.last16
-  ];
-
-  constructor(private placementsService: TourneyPlacementsService) { }
-
-  public Evaluate(tourney: Tourney): TourneyEvaluation {
-    if (tourney.meta.status !== TourneyStatus.completed) {
-      return { players: [] };
-    }
-
-    const matchesByPlayer = this.GetMachesByPlayer(tourney);
-    const placementsByPlayer = this.placementsService.Evaluate(tourney);
-
-    return {
-      players: [...matchesByPlayer.keys()]
-        .map(player => ({
-          name: player,
-          matches: matchesByPlayer.get(player),
-          placement: placementsByPlayer.get(player)
-        })),
-    }
-  }
-
-  private GetMachesByPlayer(tourney: Tourney): Map<string, PlayerMatchRecord[]> {
+  public Evaluate(tourney: Tourney): Map<string, PlayerMatchRecord[]> {
     const groupMatches = tourney.groups.map(group => this.GetMatchesFromGroup(tourney.meta, group));
     const stageMatches = tourney.eliminationStages.map(stage => this.GetMatchesFromStage(tourney.meta, stage))
 

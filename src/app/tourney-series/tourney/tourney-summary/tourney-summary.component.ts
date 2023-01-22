@@ -4,7 +4,7 @@ import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status'
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { PoolDisciplineMapper } from '../../models/pool-discipline';
 import { TourneyEvaluationService } from '../../services/tourney-evaluation-service';
-import { TourneyStatisticsService } from '../../services/tourney-statistics.service';
+import { TourneyStatisticsService } from '../../services/evaluation/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';

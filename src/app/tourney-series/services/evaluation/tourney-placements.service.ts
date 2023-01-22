@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { PlacementRecord } from "../models/evaluation/placement-record";
-import { TourneyPlacementType } from "../models/evaluation/tourney-placement-type";
-import { MatchStatus } from "../models/match-status";
-import { Tourney } from "../models/tourney";
-import { TourneyMeta } from "../models/tourney-meta";
-import { TourneyPhaseStatus } from "../models/tourney-phase-status";
-import { TourneyEliminationStageType } from "../models/tourney-single-elimination-stage-type";
+import { PlacementRecord } from "../../models/evaluation/placement-record";
+import { TourneyPlacementType } from "../../models/evaluation/tourney-placement-type";
+import { MatchStatus } from "../../models/match-status";
+import { Tourney } from "../../models/tourney";
+import { TourneyMeta } from "../../models/tourney-meta";
+import { TourneyPhaseStatus } from "../../models/tourney-phase-status";
+import { TourneyEliminationStageType } from "../../models/tourney-single-elimination-stage-type";
 import { TourneyPointsService } from "./tourney-points.service";
 
 @Injectable()
