@@ -115,47 +115,50 @@ export class TourneyStatisticsService {
     const groupMatches = tourney.groups.map(group => this.GetMatchesFromGroup(tourney.meta, group));
     const stageMatches = tourney.eliminationStages.map(stage => this.GetMatchesFromStage(tourney.meta, stage))
 
-    return groupMatches
-      .concat(stageMatches)
+    return this.ReduceMaps(groupMatches.concat(stageMatches));
+  }
+
+  private GetMatchesFromGroup(meta: TourneyMeta, group: TourneyGroup): Map<string, PlayerMatchRecord[]> {
+    const records: { [name: string]: PlayerMatchRecord[]; } = {};
+    group.players.forEach(player => records[player] = [])
+    group.matches
+      .filter(match => match.status === MatchStatus.done)
+      .forEach(match => {
+        records[match.playerOne.name].push(this.ToPlayerMatch(meta, MatchType.Group, match, match.playerOne, match.playerTwo));
+        records[match.playerTwo.name].push(this.ToPlayerMatch(meta, MatchType.Group, match, match.playerTwo, match.playerOne));
+      });
+
+    return this.ToMap(records)
+  }
+
+  private GetMatchesFromStage(meta: TourneyMeta, stage: TourneyEliminationStage): Map<string, PlayerMatchRecord[]> {
+    const records: { [name: string]: PlayerMatchRecord[]; } = {};
+    stage.matches
+      .filter(match => match.status === MatchStatus.done)
+      .forEach(match => {
+        records[match.playerOne.name] = [this.ToPlayerMatch(meta, MatchType.Elimination, match, match.playerOne, match.playerTwo)];
+        records[match.playerTwo.name] = [this.ToPlayerMatch(meta, MatchType.Elimination, match, match.playerTwo, match.playerOne)];
+      });
+
+    return this.ToMap(records);
+  }
+
+  private ToMap(data: { [name: string]: PlayerMatchRecord[]; }): Map<string, PlayerMatchRecord[]> {
+    const resMap = new Map<string, PlayerMatchRecord[]>();
+    for (const [key, value] of Object.entries(data)) {
+      resMap.set(key, value)
+    }
+    return resMap;
+  }
+
+  private ReduceMaps(maps: Map<string, PlayerMatchRecord[]>[]): Map<string, PlayerMatchRecord[]> {
+    return maps
       .reduce((pv, cv) => {
         for (const [key, value] of cv.entries()) {
           pv.set(key, (pv.get(key) || []).concat(value));
         }
         return pv;
       });
-  }
-
-  private GetMatchesFromGroup(meta: TourneyMeta, group: TourneyGroup): Map<string, PlayerMatchRecord[]> {
-    const res: { [name: string]: PlayerMatchRecord[]; } = {};
-    group.players.forEach(p => res[p] = [])
-    group.matches
-      .filter(match => match.status === MatchStatus.done)
-      .forEach(match => {
-        res[match.playerOne.name].push(this.ToPlayerMatch(meta, MatchType.Group, match, match.playerOne, match.playerTwo));
-        res[match.playerTwo.name].push(this.ToPlayerMatch(meta, MatchType.Group, match, match.playerTwo, match.playerOne));
-      });
-
-    const resMap = new Map<string, PlayerMatchRecord[]>();
-    for (const [key, value] of Object.entries(res)) {
-      resMap.set(key, value)
-    }
-    return resMap;
-  }
-
-  private GetMatchesFromStage(meta: TourneyMeta, stage: TourneyEliminationStage): Map<string, PlayerMatchRecord[]> {
-    const res: { [name: string]: PlayerMatchRecord; } = {};
-    stage.matches
-      .filter(match => match.status === MatchStatus.done)
-      .forEach(match => {
-        res[match.playerOne.name] = this.ToPlayerMatch(meta, MatchType.Elimination, match, match.playerOne, match.playerTwo);
-        res[match.playerTwo.name] = this.ToPlayerMatch(meta, MatchType.Elimination, match, match.playerTwo, match.playerOne);
-      });
-
-    const resMap = new Map<string, PlayerMatchRecord[]>();
-    for (const [key, value] of Object.entries(res)) {
-      resMap.set(key, [value])
-    }
-    return resMap;
   }
 
   private ToPlayerMatch(meta: TourneyMeta, type: MatchType, match: Match, self: MatchPlayer, opponent: MatchPlayer): PlayerMatchRecord {
