@@ -49,6 +49,10 @@ import { TourneyMatchesService } from './services/evaluation/tourney-matches.ser
 import { TourneyDoubleEliminationPlacementsService } from './services/evaluation/tourney-double-elimination-placement.service';
 import { TourneyPlacementsService } from './services/evaluation/tourney-placements.service';
 import { TourneySingleEliminationPlacementsService } from './services/evaluation/tourney-single-elimination-placements.service';
+import { DoubleEliminationStagePlacementsService } from './services/evaluation/double-elimination-stage-placements.service';
+import { SingleEliminationStagePlacementsService } from './services/evaluation/single-elimination-stage-placements.service';
+import { GroupStagePlacementsService } from './services/evaluation/group-stage-placements.service';
+import { PlacementRecordBuilder } from './services/evaluation/placement-record.builder';
 
 
 
@@ -105,6 +109,10 @@ import { TourneySingleEliminationPlacementsService } from './services/evaluation
     TourneyPlacementsService,
     TourneyDoubleEliminationPlacementsService,
     TourneySingleEliminationPlacementsService,
+    DoubleEliminationStagePlacementsService,
+    SingleEliminationStagePlacementsService,
+    GroupStagePlacementsService,
+    PlacementRecordBuilder,
     TourneyMatchesService,
     TourneyPointsService,
     PlayersService
