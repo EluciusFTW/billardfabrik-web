@@ -18,7 +18,7 @@ export class SingleEliminationStageFinalizedService {
       let winners = finalizedStage.matches.map(match => Match.winner(match).name);
       this.prepareStage(tourney, TourneyEliminationStageType.final, [winners]);
 
-      let losers = finalizedStage.matches.map(match => Match.looser(match).name);
+      let losers = finalizedStage.matches.map(match => Match.loser(match).name);
       this.prepareStage(tourney, TourneyEliminationStageType.thirdPlace, [losers]);
     }
   }

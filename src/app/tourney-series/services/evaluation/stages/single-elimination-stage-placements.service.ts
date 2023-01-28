@@ -29,7 +29,7 @@ export class SingleEliminationStagePlacementsService {
         const placement = this.getLoserPlacement(tourney, stage.type);
         EvaluationFunctions
           .getLosers(stage)
-          .forEach(looser => results.set(looser, placement));
+          .forEach(loser => results.set(loser, placement));
 
         if(stage.type === TourneyEliminationStageType.thirdPlace || stage.type === TourneyEliminationStageType.final) {
           stage.matches
@@ -47,13 +47,13 @@ export class SingleEliminationStagePlacementsService {
   }
 
   private getLoserPlacement(tourney: Tourney, stageType: TourneyEliminationStageType){
-    const looserPlacement = this.MapStageLoserToPlacement(stageType);
-    return this.recordBuilder.Build(tourney, looserPlacement);
+    const placement = this.MapStageLoserToPlacement(stageType);
+    return this.recordBuilder.Build(tourney, placement);
   }
 
   private getWinnerPlacement(tourney: Tourney, stageType: TourneyEliminationStageType){
-    const looserPlacement = this.MapStageWinnerToPlacement(stageType);
-    return this.recordBuilder.Build(tourney, looserPlacement);
+    const placement = this.MapStageWinnerToPlacement(stageType);
+    return this.recordBuilder.Build(tourney, placement);
   }
 
   private MapStageWinnerToPlacement(type: TourneyEliminationStageType) {

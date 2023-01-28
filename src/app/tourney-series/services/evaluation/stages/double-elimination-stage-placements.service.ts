@@ -15,18 +15,18 @@ export class DoubleEliminationStagePlacementsService {
   public Add(tourney: Tourney, results: Map<string, PlacementRecord>): void {
     (tourney.doubleEliminationStages ?? [] )
       .filter(stage => stage.status === TourneyPhaseStatus.finalized)
-      .filter(stage => TourneyDoubleEliminationStageType.isLooserStage(stage.type))
+      .filter(stage => TourneyDoubleEliminationStageType.isLoserStage(stage.type))
       .forEach(stage => {
           const placement = this.getPlacementRecord(tourney, stage.type);
           EvaluationFunctions
             .getLosers(stage)
-            .forEach(looser => results.set(looser, placement));
+            .forEach(loser => results.set(loser, placement));
       })
   }
 
   private getPlacementRecord(tourney: Tourney, stageType: TourneyDoubleEliminationStageType){
-    const looserPlacement = this.MapStageLoserToPlacement(stageType);
-    return this.recordBuilder.Build(tourney, looserPlacement);
+    const placement = this.MapStageLoserToPlacement(stageType);
+    return this.recordBuilder.Build(tourney, placement);
   }
 
   private MapStageLoserToPlacement(type: TourneyDoubleEliminationStageType): TourneyPlacementType {

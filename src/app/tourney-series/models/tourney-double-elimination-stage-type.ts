@@ -30,9 +30,9 @@ export enum TourneyDoubleEliminationStageType {
 }
 
 export enum TourneyDoubleEliminationStageKind {
-  LooserWithInjection = 3,
+  LoserWithInjection = 3,
   Winner = 2,
-  Looser = 1,
+  Loser = 1,
   Entry = 0,
 }
 
@@ -81,12 +81,12 @@ export namespace TourneyDoubleEliminationStageType {
   }
 
   export function winnerAdvancesTo(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageType {
-    return isEntryStage(stageType) || isLooserStage(stageType)
+    return isEntryStage(stageType) || isLoserStage(stageType)
       ? stageType + 2
       : stageType + 4
   }
 
-  export function looserAdvancesTo(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageType {
+  export function loserAdvancesTo(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageType {
     return isEntryStage(stageType) || isWinnerStage(stageType)
       ? stageType + 1
       : NaN;
@@ -98,10 +98,10 @@ export namespace TourneyDoubleEliminationStageType {
       .filter(value => isWinnerStage(value))
   }
 
-  export function getLooserStages(): TourneyDoubleEliminationStageType[] {
+  export function getLoserStages(): TourneyDoubleEliminationStageType[] {
     return all()
       .filter(value => value < TourneyDoubleEliminationStageType.Final)
-      .filter(value => isLooserStage(value))
+      .filter(value => isLoserStage(value))
   }
 
   export function getStartingStages(): TourneyDoubleEliminationStageType[] {
@@ -140,11 +140,11 @@ export namespace TourneyDoubleEliminationStageType {
     switch (toStageKind(stageType)) {
       case TourneyDoubleEliminationStageKind.Entry:
         return Math.pow(2, 8 - stageType / 4);
-      case TourneyDoubleEliminationStageKind.Looser:
+      case TourneyDoubleEliminationStageKind.Loser:
         return Math.pow(2, 8 - (stageType + 3) / 4);
       case TourneyDoubleEliminationStageKind.Winner:
         return Math.pow(2, 8 - (stageType + 2) / 4);
-      case TourneyDoubleEliminationStageKind.LooserWithInjection:
+      case TourneyDoubleEliminationStageKind.LoserWithInjection:
         return Math.pow(2, 8 - (stageType + 1) / 4);
       default:
         throw Error("Determining the number of players of the stageType ${stageType} is not implemented.")
@@ -154,9 +154,9 @@ export namespace TourneyDoubleEliminationStageType {
   export function toStageKind(stageType: TourneyDoubleEliminationStageType): TourneyDoubleEliminationStageKind {
     switch (stageType % 4) {
       case 0: return TourneyDoubleEliminationStageKind.Entry;
-      case 1: return TourneyDoubleEliminationStageKind.Looser;
+      case 1: return TourneyDoubleEliminationStageKind.Loser;
       case 2: return TourneyDoubleEliminationStageKind.Winner;
-      case 3: return TourneyDoubleEliminationStageKind.LooserWithInjection;
+      case 3: return TourneyDoubleEliminationStageKind.LoserWithInjection;
       default: throw Error("Something went wrong determining the stage kind from the stage type.")
     };
   }
@@ -165,17 +165,17 @@ export namespace TourneyDoubleEliminationStageType {
     return toStageKind(stageType) === TourneyDoubleEliminationStageKind.Winner;
   }
 
-  export function isLooserStage(stageType: TourneyDoubleEliminationStageType): boolean {
+  export function isLoserStage(stageType: TourneyDoubleEliminationStageType): boolean {
     const kind = toStageKind(stageType);
-    return kind === TourneyDoubleEliminationStageKind.Looser
-      || kind === TourneyDoubleEliminationStageKind.LooserWithInjection
+    return kind === TourneyDoubleEliminationStageKind.Loser
+      || kind === TourneyDoubleEliminationStageKind.LoserWithInjection
   }
 
   export function isEntryStage(stageType: TourneyDoubleEliminationStageType): boolean {
     return toStageKind(stageType) === TourneyDoubleEliminationStageKind.Entry;
   }
 
-  export function lastLooserStage(numberOfPlayersToRemain: number): TourneyDoubleEliminationStageType {
+  export function lastLoserStage(numberOfPlayersToRemain: number): TourneyDoubleEliminationStageType {
     return lastWinnerStage(numberOfPlayersToRemain) - 1;
   }
 

@@ -20,8 +20,8 @@ export class TourneyDoubleEliminationStagesComponent {
     return this.tourney?.doubleEliminationStages?.filter(stage => TourneyDoubleEliminationStageType.isWinnerStage(stage.type));
   }
 
-  looserStages(): TourneyEliminationStage[] {
-    return this.tourney?.doubleEliminationStages?.filter(stage => TourneyDoubleEliminationStageType.isLooserStage(stage.type));
+  loserStages(): TourneyEliminationStage[] {
+    return this.tourney?.doubleEliminationStages?.filter(stage => TourneyDoubleEliminationStageType.isLoserStage(stage.type));
   }
 
   entryStage(): TourneyEliminationStage {

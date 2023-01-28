@@ -26,7 +26,7 @@ export class TourneyEvaluationService {
     const finalStage = tourney.eliminationStages.filter(stage => stage.type === TourneyEliminationStageType.final)[0];
 
     return finalStage.status === TourneyPhaseStatus.finalized
-      ? Match.looser(finalStage.matches[0]).name
+      ? Match.loser(finalStage.matches[0]).name
       : ''
   }
 
