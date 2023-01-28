@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { PlacementRecord } from "../../models/evaluation/placement-record";
-import { TourneyPlacementType } from "../../models/evaluation/tourney-placement-type";
+import { TourneyPlacementTypeOld, TourneyPlacementType } from "../../models/evaluation/tourney-placement-type";
 import { Tourney } from "../../models/tourney";
 import { TourneyMeta } from "../../models/tourney-meta";
 import { TourneyPointsService } from "./tourney-points.service";

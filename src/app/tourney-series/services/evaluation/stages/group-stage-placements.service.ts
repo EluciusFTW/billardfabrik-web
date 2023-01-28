@@ -13,6 +13,7 @@ export class GroupStagePlacementsService {
     (tourney.groups ?? [])
       .forEach(group => group.players
         .filter(player => !group.qualified.includes(player))
-        .forEach(eliminated => results.set(eliminated, this.recordBuilder.Build(tourney, TourneyPlacementType.GroupStage))));
+        .forEach(eliminated => results.set(eliminated, this.recordBuilder.Build(tourney, TourneyPlacementType.Group)))
+      );
   }
 }

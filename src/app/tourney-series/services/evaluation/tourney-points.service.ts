@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tourney } from '../../models/tourney';
-import { TourneyPlacementType } from '../../models/evaluation/tourney-placement-type';
+import { TourneyPlacementType, TourneyPlacementTypeOld } from '../../models/evaluation/tourney-placement-type';
 
 @Injectable()
 export class TourneyPointsService {
@@ -12,25 +12,25 @@ export class TourneyPointsService {
     }
 
     switch (placement) {
-      case TourneyPlacementType.GroupStage: return 1;
-      case TourneyPlacementType.EigthFinal: return 3;
-      case TourneyPlacementType.QuarterFinal:
+      case TourneyPlacementType.Group: return 1;
+      case TourneyPlacementType.Last16: return 3;
+      case TourneyPlacementType.Last8:
         return numberOfGroups === 8
           ? 4
           : 3;
-      case TourneyPlacementType.FourthPlace:
+      case TourneyPlacementType.Fourth:
         return numberOfGroups === 8
           ? 5
           : numberOfGroups === 4
             ? 4
             : 3;
-      case TourneyPlacementType.ThirdPlace:
+      case TourneyPlacementType.Third:
         return numberOfGroups === 8
           ? 6
           : numberOfGroups === 4
             ? 5
             : 4;
-      case TourneyPlacementType.RunnerUp:
+      case TourneyPlacementType.Second:
         return numberOfGroups === 8
           ? 8
           : numberOfGroups === 4
@@ -38,7 +38,7 @@ export class TourneyPointsService {
             : numberOfGroups === 2
               ? 5
               : 3;
-      case TourneyPlacementType.Winner:
+      case TourneyPlacementType.First:
         return numberOfGroups === 8
           ? 10
           : numberOfGroups === 4
@@ -46,6 +46,8 @@ export class TourneyPointsService {
             : numberOfGroups === 2
               ? 6
               : 5;
+
+      default: throw new Error("Can't calculate points of this placement type.")
     }
   }
 }

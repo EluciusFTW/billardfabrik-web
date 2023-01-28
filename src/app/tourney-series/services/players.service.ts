@@ -49,9 +49,9 @@ export class PlayersService {
       received: matches.reduce((score, match) => score + match.oppScore, 0),
       matches: matches.length,
       placements: {
-        gold: placements.filter(record => record.placement === TourneyPlacementType.Winner).length,
-        silver: placements.filter(record => record.placement === TourneyPlacementType.RunnerUp).length,
-        bronze: placements.filter(record => record.placement === TourneyPlacementType.ThirdPlace).length
+        gold: placements.filter(record => record.placement === TourneyPlacementType.First).length,
+        silver: placements.filter(record => record.placement === TourneyPlacementType.Second).length,
+        bronze: placements.filter(record => record.placement === TourneyPlacementType.Third).length
       },
       achievements: achievements || []
     }
