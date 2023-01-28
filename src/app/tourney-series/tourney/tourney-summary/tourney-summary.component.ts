@@ -3,7 +3,7 @@ import { Tourney } from '../../models/tourney';
 import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { PoolDisciplineMapper } from '../../models/pool-discipline';
-import { SummaryService } from './summary-service';
+import { SummaryFunctions } from './summary-functions';
 import { TourneyStatisticsService } from '../../services/evaluation/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +27,6 @@ export class TourneySummaryComponent {
 
   constructor(
     private modificationService: TourneyModificationService,
-    private evaluationService: SummaryService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
     public dialog: MatDialog,
@@ -68,19 +67,19 @@ export class TourneySummaryComponent {
   }
 
   getWinner(): string {
-    return this.evaluationService.GetWinner(this.tourney);
+    return SummaryFunctions.GetWinner(this.tourney);
   }
 
   getSecondPlace(): string {
-    return this.evaluationService.GetSecondPlace(this.tourney);
+    return SummaryFunctions.GetSecondPlace(this.tourney);
   }
 
   getThirdPlace(): string {
-    return this.evaluationService.GetThirdPlace(this.tourney);
+    return SummaryFunctions.GetThirdPlace(this.tourney);
   }
 
   getCount(): number {
-    return this.evaluationService.GetPlayerCount(this.tourney);
+    return SummaryFunctions.GetPlayerCount(this.tourney);
   }
 
   calculate(): void {
