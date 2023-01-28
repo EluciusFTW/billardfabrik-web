@@ -1,19 +1,17 @@
-import { Injectable } from "@angular/core";
-import { Match } from "../models/match";
-import { MatchStatus } from "../models/match-status";
-import { Tourney } from "../models/tourney";
-import { TourneyGroup } from "../models/tourney-group";
+import { Match } from "../../models/match";
+import { MatchStatus } from "../../models/match-status";
+import { Tourney } from "../../models/tourney";
+import { TourneyGroup } from "../../models/tourney-group";
 
-@Injectable()
-export class TourneyModificationService {
+export class ModificationFunctions {
 
-  injectPlayer(tourney: Tourney, name: string): void {
+  public static InjectPlayer(tourney: Tourney, name: string): void {
     let group = this.chooseRandomGroup(tourney)
     this.addMatches(name, group);
     group.players.push(name);
   }
 
-  private chooseRandomGroup(tourney: Tourney): TourneyGroup {
+  private static chooseRandomGroup(tourney: Tourney): TourneyGroup {
     var smallestGroupsize = tourney.groups
       .map(group => group.players.length)
       .sort()[0];
@@ -21,7 +19,7 @@ export class TourneyModificationService {
     return viableGroups[Math.floor(Math.random() * viableGroups.length)];
   }
 
-  private addMatches(newPlayerName: string, group: TourneyGroup): void {
+  private static addMatches(newPlayerName: string, group: TourneyGroup): void {
     var referenceMatch = group.matches[0];
     const matches = group.players
       .map(player => <Match>
@@ -32,6 +30,7 @@ export class TourneyModificationService {
           length: referenceMatch.length,
           status: MatchStatus.notStarted
         });
+
     group.matches.push(...matches);
   }
 }

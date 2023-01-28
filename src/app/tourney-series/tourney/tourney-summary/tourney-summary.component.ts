@@ -9,7 +9,7 @@ import { PlayersService } from '../../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
 import { TourneyMode, TourneyModeMapper } from '../../models/tourney-mode';
-import { TourneyModificationService } from '../../services/tourney-modification.service';
+import { ModificationFunctions } from './modification-functions';
 import { UserService } from 'src/app/authentication/user.service';
 
 @Component({
@@ -26,7 +26,6 @@ export class TourneySummaryComponent {
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   constructor(
-    private modificationService: TourneyModificationService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
     public dialog: MatDialog,
@@ -41,7 +40,7 @@ export class TourneySummaryComponent {
       .subscribe(
         name => {
           if (name) {
-            this.modificationService.injectPlayer(this.tourney, name);
+            ModificationFunctions.InjectPlayer(this.tourney, name);
             this.change.emit({ type: 'ScoreChanged' });
           }
         }

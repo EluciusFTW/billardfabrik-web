@@ -35,7 +35,6 @@ import { TourneyAchievementsComponent } from './tourney-achievements/tourney-ach
 import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
 import { GroupStageFinalizedService } from './services/event-handling/group-stage-finalized.service';
 import { SingleEliminationStageFinalizedService } from './services/event-handling/single-elimination-stage-finalized.service';
-import { TourneyModificationService } from './services/tourney-modification.service';
 import { CreatingMockTourneysService } from './services/dev/creating-mock-tourneys.service';
 import { SingleEliminationCreationService } from './services/creation/single-elimination-creation.service';
 import { DoubleEliminationCreationService } from './services/creation/double-elimination-creation.service';
@@ -93,7 +92,6 @@ import { PlacementRecordBuilder } from './services/evaluation/placement-record.b
     DoubleEliminationStageCreationService,
     GroupsCreationService,
     GroupsThenSingleEliminationCreationService,
-    TourneyModificationService,
     {
       provide: TourneysService,
       useClass: TourneysService // CreatingMockTourneysService
