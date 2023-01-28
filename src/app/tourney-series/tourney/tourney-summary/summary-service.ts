@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Match } from '../models/match';
-import { MatchStatus } from '../models/match-status';
-import { Tourney } from '../models/tourney';
-import { TourneyPhaseStatus } from '../models/tourney-phase-status';
-import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
+import { Match } from '../../models/match';
+import { MatchStatus } from '../../models/match-status';
+import { Tourney } from '../../models/tourney';
+import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
+import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
 
 @Injectable()
-export class TourneyEvaluationService {
+export class SummaryService {
 
   public GetPlayerCount(tourney: Tourney): number {
     return tourney.meta?.numberOfPlayers

@@ -25,7 +25,7 @@ import { TourneyStandingCalculationService } from './services/tourney-standing-c
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 
-import { TourneyEvaluationService } from './services/tourney-evaluation-service';
+import { SummaryService } from './tourney/tourney-summary/summary-service';
 import { TourneyStatisticsService } from './services/evaluation/tourney-statistics.service';
 import { TourneyPointsService } from './services/evaluation/tourney-points.service';
 
@@ -104,7 +104,7 @@ import { PlacementRecordBuilder } from './services/evaluation/placement-record.b
     SingleEliminationStageFinalizedService,
     DoubleEliminationStageFinalizedService,
     TourneyStandingCalculationService,
-    TourneyEvaluationService,
+    SummaryService,
     TourneyStatisticsService,
     TourneyPlacementsService,
     TourneyDoubleEliminationPlacementsService,

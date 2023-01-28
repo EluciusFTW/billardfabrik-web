@@ -3,7 +3,7 @@ import { Tourney } from '../../models/tourney';
 import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { PoolDisciplineMapper } from '../../models/pool-discipline';
-import { TourneyEvaluationService } from '../../services/tourney-evaluation-service';
+import { SummaryService } from './summary-service';
 import { TourneyStatisticsService } from '../../services/evaluation/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,7 +27,7 @@ export class TourneySummaryComponent {
 
   constructor(
     private modificationService: TourneyModificationService,
-    private evaluationService: TourneyEvaluationService,
+    private evaluationService: SummaryService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
     public dialog: MatDialog,
