@@ -31,22 +31,21 @@ export class DoubleEliminationStagePlacementsService {
 
   private MapStageLoserToPlacement(type: TourneyDoubleEliminationStageType): TourneyPlacementType {
     switch (type) {
-      case TourneyDoubleEliminationStageType.LoserLast128: return TourneyPlacementType.Last128;
-      case TourneyDoubleEliminationStageType.LoserLast96: return TourneyPlacementType.Last96;
-      case TourneyDoubleEliminationStageType.LoserLast64: return TourneyPlacementType.Last64;
-      case TourneyDoubleEliminationStageType.LoserLast48: return TourneyPlacementType.Last48;
-      case TourneyDoubleEliminationStageType.LoserLast32: return TourneyPlacementType.Last32;
-      case TourneyDoubleEliminationStageType.LoserLast24: return TourneyPlacementType.Last24;
-      case TourneyDoubleEliminationStageType.LoserLast16: return TourneyPlacementType.Last16;
-      case TourneyDoubleEliminationStageType.LoserLast12: return TourneyPlacementType.Last12;
-      case TourneyDoubleEliminationStageType.LoserQuareterFinal: return TourneyPlacementType.Last8;
-      case TourneyDoubleEliminationStageType.LoserLast6: return TourneyPlacementType.Last6;
+      case TourneyDoubleEliminationStageType.LoserLast128: return TourneyPlacementType.Last256;
+      case TourneyDoubleEliminationStageType.LoserLast96: return TourneyPlacementType.Last128;
+      case TourneyDoubleEliminationStageType.LoserLast64: return TourneyPlacementType.Last96;
+      case TourneyDoubleEliminationStageType.LoserLast48: return TourneyPlacementType.Last64;
+      case TourneyDoubleEliminationStageType.LoserLast32: return TourneyPlacementType.Last48;
+      case TourneyDoubleEliminationStageType.LoserLast24: return TourneyPlacementType.Last32;
+      case TourneyDoubleEliminationStageType.LoserLast16: return TourneyPlacementType.Last24;
+      case TourneyDoubleEliminationStageType.LoserLast12: return TourneyPlacementType.Last16;
+      case TourneyDoubleEliminationStageType.LoserQuareterFinal: return TourneyPlacementType.Last16;
+      case TourneyDoubleEliminationStageType.LoserLast6: return TourneyPlacementType.Last12;
+      case TourneyDoubleEliminationStageType.LoserSemiFinal: return TourneyPlacementType.Last8;
+      case TourneyDoubleEliminationStageType.LoserLast3: return TourneyPlacementType.Last6;
+      case TourneyDoubleEliminationStageType.LoserFinal: return TourneyPlacementType.Fourth;
 
-      default: throw new Error("The stage type cannot be mapped to a placement type.")
-
-      // case TourneyDoubleEliminationStageType.LoserSemiFinal: return TourneyPlacementType.Last4;
-      // case TourneyDoubleEliminationStageType.LoserLast3: return TourneyPlacementType.Third;
-      // case TourneyDoubleEliminationStageType.LoserFinal: return TourneyPlacementType.First;
+      default: throw new Error(`The stage type ${type} cannot be mapped to a placement type.`);
     }
   }
 }
