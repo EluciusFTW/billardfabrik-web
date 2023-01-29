@@ -32,9 +32,9 @@ export class TourneyListComponent implements OnDestroy {
   }
 
   niceName(dateName: string): string {
-    const year = +dateName.substr(0, 4);
-    const month = +dateName.substr(4, 2);
-    const day = +dateName.substr(6, 2);
+    const year = +dateName.substring(0, 4);
+    const month = +dateName.substring(4, 6);
+    const day = +dateName.substring(6, 8);
     return new Date(year, month - 1, day).toLocaleDateString();
   }
 
