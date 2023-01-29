@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Tourney } from '../../models/tourney';
-import { GroupsThenSingleEliminationTourneyInfo, TourneyInfo } from '../../models/tourney-info';
-import { TourneyMode } from '../../models/tourney-mode';
+import { GroupsThenSingleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
 import { GroupsCreationService } from './groups-creation.service';
 import { SingleEliminationCreationService } from './single-elimination-creation.service';
@@ -11,9 +10,9 @@ export class GroupsThenSingleEliminationCreationService {
 
   constructor(
     private groupStageCreationService: GroupsCreationService,
-    private eliminationStageCreationService: SingleEliminationCreationService) {  }
+    private eliminationStageCreationService: SingleEliminationCreationService) { }
 
-  create(info: GroupsThenSingleEliminationTourneyInfo) : Tourney {
+  create(info: GroupsThenSingleEliminationTourneyInfo): Tourney {
 
     return {
       groups: this.groupStageCreationService.create(info),
@@ -22,16 +21,12 @@ export class GroupsThenSingleEliminationCreationService {
   }
 
   private determineStartingStage(info: GroupsThenSingleEliminationTourneyInfo): TourneyEliminationStageType {
-    if (info.mode === TourneyMode.GroupsThenSingleElimination) {
-      return info.nrOfGroups === 8
-        ? TourneyEliminationStageType.last32
-        : info.nrOfGroups >= 4
-          ? TourneyEliminationStageType.quarterFinal
-          : info.nrOfGroups >= 2
-            ? TourneyEliminationStageType.semiFinal
-            : TourneyEliminationStageType.final;
-    }
-
-    return TourneyEliminationStageType.final;
+    return info.nrOfGroups === 8
+      ? TourneyEliminationStageType.last32
+      : info.nrOfGroups >= 4
+        ? TourneyEliminationStageType.quarterFinal
+        : info.nrOfGroups >= 2
+          ? TourneyEliminationStageType.semiFinal
+          : TourneyEliminationStageType.final;
   }
 }

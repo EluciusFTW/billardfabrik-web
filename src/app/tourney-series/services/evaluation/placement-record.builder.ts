@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
 import { PlacementRecord } from "../../models/evaluation/placement-record";
-import { TourneyPlacementTypeOld, TourneyPlacementType } from "../../models/evaluation/tourney-placement-type";
+import { TourneyPlacementType } from "../../models/evaluation/tourney-placement-type";
 import { Tourney } from "../../models/tourney";
-import { TourneyMeta } from "../../models/tourney-meta";
+import { TourneyFunctions } from "../../tourney/tourney-functions";
+import { EvaluationFunctions } from "./evaluation-functions";
 import { TourneyPointsService } from "./tourney-points.service";
 
 @Injectable()
@@ -14,12 +15,8 @@ export class PlacementRecordBuilder {
     return {
       discipline: tourney.meta.discipline,
       placement: placement,
-      tourney: this.ToTourneyName(tourney.meta),
-      points: this.pointsService.calculate(tourney, placement)
+      tourney: EvaluationFunctions.getTourneyName(tourney),
+      points: this.pointsService.calculate(TourneyFunctions.GetPlayerCount(tourney), placement)
     }
-  }
-
-  private ToTourneyName(meta: TourneyMeta): string {
-    return meta.name + '-' + meta.date;
   }
 }

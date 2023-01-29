@@ -1,10 +1,10 @@
-import { Match } from '../../models/match';
-import { MatchStatus } from '../../models/match-status';
-import { Tourney } from '../../models/tourney';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
-import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
+import { Match } from '../models/match';
+import { MatchStatus } from '../models/match-status';
+import { Tourney } from '../models/tourney';
+import { TourneyPhaseStatus } from '../models/tourney-phase-status';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 
-export class SummaryFunctions {
+export class TourneyFunctions {
 
   public static GetPlayerCount(tourney: Tourney): number {
     return tourney.meta?.numberOfPlayers
