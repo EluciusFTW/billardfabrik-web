@@ -8,12 +8,7 @@ export class TourneyPointsService {
     if(numberOfPlayers > 32) {
       throw new Error('This service only calculates the points up to 32 players.')
     }
-    const points = this.calculateSingleNew(numberOfPlayers, placement);
-
-    console.log('Placement: ', placement);
-    console.log('Points: ', points);
-
-    return points;
+    return this.calculateSingleNew(numberOfPlayers, placement);
   }
 
   private calculateSingleNew(numberOfPlayers: number, placement: TourneyPlacementType): number {

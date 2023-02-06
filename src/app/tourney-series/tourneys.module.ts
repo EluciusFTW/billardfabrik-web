@@ -49,6 +49,7 @@ import { DoubleEliminationStagePlacementsService } from './services/evaluation/s
 import { SingleEliminationStagePlacementsService } from './services/evaluation/stages/single-elimination-stage-placements.service';
 import { GroupStagePlacementsService } from './services/evaluation/stages/group-stage-placements.service';
 import { PlacementRecordBuilder } from './services/evaluation/placement-record.builder';
+import { TourneyYearListComponent } from './tourney-list/tourney-year-list.component';
 
 
 
@@ -64,6 +65,7 @@ import { PlacementRecordBuilder } from './services/evaluation/placement-record.b
   declarations: [
     TourneyComponent,
     TourneyListComponent,
+    TourneyYearListComponent,
     TourneyGroupComponent,
     TourneyPlayerCreateDialogComponent,
     CreateTourneyComponent,
