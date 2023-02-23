@@ -20,7 +20,7 @@ export class TourneyYearListComponent implements OnInit {
   private tourneysSub: Subscription;
 
   tourneyDataSource: MatTableDataSource<Tourney>;
-  displayedColumns = ['name', 'date', 'status', 'actions'];
+  displayedColumns = ['name', 'date', 'status']; // , 'actions' for evaluating tourney
 
   constructor(
     private tourneysService: TourneysService,
@@ -42,14 +42,15 @@ export class TourneyYearListComponent implements OnInit {
   }
 
   calculate(tourney: Tourney) {
-    // if (tourney.meta.status !== TourneyStatus.postProcessed) {
+    if (tourney.meta.status === TourneyStatus.completed) {
       var result = this.statisticsService.Evaluate(tourney);
       if (result) {
         result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
       }
-      //tourney.meta.status = TourneyStatus.postProcessed;
+      // ToDo: Save tourney changed state
+      // tourney.meta.status = TourneyStatus.postProcessed;
       //this.change.emit({ type: 'ResultsPostProcessed' });
-    //}
+    }
   }
 
   niceName(dateName: string): string {

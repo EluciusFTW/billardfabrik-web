@@ -11,9 +11,9 @@ export class TourneyStatisticsService {
   constructor(private placementsService: TourneyPlacementsService, private matchesService: TourneyMatchesService) { }
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {
-    if (tourney.meta.status <= TourneyStatus.completed) {
+    if (tourney.meta.status !== TourneyStatus.completed) {
       console.log('Tourney is still in status: ', tourney.meta.status);
-     // return { players: [] };
+      return { players: [] };
     }
 
     const matchesByPlayer = this.matchesService.Evaluate(tourney);
