@@ -4,6 +4,7 @@ import { Tourney } from '../../models/tourney';
 import { SingleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
+import { TourneyStatus } from '../../models/tourney-status';
 
 @Injectable()
 export class SingleEliminationStageFinalizedService {
@@ -11,15 +12,31 @@ export class SingleEliminationStageFinalizedService {
   handle(tourney: Tourney, finalizedStageType: TourneyEliminationStageType): void {
     let finalizedStage = this.getStage(tourney, finalizedStageType);
     if (finalizedStage.type > TourneyEliminationStageType.semiFinal) {
-      let pairs = this.getWinnersChunked(finalizedStage.matches);
-      const next = TourneyEliminationStageType.after(finalizedStage.type);
-      this.prepareStage(tourney, next, pairs);
+      this.populateNextStage(tourney, finalizedStage)
     } else if (finalizedStage.type === TourneyEliminationStageType.semiFinal) {
-      let winners = finalizedStage.matches.map(match => Match.winner(match).name);
-      this.prepareStage(tourney, TourneyEliminationStageType.final, [winners]);
+      this.populateFinals(tourney, finalizedStage);
+    }
 
-      let losers = finalizedStage.matches.map(match => Match.loser(match).name);
-      this.prepareStage(tourney, TourneyEliminationStageType.thirdPlace, [losers]);
+    this.completeTourneyIfAllStatesAreFinalized(tourney);
+  }
+
+  private populateNextStage(tourney: Tourney, finalizedStage: SingleEliminationEliminationStage): void {
+    let pairs = this.getWinnersChunked(finalizedStage.matches);
+    const next = TourneyEliminationStageType.after(finalizedStage.type);
+    this.prepareStage(tourney, next, pairs);
+  }
+
+  private populateFinals(tourney: Tourney, finalizedStage: SingleEliminationEliminationStage): void {
+    let winners = finalizedStage.matches.map(match => Match.winner(match).name);
+    this.prepareStage(tourney, TourneyEliminationStageType.final, [winners]);
+
+    let losers = finalizedStage.matches.map(match => Match.loser(match).name);
+    this.prepareStage(tourney, TourneyEliminationStageType.thirdPlace, [losers]);
+  }
+
+  private completeTourneyIfAllStatesAreFinalized(tourney: Tourney): void {
+    if (!tourney.eliminationStages.find(stage => stage.status !== TourneyPhaseStatus.finalized)) {
+      tourney.meta.status = TourneyStatus.completed;
     }
   }
 
@@ -34,7 +51,7 @@ export class SingleEliminationStageFinalizedService {
     return stage;
   }
 
-  prepareStage(tourney: Tourney, stageType: TourneyEliminationStageType, playerPairs: string[][]) {
+  private prepareStage(tourney: Tourney, stageType: TourneyEliminationStageType, playerPairs: string[][]) {
     let stage = tourney.eliminationStages.find(stage => stage.type === stageType);
     stage.matches.forEach(match => {
       let pair = playerPairs.pop();
