@@ -1,6 +1,7 @@
 import { MatchStatus } from "src/app/tourney-series/models/match-status";
 import { TourneyEliminationStage } from "src/app/tourney-series/models/tourney-elimination-stage";
 import { Tourney } from "../../models/tourney";
+import { TourneyMeta } from "../../models/tourney-meta";
 
 export class EvaluationFunctions {
 
@@ -15,7 +16,7 @@ export class EvaluationFunctions {
       .reduce((aggregate, current) => [...aggregate, ...current]);
   }
 
-  public static getTourneyName(tourney: Tourney): string {
-    return tourney.meta.name + '-' + tourney.meta.date;
+  public static getTourneyName(meta: TourneyMeta): string {
+    return meta.name + '-' + meta.date;
   }
 }

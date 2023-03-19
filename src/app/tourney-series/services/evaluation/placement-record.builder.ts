@@ -15,7 +15,7 @@ export class PlacementRecordBuilder {
     return {
       discipline: tourney.meta.discipline,
       placement: placement,
-      tourney: EvaluationFunctions.getTourneyName(tourney),
+      tourney: EvaluationFunctions.getTourneyName(tourney.meta),
       points: this.pointsService.calculate(TourneyFunctions.GetPlayerCount(tourney), placement)
     }
   }

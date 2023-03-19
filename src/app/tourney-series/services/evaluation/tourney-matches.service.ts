@@ -8,6 +8,7 @@ import { Tourney } from "../../models/tourney";
 import { TourneyEliminationStage } from "../../models/tourney-elimination-stage";
 import { TourneyGroup } from "../../models/tourney-group";
 import { TourneyMeta } from "../../models/tourney-meta";
+import { EvaluationFunctions } from "./evaluation-functions";
 
 Injectable()
 export class TourneyMatchesService {
@@ -80,11 +81,7 @@ export class TourneyMatchesService {
       discipline: match.discipline,
       when: new Date().valueOf(),
       type: type,
-      tourney: this.ToTourneyName(meta)
+      tourney: EvaluationFunctions.getTourneyName(meta)
     }
-  }
-
-  private ToTourneyName(meta: TourneyMeta): string {
-    return meta.name + '-' + meta.date;
   }
 }
