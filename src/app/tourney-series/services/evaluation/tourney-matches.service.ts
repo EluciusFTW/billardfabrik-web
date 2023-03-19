@@ -42,11 +42,13 @@ export class TourneyMatchesService {
 
   private GetMatchesFromStage(meta: TourneyMeta, stage: TourneyEliminationStage): Map<string, PlayerMatchRecord[]> {
     const records: { [name: string]: PlayerMatchRecord[]; } = {};
+    const matchType = MatchType.FromEliminationStage(stage);
+
     stage.matches
       .filter(match => match.status === MatchStatus.done)
       .forEach(match => {
-        records[match.playerOne.name] = [this.ToPlayerMatch(meta, MatchType.Elimination, match, match.playerOne, match.playerTwo)];
-        records[match.playerTwo.name] = [this.ToPlayerMatch(meta, MatchType.Elimination, match, match.playerTwo, match.playerOne)];
+        records[match.playerOne.name] = [this.ToPlayerMatch(meta, matchType, match, match.playerOne, match.playerTwo)];
+        records[match.playerTwo.name] = [this.ToPlayerMatch(meta, matchType, match, match.playerTwo, match.playerOne)];
       });
 
     return this.ToMap(records);

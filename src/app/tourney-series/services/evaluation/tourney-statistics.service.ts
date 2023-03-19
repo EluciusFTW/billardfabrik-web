@@ -11,7 +11,7 @@ export class TourneyStatisticsService {
   constructor(private placementsService: TourneyPlacementsService, private matchesService: TourneyMatchesService) { }
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {
-    if (tourney.meta.status <= TourneyStatus.completed) {
+    if (tourney.meta.status < TourneyStatus.completed) {
       return {
         mode: tourney.meta.modus,
         players: [],
