@@ -32,7 +32,7 @@ export module Match {
     return MatchPlayer.isReal(match.playerOne)
   }
 
-  export function looser(match: Match): MatchPlayer {
+  export function loser(match: Match): MatchPlayer {
     return match.playerOne.points === match.length
       ? match.playerTwo
       : match.playerTwo.points === match.length

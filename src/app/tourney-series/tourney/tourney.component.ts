@@ -37,7 +37,6 @@ export class TourneyComponent implements OnDestroy {
     return (this.tourney?.eliminationStages?.length ?? 0) > 0
   }
 
-
   update(event: TourneyPhaseEvent): void {
     this.tourneysService.update(this.tourney, event);
   }

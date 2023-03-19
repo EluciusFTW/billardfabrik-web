@@ -25,9 +25,8 @@ import { TourneyStandingCalculationService } from './services/tourney-standing-c
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 
-import { TourneyEvaluationService } from './services/tourney-evaluation-service';
-import { TourneyStatisticsService } from './services/tourney-statistics.service';
-import { TourneyPointsService } from './services/tourney-points.service';
+import { TourneyStatisticsService } from './services/evaluation/tourney-statistics.service';
+import { TourneyPointsService } from './services/evaluation/tourney-points.service';
 
 import { TourneysLandingPageComponent } from './tourneys-landing-page/tourneys-landing-page.component';
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
@@ -36,7 +35,6 @@ import { TourneyAchievementsComponent } from './tourney-achievements/tourney-ach
 import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
 import { GroupStageFinalizedService } from './services/event-handling/group-stage-finalized.service';
 import { SingleEliminationStageFinalizedService } from './services/event-handling/single-elimination-stage-finalized.service';
-import { TourneyModificationService } from './services/tourney-modification.service';
 import { CreatingMockTourneysService } from './services/dev/creating-mock-tourneys.service';
 import { SingleEliminationCreationService } from './services/creation/single-elimination-creation.service';
 import { DoubleEliminationCreationService } from './services/creation/double-elimination-creation.service';
@@ -45,8 +43,14 @@ import { DoubleEliminationStageCreationService } from './services/creation/doubl
 import { GroupsCreationService } from './services/creation/groups-creation.service';
 import { EliminationMatchesCreationService } from './services/creation/elimination-matches-creation.service';
 import { DoubleEliminationStageFinalizedService } from './services/event-handling/double-elimination-stage-finalized.service';
-
-
+import { TourneyMatchesService } from './services/evaluation/tourney-matches.service';
+import { TourneyPlacementsService } from './services/evaluation/tourney-placements.service';
+import { DoubleEliminationStagePlacementsService } from './services/evaluation/stages/double-elimination-stage-placements.service';
+import { SingleEliminationStagePlacementsService } from './services/evaluation/stages/single-elimination-stage-placements.service';
+import { GroupStagePlacementsService } from './services/evaluation/stages/group-stage-placements.service';
+import { PlacementRecordBuilder } from './services/evaluation/placement-record.builder';
+import { TourneyYearListComponent } from './tourney-list/tourney-year-list.component';
+import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
 
 @NgModule({
   imports: [
@@ -60,8 +64,10 @@ import { DoubleEliminationStageFinalizedService } from './services/event-handlin
   declarations: [
     TourneyComponent,
     TourneyListComponent,
+    TourneyYearListComponent,
     TourneyGroupComponent,
     TourneyPlayerCreateDialogComponent,
+    ShowResultsDialogComponent,
     CreateTourneyComponent,
     TourneyGroupStageComponent,
     TourneyGroupStageAddPlayerDialogComponent,
@@ -76,6 +82,7 @@ import { DoubleEliminationStageFinalizedService } from './services/event-handlin
   ],
   entryComponents: [
     TourneyPlayerCreateDialogComponent,
+    ShowResultsDialogComponent,
     TourneyGroupStageAddPlayerDialogComponent
   ],
   providers: [
@@ -86,18 +93,22 @@ import { DoubleEliminationStageFinalizedService } from './services/event-handlin
     DoubleEliminationStageCreationService,
     GroupsCreationService,
     GroupsThenSingleEliminationCreationService,
-    TourneyModificationService,
-    { 
-      provide: TourneysService, 
-      useClass: TourneysService // CreatingMockTourneysService 
+    {
+      provide: TourneysService,
+      useClass: TourneysService // CreatingMockTourneysService
     },
     TourneyEventService,
     GroupStageFinalizedService,
     SingleEliminationStageFinalizedService,
     DoubleEliminationStageFinalizedService,
     TourneyStandingCalculationService,
-    TourneyEvaluationService,
     TourneyStatisticsService,
+    TourneyPlacementsService,
+    DoubleEliminationStagePlacementsService,
+    SingleEliminationStagePlacementsService,
+    GroupStagePlacementsService,
+    PlacementRecordBuilder,
+    TourneyMatchesService,
     TourneyPointsService,
     PlayersService
   ]

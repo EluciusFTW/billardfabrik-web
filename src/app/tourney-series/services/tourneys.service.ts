@@ -21,17 +21,21 @@ export class TourneysService {
   get(id: string): Observable<Tourney> {
     return this.db.object<Tourney>(DB_TOURNEYS_LPATH + '/' + id)
       .snapshotChanges()
-      .pipe(
-        map(changes => ({ key: changes.payload.key, ...changes.payload.val() }))
-      );
+      .pipe(map(changes => ({ key: changes.payload.key, ...changes.payload.val() })));
   }
 
   getAll(): Observable<Tourney[]> {
-    return this.db.list<Tourney>(DB_TOURNEYS_LPATH)
+    return this.db
+      .list<Tourney>(DB_TOURNEYS_LPATH)
       .snapshotChanges()
-      .pipe(
-        map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() })))
-      );
+      .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
+  }
+
+  getFromYear(year: number): Observable<Tourney[]> {
+    return this.db
+      .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.orderByKey().startAt(`${year}0000`).endAt(`${year}9999`))
+      .snapshotChanges()
+      .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
   }
 
   update(tourney: Tourney, event: TourneyPhaseEvent): void {
@@ -47,9 +51,7 @@ export class TourneysService {
   save(tourney: Tourney): void {
     this.db.object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
       .set(tourney)
-      .then(
-        () => this.messageService.success('Neues Turnier erfolgreich erstellt')
-      );
+      .then(() => this.messageService.success('Neues Turnier erfolgreich erstellt'));
   }
 
   private getDateString(): string {
@@ -63,7 +65,7 @@ export class TourneysService {
     ].join('');
   }
 
-  private getKey(n: Tourney): string {
-    return (<any>n).key;
+  private getKey(tourney: Tourney): string {
+    return (<any>tourney).key;
   }
 }

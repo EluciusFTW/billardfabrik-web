@@ -17,7 +17,7 @@ export class DoubleEliminationStageCreationService {
     return [
       this.getEntryStage(entryStage, info),
       ... this.getWinnerStages(entryStage, info, playersRemaining),
-      ... this.getLooserStages(entryStage, info, playersRemaining)
+      ... this.getLoserStages(entryStage, info, playersRemaining)
     ]
   }
 
@@ -40,10 +40,10 @@ export class DoubleEliminationStageCreationService {
       info);
   }
 
-  private getLooserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
+  private getLoserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
     return this.fillStages(
       TourneyDoubleEliminationStageType
-        .getLooserStages()
+        .getLoserStages()
         .filter(stage => stage > entryStage)
         .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining),
       info);

@@ -3,13 +3,13 @@ import { Tourney } from '../../models/tourney';
 import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { PoolDisciplineMapper } from '../../models/pool-discipline';
-import { TourneyEvaluationService } from '../../services/tourney-evaluation-service';
-import { TourneyStatisticsService } from '../../services/tourney-statistics.service';
+import { TourneyFunctions } from '../tourney-functions';
+import { TourneyStatisticsService } from '../../services/evaluation/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
 import { TourneyMode, TourneyModeMapper } from '../../models/tourney-mode';
-import { TourneyModificationService } from '../../services/tourney-modification.service';
+import { ModificationFunctions } from './modification-functions';
 import { UserService } from 'src/app/authentication/user.service';
 
 @Component({
@@ -26,8 +26,6 @@ export class TourneySummaryComponent {
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   constructor(
-    private modificationService: TourneyModificationService,
-    private evaluationService: TourneyEvaluationService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
     public dialog: MatDialog,
@@ -42,7 +40,7 @@ export class TourneySummaryComponent {
       .subscribe(
         name => {
           if (name) {
-            this.modificationService.injectPlayer(this.tourney, name);
+            ModificationFunctions.InjectPlayer(this.tourney, name);
             this.change.emit({ type: 'ScoreChanged' });
           }
         }
@@ -68,19 +66,19 @@ export class TourneySummaryComponent {
   }
 
   getWinner(): string {
-    return this.evaluationService.GetWinner(this.tourney);
+    return TourneyFunctions.GetWinner(this.tourney);
   }
 
   getSecondPlace(): string {
-    return this.evaluationService.GetSecondPlace(this.tourney);
+    return TourneyFunctions.GetSecondPlace(this.tourney);
   }
 
   getThirdPlace(): string {
-    return this.evaluationService.GetThirdPlace(this.tourney);
+    return TourneyFunctions.GetThirdPlace(this.tourney);
   }
 
   getCount(): number {
-    return this.evaluationService.GetPlayerCount(this.tourney);
+    return TourneyFunctions.GetPlayerCount(this.tourney);
   }
 
   calculate(): void {
