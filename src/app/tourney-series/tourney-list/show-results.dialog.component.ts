@@ -8,7 +8,7 @@ import { TourneyMode } from "../models/tourney-mode";
 
 @Component({
   templateUrl: './show-results.dialog.component.html',
-  //styleUrls: ['tourney-player-create-dialog.component.scss']
+  styleUrls: ['./show-results.dialog.component.scss']
 })
 export class ShowResultsDialogComponent {
 

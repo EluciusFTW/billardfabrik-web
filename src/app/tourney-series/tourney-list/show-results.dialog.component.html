@@ -7,13 +7,13 @@
     </ng-container>
 
     <ng-container matColumnDef="placement">
-      <mat-header-cell *matHeaderCellDef> Placement </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Plazierung </mat-header-cell>
       <mat-cell *matCellDef="let item"> {{ mapPlacement(item.placement.placement)}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="points">
-      <mat-header-cell *matHeaderCellDef> Punkte </mat-header-cell>
-      <mat-cell *matCellDef="let item"> {{ item.placement.points }} </mat-cell>
+      <mat-header-cell *matHeaderCellDef class="centered"> Punkte </mat-header-cell>
+      <mat-cell class="centered" *matCellDef="let item"> {{ item.placement.points }} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
