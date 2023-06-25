@@ -10,26 +10,25 @@ import { OwnConfirmService } from './services/own-confirm.service';
 import { MaterialModule } from '../material/material.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    MaterialModule
-  ],
-  declarations: [
-    ContentHeaderComponent,
-    ContentTileComponent,
-    TimeTickPipe,
-    ConfirmDialogComponent
-  ],
-  entryComponents: [ConfirmDialogComponent],
-  exports: [
-    ContentHeaderComponent,
-    ContentTileComponent,
-    TimeTickPipe
-  ],
-  providers: [
-    OwnMessageService,
-    OwnConfirmService
-  ]
+    imports: [
+        CommonModule,
+        RouterModule,
+        MaterialModule
+    ],
+    declarations: [
+        ContentHeaderComponent,
+        ContentTileComponent,
+        TimeTickPipe,
+        ConfirmDialogComponent
+    ],
+    exports: [
+        ContentHeaderComponent,
+        ContentTileComponent,
+        TimeTickPipe
+    ],
+    providers: [
+        OwnMessageService,
+        OwnConfirmService
+    ]
 })
 export class SharedModule { }

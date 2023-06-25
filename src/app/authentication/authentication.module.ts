@@ -8,18 +8,17 @@ import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { MaterialModule } from '../material/material.module';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    MaterialModule
-  ],
-  providers: [
-    UserService,
-    UserGuard
-  ],
-  declarations: [LoginDialogComponent],
-  entryComponents: [LoginDialogComponent]
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        MaterialModule
+    ],
+    providers: [
+        UserService,
+        UserGuard
+    ],
+    declarations: [LoginDialogComponent]
 })
 export class AuthenticationModule { }

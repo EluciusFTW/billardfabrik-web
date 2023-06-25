@@ -53,64 +53,59 @@ import { TourneyYearListComponent } from './tourney-list/tourney-year-list.compo
 import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
 
 @NgModule({
-  imports: [
-    TourneySeriesRoutingModule,
-    RouterModule,
-    CommonModule,
-    MaterialModule,
-    FormsModule,
-    SharedModule
-  ],
-  declarations: [
-    TourneyComponent,
-    TourneyListComponent,
-    TourneyYearListComponent,
-    TourneyGroupComponent,
-    TourneyPlayerCreateDialogComponent,
-    ShowResultsDialogComponent,
-    CreateTourneyComponent,
-    TourneyGroupStageComponent,
-    TourneyGroupStageAddPlayerDialogComponent,
-    TourneyEliminationStagesComponent,
-    TourneyEliminationStageComponent,
-    TourneySummaryComponent,
-    TourneysLeaderBoardComponent,
-    TourneySeriesOverviewComponent,
-    TourneysLandingPageComponent,
-    TourneyAchievementsComponent,
-    TourneyDoubleEliminationStagesComponent
-  ],
-  entryComponents: [
-    TourneyPlayerCreateDialogComponent,
-    ShowResultsDialogComponent,
-    TourneyGroupStageAddPlayerDialogComponent
-  ],
-  providers: [
-    TourneyCreationService,
-    EliminationMatchesCreationService,
-    SingleEliminationCreationService,
-    DoubleEliminationCreationService,
-    DoubleEliminationStageCreationService,
-    GroupsCreationService,
-    GroupsThenSingleEliminationCreationService,
-    {
-      provide: TourneysService,
-      useClass: TourneysService // CreatingMockTourneysService
-    },
-    TourneyEventService,
-    GroupStageFinalizedService,
-    SingleEliminationStageFinalizedService,
-    DoubleEliminationStageFinalizedService,
-    TourneyStandingCalculationService,
-    TourneyStatisticsService,
-    TourneyPlacementsService,
-    DoubleEliminationStagePlacementsService,
-    SingleEliminationStagePlacementsService,
-    GroupStagePlacementsService,
-    PlacementRecordBuilder,
-    TourneyMatchesService,
-    TourneyPointsService,
-    PlayersService
-  ]
+    imports: [
+        TourneySeriesRoutingModule,
+        RouterModule,
+        CommonModule,
+        MaterialModule,
+        FormsModule,
+        SharedModule
+    ],
+    declarations: [
+        TourneyComponent,
+        TourneyListComponent,
+        TourneyYearListComponent,
+        TourneyGroupComponent,
+        TourneyPlayerCreateDialogComponent,
+        ShowResultsDialogComponent,
+        CreateTourneyComponent,
+        TourneyGroupStageComponent,
+        TourneyGroupStageAddPlayerDialogComponent,
+        TourneyEliminationStagesComponent,
+        TourneyEliminationStageComponent,
+        TourneySummaryComponent,
+        TourneysLeaderBoardComponent,
+        TourneySeriesOverviewComponent,
+        TourneysLandingPageComponent,
+        TourneyAchievementsComponent,
+        TourneyDoubleEliminationStagesComponent
+    ],
+    providers: [
+        TourneyCreationService,
+        EliminationMatchesCreationService,
+        SingleEliminationCreationService,
+        DoubleEliminationCreationService,
+        DoubleEliminationStageCreationService,
+        GroupsCreationService,
+        GroupsThenSingleEliminationCreationService,
+        {
+            provide: TourneysService,
+            useClass: TourneysService // CreatingMockTourneysService
+        },
+        TourneyEventService,
+        GroupStageFinalizedService,
+        SingleEliminationStageFinalizedService,
+        DoubleEliminationStageFinalizedService,
+        TourneyStandingCalculationService,
+        TourneyStatisticsService,
+        TourneyPlacementsService,
+        DoubleEliminationStagePlacementsService,
+        SingleEliminationStagePlacementsService,
+        GroupStagePlacementsService,
+        PlacementRecordBuilder,
+        TourneyMatchesService,
+        TourneyPointsService,
+        PlayersService
+    ]
 })
 export class TourneysModule { }
