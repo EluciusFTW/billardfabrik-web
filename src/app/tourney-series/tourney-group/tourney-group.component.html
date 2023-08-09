@@ -1,9 +1,12 @@
 <mat-card appearance="outlined" style="margin-top:2rem;" *ngIf="!!group">
-  <mat-card-subtitle>
-    <span style="color:red;" *ngIf="this.group.status == 2">
-        Die Gruppe ist beendet.
-    </span>
-</mat-card-subtitle>
+  <mat-card-header style="margin-bottom:1rem;">
+    <mat-card-subtitle>
+      <span style="color:red;" *ngIf="this.group.status == 2">
+          Die Gruppe ist beendet.
+      </span>
+    </mat-card-subtitle>
+  </mat-card-header>
+
   <mat-card-content>
     <div style="margin-bottom:2rem;" class="mat-elevation-z2">
       <mat-table #standing [dataSource]="totals">
@@ -77,7 +80,6 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumnsMatches"></mat-header-row>
         <mat-row [class]="getMatchClass(row)" *matRowDef="let row; columns: displayedColumnsMatches;"></mat-row>
-
       </mat-table>
     </div>
   </mat-card-content>
