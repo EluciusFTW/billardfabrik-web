@@ -10,9 +10,9 @@ $my-typography: mat.define-typography-config(
   $headline-5: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
   $headline-6: mat.define-typography-level(28px, 34px, 500, 'Jost, sans-serif'),
   $subtitle-1: mat.define-typography-level(22px, 34px, 500, 'Jost, sans-serif'),
-  $subtitle-2: mat.define-typography-level(24px, 34px, 500, 'Jost, sans-serif'),
-  $body-1: mat.define-typography-level(28px, 28px, 500, 'Jost, sans-serif'),
-  $body-2: mat.define-typography-level(16px, 28px, 400, 'Jost, sans-serif'),
+  $subtitle-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
+  $body-1: mat.define-typography-level(18px, 28px, 500, 'Jost, sans-serif'),
+  $body-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
   $caption: mat.define-typography-level(15px, 28px, 500, 'Jost, sans-serif'),
   $button: mat.define-typography-level(15px, 28px, 500, 'Jost, sans-serif')
 );

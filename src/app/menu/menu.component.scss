@@ -21,10 +21,14 @@
   height: 24px;
 }
 
-.burger-icon {
-  color: $prim;
+#burger-icon-container {
   display: none;
+
+  .burger-icon {
+    color: $prim;
+  }
 }
+
 
 .horizontal-separator {
   height: 1px;
@@ -51,7 +55,7 @@
       visibility: hidden;
   }
 
-  .burger-icon {
+  #burger-icon-container {
     display: block;
   }
 }
