@@ -15,7 +15,7 @@ export class ContentHeaderComponent {
   icon: string;
 
   classExpr(): string {
-    return !this.icon
+    return !!this.icon
       ? `fa fa-${this.icon}`
       : '';
   }
