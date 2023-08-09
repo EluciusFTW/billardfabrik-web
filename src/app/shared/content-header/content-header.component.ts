@@ -5,17 +5,18 @@ import { Component, Input } from '@angular/core';
   templateUrl: './content-header.component.html'
 })
 export class ContentHeaderComponent {
-  @Input() header: string;
-  @Input() size: number;
-  @Input() icon: string;
+  @Input()
+  header: string;
 
-  constructor() {
-  }
+  @Input()
+  size: number;
+
+  @Input()
+  icon: string;
 
   classExpr(): string {
-    if (!this.icon) {
-      return '';
-    }
-    return 'fa fa-' + this.icon;
+    return !!this.icon
+      ? `fa fa-${this.icon}`
+      : '';
   }
 }

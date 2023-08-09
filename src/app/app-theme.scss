@@ -1,28 +1,31 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 
-$general-typography: mat-typography-config(
-  $font-family: '"Jost", sans-serif',
+@include mat.core();
 
-  $display-4: mat-typography-level(32px, 42px, 500),
-  $display-3: mat-typography-level(32px, 42px, 500),
-  $display-2: mat-typography-level(32px, 42px, 500),
-  $display-1: mat-typography-level(32px, 42px, 500),
-  $headline: mat-typography-level(32px, 42px, 500),
-  $title: mat-typography-level(28px, 34px, 500),
-  $subheading-2: mat-typography-level(24px, 34px, 500),
-  $subheading-1: mat-typography-level(22px, 34px, 500),
-  $body-1: mat-typography-level(16px, 28px, 400),
-  $body-2: mat-typography-level(28px, 28px, 500),
-  $caption: mat-typography-level(15px, 28px, 500),
-  $button: mat-typography-level(15px, 28px, 500),
+$my-typography: mat.define-typography-config(
+  $headline-1: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-2: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-3: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-4: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-5: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-6: mat.define-typography-level(28px, 34px, 500, 'Jost, sans-serif'),
+  $subtitle-1: mat.define-typography-level(22px, 34px, 500, 'Jost, sans-serif'),
+  $subtitle-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
+  $body-1: mat.define-typography-level(18px, 28px, 500, 'Jost, sans-serif'),
+  $body-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
+  $caption: mat.define-typography-level(15px, 28px, 500, 'Jost, sans-serif'),
+  $button: mat.define-typography-level(15px, 28px, 500, 'Jost, sans-serif')
 );
-@include mat-core($general-typography);
 
-// Color palette
-// Available color palettes: https://www.google.com/design/spec/style/color.html
-$primary: mat-palette($mat-blue-grey, 200, 100, 400);
-$accent:  mat-palette($mat-orange, 300, 200, 600);
-$warn:    mat-palette($mat-red);
+$theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette(mat.$blue-grey-palette, 200, 100, 400),
+    accent: mat.define-palette(mat.$orange-palette, 300, 200, 600),
+    warn: mat.define-palette(mat.$red-palette),
+  ),
+  typography: $my-typography,
+  density: 0,
+));
 
-$app-theme: mat-light-theme($primary, $accent, $warn);
-@include angular-material-theme($app-theme);
+@include mat.typography-hierarchy($my-typography);
+@include mat.all-component-themes($theme);
