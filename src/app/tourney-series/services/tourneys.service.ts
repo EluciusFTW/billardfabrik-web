@@ -19,7 +19,8 @@ export class TourneysService {
   ) { }
 
   get(id: string): Observable<Tourney> {
-    return this.db.object<Tourney>(DB_TOURNEYS_LPATH + '/' + id)
+    return this.db
+      .object<Tourney>(DB_TOURNEYS_LPATH + '/' + id)
       .snapshotChanges()
       .pipe(map(changes => ({ key: changes.payload.key, ...changes.payload.val() })));
   }
@@ -42,14 +43,17 @@ export class TourneysService {
     this.eventService.apply(tourney, event);
     const key = this.getKey(tourney);
     if (!!key) {
-      this.db.list(DB_TOURNEYS_LPATH).update(key, tourney);
+      this.db
+        .list(DB_TOURNEYS_LPATH)
+        .update(key, tourney);
     } else {
       this.save(tourney);
     }
   }
 
   save(tourney: Tourney): void {
-    this.db.object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
+    this.db
+      .object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
       .set(tourney)
       .then(() => this.messageService.success('Neues Turnier erfolgreich erstellt'));
   }
