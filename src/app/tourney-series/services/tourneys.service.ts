@@ -55,7 +55,9 @@ export class TourneysService {
     this.db
       .object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
       .set(tourney)
-      .then(() => this.messageService.success('Neues Turnier erfolgreich erstellt'));
+      .then(
+        () => this.messageService.success('Neues Turnier erfolgreich gespeichert.'),
+        () => this.messageService.failure('Fehler beim Speichern des neuen Turniers.'));
   }
 
   private getDateString(): string {

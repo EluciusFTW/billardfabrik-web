@@ -2,7 +2,7 @@
 
   <div style="display: flex; flex-direction: row; justify-content: space-between;">
     <div style="display:flex; flex-direction: column; width: 60%">
-      <mat-selection-list #selectPlayers style="flex-grow: 1;">
+      <mat-selection-list #selectPlayers style="flex-grow: 1;" (selectionChange)="playerSelectionChange($event)">
         <mat-list-option style="height: auto; font-size: 1rem;" *ngFor="let player of players" [value]="player">
           {{ this.displayName(player) }}
         </mat-list-option>
@@ -30,8 +30,10 @@
 
       <mat-form-field *ngIf="selectedPlayModus?.hasGroups" appearance="fill">
         <mat-label>Anzahl Gruppen</mat-label>
-        <mat-select [(value)]="nrOfGroupsSelected">
-          <mat-option *ngFor="let nr of possibleNrOfGroups" [value]="nr">
+        <mat-select
+          [(value)]="nrOfGroupsSelected"
+          [disabled]="nrOfGroups(selectPlayers.selectedOptions.selected.length).length === 1">
+          <mat-option *ngFor="let nr of nrOfGroups(selectPlayers.selectedOptions.selected.length)" [value]="nr">
             {{ nr }}
           </mat-option>
         </mat-select>
@@ -66,8 +68,8 @@
       </mat-form-field>
 
       <div>
-        <button mat-raised-button (click)="submitSelected(selectPlayers.selectedOptions.selected)">Turnier
-          Erstellen
+        <button mat-raised-button (click)="submitSelected(selectPlayers.selectedOptions.selected)">
+          Turnier Erstellen
         </button>
       </div>
     </div>

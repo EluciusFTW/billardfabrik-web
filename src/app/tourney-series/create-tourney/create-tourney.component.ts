@@ -16,7 +16,6 @@ import { TourneyModeViewModel } from './tourney-mode-view-model';
 
 @Component({
   templateUrl: './create-tourney.component.html',
-  styleUrls: ['./create-tourney.component.scss']
 })
 export class CreateTourneyComponent {
 
@@ -38,8 +37,7 @@ export class CreateTourneyComponent {
     }];
   selectedPlayModus: TourneyModeViewModel;
 
-  possibleNrOfGroups: number[] = [1, 2, 4];
-  nrOfGroupsSelected: number = 1;
+  nrOfGroupsSelected: number;
 
   raceLengths: number[] = [3, 4, 5, 6];
   raceLengthSelected: number = 4;
@@ -74,14 +72,29 @@ export class CreateTourneyComponent {
           const newPlayers = players.filter(player => !currentPlayerNames.includes(this.displayName(player)));
           newPlayers.forEach(player => this.players.push(player));
         },
-        // e => this.messageService.failure('Fehler', 'Wir konnten leider nicht zum news-feed verbinden. Bitte versuchen Sie die Seite erneut zu laden.')
     );
   }
 
-  addPlayer(): void {
-    const dialogRef = this.dialog.open(TourneyPlayerCreateDialogComponent, { data: {} });
+  playerSelectionChange(event: any): void {
+    let numberOfSelectedPlayers = event.source.selectedOptions.selected.length;
+    this.nrOfGroupsSelected = this.nrOfGroups(numberOfSelectedPlayers)[0];
+  }
 
-    dialogRef
+  nrOfGroups(nrOfPlayers: number): number[] {
+    return nrOfPlayers < 6
+      ? [1]
+      : nrOfPlayers === 6
+        ? [1, 2]
+        : nrOfPlayers < 12
+          ? [2]
+          :  nrOfPlayers < 24
+            ? [4]
+            : [4,8]
+  }
+
+  addPlayer(): void {
+    this.dialog
+      .open(TourneyPlayerCreateDialogComponent, { data: {} })
       .afterClosed()
       .subscribe(
         result => {
