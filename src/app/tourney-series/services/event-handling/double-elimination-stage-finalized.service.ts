@@ -40,7 +40,7 @@ export class DoubleEliminationStageFinalizedService {
 
     const nextStageForLosers = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.loserAdvancesTo(finalizedStageType));
     if (nextStageForLosers) {
-      let losers = stage.matches.map(match => MatchPlayer.From(Match.loser(match).name));
+      let losers = stage.matches.map(match => MatchPlayer.From(Match.loser(match).name))
       switch (stageKind) {
         case TourneyDoubleEliminationStageKind.Entry:
           nextStageForLosers.matches.forEach((match, index) => {
@@ -49,9 +49,12 @@ export class DoubleEliminationStageFinalizedService {
           });
           break;
         case TourneyDoubleEliminationStageKind.Winner:
-          nextStageForLosers.matches.forEach((match, index) => {
-            match.playerOne = losers[index]
-          });
+          // const firstHalf = losers.slice(0, losers.length / 2);
+          // const secondHalf = losers.slice(losers.length / 2, losers.length);
+          // const reorderedLosers = secondHalf.concat(firstHalf);
+          // nextStageForLosers.matches.forEach((match, index) => match.playerOne = reorderedLosers[index]);
+          losers.reverse()
+          nextStageForLosers.matches.forEach((match, index) => match.playerOne = losers[index]);
           break;
         case TourneyDoubleEliminationStageKind.Loser:
           break;
