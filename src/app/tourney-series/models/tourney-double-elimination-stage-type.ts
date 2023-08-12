@@ -39,29 +39,29 @@ export enum TourneyDoubleEliminationStageKind {
 export namespace TourneyDoubleEliminationStageType {
   const _stageStrings = [
     'Einstieg 256',
-    'Verlierer Letzte 128',
+    'Verlierer Letzte 128-1',
     'Gewinner Letzte 128',
-    'Verlierer Letzte 96',
+    'Verlierer Letzte 128-2',
     'Einstieg 128',
-    'Verlierer Letzte 64',
+    'Verlierer Letzte 64-1',
     'Gewinner Letzte 64',
-    'Verlierer Letzte 48',
+    'Verlierer Letzte 64-2',
     'Einstieg 64',
-    'Verlierer Letzte 32',
+    'Verlierer Letzte 32-1',
     'Gewinner Letzte 32',
-    'Verlierer Letzte 24',
+    'Verlierer Letzte 32-2',
     'Einstieg 32',
-    'Verlierer Achtelfinale',
+    'Verlierer Achtelfinale-1',
     'Gewinner Achtelfinale',
-    'Verlierer Letzte 12',
+    'Verlierer Achtelfinale-2',
     'Einstieg 16',
-    'Verlierer Viertelfinale',
+    'Verlierer Viertelfinale-1',
     'Gewinner Viertelfinale',
-    'Verlierer Letzte 6',
+    'Verlierer Viertelfinale-2',
     'Einstieg 8',
-    'Verlierer Halbfinale',
+    'Verlierer Halbfinale-1',
     'Gewinner Halbfinale',
-    'Verlierer Letzte 3',
+    'Verlierer Halbfinale-2',
     'Einstieg 4',
     'Verlierer Finale',
     'Gewinner Finale',
@@ -116,7 +116,7 @@ export namespace TourneyDoubleEliminationStageType {
     }
 
     let entryStageType = TourneyDoubleEliminationStageType.Entry256;
-    while (numberOfPlayersInStartingStage((entryStageType + 4) as TourneyDoubleEliminationStageType) > numberOfPlayers) {
+    while (numberOfPlayersInStartingStage((entryStageType + 4) as TourneyDoubleEliminationStageType) >= numberOfPlayers) {
       entryStageType = entryStageType + 4;
     }
 
