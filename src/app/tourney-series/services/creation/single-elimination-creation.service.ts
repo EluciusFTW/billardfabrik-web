@@ -9,9 +9,8 @@ import { TourneyEliminationStageType } from '../../models/tourney-single-elimina
 export class SingleEliminationCreationService {
 
   createAllEmpty(info: TourneyInfo, startingStage: TourneyEliminationStageType): SingleEliminationEliminationStage[] {
-    return TourneyEliminationStageType
-      .all()
-      .filter(stageType => stageType <= startingStage)
+    return this
+      .getStages(startingStage)
       .map(stageType => ({
         eliminationType: "Single",
         type: stageType,
@@ -22,5 +21,13 @@ export class SingleEliminationCreationService {
           .map(_ => Match.placeHolder(info.discipline, info.raceLength)),
         status: TourneyPhaseStatus.waitingForApproval
       }));
+  }
+
+  private getStages(startingStage: TourneyEliminationStageType): TourneyEliminationStageType[] {
+    return startingStage === TourneyEliminationStageType.final
+      ? [TourneyEliminationStageType.thirdPlace, TourneyEliminationStageType.final]
+      : TourneyEliminationStageType
+        .all()
+        .filter(stageType => stageType <= startingStage);
   }
 }

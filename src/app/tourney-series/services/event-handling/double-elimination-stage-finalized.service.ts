@@ -5,6 +5,8 @@ import { Tourney } from "../../models/tourney";
 import { TourneyDoubleEliminationStageKind, TourneyDoubleEliminationStageType } from "../../models/tourney-double-elimination-stage-type";
 import { DoubleEliminationEliminationStage, TourneyEliminationStage } from "../../models/tourney-elimination-stage";
 import { TourneyPhaseStatus } from "../../models/tourney-phase-status";
+import { SingleEliminationStagePlacementsService } from "../evaluation/stages/single-elimination-stage-placements.service";
+import { TourneyEliminationStageType } from "../../models/tourney-single-elimination-stage-type";
 
 @Injectable()
 export class DoubleEliminationStageFinalizedService {
@@ -14,6 +16,8 @@ export class DoubleEliminationStageFinalizedService {
     const stageKind = TourneyDoubleEliminationStageType.toStageKind(finalizedStageType);
 
     let winners = stage.matches.map(match => MatchPlayer.From(Match.winner(match).name));
+    let losers = stage.matches.map(match => MatchPlayer.From(Match.loser(match).name));
+
     const nextStageForWinners = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.winnerAdvancesTo(finalizedStageType));
     if (nextStageForWinners) {
       switch (stageKind) {
@@ -40,7 +44,6 @@ export class DoubleEliminationStageFinalizedService {
 
     const nextStageForLosers = this.tryGetStage(tourney, TourneyDoubleEliminationStageType.loserAdvancesTo(finalizedStageType));
     if (nextStageForLosers) {
-      let losers = stage.matches.map(match => MatchPlayer.From(Match.loser(match).name))
       switch (stageKind) {
         case TourneyDoubleEliminationStageKind.Entry:
           nextStageForLosers.matches.forEach((match, index) => {
@@ -66,16 +69,7 @@ export class DoubleEliminationStageFinalizedService {
     if (nextStageForWinners) {
       this.setStatus(nextStageForWinners);
     } else {
-      const eliminationStage = tourney.eliminationStages[0];
-      eliminationStage.matches
-        .forEach((match, index) => stageKind === TourneyDoubleEliminationStageKind.Winner
-          ? match.playerOne = winners[index]
-          : match.playerTwo = winners[index]);
-
-      if(this.stageFullySeeded(eliminationStage)) {
-        eliminationStage.status = TourneyPhaseStatus.readyOrOngoing;
-      }
-
+      this.populateSingleEliminationStage(tourney, stageKind, finalizedStageType, winners, losers);
       stage.status = TourneyPhaseStatus.finalized;
     }
 
@@ -84,17 +78,41 @@ export class DoubleEliminationStageFinalizedService {
     }
   }
 
+  private populateSingleEliminationStage(tourney: Tourney, stageKind: TourneyDoubleEliminationStageKind, finalizedStageType: TourneyDoubleEliminationStageType, winners: MatchPlayer[], losers: MatchPlayer[]) {
+    if (finalizedStageType === TourneyDoubleEliminationStageType.WinnerFinal || finalizedStageType === TourneyDoubleEliminationStageType.LoserFinal) {
+      const final = tourney.eliminationStages.find(stage => stage.type === TourneyEliminationStageType.final)
+      const thirdPlace = tourney.eliminationStages.find(stage => stage.type === TourneyEliminationStageType.thirdPlace)
+      stageKind === TourneyDoubleEliminationStageKind.Winner
+        ? final.matches[0].playerOne = winners[0]
+        : final.matches[0].playerTwo = winners[0]
+
+      stageKind === TourneyDoubleEliminationStageKind.Winner
+        ? thirdPlace.matches[0].playerOne = losers[0]
+        : thirdPlace.matches[0].playerTwo = losers[0]
+
+      this.setStatus(final);
+      this.setStatus(thirdPlace);
+    } else {
+      const eliminationStage = tourney.eliminationStages[0];
+        eliminationStage.matches
+          .forEach((match, index) => stageKind === TourneyDoubleEliminationStageKind.Winner
+            ? match.playerOne = winners[index]
+            : match.playerTwo = winners[index]);
+        this.setStatus(eliminationStage);
+    }
+  }
+
+  private setStatus(nextStage: TourneyEliminationStage) {
+    if (this.stageFullySeeded(nextStage)) {
+      nextStage.status = TourneyPhaseStatus.readyOrOngoing;
+    }
+  }
+
   private stageFullySeeded(stage: TourneyEliminationStage): Boolean {
     return !stage.matches
       .flatMap(match => [match.playerOne, match.playerTwo])
       .map(player => !MatchPlayer.isDetermined(player))
       .some(value => value);
-  }
-
-  private setStatus(nextStage: DoubleEliminationEliminationStage) {
-    if (this.stageFullySeeded(nextStage)) {
-      nextStage.status = TourneyPhaseStatus.readyOrOngoing;
-    }
   }
 
   private getStage(tourney: Tourney, stageType: TourneyDoubleEliminationStageType): DoubleEliminationEliminationStage {
