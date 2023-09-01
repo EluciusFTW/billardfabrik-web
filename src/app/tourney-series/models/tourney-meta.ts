@@ -9,4 +9,5 @@ export interface TourneyMeta {
     status: TourneyStatus;
     discipline: PoolDiscipline;
     modus: TourneyMode;
+    occurrence?: number;
 }

@@ -41,7 +41,7 @@ export class TourneyYearListComponent implements OnInit {
             : tourneys.filter(tourney => tourney.meta.status !== TourneyStatus.new);
           this.tourneyDataSource = new MatTableDataSource<Tourney>(ts.reverse());
         }
-      )
+      );
   }
 
   show(tourney: Tourney) {
@@ -80,6 +80,12 @@ export class TourneyYearListComponent implements OnInit {
   mapTourneyState(status: TourneyStatus) {
     return TourneyStatusMapper.map(status);
   }
+
+  addOccurence(): void {
+    this.tourneysService.addNumber();
+  }
+
+
 
   ngOnDestroy() {
     this.tourneysSub.unsubscribe();

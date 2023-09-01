@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
@@ -32,6 +32,27 @@ export class TourneysService {
       .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
   }
 
+  addNumber(): void {
+    var tourneys = this.db
+      .list<Tourney>(DB_TOURNEYS_LPATH)
+      .snapshotChanges()
+      .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
+
+    tourneys
+      .pipe(take(1))
+      .subscribe(ts => ts.forEach((tourney, index) => {
+        tourney.meta.occurrence = index + 1;
+        this.db.list(DB_TOURNEYS_LPATH).update(this.getKey(tourney), tourney);
+      }));
+  }
+
+  getLastOccurrence(): Observable<number> {
+    return this.db
+      .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.limitToLast(1))
+      .valueChanges()
+      .pipe(take(1), map(ts => ts[0]?.meta.occurrence ?? 0));
+  }
+
   getFromYear(year: number): Observable<Tourney[]> {
     return this.db
       .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.orderByKey().startAt(`${year}0000`).endAt(`${year}9999`))
@@ -52,12 +73,17 @@ export class TourneysService {
   }
 
   save(tourney: Tourney): void {
-    this.db
-      .object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
-      .set(tourney)
-      .then(
-        () => this.messageService.success('Neues Turnier erfolgreich gespeichert.'),
-        () => this.messageService.failure('Fehler beim Speichern des neuen Turniers.'));
+    this
+      .getLastOccurrence()
+      .subscribe(last => {
+        tourney.meta.occurrence = last + 1;
+        this.db
+          .object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
+          .set(tourney)
+          .then(
+            () => this.messageService.success('Neues Turnier erfolgreich gespeichert.'),
+            () => this.messageService.failure('Fehler beim Speichern des neuen Turniers.'));
+      })
   }
 
   private getDateString(): string {
