@@ -81,10 +81,6 @@ export class TourneyYearListComponent implements OnInit {
     return TourneyStatusMapper.map(status);
   }
 
-  addOccurence(): void {
-    this.tourneysService.addNumber();
-  }
-
   ngOnDestroy() {
     this.tourneysSub.unsubscribe();
   }
