@@ -1,4 +1,4 @@
-<app-content-tile [header]="tourney ? tourney.meta.name + ' ' + tourney.meta.date : 'Loading ...'">
+<app-content-tile [header]="header" [subheader]="subheader">
   <mat-tab-group mat-stretch-tabs="false">
     <mat-tab label="Zusammenfassung">
       <app-tourney-summary [tourney]="tourney" (change)="update($event)"></app-tourney-summary>

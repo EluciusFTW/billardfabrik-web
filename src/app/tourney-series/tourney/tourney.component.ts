@@ -4,6 +4,7 @@ import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
 import { Subscription } from 'rxjs';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { TourneyFunctions } from './tourney-functions';
 
 @Component({
   selector: 'app-tourney',
@@ -23,6 +24,18 @@ export class TourneyComponent implements OnDestroy {
           .get(this.id)
           .subscribe(tourney => this.tourney = tourney);
       });
+  }
+
+  get header(): string {
+    return this.tourney
+      ? `${this.tourney.meta.name} Nr. ${this.tourney.meta.occurrence}`
+      : 'Loading ...'
+  }
+
+  get subheader(): string {
+    return this.tourney
+      ? `vom ${TourneyFunctions.NameFragmentToDate(this.tourney.meta.date).toLocaleDateString()}`
+      : ''
   }
 
   hasGroupStage(): boolean {

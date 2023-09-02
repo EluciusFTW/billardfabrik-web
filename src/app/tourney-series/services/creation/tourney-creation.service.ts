@@ -4,6 +4,7 @@ import { TourneyMeta } from '../../models/tourney-meta';
 import { TourneyStatus } from '../../models/tourney-status';
 import { GroupsThenSingleEliminationCreationService } from './groups-then-single-elimination-creation.service';
 import { DoubleEliminationCreationService } from './double-elimination-creation.service';
+import { TourneyFunctions } from '../../tourney/tourney-functions';
 
 @Injectable()
 export class TourneyCreationService {
@@ -29,23 +30,12 @@ export class TourneyCreationService {
 
   private buildMeta(info: TourneyInfo): TourneyMeta {
     return {
-      date: this.getDateString(),
+      date: TourneyFunctions.DateToNameFragment(new Date()),
       name: info.name,
       numberOfPlayers: info.players.length,
       discipline: info.discipline,
       modus: info.mode,
       status: TourneyStatus.new
     }
-  }
-
-  private getDateString(): string {
-    const date = new Date();
-    const yy = date.getFullYear();
-    const mm = date.getMonth() + 1;
-    const dd = date.getDate();
-    return [yy,
-      (mm > 9 ? '' : '0') + mm,
-      (dd > 9 ? '' : '0') + dd
-    ].join('');
   }
 }

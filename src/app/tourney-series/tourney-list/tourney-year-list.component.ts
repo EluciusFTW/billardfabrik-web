@@ -9,6 +9,7 @@ import { TourneyStatisticsService } from "../services/evaluation/tourney-statist
 import { PlayersService } from "../services/players.service";
 import { TourneysService } from "../services/tourneys.service";
 import { ShowResultsDialogComponent } from "./show-results.dialog.component";
+import { TourneyFunctions } from "../tourney/tourney-functions";
 
 @Component({
   selector: 'app-tourney-year-list',
@@ -62,10 +63,9 @@ export class TourneyYearListComponent implements OnInit {
   }
 
   niceName(dateName: string): string {
-    const year = +dateName.substring(0, 4);
-    const month = +dateName.substring(4, 6);
-    const day = +dateName.substring(6, 8);
-    return new Date(year, month - 1, day).toLocaleDateString();
+    return TourneyFunctions
+      .NameFragmentToDate(dateName)
+      .toLocaleDateString();
   }
 
   isTourneyAuthenticated(): boolean {
@@ -84,8 +84,6 @@ export class TourneyYearListComponent implements OnInit {
   addOccurence(): void {
     this.tourneysService.addNumber();
   }
-
-
 
   ngOnDestroy() {
     this.tourneysSub.unsubscribe();
