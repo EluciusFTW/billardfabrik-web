@@ -11,6 +11,9 @@ export class ContentTileComponent {
   header: string;
 
   @Input()
+  subheader: string;
+
+  @Input()
   content: string;
 
   @Input()

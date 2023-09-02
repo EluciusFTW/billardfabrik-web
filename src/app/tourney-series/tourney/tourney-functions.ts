@@ -42,4 +42,21 @@ export class TourneyFunctions {
 
     return Match.winner(thirdPlaceMatch).name;
   }
+
+  public static NameFragmentToDate(dateName: string): Date {
+    const year = +dateName.substring(0, 4);
+    const month = +dateName.substring(4, 6);
+    const day = +dateName.substring(6, 8);
+    return new Date(year, month - 1, day);
+  }
+
+  public static DateToNameFragment(date: Date) {
+    const yy = date.getFullYear();
+    const mm = date.getMonth() + 1;
+    const dd = date.getDate();
+    return [yy,
+      (mm > 9 ? '' : '0') + mm,
+      (dd > 9 ? '' : '0') + dd
+    ].join('');
+  }
 }

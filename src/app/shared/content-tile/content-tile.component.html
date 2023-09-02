@@ -1,7 +1,9 @@
-<mat-card appearance="outlined" [ngClass]="'bgCol'">
-    <app-content-header [header]="header" [icon]="''" [size]="2"></app-content-header>
-    <span *ngIf="link" [routerLink]="link" class="link">(MORE INFO)</span>
-    <div class="tile-content">
-        <ng-content></ng-content>
-    </div>
+<mat-card appearance="outlined" class="card">
+  <mat-card-header>
+    <mat-card-title>{{ header }} </mat-card-title>
+    <mat-card-subtitle>{{ subheader }} </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content class="content"style="">
+    <ng-content></ng-content>
+  </mat-card-content>
 </mat-card>

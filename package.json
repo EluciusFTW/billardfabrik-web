@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "test": "jest",
-    "start": "ng serve",
+    "start": "ng serve --port 4220",
     "build": "ng build",
     "deploy": "firebase deploy",
     "cp": "copy 'sitemap.xml' 'dist/billardfabrik-web'",
