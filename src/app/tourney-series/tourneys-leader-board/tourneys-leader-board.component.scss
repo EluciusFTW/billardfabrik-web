@@ -8,8 +8,16 @@
   justify-content: center;
 }
 
+.very-narrow {
+  max-width: 3.5rem;
+}
+
 .narrow {
   max-width: 85px;
+}
+
+.mid-wide {
+  max-width: 110px;
 }
 
 .space-right {
@@ -27,5 +35,3 @@
 .bronze-medal {
   color: burlywood
 }
-
-

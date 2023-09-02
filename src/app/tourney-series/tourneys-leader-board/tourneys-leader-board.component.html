@@ -1,10 +1,10 @@
-<app-content-tile [header]="'Leaderboard'">
+<app-content-tile [header]="'Leaderboard'" >
   <div>
     <mat-table #tourneys [dataSource]="leaderBoardDataSource">
 
       <ng-container matColumnDef="place">
-        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Platz </mat-header-cell>
-        <mat-cell class="centered" *matCellDef="let i = index;" [ngClass]="'narrow'"> {{i+1}}. </mat-cell>
+        <mat-header-cell class="very-narrow" *matHeaderCellDef> </mat-header-cell>
+        <mat-cell class="very-narrow" *matCellDef="let i = index;"> {{i+1}}. </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="name">
@@ -42,30 +42,30 @@
       </ng-container>
 
       <ng-container matColumnDef="participations">
-        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Teilnahmen </mat-header-cell>
-        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.participations}} </mat-cell>
+        <mat-header-cell class="centered narrow" *matHeaderCellDef> Teilnahmen </mat-header-cell>
+        <mat-cell class="centered narrow" *matCellDef="let item"> {{item.participations}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="matches">
-        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Matches </mat-header-cell>
-        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.matches}} </mat-cell>
+        <mat-header-cell class="centered narrow" *matHeaderCellDef> Matches </mat-header-cell>
+        <mat-cell class="centered narrow" *matCellDef="let item"> {{item.matches}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="score">
-        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Spiele </mat-header-cell>
-        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.scored}} : {{item.received}}
+        <mat-header-cell class="centered mid-wide" *matHeaderCellDef> Spiele </mat-header-cell>
+        <mat-cell class="centered mid-wide" *matCellDef="let item"> {{item.scored}} : {{item.received}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="winPercentage">
-        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Quote </mat-header-cell>
-        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{item.winPercentage | percent}}
+        <mat-header-cell class="centered narrow" *matHeaderCellDef> Quote </mat-header-cell>
+        <mat-cell class="centered narrow" *matCellDef="let item"> {{item.winPercentage | percent}}
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="points">
-        <mat-header-cell class="centered" *matHeaderCellDef [ngClass]="'narrow'"> Punkte </mat-header-cell>
-        <mat-cell class="centered" *matCellDef="let item" [ngClass]="'narrow'"> {{ item.points }} </mat-cell>
+        <mat-header-cell class="centered narrow" *matHeaderCellDef> Punkte </mat-header-cell>
+        <mat-cell class="centered narrow" *matCellDef="let item"> {{ item.points }} </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
