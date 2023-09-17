@@ -6,9 +6,9 @@ import { MatchPlayer } from "../models/match-player";
 import { TourneyGroup } from '../models/tourney-group';
 import { TourneyPhaseStatus } from "../models/tourney-phase-status";
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
-import { TourneyStandingCalculationService } from '../services/tourney-standing-calculation.service';
 import { MatchStatus } from '../models/match-status';
 import { UserService } from 'src/app/authentication/user.service';
+import { GroupFunctions } from './group-functions';
 
 @Component({
   selector: 'app-tourney-group',
@@ -30,7 +30,7 @@ export class TourneyGroupComponent implements OnChanges {
   totals = new MatTableDataSource<GroupStanding>(this.standing);
   displayedColumnsTotals = ['name', 'games', 'won', 'goals'];
 
-  constructor(private calculator: TourneyStandingCalculationService, private userService: UserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnChanges(_: SimpleChanges): void {
     this.matches = new MatTableDataSource<Match>(this.group?.matches);
@@ -146,7 +146,7 @@ export class TourneyGroupComponent implements OnChanges {
   }
 
   private calculateTotals(): void {
-    this.standing = this.calculator.calculcateStanding(this.group);
-    this.totals = new MatTableDataSource<GroupStanding>(this.calculator.calculcateStanding(this.group));
+    this.standing = GroupFunctions.calculcateStanding(this.group);
+    this.totals = new MatTableDataSource<GroupStanding>(GroupFunctions.calculcateStanding(this.group));
   }
 }

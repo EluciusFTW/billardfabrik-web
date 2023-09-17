@@ -21,7 +21,6 @@ import { TourneysService } from './services/tourneys.service';
 import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
 import { TourneyEliminationStageComponent } from './tourney-elimination-stage/tourney-elimination-stage.component';
 import { TourneyEventService } from './services/event-handling/tourney-event.service';
-import { TourneyStandingCalculationService } from './services/tourney-standing-calculation.service';
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 
@@ -96,7 +95,6 @@ import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.c
         GroupStageFinalizedService,
         SingleEliminationStageFinalizedService,
         DoubleEliminationStageFinalizedService,
-        TourneyStandingCalculationService,
         TourneyStatisticsService,
         TourneyPlacementsService,
         DoubleEliminationStagePlacementsService,

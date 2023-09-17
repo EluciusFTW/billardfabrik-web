@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
 import { Tourney } from '../../models/tourney';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
-import { TourneyStandingCalculationService } from '../tourney-standing-calculation.service';
+import { GroupFunctions } from '../../tourney-group/group-functions';
 
 @Injectable()
 export class GroupStageFinalizedService {
-
-  constructor(private standingsCalculator: TourneyStandingCalculationService) { }
 
   handle(tourney: Tourney): void {
     const ongoingGroups = tourney.groups.filter(group => group.status !== TourneyPhaseStatus.finalized);
@@ -25,7 +23,7 @@ export class GroupStageFinalizedService {
   private extractWinnersToRandomChunks(tourney: Tourney): string[][] {
     let reorderedChunked: string[][] = [];
     let winnersPerGroup = tourney.groups
-      .map(group => this.standingsCalculator.calculcateStanding(group))
+      .map(group => GroupFunctions.calculcateStanding(group))
       .map(standings => standings.slice(0, 2))
       .map(standings => standings.map(s => s.name));
 

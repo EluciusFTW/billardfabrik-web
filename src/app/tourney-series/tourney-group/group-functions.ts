@@ -1,19 +1,17 @@
-import { Injectable } from '@angular/core';
-import { GroupStanding } from '../models/group-standing';
-import { TourneyGroup } from '../models/tourney-group';
-import { Match } from '../models/match';
+import { GroupStanding } from "../models/group-standing";
+import { Match } from "../models/match";
+import { TourneyGroup } from "../models/tourney-group";
 
-@Injectable()
-export class TourneyStandingCalculationService {
+export class GroupFunctions {
 
-  calculcateStanding(group: TourneyGroup) : GroupStanding[]{
-    let startedMatches = group.matches.filter(match => Match.hasStarted(match));
-    return group.players
-      .map(player => this.CalculateStanding(player, startedMatches))
-      .sort(this.compare);
-  }
+  static calculcateStanding(group: TourneyGroup) : GroupStanding[]{
+      let startedMatches = group.matches.filter(match => Match.hasStarted(match));
+      return group.players
+        .map(player => this.calculateForPlayer(player, startedMatches))
+        .sort(this.compare);
+    }
 
-  private CalculateStanding(player: string, matches: Match[]): GroupStanding {
+  private static calculateForPlayer(player: string, matches: Match[]): GroupStanding {
     let isFirst = matches.filter(match => match.playerOne.name === player);
     let isSecond = matches.filter(match => match.playerTwo.name === player);
 
@@ -26,7 +24,7 @@ export class TourneyStandingCalculationService {
     }
   }
 
-  private compare(first: GroupStanding, second: GroupStanding): number {
+  private static compare(first: GroupStanding, second: GroupStanding): number {
     if (first.won > second.won) return -1;
     if (first.won < second.won) return 1;
 
