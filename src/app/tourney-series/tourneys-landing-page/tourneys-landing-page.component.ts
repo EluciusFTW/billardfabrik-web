@@ -8,8 +8,7 @@ export class TourneysLandingPageComponent {
   tabs = [
     { link: 'overview', label: 'Details' },
     { link: 'list', label: 'Turniere' },
-    { link: 'achievements', label: 'Achievements' },
-    { link: 'leaderboard', label: 'Leaderboard' }
+    { link: 'leaderboard', label: 'Leaderboards' }
   ]
 
   activeLink = "overview";
