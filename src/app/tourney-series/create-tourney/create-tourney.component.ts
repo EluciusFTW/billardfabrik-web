@@ -65,7 +65,7 @@ export class CreateTourneyComponent {
     this.disciplineSelected = PoolDisciplineMapper.map(PoolDiscipline.NineBall);
 
     this.playerSub = this.playersService
-      .getAll()
+      .getAllTourneyPlayers()
       .subscribe(
         players => {
           const currentPlayerNames = this.players.map(player => this.displayName(player));

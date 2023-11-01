@@ -4,5 +4,4 @@ import { PlayerMatchRecord } from "./player-match-record";
 export interface PlayerResultsRecord {
   placements?: PlacementRecord[];
   matches?: PlayerMatchRecord[];
-  achievements?: string[];
 }

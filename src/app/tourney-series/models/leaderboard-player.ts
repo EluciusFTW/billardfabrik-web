@@ -7,5 +7,4 @@ export interface LeaderBoardPlayer {
   scored: number;
   received: number;
   placements?: any;
-  achievements?: any;
 }
