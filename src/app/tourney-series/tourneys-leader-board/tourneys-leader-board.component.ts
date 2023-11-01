@@ -1,33 +1,38 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { PlayersService } from '../services/players.service';
 
 @Component({
+  selector: 'app-tourney-leader-board',
   templateUrl: './tourneys-leader-board.component.html',
   styleUrls: ['./tourneys-leader-board.component.scss']
 })
-export class TourneysLeaderBoardComponent implements OnDestroy {
+export class TourneysLeaderBoardComponent implements OnInit {
+
+  @Input()
+  startingAt: string = "20180101";
+
+  @Input()
+  endingAt: string = "20501231";
 
   leaderBoardPlayers: LeaderBoardPlayer[] = [];
-  private leaderBoardSub: Subscription;
 
   leaderBoardDataSource = new MatTableDataSource<LeaderBoardPlayer>();
   displayedColumns = ['place', 'name', 'placements', 'participations', 'matches', 'score', 'winPercentage', 'points'];
 
-  constructor(private playersService: PlayersService) {
-    this.leaderBoardSub = this.playersService.getAllResults().subscribe(
-      leaderBoardPlayers => {
-        this.leaderBoardPlayers = leaderBoardPlayers.sort((playerOne, playerTwo) => playerTwo.points - playerOne.points);
-        this.leaderBoardDataSource = new MatTableDataSource<LeaderBoardPlayer>(this.leaderBoardPlayers);
-      }
-    )
-  }
+  constructor(private playersService: PlayersService) { }
 
-  ngOnDestroy(): void {
-    if(this.leaderBoardSub){
-      this.leaderBoardSub.unsubscribe();
-    }
+  ngOnInit(): void {
+    this.playersService
+      .getAllLeaderboardPlayers(this.startingAt, this.endingAt)
+      .pipe(take(1))
+      .subscribe(
+        leaderBoardPlayers => {
+          this.leaderBoardPlayers = leaderBoardPlayers.sort((playerOne, playerTwo) => playerTwo.points - playerOne.points);
+          this.leaderBoardDataSource = new MatTableDataSource<LeaderBoardPlayer>(this.leaderBoardPlayers);
+        }
+      )
   }
 }

@@ -9,6 +9,7 @@ import { PlayerMatchRecord } from '../models/evaluation/player-match-record';
 import { TourneyPlacementType } from '../models/evaluation/tourney-placement-type';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { PlayerResultsRecord } from '../models/evaluation/player-results-record';
+import { TourneyFunctions } from '../tourney/tourney-functions';
 
 const DB_PLAYERS_LPATH = 'tourneySeries/players';
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
@@ -18,7 +19,7 @@ export class PlayersService {
 
   constructor(private db: AngularFireDatabase, private messageService: OwnMessageService) { }
 
-  getAll(): Observable<TourneyPlayer[]> {
+  getAllTourneyPlayers(): Observable<TourneyPlayer[]> {
     return this.db
       .list<TourneyPlayer>(DB_PLAYERS_LPATH)
       .snapshotChanges()
@@ -27,19 +28,30 @@ export class PlayersService {
       );
   }
 
-  getAllResults(): Observable<LeaderBoardPlayer[]> {
+  getAllLeaderboardPlayers(start: string, end: string): Observable<LeaderBoardPlayer[]> {
     return this.db
       .list<PlayerResultsRecord>(DB_PLAYERRESULTS_LPATH)
       .snapshotChanges()
       .pipe(
-        map(changes => <LeaderBoardPlayer[]>changes.map(c => this.toLeaderBoardPlayer(c.payload.key, c.payload.val())))
+        map(snapshots => snapshots
+          .map(snapshot => this.toLeaderBoardPlayer(snapshot.payload.key, snapshot.payload.val(), start, end))
+          .filter(player => player.participations > 0))
       );
   }
 
-  private toLeaderBoardPlayer(nameKey: string, player: PlayerResultsRecord): LeaderBoardPlayer {
-    const placements = Object.values(player.placements);
-    const matches = Object.values(player.matches);
-    const achievements = Object.values(player.achievements || []);
+  private toLeaderBoardPlayer(nameKey: string, player: PlayerResultsRecord, start: string, end: string): LeaderBoardPlayer {
+    const earliestTick = TourneyFunctions.NameFragmentToDate(start).valueOf();
+    const latestTick = TourneyFunctions.NameFragmentToDate(end).valueOf();
+
+    const placements = Object.values(player.placements)
+      .filter(p => p.tourney.slice(-8) >= start)
+      .filter(p => p.tourney.slice(-8) <= end);
+
+    const matches = Object
+      .values(player.matches)
+      .filter(match => match.when >= earliestTick)
+      .filter(match => match.when <= latestTick);
+
     return {
       name: this.nameFromKey(nameKey),
       points: placements.reduce((acc, curr) => acc + curr.points, 0),
@@ -53,7 +65,6 @@ export class PlayersService {
         silver: placements.filter(record => record.placement === TourneyPlacementType.Second).length,
         bronze: placements.filter(record => record.placement === TourneyPlacementType.Third).length
       },
-      achievements: achievements || []
     }
   }
 

@@ -79,6 +79,7 @@ export class TourneyMatchesService {
       oppScore: opponent.points,
       myScore: self.points,
       discipline: match.discipline,
+      // This is bs, should not be the time of evaluation, but at least a time stamp from the day of the tourney.
       when: new Date().valueOf(),
       type: type,
       tourney: EvaluationFunctions.getTourneyName(meta)
