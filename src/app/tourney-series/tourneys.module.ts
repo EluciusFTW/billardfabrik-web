@@ -48,6 +48,7 @@ import { GroupStagePlacementsService } from './services/evaluation/stages/group-
 import { PlacementRecordBuilder } from './services/evaluation/placement-record.builder';
 import { TourneyYearListComponent } from './tourney-list/tourney-year-list.component';
 import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
+import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
 
 @NgModule({
     imports: [
@@ -72,6 +73,7 @@ import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.c
         TourneyEliminationStageComponent,
         TourneySummaryComponent,
         TourneysLeaderBoardComponent,
+        TourneysLeaderBoardsComponent,
         TourneySeriesOverviewComponent,
         TourneysLandingPageComponent,
         TourneyDoubleEliminationStagesComponent

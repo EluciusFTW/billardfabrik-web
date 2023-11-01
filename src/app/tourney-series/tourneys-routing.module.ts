@@ -5,7 +5,7 @@ import { TourneyListComponent } from "./tourney-list/tourney-list.component";
 import { TourneySeriesOverviewComponent } from "./tourney-series-overview/tourney-series-overview.component";
 import { TourneyComponent } from "./tourney/tourney.component";
 import { TourneysLandingPageComponent } from "./tourneys-landing-page/tourneys-landing-page.component";
-import { TourneysLeaderBoardComponent } from "./tourneys-leader-board/tourneys-leader-board.component";
+import { TourneysLeaderBoardsComponent } from "./tourneys-leader-board/tourney-leader-boards.component";
 
 const routes: Routes = [{
     path: 'tourney-series', component: TourneysLandingPageComponent, children: [
@@ -14,7 +14,7 @@ const routes: Routes = [{
       { path: ':id/tourney', component: TourneyComponent },
       { path: 'create', component: CreateTourneyComponent },
       { path: 'list', component: TourneyListComponent },
-      { path: 'leaderboard', component: TourneysLeaderBoardComponent },
+      { path: 'leaderboard', component: TourneysLeaderBoardsComponent },
       { path: '**', component: TourneysLandingPageComponent }
   ]}
 ];
