@@ -30,11 +30,9 @@ import { TourneyPointsService } from './services/evaluation/tourney-points.servi
 import { TourneysLandingPageComponent } from './tourneys-landing-page/tourneys-landing-page.component';
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
 import { TourneySeriesRoutingModule } from './tourneys-routing.module';
-import { TourneyAchievementsComponent } from './tourney-achievements/tourney-achievements.component';
 import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
 import { GroupStageFinalizedService } from './services/event-handling/group-stage-finalized.service';
 import { SingleEliminationStageFinalizedService } from './services/event-handling/single-elimination-stage-finalized.service';
-import { CreatingMockTourneysService } from './services/dev/creating-mock-tourneys.service';
 import { SingleEliminationCreationService } from './services/creation/single-elimination-creation.service';
 import { DoubleEliminationCreationService } from './services/creation/double-elimination-creation.service';
 import { GroupsThenSingleEliminationCreationService } from './services/creation/groups-then-single-elimination-creation.service';
@@ -76,7 +74,6 @@ import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.c
         TourneysLeaderBoardComponent,
         TourneySeriesOverviewComponent,
         TourneysLandingPageComponent,
-        TourneyAchievementsComponent,
         TourneyDoubleEliminationStagesComponent
     ],
     providers: [
@@ -87,10 +84,7 @@ import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.c
         DoubleEliminationStageCreationService,
         GroupsCreationService,
         GroupsThenSingleEliminationCreationService,
-        {
-            provide: TourneysService,
-            useClass: TourneysService // CreatingMockTourneysService
-        },
+        TourneysService,
         TourneyEventService,
         GroupStageFinalizedService,
         SingleEliminationStageFinalizedService,

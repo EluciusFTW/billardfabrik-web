@@ -3,7 +3,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { PlayersService } from '../services/players.service';
-import { achievements } from 'src/environments/acheivements';
 
 @Component({
   templateUrl: './tourneys-leader-board.component.html',
@@ -15,8 +14,7 @@ export class TourneysLeaderBoardComponent implements OnDestroy {
   private leaderBoardSub: Subscription;
 
   leaderBoardDataSource = new MatTableDataSource<LeaderBoardPlayer>();
-  displayedColumns = ['place', 'name', 'placements', 'achievements', 'participations', 'matches', 'score', 'winPercentage', 'points'];
-  existingAchievements = achievements;
+  displayedColumns = ['place', 'name', 'placements', 'participations', 'matches', 'score', 'winPercentage', 'points'];
 
   constructor(private playersService: PlayersService) {
     this.leaderBoardSub = this.playersService.getAllResults().subscribe(

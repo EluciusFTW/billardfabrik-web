@@ -30,17 +30,6 @@
         </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="achievements">
-        <mat-header-cell *matHeaderCellDef> Achievements </mat-header-cell>
-        <mat-cell *matCellDef="let item">
-          <div *ngFor="let achievement of existingAchievements">
-            <div class="space-right" *ngIf="item.achievements.includes(achievement.id)">
-              <i [ngStyle]="{'color': achievement.color}" [ngClass]="achievement.icon" title="{{achievement.title}}"></i>
-            </div>
-          </div>
-        </mat-cell>
-      </ng-container>
-
       <ng-container matColumnDef="participations">
         <mat-header-cell class="centered narrow" *matHeaderCellDef> Teilnahmen </mat-header-cell>
         <mat-cell class="centered narrow" *matCellDef="let item"> {{item.participations}} </mat-cell>
