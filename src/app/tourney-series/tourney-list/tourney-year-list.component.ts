@@ -20,6 +20,12 @@ export class TourneyYearListComponent implements OnInit {
   @Input()
   year: number;
 
+  @Input()
+  startingAt: string = "20180101";
+
+  @Input()
+  endingAt: string = "20501231";
+
   private tourneysSub: Subscription;
 
   tourneyDataSource: MatTableDataSource<Tourney>;
@@ -33,8 +39,11 @@ export class TourneyYearListComponent implements OnInit {
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.tourneysSub = this.tourneysService
-      .getFromYear(this.year)
+    const tourneySource = this.year > 0
+      ? this.tourneysService.getFromYear(this.year)
+      : this.tourneysService.getBetween(this.startingAt, this.endingAt);
+
+    this.tourneysSub = tourneySource
       .subscribe(
         tourneys => {
           let ts = this.isTourneyAuthenticated()

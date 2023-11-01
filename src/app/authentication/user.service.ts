@@ -1,7 +1,7 @@
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { take, first } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { LoginData } from './models/login-data';
@@ -11,7 +11,7 @@ import { OwnMessageService } from '../shared/services/own-message.service';
 export class UserService {
 
   private uid: string;
-  userName: string = 'DEBUG';
+  userName: string;
 
   constructor(
     public authenticationService: AngularFireAuth,

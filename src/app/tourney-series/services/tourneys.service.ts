@@ -60,6 +60,13 @@ export class TourneysService {
       .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
   }
 
+  getBetween(start: string, end: string): Observable<Tourney[]> {
+    return this.db
+      .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.orderByKey().startAt(start).endAt(end))
+      .snapshotChanges()
+      .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
+  }
+
   update(tourney: Tourney, event: TourneyPhaseEvent): void {
     this.eventService.apply(tourney, event);
     const key = this.getKey(tourney);
