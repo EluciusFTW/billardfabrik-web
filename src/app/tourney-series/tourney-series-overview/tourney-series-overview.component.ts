@@ -10,7 +10,7 @@ export class TourneySeriesOverviewComponent {
   details: any[] = [
     {
       nrOf: '1-6',
-      description: 'Eine Gruppe, jeder gegen jeden. \n Die beiden Gruppenersten spielen ein Finale um den Turniersieg',
+      description: 'Eine Gruppe, jeder gegen jeden. Die beiden Gruppenersten spielen ein Finale um den Turniersieg',
       places: ['1.', '2.'],
       payout: ['66%', '33%'],
       points: ['5P', '3P']
@@ -19,7 +19,7 @@ export class TourneySeriesOverviewComponent {
       nrOf: '7-11',
       description: 'Zwei Gruppen. Die ersten beiden jeder Gruppe* spielen dann Halbfinale und Finale',
       places: ['1.', '2.', '3.', '4.'],
-      payout: ['50%', '35%', '15%'],
+      payout: ['60%', '30%', '10%'],
       points: ['6P', '5P', '4P', '3P']
     },
     {
