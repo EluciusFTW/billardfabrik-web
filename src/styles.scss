@@ -3,8 +3,14 @@ html, body {
   min-width: 480px;
   height: 100%;
   margin: 0;
-  background-color: #63717e;
+  background-color: var(--color-secondary);
+
+  --color-secondary: #63717e;
+  --color-primary: #780F07;
+  --bp-1: 1092px;
+  --bp-2: 800px;
 }
+
 
 p::first-letter {
   font-size: 1.1rem;
@@ -12,7 +18,7 @@ p::first-letter {
 }
 
 a {
-  color:#780F07;
+  color:var(--color-primary);
 }
 
 .fill-remaining-space {

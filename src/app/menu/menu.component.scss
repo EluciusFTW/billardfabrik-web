@@ -1,6 +1,5 @@
 @import '../../assets/scss/_brandbook';
 @import '../../assets/scss/_menu';
-@import '../../assets/scss/_layout';
 
 .toolbar {
   display: flex;
@@ -13,11 +12,11 @@
 
 .bf {
   margin-bottom: 12px;
-  color: $prim;
+  color: var(--color-primary);
 }
 
 .fbIcon{
-  color: $prim;
+  color: var(--color-primary);
   height: 24px;
 }
 
@@ -25,7 +24,7 @@
   display: none;
 
   .burger-icon {
-    color: $prim;
+    color: var(--color-primary);
   }
 }
 
@@ -34,7 +33,7 @@
   height: 1px;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  background-color: $prim;
+  background-color: var(--color-primary);
 }
 
 .menu-horizontal{
@@ -42,7 +41,7 @@
 }
 
 .menu-item-icon {
-  color: $prim;
+  color: var(--color-primary);
   margin-right: 5px;
 }
 
@@ -50,7 +49,7 @@
   height: 80px;
 }
 
-@media only screen and (max-width: $breakpoint2) {
+@media only screen and (max-width: var(--bp-1)) {
   .menu-horizontal {
       visibility: hidden;
   }
@@ -60,7 +59,7 @@
   }
 }
 
-@media only screen and (max-width: $breakpoint) {
+@media only screen and (max-width: var(--bp-1)) {
   .menu-item-text {
       display: none;
   }

@@ -1,5 +1,3 @@
-@import '../assets/scss/_layout';
-
 .all-content{
   display: flex;
   justify-content: center;
@@ -10,13 +8,13 @@
   width: 1024px;
 }
 
-@media only screen and (max-width: $breakpoint) {
+@media only screen and (max-width: var(--bp-1)) {
   .main-content {
       width: 800px;
   }
 }
 
-@media only screen and (max-width: $breakpoint2) {
+@media only screen and (max-width: var(--bp-1)) {
   .main-content {
       width: 680px;
   }
