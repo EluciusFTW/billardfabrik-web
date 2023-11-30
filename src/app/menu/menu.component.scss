@@ -1,4 +1,3 @@
-@import '../../assets/scss/_brandbook';
 @import '../../assets/scss/_breakpoints';
 
 #toolbar {
@@ -32,10 +31,6 @@
       .menu-item-icon {
         color: var(--color-primary);
       }
-    }
-
-    .active-menu-point {
-      background: $color-darken;
     }
   }
 

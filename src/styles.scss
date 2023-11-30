@@ -1,3 +1,7 @@
+@import '@angular/material/theming';
+@import 'app/app-theme.scss';
+
+
 html, body {
   width: 100%;
   min-width: 480px;
@@ -7,8 +11,13 @@ html, body {
 
   --color-secondary: #63717e;
   --color-primary: #780F07;
+  --color-fourth: #EAE2D6;
+
   --bp-1: 1092px;
   --bp-2: 800px;
+
+
+  --mat-prim: map-get($mat-blue-grey, 200);
 }
 
 
@@ -18,7 +27,7 @@ p::first-letter {
 }
 
 a {
-  color:var(--color-primary);
+  color: var(--color-primary);
 }
 
 .fill-remaining-space {

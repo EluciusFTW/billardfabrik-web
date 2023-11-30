@@ -1,5 +1,3 @@
-@import '../../assets/scss/_brandbook';
-
 .footer {
   display: flex;
   flex-direction: row;
@@ -8,6 +6,6 @@
 }
 
 a {
-  color: $mat-prim;
+  color: var(--mat-prim);
   text-decoration: none;
 }
