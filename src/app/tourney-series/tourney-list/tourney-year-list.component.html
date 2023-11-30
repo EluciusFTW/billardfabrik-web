@@ -18,6 +18,7 @@
     <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
     <mat-cell *matCellDef="let item">
       <button (click)="calculate(item)" *ngIf="canComplete(item.meta.status)">Calc</button>
+      <button (click)="considerForElo(item)">Elo</button>
       <button (click)="show(item)">Show</button>
     </mat-cell>
   </ng-container>

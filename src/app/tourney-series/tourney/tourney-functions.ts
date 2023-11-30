@@ -1,6 +1,8 @@
 import { Match } from '../models/match';
+import { MatchPlayer } from '../models/match-player';
 import { MatchStatus } from '../models/match-status';
 import { Tourney } from '../models/tourney';
+import { TourneyMode } from '../models/tourney-mode';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 
@@ -10,6 +12,33 @@ export class TourneyFunctions {
     return tourney.meta?.numberOfPlayers
       ?? tourney.groups?.flatMap(group => group.players).length
       ?? 0;
+  }
+
+  public static GetPlayers(tourney: Tourney): string[] {
+    return tourney.meta.modus === TourneyMode.GroupsThenSingleElimination
+      ? this.GetPlayersFromGroups(tourney)
+      : this.GetPlayersFromEntryStage(tourney)
+  }
+
+  private static GetPlayersFromEntryStage(tourney: Tourney): string[] {
+    return tourney.doubleEliminationStages[0].matches
+      .flatMap(match => [MatchPlayer.From(match.playerOne.name), MatchPlayer.From(match.playerTwo.name)])
+      .filter(player => MatchPlayer.isReal(player))
+      .map(player => player.name);
+  }
+
+  private static GetPlayersFromGroups(tourney: Tourney): string[] {
+    return tourney.groups?.flatMap(g => g.players) || [];
+  }
+
+  public static GetMatches(tourney: Tourney): Match[] {
+    let groupMatches = tourney.groups?.flatMap(group => group.matches) || [];
+    let doubleEliminationMatches = tourney.doubleEliminationStages?.flatMap(stage => stage.matches) || [];
+    let singleeEliminationMatches = tourney.eliminationStages?.flatMap(stage => stage.matches) || [];
+
+    return groupMatches
+      .concat(doubleEliminationMatches)
+      .concat(singleeEliminationMatches)
   }
 
   public static GetWinner(tourney: Tourney): string {
