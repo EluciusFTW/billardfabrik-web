@@ -1,70 +1,81 @@
 @import '../../assets/scss/_brandbook';
-@import '../../assets/scss/_menu';
+@import '../../assets/scss/_breakpoints';
 
-.toolbar {
+#toolbar {
   display: flex;
   flex-direction: row;
   align-items: center;
-  border-color: black;
-  border-style: dotted;
-  border: 4px;
-}
 
-.bf {
-  margin-bottom: 12px;
-  color: var(--color-primary);
-}
+  #logo {
+    height: 80px;
+  }
 
-.fbIcon{
-  color: var(--color-primary);
-  height: 24px;
-}
+  #menu-horizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-left: 2rem;
 
-#burger-icon-container {
-  display: none;
+    .menu-item {
+      padding: 13px 15px;
+      display: flex;
+      gap:5px;
+      font-size: .75rem;
+      font-weight: 600;
+      text-transform: uppercase;
 
-  .burger-icon {
+      :hover {
+        cursor: pointer;
+      }
+
+      .menu-item-icon {
+        color: var(--color-primary);
+      }
+    }
+
+    .active-menu-point {
+      background: $color-darken;
+    }
+  }
+
+  #fbIcon{
     color: var(--color-primary);
+    height: 24px;
+  }
+
+  #burger-icon-container {
+    display: none;
+
+    .burger-icon {
+      color: var(--color-primary);
+    }
+  }
+
+  @media only screen and (max-width: $breakpoint1) {
+    .menu-item-text {
+        display: none;
+    }
+
+    .menu-item-icon {
+      display: block;
+    }
+  }
+
+  @media only screen and (max-width: $breakpoint2) {
+    #menu-horizontal {
+      visibility: hidden;
+    }
+
+    #burger-icon-container {
+      display: block;
+    }
   }
 }
 
-
-.horizontal-separator {
+#horizontal-separator {
   height: 1px;
   margin-top: 1rem;
   margin-bottom: 1rem;
   background-color: var(--color-primary);
-}
-
-.menu-horizontal{
-  margin-left: 2rem;
-}
-
-.menu-item-icon {
-  color: var(--color-primary);
-  margin-right: 5px;
-}
-
-#logo {
-  height: 80px;
-}
-
-@media only screen and (max-width: var(--bp-1)) {
-  .menu-horizontal {
-      visibility: hidden;
-  }
-
-  #burger-icon-container {
-    display: block;
-  }
-}
-
-@media only screen and (max-width: var(--bp-1)) {
-  .menu-item-text {
-      display: none;
-  }
-
-  .menu-item-icon {
-    display: block;
-  }
 }
