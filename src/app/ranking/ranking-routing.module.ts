@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RankingComponent } from './ranking.component';
 import { RouterModule, Routes } from '@angular/router';
+import { PlayerRankingsComponent } from './player-rankings/player-rankings.component';
 
 const routes: Routes = [{
   path: 'ranking',
   component: RankingComponent,
   children: [
-    // { path: '', redirectTo: 'overview', pathMatch: 'full' },
-     // { path: 'overview', component: TourneySeriesOverviewComponent },
+    { path: '', redirectTo: 'players', pathMatch: 'full' },
+    { path: 'players', component: PlayerRankingsComponent },
   ]
 }];
 

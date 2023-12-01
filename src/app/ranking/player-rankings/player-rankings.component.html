@@ -1,0 +1,26 @@
+<mat-table #tourneys [dataSource]="dataSource">
+
+  <ng-container matColumnDef="place">
+    <mat-header-cell class="very-narrow" *matHeaderCellDef> </mat-header-cell>
+    <mat-cell class="very-narrow" *matCellDef="let i = index;"> {{i+1}}. </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let item"> {{item.name}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="matches">
+    <mat-header-cell class="centered mid-wide" *matHeaderCellDef> Matches </mat-header-cell>
+    <mat-cell class="centered mid-wide" *matCellDef="let item"> {{item.matches}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="ranking">
+    <mat-header-cell class="centered mid-wide" *matHeaderCellDef> Elo </mat-header-cell>
+    <mat-cell class="centered mid-wide" *matCellDef="let item"> {{item.ranking}} </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
+
+</mat-table>

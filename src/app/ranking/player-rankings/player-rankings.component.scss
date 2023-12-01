@@ -1,0 +1,25 @@
+.mat-mdc-cell.centered {
+  text-align: center;
+  justify-content:center;
+}
+
+.mat-mdc-header-cell.centered {
+  flex-direction: column;
+  justify-content: center;
+}
+
+.very-narrow {
+  max-width: 3.5rem;
+}
+
+.narrow {
+  max-width: 85px;
+}
+
+.mid-wide {
+  max-width: 110px;
+}
+
+.space-right {
+  margin-right: 10px;
+}

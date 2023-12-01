@@ -6,10 +6,13 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { PlayerRankingsComponent } from './player-rankings/player-rankings.component';
+import { EloService } from './elo.service';
 
 @NgModule({
   declarations: [
-    RankingComponent
+    RankingComponent,
+    PlayerRankingsComponent
   ],
   imports: [
     RankingRoutingModule,
@@ -18,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
     MaterialModule,
     FormsModule,
     SharedModule
-  ]
+  ],
+  providers: [EloService]
 })
 export class RankingModule { }
