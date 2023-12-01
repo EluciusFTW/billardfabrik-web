@@ -23,6 +23,7 @@ import { TourneysModule } from './tourney-series/tourneys.module';
 import { MensaComponent } from './mensa/mensa.component';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { FooterComponent } from './footer/footer.component';
+import { RankingModule } from './ranking/ranking.module';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { FooterComponent } from './footer/footer.component';
     AuthenticationModule,
     MaterialModule,
     AppRoutingModule,
-    TourneysModule
+    TourneysModule,
+    RankingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
