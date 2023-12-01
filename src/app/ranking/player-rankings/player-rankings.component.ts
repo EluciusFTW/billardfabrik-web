@@ -4,7 +4,6 @@ import { EloService } from '../elo.service';
 import { take, pipe } from 'rxjs';
 
 @Component({
-  selector: 'app-player-rankings',
   templateUrl: './player-rankings.component.html',
   styleUrls: ['./player-rankings.component.scss']
 })

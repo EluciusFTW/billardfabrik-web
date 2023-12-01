@@ -19,6 +19,15 @@ export class EloService {
         .map(player => ({ name: this.nameFromKey(player.key), matches: player.val().changes?.size || 0, ...player.val()}))));
   }
 
+  GetMatches(): Observable<any[]> {
+    return this.db
+      .list<EloPlayer>(DB_MATCHES_LPATH)
+      .snapshotChanges()
+      .pipe(map(snapshots => snapshots
+        .map(item => item.payload)
+        .map(match => ({ key: match.key, ...match.val()}))));
+  }
+
   private nameFromKey(name: string): string {
     return name.replace('_', ' ');
   }

@@ -8,11 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { PlayerRankingsComponent } from './player-rankings/player-rankings.component';
 import { EloService } from './elo.service';
+import { RankingMatchesComponent } from './ranking-matches/ranking-matches.component';
 
 @NgModule({
   declarations: [
     RankingComponent,
-    PlayerRankingsComponent
+    PlayerRankingsComponent,
+    RankingMatchesComponent
   ],
   imports: [
     RankingRoutingModule,
