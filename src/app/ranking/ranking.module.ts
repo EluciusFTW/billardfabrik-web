@@ -9,11 +9,13 @@ import { SharedModule } from '../shared/shared.module';
 import { PlayerRankingsComponent } from './player-rankings/player-rankings.component';
 import { EloService } from './elo.service';
 import { RankingMatchesComponent } from './ranking-matches/ranking-matches.component';
+import { PlayerProgressionDialogComponent } from './player-rankings/player-progression-dialog.component';
 
 @NgModule({
   declarations: [
     RankingComponent,
     PlayerRankingsComponent,
+    PlayerProgressionDialogComponent,
     RankingMatchesComponent
   ],
   imports: [

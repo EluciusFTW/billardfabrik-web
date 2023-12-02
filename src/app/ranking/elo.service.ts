@@ -127,12 +127,12 @@ export class EloService {
   }
 }
 
-interface EloPlayer {
+export interface EloPlayer {
   name: string;
   changes: EloDataPoint[];
 }
 
-interface EloDataPoint {
+export interface EloDataPoint {
   match: string,
   eloAfter: number
 }
