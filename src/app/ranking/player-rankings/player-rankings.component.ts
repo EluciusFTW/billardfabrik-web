@@ -19,7 +19,8 @@ export class PlayerRankingsComponent implements OnInit {
       .pipe(take(1))
       .subscribe(
         players => {
-          let sorted = players.sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
+          let sorted = players
+            .sort((playerOne, playerTwo) => playerTwo.changes[playerTwo.changes.length - 1].eloAfter - playerOne.changes[playerOne.changes.length - 1].eloAfter);
           this.dataSource = new MatTableDataSource(sorted);
         }
       )

@@ -1,7 +1,7 @@
 <mat-table #tourneys [dataSource]="dataSource">
 
   <ng-container matColumnDef="date">
-    <mat-header-cell class="very-narrow" *matHeaderCellDef> </mat-header-cell>
+    <mat-header-cell class="very-narrow" *matHeaderCellDef> Datum </mat-header-cell>
     <mat-cell *matCellDef="let item"> {{item.date}} </mat-cell>
   </ng-container>
 
@@ -24,3 +24,5 @@
   <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
 
 </mat-table>
+
+<button (click)="Calculate()">Calculate</button>

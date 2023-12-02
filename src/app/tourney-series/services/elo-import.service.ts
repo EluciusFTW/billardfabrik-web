@@ -43,8 +43,7 @@ export class EloImportService {
 
   private initialPlayer(): EloPlayer {
     return {
-      ranking: 1200,
-      changes: new Map<string, number>(),
+      changes: [{match: '__InitialSeed__', eloAfter: 1200}],
     }
   }
 
@@ -54,6 +53,10 @@ export class EloImportService {
 }
 
 interface EloPlayer {
-  ranking: number;
-  changes: Map<string, number>;
+  changes: EloDataPoint[];
+}
+
+interface EloDataPoint {
+  match: string,
+  eloAfter: number
 }
