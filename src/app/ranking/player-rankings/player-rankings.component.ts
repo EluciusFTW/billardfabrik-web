@@ -29,6 +29,10 @@ export class PlayerRankingsComponent implements OnInit {
   }
 
   showDetailsOf(player: any) {
-    this.dialog.open(PlayerProgressionDialogComponent, { data: player })
+    this.dialog.open(PlayerProgressionDialogComponent, {
+      data: player,
+      width: '80%',
+      hasBackdrop: true,
+    })
   }
 }

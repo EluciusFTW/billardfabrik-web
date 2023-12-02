@@ -10,6 +10,7 @@ import { PlayerRankingsComponent } from './player-rankings/player-rankings.compo
 import { EloService } from './elo.service';
 import { RankingMatchesComponent } from './ranking-matches/ranking-matches.component';
 import { PlayerProgressionDialogComponent } from './player-rankings/player-progression-dialog.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PlayerProgressionDialogComponent } from './player-rankings/player-progr
     RouterModule,
     CommonModule,
     MaterialModule,
+    NgChartsModule,
     FormsModule,
     SharedModule
   ],

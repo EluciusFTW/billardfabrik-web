@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Tourney } from '../models/tourney';
 import { TourneyFunctions } from '../tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
+import { MatchStatus } from '../models/match-status';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';
@@ -20,6 +21,7 @@ export class EloImportService {
     groupMatches
       .concat(doubleEliminationMatches)
       .concat(singleeEliminationMatches)
+      .filter(match => match.status === MatchStatus.done)
       .forEach(async (match, index) => await this.db
         .object(`${DB_MATCHES_LPATH}/${tourney.meta.date}-T-${index.toString().padStart(4, '0')}`)
         .set(match));
