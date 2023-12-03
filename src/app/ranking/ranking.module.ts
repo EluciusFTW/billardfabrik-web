@@ -11,13 +11,15 @@ import { EloService } from './elo.service';
 import { RankingMatchesComponent } from './ranking-matches/ranking-matches.component';
 import { PlayerProgressionDialogComponent } from './player-rankings/player-progression-dialog.component';
 import { NgChartsModule } from 'ng2-charts';
+import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 
 @NgModule({
   declarations: [
     RankingComponent,
     PlayerRankingsComponent,
     PlayerProgressionDialogComponent,
-    RankingMatchesComponent
+    RankingMatchesComponent,
+    ScoringDetailsComponent
   ],
   imports: [
     RankingRoutingModule,

@@ -9,6 +9,7 @@ export class RankingComponent {
   tabs = [
     { link: 'players', label: 'Rangliste' },
     { link: 'matches', label: 'Matches' },
+    { link: 'details', label: 'Details' },
   ]
 
   activeLink = "players";
