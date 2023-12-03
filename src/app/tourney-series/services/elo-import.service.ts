@@ -25,7 +25,7 @@ export class EloImportService {
       .filter(match => match.status === MatchStatus.done)
       .forEach(async (match, index) => await this.db
         .object(`${DB_MATCHES_LPATH}/${tourney.meta.date}-T-${index.toString().padStart(4, '0')}`)
-        .set(match));
+        .update(match));
   }
 
   public async ImportPlayers(tourney: Tourney): Promise<void> {
