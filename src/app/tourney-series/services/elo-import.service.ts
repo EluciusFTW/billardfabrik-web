@@ -46,6 +46,7 @@ export class EloImportService {
 
   private initialPlayer(): EloPlayer {
     return {
+      show: true,
       changes: [{ match: '__InitialSeed__', eloAfter: EloFunctions.InitialValue }],
     }
   }
@@ -56,6 +57,7 @@ export class EloImportService {
 }
 
 interface EloPlayer {
+  show: boolean
   changes: EloDataPoint[];
 }
 

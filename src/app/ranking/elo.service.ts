@@ -4,6 +4,7 @@ import { Observable, firstValueFrom, map } from 'rxjs';
 import { Match } from '../tourney-series/models/match';
 import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
 import { RankingPlayer } from './models/ranking-player';
+import { EloPlayer } from './models/elo-player';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';
@@ -20,7 +21,7 @@ export class EloService {
 
   GetRanking(): Observable<RankingPlayer[]> {
     return this.db
-      .list<EloPlayer>(DB_PLAYERS_PATH)
+      .list<EloPlayer>(DB_PLAYERS_PATH, ref => ref.orderByChild('show').equalTo(true))
       .snapshotChanges()
       .pipe(
         map(snapshots => snapshots
@@ -131,14 +132,4 @@ export class EloService {
   private keyFromName(name: string): string {
     return name.replace(' ', '_');
   }
-}
-
-export interface EloPlayer {
-  name: string;
-  changes: EloDataPoint[];
-}
-
-export interface EloDataPoint {
-  match: string,
-  eloAfter: number
 }
