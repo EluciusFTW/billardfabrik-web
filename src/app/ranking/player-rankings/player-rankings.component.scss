@@ -1,6 +1,8 @@
-.mat-mdc-cell.centered {
-  text-align: center;
-  justify-content:center;
+.mat-mdc-cell {
+  &.centered {
+    text-align: center;
+    justify-content:center;
+  }
 }
 
 .mat-mdc-header-cell.centered {

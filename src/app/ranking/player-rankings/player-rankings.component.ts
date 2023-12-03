@@ -11,8 +11,9 @@ import { PlayerProgressionDialogComponent } from './player-progression-dialog.co
 })
 export class PlayerRankingsComponent implements OnInit {
 
+  flatnessBarrier = 6;
   dataSource = new MatTableDataSource<any>();
-  displayedColumns = ['place', 'name', 'ranking', 'matches'];
+  displayedColumns = ['place', 'name', 'matches', 'trend', 'max', 'ranking'];
 
   constructor(private eloService: EloService, private dialog: MatDialog) { }
 
@@ -22,7 +23,13 @@ export class PlayerRankingsComponent implements OnInit {
       .subscribe(
         players => {
           let sorted = players
-            .sort((playerOne, playerTwo) => playerTwo.changes[playerTwo.changes.length - 1].eloAfter - playerOne.changes[playerOne.changes.length - 1].eloAfter);
+            .filter(p => p.changes.length >= 11)
+            .sort((playerOne, playerTwo) => playerTwo.changes[playerTwo.changes.length - 1].eloAfter - playerOne.changes[playerOne.changes.length - 1].eloAfter)
+            .map(player => ({
+              ... player,
+              max: Math.max(... player.changes.map(c => c.eloAfter)),
+              trend: player.changes[player.changes.length - 1].eloAfter - player.changes[player.changes.length - 6].eloAfter
+            }));
           this.dataSource = new MatTableDataSource(sorted);
         }
       )
