@@ -5,6 +5,9 @@
 /tmp
 /out-tsc
 
+# backups
+/backups
+
 # sensitive data
 /src/secrets
 

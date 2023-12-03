@@ -3,19 +3,20 @@ export class EloFunctions {
   private static readonly K = 32;
 
   public static calculate(match: CompletedMatch): number {
-    const q1 = this.q(match.eloScoreOfOne);
-    const q2 = this.q(match.eloScoreOfTwo);
-    const e1 = this.e(q1,q2);
-    const score = this.e(match.pointsScoredByOne, match.pointsScoredByTwo);
+    const q1 = this.Q(match.eloScoreOfOne);
+    const q2 = this.Q(match.eloScoreOfTwo);
 
-    return Math.round(EloFunctions.K * (score - e1));
+    const expected = this.E(q1,q2);
+    const actual = this.E(match.pointsScoredByOne, match.pointsScoredByTwo);
+
+    return Math.round(EloFunctions.K * (actual - expected));
   }
 
-  private static q(eloScore: number): number {
-    return Math.pow(10, eloScore / EloFunctions.exponentDivisor);
+  private static Q(elo: number): number {
+    return Math.pow(10, elo / EloFunctions.exponentDivisor);
   }
 
-  private static e(q1: number, q2: number): number {
+  private static E(q1: number, q2: number): number {
     return q1 / (q1+q2);
   }
 }
