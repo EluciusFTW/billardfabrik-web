@@ -30,7 +30,7 @@ export class EloService {
 
   GetMatches(): Observable<Db<Match>[]> {
     return this.db
-      .list<Match>(DB_MATCHES_LPATH)
+      .list<Match>(DB_MATCHES_LPATH, ref => ref.limitToLast(20))
       .snapshotChanges()
       .pipe(map(snapshots => snapshots
         .map(item => item.payload)
@@ -63,6 +63,7 @@ export class EloService {
   async Calculate(): Promise<void> {
     let rankings = await firstValueFrom(this.GetRankingFor());
     let unrankedMatches = await firstValueFrom(this.GetUnrankedMatches());
+    console.log('Unranked matches: ', unrankedMatches.length);
 
     let data = unrankedMatches
       .map(match => ({
@@ -77,7 +78,7 @@ export class EloService {
 
     data
       .forEach(data => {
-          console.log('Ranking match: ', data.match);
+          // console.log('Ranking match: ', data.match);
           let elo1 = data.p1.changes[data.p1.changes.length - 1].eloAfter;
           let elo2 = data.p2.changes[data.p2.changes.length - 1].eloAfter;
           let completedMatch = {
@@ -90,7 +91,7 @@ export class EloService {
           data.p1.changes.push({match: data.match.key, eloAfter: elo1 + diff})
           data.p2.changes.push({match: data.match.key, eloAfter: elo2 - diff})
           data.match.diff = diff;
-          console.log('Player One: ', data.p1.name, data.p1.changes[data.p1.changes.length - 2], data.p1.changes[data.p1.changes.length - 1]);
+          // console.log('Player One: ', data.p1.name, data.p1.changes[data.p1.changes.length - 2], data.p1.changes[data.p1.changes.length - 1]);
       });
 
     await this.UpdateMatches(data.map(d => d.match));
