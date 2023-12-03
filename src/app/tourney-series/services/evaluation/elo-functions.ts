@@ -1,4 +1,5 @@
 export class EloFunctions {
+  public static readonly InitialValue = 1500;
   private static readonly exponentDivisor = 400;
   private static readonly K = 32;
 

@@ -4,6 +4,7 @@ import { Tourney } from '../models/tourney';
 import { TourneyFunctions } from '../tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
 import { MatchStatus } from '../models/match-status';
+import { EloFunctions } from './evaluation/elo-functions';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';
@@ -45,7 +46,7 @@ export class EloImportService {
 
   private initialPlayer(): EloPlayer {
     return {
-      changes: [{match: '__InitialSeed__', eloAfter: 1200}],
+      changes: [{ match: '__InitialSeed__', eloAfter: EloFunctions.InitialValue }],
     }
   }
 
