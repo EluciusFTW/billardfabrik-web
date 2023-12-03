@@ -3,6 +3,7 @@ import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { Match } from '../tourney-series/models/match';
 import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
+import { RankingPlayer } from './models/ranking-player';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';
@@ -13,19 +14,23 @@ type Db<T> = T & FBase;
 type RankingMatch = Match & {diff?: number }
 @Injectable()
 export class EloService {
+  private readonly lowerBoundOnGames = 10;
 
   constructor(private db: AngularFireDatabase) { }
 
-  GetRanking(): Observable<EloPlayer[]> {
+  GetRanking(): Observable<RankingPlayer[]> {
     return this.db
       .list<EloPlayer>(DB_PLAYERS_PATH)
       .snapshotChanges()
-      .pipe(map(snapshots => snapshots
-        .map(item => item.payload)
-        .map(player => ({
-          name: this.nameFromKey(player.key),
-          ranking: player.val().changes[player.val().changes.length -1].eloAfter,
-          matches: player.val().changes.length - 1, ...player.val()}))));
+      .pipe(
+        map(snapshots => snapshots
+          .map(item => item.payload)
+          .filter(item => item.val().changes.length > this.lowerBoundOnGames)
+          .map(player => ({
+            name: this.nameFromKey(player.key),
+            allScores: player.val().changes.map(match => match.eloAfter),
+          }))
+      ));
   }
 
   GetMatches(): Observable<Db<Match>[]> {
