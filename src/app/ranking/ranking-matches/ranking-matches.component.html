@@ -20,6 +20,11 @@
     <mat-cell class="centered mid-wide" *matCellDef="let item"> {{item.playerOne.points}} : {{item.playerTwo.points}} </mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="diff">
+    <mat-header-cell class="centered mid-wide" *matHeaderCellDef> Diff Spieler 1 </mat-header-cell>
+    <mat-cell class="centered mid-wide" *matCellDef="let item"> {{ item.diff }} </mat-cell>
+  </ng-container>
+
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
 

@@ -16,7 +16,7 @@ type RankingMatch = Match & {date: string, diff?: number }
 export class RankingMatchesComponent implements OnInit {
   rankingMatches: RankingMatch[];
   dataSource = new MatTableDataSource<Match>();
-  displayedColumns = ['date', 'p1', 'p2', 'score'];
+  displayedColumns = ['date', 'p1', 'p2', 'score', 'diff'];
 
   constructor(private eloService: EloService) { }
 
