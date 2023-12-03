@@ -82,6 +82,7 @@ export class EloService {
       .filter(data => !data.p1.changes.find(c => c.match === data.match.key))
       .filter(data => !data.p2.changes.find(c => c.match === data.match.key))
 
+    console.log('Unranked matches that proceed: ', data.length);
     data
       .forEach(data => {
           // console.log('Ranking match: ', data.match);
@@ -97,7 +98,6 @@ export class EloService {
           data.p1.changes.push({match: data.match.key, eloAfter: elo1 + diff})
           data.p2.changes.push({match: data.match.key, eloAfter: elo2 - diff})
           data.match.diff = diff;
-          // console.log('Player One: ', data.p1.name, data.p1.changes[data.p1.changes.length - 2], data.p1.changes[data.p1.changes.length - 1]);
       });
 
     await this.UpdateMatches(data.map(d => d.match));
