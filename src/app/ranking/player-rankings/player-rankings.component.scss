@@ -1,27 +1,16 @@
-.mat-mdc-cell {
-  &.centered {
-    text-align: center;
-    justify-content:center;
-  }
+.mat-column-matches,
+.mat-column-max,
+.mat-column-trend,
+.mat-column-ranking {
+  justify-content:center;
+  max-width: 100px;
 }
 
-.mat-mdc-header-cell.centered {
-  flex-direction: column;
-  justify-content: center;
+.mat-column-ranking {
+  border-left: 1px solid black;
+  background-color: bisque;
 }
 
-.very-narrow {
+.mat-column-place {
   max-width: 3.5rem;
-}
-
-.narrow {
-  max-width: 85px;
-}
-
-.mid-wide {
-  max-width: 110px;
-}
-
-.space-right {
-  margin-right: 10px;
 }
