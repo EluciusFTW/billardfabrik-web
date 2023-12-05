@@ -39,8 +39,7 @@
       Dadurch dass der Spielstand wie oben beschrieben eingeht, würden 9:8 und 8:9 ziemlich ähnlich bewertet - aber es gibt einen großen Unterschied zwischen gewinnen und verlieren, den wollen wir auch mit berücksichtigen! Daher gibt es noch einen Korrekturterm der den Gewinner belohnt.
     </li>
   </ul>
-  Es folgen nun ein paar Tabellen mit Beispielen. Der Wert in der Zelle gibt immer den Punktegewinn (bzw. -Verlust) des ersten Spielers an.
-  <div style="height: 20px;"></div>
+  <h4>Beispiele</h4>
   <app-elo-demo-table
     [EloPairs]="eloPairsSame"
     Caption="In dieser Tabelle spielen zwei gleich starke Spieler gegeneinander. Man sieht dass die Punkte unabhängig von der Spielstärke sind.">
@@ -54,6 +53,13 @@
   <app-elo-demo-table
     [EloPairs]="eloPairsWeakerWinner"
     Caption="In dieser Tabelle gewinnt der schwächere Spieler. Auch im falle eines knappen Sieges bekommt er signifikante Punkte.">
+  </app-elo-demo-table>
+  <div style="height: 20px;"></div>
+
+  <h4> Vergleich der Elo-Varianten</h4>
+  <app-elo-demo-table
+    [EloPairs]="eloModeComparison"
+    Caption="In dieser Tabelle sehen wir den Vergleich der Berechnungsvarianten. Die erste Zeile zeight klassisches Elo, die zweite Zeile 'gewichtetes Elo' (also nur die erste Anpassung), die dritte Zeile 'gewichtetes Elo mit Gewinnbonus'.">
   </app-elo-demo-table>
 
 </app-content-tile>

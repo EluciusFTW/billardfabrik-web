@@ -1,47 +1,49 @@
-<table mat-table #tourneys [dataSource]="dataSource">
+<app-content-tile [header]="'Elo Rangliste'">
+  <table mat-table #tourneys [dataSource]="dataSource">
 
-  <ng-container matColumnDef="place">
-    <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-    <mat-cell *matCellDef="let i = index;"> {{i+1}}. </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="place">
+      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+      <mat-cell *matCellDef="let i = index;"> {{i+1}}. </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let item" style="cursor: pointer;" (click)="showDetailsOf(item)"> {{item.name}} </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let item" style="cursor: pointer;" (click)="showDetailsOf(item)"> {{item.name}} </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="matches">
-    <mat-header-cell *matHeaderCellDef> Matches </mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{item.matches}} </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="matches">
+      <mat-header-cell *matHeaderCellDef> Matches </mat-header-cell>
+      <mat-cell *matCellDef="let item"> {{item.matches}} </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="trend">
-    <mat-header-cell class="mid-wide" *matHeaderCellDef> Trend </mat-header-cell>
-    <mat-cell class="mid-wide" *matCellDef="let item">
+    <ng-container matColumnDef="trend">
+      <mat-header-cell class="mid-wide" *matHeaderCellDef> Trend </mat-header-cell>
+      <mat-cell class="mid-wide" *matCellDef="let item">
 
-      <mat-icon *ngIf="(item.trend > flatnessBarrier)" class="material-symbols-outlined" style="color: green;">
-        trending_up
-      </mat-icon>
-      <mat-icon *ngIf="(item.trend > - flatnessBarrier && flatnessBarrier > item.trend)" class="material-symbols-outlined">
-        trending_flat
-      </mat-icon>
-      <mat-icon *ngIf="-flatnessBarrier > item.trend" class="material-symbols-outlined" style="color: red;">
-        trending_down
-      </mat-icon>
-    </mat-cell>
-  </ng-container>
+        <mat-icon *ngIf="(item.trend > flatnessBarrier)" class="material-symbols-outlined" style="color: green;">
+          trending_up
+        </mat-icon>
+        <mat-icon *ngIf="(item.trend > - flatnessBarrier && flatnessBarrier > item.trend)" class="material-symbols-outlined">
+          trending_flat
+        </mat-icon>
+        <mat-icon *ngIf="-flatnessBarrier > item.trend" class="material-symbols-outlined" style="color: red;">
+          trending_down
+        </mat-icon>
+      </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="max">
-    <mat-header-cell *matHeaderCellDef> vs Max</mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{item.ranking - item.max}} </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="max">
+      <mat-header-cell *matHeaderCellDef> vs Max</mat-header-cell>
+      <mat-cell *matCellDef="let item"> {{item.ranking - item.max}} </mat-cell>
+    </ng-container>
 
-  <ng-container matColumnDef="ranking">
-    <mat-header-cell *matHeaderCellDef> Aktuell </mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{item.ranking}} </mat-cell>
-  </ng-container>
+    <ng-container matColumnDef="ranking">
+      <mat-header-cell *matHeaderCellDef> Elo </mat-header-cell>
+      <mat-cell *matCellDef="let item"> {{item.ranking}} </mat-cell>
+    </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
 
-</table>
+  </table>
+</app-content-tile>
