@@ -12,22 +12,25 @@
   },
   "jest": {
     "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": ["<rootDir>/jest.setup.ts"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.ts"
+    ]
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^16.1.2",
-    "@angular/cdk": "^15.2.9",
+    "@angular/cdk": "^16.1.2",
     "@angular/common": "^16.1.2",
     "@angular/compiler": "^16.1.2",
     "@angular/core": "^16.1.2",
     "@angular/fire": "^7.6.0",
     "@angular/forms": "^16.1.2",
-    "@angular/material": "^15.2.9",
+    "@angular/material": "^16.1.2",
     "@angular/platform-browser": "^16.1.2",
     "@angular/platform-browser-dynamic": "^16.1.2",
     "@angular/router": "^16.1.2",
     "firebase": "^9.4.0",
+    "ng2-charts": "^5.0.3",
     "rxfire": "^6.0.0",
     "rxjs": "^7.4.0",
     "tslib": "^2.3.0",

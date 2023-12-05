@@ -49,6 +49,7 @@ import { PlacementRecordBuilder } from './services/evaluation/placement-record.b
 import { TourneyYearListComponent } from './tourney-list/tourney-year-list.component';
 import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
 import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
+import { EloImportService } from './services/elo-import.service';
 
 @NgModule({
     imports: [
@@ -99,7 +100,8 @@ import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-l
         PlacementRecordBuilder,
         TourneyMatchesService,
         TourneyPointsService,
-        PlayersService
+        PlayersService,
+        EloImportService
     ]
 })
 export class TourneysModule { }

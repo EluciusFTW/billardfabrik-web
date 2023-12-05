@@ -1,0 +1,26 @@
+.mat-column-diff {
+  justify-content:center;
+  max-width: 150px;
+}
+
+.mat-column-score {
+  justify-content:center;
+  max-width: 100px;
+  padding:0
+}
+
+.slash {
+  padding: 0 0.5rem;
+
+}
+.neg {
+  color: red;
+}
+
+.pos {
+  color: green;
+}
+
+.mat-column-date {
+  max-width: 8rem;
+}

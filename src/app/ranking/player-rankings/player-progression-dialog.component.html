@@ -1,0 +1,9 @@
+<h1 mat-dialog-title> Elo Verlauf von {{ player.name }} </h1>
+<div mat-dialog-content>
+  <canvas baseChart style="width:100%"
+    [type]="'line'"
+    [data]="lineChartData"
+    [options]="lineChartOptions"
+    [legend]="false">
+  </canvas>
+</div>

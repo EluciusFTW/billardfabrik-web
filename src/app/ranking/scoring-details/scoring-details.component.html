@@ -1,0 +1,83 @@
+<app-content-tile [header]="'Details zum System'">
+  <ul>
+    <li>
+      Die Elo-Rangliste ist für alle Vereinsspieler. Solltet ihr nicht teilnehmen wollen, so sagt bitte Bescheid. Eure Punkte werden im Hintergrund trotzdem weiterberechnet und solltet ihr euch umentscheiden, so werden alle Spiele mit berücksichtigt.
+    </li>
+    <li>
+      Jeder Spieler beginnt mit 1500 Punkten.
+    </li>
+    <li>
+      Damit ihr auf der Liste erschient, müsst ihr mindestens 10 gewertete Spiele absolviert haben.
+    </li>
+    <li>
+      Die Elo-Rangliste wertet jedes Spiel im Donnerstagsturnier - auch Spiele gegen nicht-gelistete Spieler (z.B. vereinsfremden)!
+    </li>
+    <li>
+      Auch Vereinsmeisterschaftsspiele und Forderungen, oder auch offene Spiele unter euch, bei denen beide Spieler vor dem Spiel zustimmen, werden gewertet werden (bald!).
+    </li>
+    <li>
+      Nach Auswertung des Spiels bekommt ein Spieler X Punkte, abhängig von seiner und des Gegners Spielstärke, als auch des genauen Ergebnisses. Der andere verliert die gleiche Anzahl Punkte. Mehr zu der genauen Berechnung weiter unten.
+    </li>
+  </ul>
+  <h4> Traditionelles ELO System </h4>
+  Die Elo-Punkteberechnung für Spiele mit nur drei möglichen Ausgängen
+  <ul>
+    <li>Spieler 1 gewinnt / Spieler 2 verliert</li>
+    <li>Spieler 1 verliert / Spieler 2 gewinnt</li>
+    <li>Das Spiel geht unentschieden aus.</li>
+  </ul>
+  wie zum Beispiel Schach oder Go, kann <a href="https://de.wikipedia.org/wiki/Elo-Zahl">hier</a> nachgelesen werden. <br> <br>
+
+  Die Formel zur Berechnung der Punktedifferenz eines Spiels ist &Delta; = K(S - E), wobei
+  <ul>
+    <li>
+      K eine festzulegende Konstante ist. Je größer, desto mehr Punkte werden vergeben und desto mehr fluktuieren die Elo Werte. Wir verwenden K = 32.
+    </li>
+    <li>
+      S ist bei Sieg des ersten Spielers 1, bei Niederlage 0 und bei Unentschieden 0.5
+    </li>
+    <li>
+      E berechten sich ausschliesslich aus den Elo-Werten e1, e2 beider Spieler: E = 1/(1+10^((e2 - e1)/&sigma;)).
+    </li>
+    <li>
+      &sigma; ist eine weitere Konstante. Sie legt nur die breite der Verteilung fest und ist nicht weiter signifikant. Wir benutzen den üblichen Wert 400.
+      Ein Unterschied um &sigma; Punkte zu Gunsten des ersten Spielers bedeutet, dass seine Wahrscheinlichkeit zu gewinnen bei 10/11 &asymp; 90,9% liegt.
+    </li>
+  </ul>
+
+  <h4> Unsere Anpassungen </h4>
+  Billard ist etwas anders als Schach oder Go: Erstens gibt es normalerweise kein Unentschieden, und zweitens gibt es einen Spielstand. Ein 9:8 ist eine ganz andere Leistung als ein 9:0 und sollte anders bewertet werden. Deshalb haben wir zwei Anpassungen an die traditionelle Elo Berechnung gemacht. Wir berechnen die Elo-Differenz eines Spiels mit &Delta; = K(S + B - E).
+  <ul>
+    <li>
+      Der Spielstand wird berücksichtigt. Ein Sieg wird nicht mit S=1 gewertet, sondern mit dem Anteil der gewonnenen Spiele: Gewinnt jeman ein Spiel 9:2, dann ist der Faktor S = 9/11 &asymp; 0,818.
+    </li>
+    <li>
+      Dadurch dass der Spielstand wie oben beschrieben eingeht, würden 9:8 und 8:9 ziemlich ähnlich bewertet - aber es gibt einen großen Unterschied zwischen gewinnen und verlieren, den wollen wir auch mit berücksichtigen! Daher gibt es noch einen stets positiven Korrekturterm B der den Gewinner belohnt. Dieser Term hängt nur von der Länge des Matches ab.
+    </li>
+  </ul>
+  Am Ende der Seite könnt ihr einen Vergleich der verschiedenen Systeme an einem Beispiel durchgerechnen sehen (letzte Tabelle).
+  <div style="height: 20px;"></div>
+  <h4>Beispiele</h4>
+  <app-elo-demo-table
+    [EloPairs]="eloPairsSame"
+    Caption="In dieser Tabelle spielen zwei gleich starke Spieler gegeneinander. Man sieht dass die Punkte unabhängig von der Spielstärke sind.">
+  </app-elo-demo-table>
+  <div style="height: 50px;"></div>
+  <app-elo-demo-table
+    [EloPairs]="eloPairsStrongerWinner"
+    Caption="In dieser Tabelle gewinnt der stärkere Spieler. Man beachte dass der erste Spieler trotz Sieges Punkte verlieren kann.">
+  </app-elo-demo-table>
+  <div style="height: 50px;"></div>
+  <app-elo-demo-table
+    [EloPairs]="eloPairsWeakerWinner"
+    Caption="In dieser Tabelle gewinnt der schwächere Spieler. Auch im falle eines knappen Sieges bekommt er signifikante Punkte.">
+  </app-elo-demo-table>
+  <div style="height: 20px;"></div>
+
+  <h4> Vergleich der Elo-Varianten</h4>
+  <app-elo-demo-table
+    [EloPairs]="eloModeComparison"
+    Caption="In dieser Tabelle sehen wir den Vergleich der Berechnungsvarianten. Die erste Zeile zeight klassisches Elo, die zweite Zeile 'gewichtetes Elo' (also nur die erste Anpassung), die dritte Zeile 'gewichtetes Elo mit Gewinnbonus' - unser System.">
+  </app-elo-demo-table>
+
+</app-content-tile>

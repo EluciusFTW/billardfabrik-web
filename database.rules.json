@@ -12,6 +12,11 @@
       "playerResults": {
         ".write": "auth != null"
       }
+    },
+    "elo": {
+      "matches": {
+        ".indexOn": "diff"
+      }
     }
   }
 }

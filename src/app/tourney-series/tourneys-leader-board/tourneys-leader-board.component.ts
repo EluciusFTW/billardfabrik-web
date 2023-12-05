@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription, take } from 'rxjs';
+import { take } from 'rxjs';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { PlayersService } from '../services/players.service';
 

@@ -1,0 +1,16 @@
+.mat-column-matches,
+.mat-column-max,
+.mat-column-trend,
+.mat-column-ranking {
+  justify-content:center;
+  max-width: 100px;
+}
+
+.mat-column-ranking {
+  border-left: 1px solid black;
+  background-color: bisque;
+}
+
+.mat-column-place {
+  max-width: 3.5rem;
+}

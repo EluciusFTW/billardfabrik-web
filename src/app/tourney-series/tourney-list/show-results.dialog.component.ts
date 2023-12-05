@@ -11,8 +11,6 @@ import { TourneyMode } from "../models/tourney-mode";
   styleUrls: ['./show-results.dialog.component.scss']
 })
 export class ShowResultsDialogComponent {
-
-  dialogTitle: string = 'Ergebnisse';
   playerResults: MatTableDataSource<any>;// = new MatTableDataSource<TourneyPlayerEvaluation>([]);
   displayedColumns = ['name', 'points', 'placement']
   mode: TourneyMode;
