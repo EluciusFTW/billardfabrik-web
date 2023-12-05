@@ -1,11 +1,4 @@
 <div class="container">
-  <app-content-tile [header]="'Elo Rangliste'">
-    <p>
-      Dies ist die Vereinsinterne Rangliste nach dem <a href="https://de.wikipedia.org/wiki/Elo-Zahl">Elo-System</a>.
-    </p>
-
-  </app-content-tile>
-
   <nav mat-tab-nav-bar [tabPanel]="tabPanel">
     <a mat-tab-link *ngFor="let tab of tabs"
       (click)="activeLink = tab.link"

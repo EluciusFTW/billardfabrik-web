@@ -1,4 +1,11 @@
 <app-content-tile [header]="'Elo Rangliste'">
+  <p>
+    Dies ist die vereinsinterne Rangliste nach dem <a href="https://de.wikipedia.org/wiki/Elo-Zahl">Elo-System</a>.
+    Mehr Informationen zum System findet ihr unter 'Details'.
+  </p>
+  <p>
+    Ihr könnt auf die Spielernamen klicken um den gesamten Elo-Verlauf grafisch dargestellt zu sehen.
+  </p>
   <table mat-table #tourneys [dataSource]="dataSource">
 
     <ng-container matColumnDef="place">
@@ -23,7 +30,7 @@
         <mat-icon *ngIf="(item.trend > flatnessBarrier)" class="material-symbols-outlined" style="color: green;">
           trending_up
         </mat-icon>
-        <mat-icon *ngIf="(item.trend > - flatnessBarrier && flatnessBarrier > item.trend)" class="material-symbols-outlined">
+        <mat-icon *ngIf="(item.trend >= - flatnessBarrier && flatnessBarrier >= item.trend)" class="material-symbols-outlined">
           trending_flat
         </mat-icon>
         <mat-icon *ngIf="-flatnessBarrier > item.trend" class="material-symbols-outlined" style="color: red;">
