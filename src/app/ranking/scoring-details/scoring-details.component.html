@@ -1,2 +1,59 @@
 <app-content-tile [header]="'Details zum System'">
+  <ul>
+    <li>
+      Die Elo-Rangliste ist für alle Vereinsspieler. Solltet ihr nicht teilnehmen wollen, so sagt bitte Bescheid. Eure Punkte werden im Hintergrund trotzdem weiterberechnet und solltet ihr euch umentscheiden, so werden alle Spiele mit berücksichtigt.
+    </li>
+    <li>
+      Jeder Spieler beginnt mit 1500 Punkten.
+    </li>
+    <li>
+      Damit ihr auf der Liste erschient, müsst ihr mindestens 10 gewertete Spiele absolviert haben.
+    </li>
+    <li>
+      Die Elo-Rangliste wertet jedes Spiel im Donnerstagsturnier - auch Spiele gegen nicht-gelistete Spieler (z.B. vereinsfremden)!
+    </li>
+    <li>
+      Auch Vereinsmeisterschaftsspiele und Forderungen, oder auch offene Spiele unter euch, bei denen beide Spieler vor dem Spiel zustimmen, werden gewertet werden (bald!).
+    </li>
+    <li>
+      Nach Auswertung des Spiels bekommt ein Spieler X Punkte, abhängig von seiner und des Gegners Spielstärke, als auch des genauen Ergebnisses. Der andere verliert die gleiche Anzahl Punkte. Mehr zu der genauen Berechnung weiter unten.
+    </li>
+  </ul>
+
+  <h3> Punkteberechnung </h3>
+  <h4> Traditionelles ELO System </h4>
+  Die Elo-Punkteberechnung für Spiele mit nur drei möglichen Ausgängen
+  <ul>
+    <li>Spieler 1 gewinnt / Spieler 2 verliert</li>
+    <li>Spieler 1 verliert / Spieler 2 gewinnt</li>
+    <li>Das Spiel geht unentschieden aus.</li>
+  </ul>
+  wie zum Beispiel Schach oder Go, kann <a href="https://de.wikipedia.org/wiki/Elo-Zahl">hier</a> nachgelesen werden.
+  <h4> Unsere Anpassungen </h4>
+  Billard ist etwas anders als Schach oder Go: Erstens gibt es normalerweise kein Unentschieden, und zweitens gibt es einen Spielstand. Ein 9:8 ist eine ganz andere Leistung als ein 9:0 und sollte anders bewertet werden. Deshalb haben wir zwei Anpassungen an die traditionelle Elo Berechnung gemacht:
+  <ul>
+    <li>
+      Der Spielstand wird berücksichtigt. Ein Sieg ist nicht unbedingt mit 1 gewertet, sondern mit dem Anteil der gewonnenen Spiele: Gewinnt jeman ein Spiel 9:2, dann ist der Faktor 9/11 &asymp; 0,818.
+    </li>
+    <li>
+      Dadurch dass der Spielstand wie oben beschrieben eingeht, würden 9:8 und 8:9 ziemlich ähnlich bewertet - aber es gibt einen großen Unterschied zwischen gewinnen und verlieren, den wollen wir auch mit berücksichtigen! Daher gibt es noch einen Korrekturterm der den Gewinner belohnt.
+    </li>
+  </ul>
+  Es folgen nun ein paar Tabellen mit Beispielen. Der Wert in der Zelle gibt immer den Punktegewinn (bzw. -Verlust) des ersten Spielers an.
+  <div style="height: 20px;"></div>
+  <app-elo-demo-table
+    [EloPairs]="eloPairsSame"
+    Caption="In dieser Tabelle spielen zwei gleich starke Spieler gegeneinander. Man sieht dass die Punkte unabhängig von der Spielstärke sind.">
+  </app-elo-demo-table>
+  <div style="height: 50px;"></div>
+  <app-elo-demo-table
+    [EloPairs]="eloPairsStrongerWinner"
+    Caption="In dieser Tabelle gewinnt der stärkere Spieler. Man beachte dass der erste Spieler trotz Sieges Punkte verlieren kann.">
+  </app-elo-demo-table>
+  <div style="height: 50px;"></div>
+  <app-elo-demo-table
+    [EloPairs]="eloPairsWeakerWinner"
+    Caption="In dieser Tabelle gewinnt der schwächere Spieler. Auch im falle eines knappen Sieges bekommt er signifikante Punkte.">
+  </app-elo-demo-table>
+
 </app-content-tile>
