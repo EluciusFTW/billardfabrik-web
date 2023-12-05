@@ -19,8 +19,6 @@
       Nach Auswertung des Spiels bekommt ein Spieler X Punkte, abhängig von seiner und des Gegners Spielstärke, als auch des genauen Ergebnisses. Der andere verliert die gleiche Anzahl Punkte. Mehr zu der genauen Berechnung weiter unten.
     </li>
   </ul>
-
-  <h3> Punkteberechnung </h3>
   <h4> Traditionelles ELO System </h4>
   Die Elo-Punkteberechnung für Spiele mit nur drei möglichen Ausgängen
   <ul>
@@ -28,17 +26,37 @@
     <li>Spieler 1 verliert / Spieler 2 gewinnt</li>
     <li>Das Spiel geht unentschieden aus.</li>
   </ul>
-  wie zum Beispiel Schach oder Go, kann <a href="https://de.wikipedia.org/wiki/Elo-Zahl">hier</a> nachgelesen werden.
-  <h4> Unsere Anpassungen </h4>
-  Billard ist etwas anders als Schach oder Go: Erstens gibt es normalerweise kein Unentschieden, und zweitens gibt es einen Spielstand. Ein 9:8 ist eine ganz andere Leistung als ein 9:0 und sollte anders bewertet werden. Deshalb haben wir zwei Anpassungen an die traditionelle Elo Berechnung gemacht:
+  wie zum Beispiel Schach oder Go, kann <a href="https://de.wikipedia.org/wiki/Elo-Zahl">hier</a> nachgelesen werden. <br> <br>
+
+  Die Formel zur Berechnung der Punktedifferenz eines Spiels ist &Delta; = K(S - E), wobei
   <ul>
     <li>
-      Der Spielstand wird berücksichtigt. Ein Sieg ist nicht unbedingt mit 1 gewertet, sondern mit dem Anteil der gewonnenen Spiele: Gewinnt jeman ein Spiel 9:2, dann ist der Faktor 9/11 &asymp; 0,818.
+      K eine festzulegende Konstante ist. Je größer, desto mehr Punkte werden vergeben und desto mehr fluktuieren die Elo Werte. Wir verwenden K = 32.
     </li>
     <li>
-      Dadurch dass der Spielstand wie oben beschrieben eingeht, würden 9:8 und 8:9 ziemlich ähnlich bewertet - aber es gibt einen großen Unterschied zwischen gewinnen und verlieren, den wollen wir auch mit berücksichtigen! Daher gibt es noch einen Korrekturterm der den Gewinner belohnt.
+      S ist bei Sieg des ersten Spielers 1, bei Niederlage 0 und bei Unentschieden 0.5
+    </li>
+    <li>
+      E berechten sich ausschliesslich aus den Elo-Werten e1, e2 beider Spieler: E = 1/(1+10^((e2 - e1)/&sigma;)).
+    </li>
+    <li>
+      &sigma; ist eine weitere Konstante. Sie legt nur die breite der Verteilung fest und ist nicht weiter signifikant. Wir benutzen den üblichen Wert 400.
+      Ein Unterschied um &sigma; Punkte zu Gunsten des ersten Spielers bedeutet, dass seine Wahrscheinlichkeit zu gewinnen bei 10/11 &asymp; 90,9% liegt.
     </li>
   </ul>
+
+  <h4> Unsere Anpassungen </h4>
+  Billard ist etwas anders als Schach oder Go: Erstens gibt es normalerweise kein Unentschieden, und zweitens gibt es einen Spielstand. Ein 9:8 ist eine ganz andere Leistung als ein 9:0 und sollte anders bewertet werden. Deshalb haben wir zwei Anpassungen an die traditionelle Elo Berechnung gemacht. Wir berechnen die Elo-Differenz eines Spiels mit &Delta; = K(S + B - E).
+  <ul>
+    <li>
+      Der Spielstand wird berücksichtigt. Ein Sieg wird nicht mit S=1 gewertet, sondern mit dem Anteil der gewonnenen Spiele: Gewinnt jeman ein Spiel 9:2, dann ist der Faktor S = 9/11 &asymp; 0,818.
+    </li>
+    <li>
+      Dadurch dass der Spielstand wie oben beschrieben eingeht, würden 9:8 und 8:9 ziemlich ähnlich bewertet - aber es gibt einen großen Unterschied zwischen gewinnen und verlieren, den wollen wir auch mit berücksichtigen! Daher gibt es noch einen stets positiven Korrekturterm B der den Gewinner belohnt. Dieser Term hängt nur von der Länge des Matches ab.
+    </li>
+  </ul>
+  Am Ende der Seite könnt ihr einen Vergleich der verschiedenen Systeme an einem Beispiel durchgerechnen sehen (letzte Tabelle).
+  <div style="height: 20px;"></div>
   <h4>Beispiele</h4>
   <app-elo-demo-table
     [EloPairs]="eloPairsSame"
