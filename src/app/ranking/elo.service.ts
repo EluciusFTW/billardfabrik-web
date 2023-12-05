@@ -5,14 +5,15 @@ import { Match } from '../tourney-series/models/match';
 import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
 import { RankingPlayer } from './models/ranking-player';
 import { EloPlayer } from './models/elo-player';
+import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';
 
 type FBase = { key: string }
 type Db<T> = T & FBase;
+export type RankingMatch = Match & {diff?: number, date?: string };
 
-type RankingMatch = Match & {diff?: number }
 @Injectable()
 export class EloService {
   private readonly lowerBoundOnGames = 10;
@@ -34,13 +35,18 @@ export class EloService {
       ));
   }
 
-  GetMatches(): Observable<Db<Match>[]> {
+  GetMatches(): Observable<RankingMatch[]> {
     return this.db
-      .list<Match>(DB_MATCHES_LPATH, ref => ref.limitToLast(20))
+      .list<Match>(DB_MATCHES_LPATH, ref => ref.limitToLast(50))
       .snapshotChanges()
       .pipe(map(snapshots => snapshots
         .map(item => item.payload)
-        .map(match => ({ key: match.key, ...match.val()}))));
+        .map(match => ({
+          date: TourneyFunctions
+            .NameFragmentToDate(match.key.substring(0,8))
+            .toLocaleDateString(),
+          ...match.val()
+        }))));
   }
 
   private GetUnrankedMatches(): Observable<Db<RankingMatch>[]> {
