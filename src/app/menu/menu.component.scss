@@ -59,7 +59,7 @@
 
   @media only screen and (max-width: $breakpoint2) {
     #menu-horizontal {
-      visibility: hidden;
+      display: none;
     }
 
     #burger-icon-container {
