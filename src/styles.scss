@@ -4,7 +4,6 @@
 
 html, body {
   width: 100%;
-  min-width: 300px;
   height: 100%;
   margin: 0;
   background-color: var(--color-secondary);
@@ -12,10 +11,6 @@ html, body {
   --color-secondary: #63717e;
   --color-primary: #780F07;
   --color-fourth: #EAE2D6;
-
-  --bp-1: 1092px;
-  --bp-2: 800px;
-
 
   --mat-prim: map-get($mat-blue-grey, 200);
 }
