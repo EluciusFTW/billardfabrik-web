@@ -4,7 +4,7 @@ import { CreateTourneyComponent } from "./create-tourney/create-tourney.componen
 import { TourneyListComponent } from "./tourney-list/tourney-list.component";
 import { TourneySeriesOverviewComponent } from "./tourney-series-overview/tourney-series-overview.component";
 import { TourneyComponent } from "./tourney/tourney.component";
-import { TourneysLandingPageComponent } from "./tourneys-landing-page/tourneys-landing-page.component";
+import { TourneysLandingPageComponent } from "./tourneys-landing-page.component";
 import { TourneysLeaderBoardsComponent } from "./tourneys-leader-board/tourney-leader-boards.component";
 
 const routes: Routes = [{

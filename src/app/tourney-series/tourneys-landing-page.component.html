@@ -1,0 +1,22 @@
+<app-content-tile [header]="'Die Donnerstags-Serie'">
+  <p>
+    Das Turnier jeden zweiten Donnerstag in der Mensa! Einfach da sein und mitspielen, keine Voranmeldung
+    nötig!
+  </p>
+  <ul>
+    <li>Anmeldung bis 19:00 (bei leichter Verspätung bitte Bescheid geben)</li>
+    <li>Startgeld 10€</li>
+    <li>8-/9-/10-Ball im Wechsel</li>
+  </ul>
+</app-content-tile>
+
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+  <a mat-tab-link *ngFor="let tab of tabs"
+    (click)="activeLink = tab.link"
+    [active]="activeLink == tab.link"
+    [routerLink]="tab.link"> {{ tab.label }} </a>
+</nav>
+
+<mat-tab-nav-panel #tabPanel>
+  <router-outlet></router-outlet>
+</mat-tab-nav-panel>

@@ -27,7 +27,7 @@ import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-l
 import { TourneyStatisticsService } from './services/evaluation/tourney-statistics.service';
 import { TourneyPointsService } from './services/evaluation/tourney-points.service';
 
-import { TourneysLandingPageComponent } from './tourneys-landing-page/tourneys-landing-page.component';
+import { TourneysLandingPageComponent } from './tourneys-landing-page.component';
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
 import { TourneySeriesRoutingModule } from './tourneys-routing.module';
 import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
