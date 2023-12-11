@@ -1,5 +1,6 @@
 @import '@angular/material/theming';
 @import 'app/app-theme.scss';
+@import 'assets/scss/breakpoints';
 
 html, body {
   width: 100%;
@@ -25,4 +26,44 @@ a {
 
 .fill-remaining-space {
   flex: 1 1 auto;
+}
+
+@media only screen and (max-width: $breakpoint1) {
+  :root {
+    --mat-table-header-container-height: 28px;
+    --mat-table-row-item-container-height: 36px;
+
+    .mat-mdc-cell{
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      font-size: 12px;
+      line-height: normal;
+    }
+
+    .mat-mdc-header-cell {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      font-size:12px;
+    }
+  }
+}
+
+@media only screen and (max-width: $breakpoint2) {
+  :root {
+    --mat-table-header-container-height: 18px;
+    --mat-table-row-item-container-height: 26px;
+
+    .mat-mdc-cell{
+      padding-left: 0.25em;
+      padding-right: 0.25em;
+      font-size: 10px;
+      line-height: normal;
+    }
+
+    .mat-mdc-header-cell {
+      padding-left: 0.25em;
+      padding-right: 0.25em;
+      font-size:10px;
+    }
+  }
 }
