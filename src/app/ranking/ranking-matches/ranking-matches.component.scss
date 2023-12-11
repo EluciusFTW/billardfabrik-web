@@ -1,16 +1,18 @@
+.mat-column-date,
+.mat-column-p1,
+.mat-column-p2 {
+  max-width: 300px;
+}
+
 .mat-column-diff {
-  justify-content:center;
+  text-align: center;
   max-width: 150px;
 }
 
 .mat-column-score {
-  justify-content:center;
+  text-align: center;
   max-width: 100px;
   padding:0
-}
-
-.slash {
-  padding: 0 0.5rem;
 }
 
 .neg {

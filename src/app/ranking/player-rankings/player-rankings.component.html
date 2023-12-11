@@ -6,7 +6,8 @@
   <p>
     Ihr könnt auf die Spielernamen klicken um den gesamten Elo-Verlauf grafisch dargestellt zu sehen.
   </p>
-  <table mat-table #tourneys [dataSource]="dataSource">
+
+  <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="place">
       <th mat-header-cell *matHeaderCellDef> </th>
       <td mat-cell *matCellDef="let i = index;"> {{i+1}}. </td>

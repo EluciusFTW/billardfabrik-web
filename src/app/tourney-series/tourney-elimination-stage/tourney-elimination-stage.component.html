@@ -10,31 +10,31 @@
 
   <mat-card-content>
     <div class="mat-elevation-z2">
-      <mat-table #eliminationGames [dataSource]="matches">
+      <table mat-table #eliminationGames [dataSource]="matches">
         <ng-container matColumnDef="p1">
-          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-          <mat-cell *matCellDef="let item"> {{item.playerOne.name}} </mat-cell>
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let item"> {{item.playerOne.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="p2">
-          <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-          <mat-cell *matCellDef="let item"> {{item.playerTwo.name}} </mat-cell>
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let item"> {{item.playerTwo.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="score">
-          <mat-header-cell *matHeaderCellDef> Spielstand </mat-header-cell>
-          <mat-cell *matCellDef="let item">
+          <th mat-header-cell *matHeaderCellDef> Spielstand </th>
+          <td mat-cell *matCellDef="let item">
             <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(1, item)" (click)="plus(item.playerOne)">+</button>
             <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(1, item)" (click)="minus(item.playerOne)" style="margin-left: 10px; margin-right: 20px;">-</button>
             {{item.playerOne.points}} : {{item.playerTwo.points}}
             <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(2, item)" (click)="plus(item.playerTwo)" style="margin-left: 20px; margin-right: 10px;">+</button>
             <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(2, item)" (click)="minus(item.playerTwo)">-</button>
-          </mat-cell>
+          </td>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumnsMatches"></mat-header-row>
-        <mat-row [class]="getMatchClass(row)" *matRowDef="let row; columns: displayedColumnsMatches;"></mat-row>
-      </mat-table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsMatches"></tr>
+        <tr mat-row [class]="getMatchClass(row)" *matRowDef="let row; columns: displayedColumnsMatches;"></tr>
+      </table>
     </div>
   </mat-card-content>
 

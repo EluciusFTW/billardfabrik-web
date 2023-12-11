@@ -28,6 +28,8 @@ a {
   flex: 1 1 auto;
 }
 
+// make badge smaller after breakpoint as well.
+
 @media only screen and (max-width: $breakpoint1) {
   :root {
     --mat-table-header-container-height: 28px;
