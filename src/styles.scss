@@ -15,9 +15,12 @@ html, body {
   --mat-prim: map-get($mat-blue-grey, 200);
 }
 
+// :root {
+//   font-size:
+// }
+
 p::first-letter {
-  font-size: 1.1rem;
-  line-height: 1rem;
+  font-size: 1.1em;
 }
 
 a {
@@ -34,6 +37,7 @@ a {
   :root {
     --mat-table-header-container-height: 28px;
     --mat-table-row-item-container-height: 36px;
+
 
     .mat-mdc-cell{
       padding-left: 0.5em;
