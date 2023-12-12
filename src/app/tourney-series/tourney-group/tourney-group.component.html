@@ -1,5 +1,5 @@
-<mat-card appearance="outlined" style="margin-top:2rem;" *ngIf="!!group">
-  <mat-card-header style="margin-bottom:1rem;">
+<mat-card appearance="outlined" style="margin-top:2em;" *ngIf="!!group">
+  <mat-card-header style="margin-bottom:1em;">
     <mat-card-subtitle>
       <span style="color:red;" *ngIf="this.group.status == 2">
           Die Gruppe ist beendet.
@@ -8,7 +8,7 @@
   </mat-card-header>
 
   <mat-card-content>
-    <div style="margin-bottom:2rem;" class="mat-elevation-z2">
+    <div style="margin-bottom:2em;" class="mat-elevation-z2">
       <table mat-table #standing [dataSource]="totals">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>

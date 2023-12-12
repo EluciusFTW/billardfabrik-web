@@ -15,10 +15,6 @@ html, body {
   --mat-prim: map-get($mat-blue-grey, 200);
 }
 
-// :root {
-//   font-size:
-// }
-
 p::first-letter {
   font-size: 1.1em;
 }
@@ -33,43 +29,50 @@ a {
 
 // make badge smaller after breakpoint as well.
 
-@media only screen and (max-width: $breakpoint1) {
-  :root {
-    --mat-table-header-container-height: 28px;
-    --mat-table-row-item-container-height: 36px;
-
-
-    .mat-mdc-cell{
-      padding-left: 0.5em;
-      padding-right: 0.5em;
-      font-size: 12px;
-      line-height: normal;
-    }
-
-    .mat-mdc-header-cell {
-      padding-left: 0.5em;
-      padding-right: 0.5em;
-      font-size:12px;
-    }
-  }
-}
-
-@media only screen and (max-width: $breakpoint2) {
+@media (width < $breakpoint2) {
   :root {
     --mat-table-header-container-height: 18px;
     --mat-table-row-item-container-height: 26px;
+    --mat-tab-header-label-text-size: 1.2em;
 
-    .mat-mdc-cell{
-      padding-left: 0.25em;
-      padding-right: 0.25em;
+    .mat-mdc-tab,
+    .mat-mdc-tab-header {
+      --mdc-secondary-navigation-tab-container-height: 28px;
+      --mat-tab-header-label-text-size: 1em;
+    }
+
+    .mat-mdc-cell {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
       font-size: 10px;
       line-height: normal;
     }
 
     .mat-mdc-header-cell {
-      padding-left: 0.25em;
-      padding-right: 0.25em;
+      padding-left: 0.5em;
+      padding-right: 0.5em;
       font-size:10px;
+    }
+  }
+}
+
+@media ($breakpoint2 <= width) and (width < $breakpoint1) {
+  :root {
+    --mat-table-header-container-height: 28px;
+    --mat-table-row-item-container-height: 36px;
+
+    .mat-mdc-tab,
+    .mat-mdc-tab-header {
+      --mdc-secondary-navigation-tab-container-height: 36px;
+      --mat-tab-header-label-text-size: 1em;
+    }
+
+    .mat-mdc-cell,
+    .mat-mdc-header-cell {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      font-size: 12px;
+      line-height: normal;
     }
   }
 }
