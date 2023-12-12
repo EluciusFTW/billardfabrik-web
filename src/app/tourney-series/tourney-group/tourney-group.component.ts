@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { GroupStanding } from '../models/group-standing';
 import { Match } from '../models/match';
@@ -13,17 +13,15 @@ import { GroupFunctions } from './group-functions';
 @Component({
   selector: 'app-tourney-group',
   templateUrl: './tourney-group.component.html',
-  styleUrls: ['../tourneys.scss']
+  styleUrls: ['../tourneys.scss', './tourney-group.component.scss']
 })
-export class TourneyGroupComponent implements OnChanges {
+export class TourneyGroupComponent implements OnInit {
 
   @Input()
   group: TourneyGroup
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
-
-  matches = new MatTableDataSource<Match>([]);
   displayedColumnsMatches = ['p1', 'p2', 'score', 'cancel'];
 
   standing: GroupStanding[] = [];
@@ -32,94 +30,34 @@ export class TourneyGroupComponent implements OnChanges {
 
   constructor(private userService: UserService) { }
 
-  ngOnChanges(_: SimpleChanges): void {
-    this.matches = new MatTableDataSource<Match>(this.group?.matches);
+  ngOnInit(): void {
     this.calculateTotals();
+  }
+
+  emitChange($event: TourneyPhaseEvent): void {
+    this.calculateTotals();
+    this.change.emit($event);
   }
 
   canFinalize(): boolean {
     return this.userService.canHandleTourneys();
   }
 
-  scoreEditDisabled(match: Match): boolean {
-    return this.group.status !== TourneyPhaseStatus.readyOrOngoing
-      || match.status === MatchStatus.cancelled;
-  }
-
-  cancelled(match: Match): boolean {
-    return match.status === MatchStatus.cancelled;
-  }
-
-  cancellable(match: Match): boolean {
-    return this.group.status !== TourneyPhaseStatus.finalized
-      && match.status != MatchStatus.cancelled
-      && this.notStarted(match);
-  }
-
-  notStarted(match: Match): boolean {
-    return !Match.hasStarted(match);
-  }
-
-  nooneOverTheHill(match: Match): boolean {
-    return !Match.isOver(match);
-  }
-
-  uncancellable(match: Match): boolean {
-    return this.group.status !== TourneyPhaseStatus.finalized
-      && match.status === MatchStatus.cancelled;
-  }
-
-  cancel(match: Match): void {
-    match.playerOne.points = 0;
-    match.playerTwo.points = 0;
-    match.status = MatchStatus.cancelled;
-    this.change.emit({ type: 'ScoreChanged' });
-  }
-
-  uncancel(match: Match): void {
-    match.status = MatchStatus.notStarted;
-    this.change.emit({ type: 'ScoreChanged' });
-  }
-
-  plusDisabled(who: number, match: Match): boolean {
-    return who === 1
-      ? match.playerOne.points >= match.length || (match.playerTwo.points === match.length && match.playerOne.points === match.length - 1)
-      : match.playerTwo.points >= match.length || (match.playerOne.points === match.length && match.playerTwo.points === match.length - 1)
-  }
-
-  minusDisabled(who: number, match: Match): boolean {
-    return who === 1
-      ? match.playerOne.points === 0
-      : match.playerTwo.points === 0;
-  }
-
-  getMatchClass(match: Match): string {
-    if (this.group.status === TourneyPhaseStatus.finalized) {
-      return '';
-    } else if (match.status === MatchStatus.cancelled) {
-      return 'cancelled';
-    } else if (this.notStarted(match)) {
-      return 'notStarted';
-    } else if (this.nooneOverTheHill(match)) {
-      return 'running';
-    }
-    return 'gameOver';
-  }
-
   getStandingClass(standing: GroupStanding): string {
-    return this.standing.map(s => s.name).slice(0, 2).includes(standing.name)
-      ? 'running'
-      : '';
+    return this.standing
+      .map(s => s.name)
+      .slice(0, 2)
+      .includes(standing.name)
+        ? 'running'
+        : '';
   }
 
-  plus(player: MatchPlayer): void {
-    player.points++;
-    this.change.emit({ type: 'ScoreChanged' });
+  get groupActive() {
+    return this.group.status === TourneyPhaseStatus.readyOrOngoing;
   }
 
-  minus(player: MatchPlayer): void {
-    player.points--;
-    this.change.emit({ type: 'ScoreChanged' });
+  get groupCompleted() {
+    return this.group.status == TourneyPhaseStatus.finalized;
   }
 
   allGamesOver(): boolean {

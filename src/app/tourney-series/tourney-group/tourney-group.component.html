@@ -1,7 +1,7 @@
 <mat-card appearance="outlined" style="margin-top:2em;" *ngIf="!!group">
   <mat-card-header style="margin-bottom:1em;">
     <mat-card-subtitle>
-      <span style="color:red;" *ngIf="this.group.status == 2">
+      <span style="color:red;" *ngIf="groupCompleted">
           Die Gruppe ist beendet.
       </span>
     </mat-card-subtitle>
@@ -26,7 +26,7 @@
         </ng-container>
 
         <ng-container matColumnDef="goals">
-          <th mat-header-cell *matHeaderCellDef> kleine Punkte </th>
+          <th mat-header-cell *matHeaderCellDef> Punkte </th>
           <td mat-cell *matCellDef="let item"> {{item.scoredGoals}} : {{item.receivedGoals}}</td>
         </ng-container>
 
@@ -38,49 +38,9 @@
        </mat-card-actions>
     </div>
 
-    <div class="mat-elevation-z2">
-      <table mat-table #games [dataSource]="matches">
-        <ng-container matColumnDef="p1">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let item">
-              {{item.playerOne.name}}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="p2">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let item">
-              {{item.playerTwo.name}}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="score">
-          <th mat-header-cell *matHeaderCellDef> Spielstand </th>
-          <td mat-cell *matCellDef="let item">
-            <button *ngIf="!scoreEditDisabled(item)" [disabled]="plusDisabled(1, item)"
-              (click)="plus(item.playerOne)">+</button>
-            <button *ngIf="!scoreEditDisabled(item)" [disabled]="minusDisabled(1, item)" (click)="minus(item.playerOne)"
-              style="margin-left: 10px; margin-right: 20px;">-</button>
-              <div *ngIf="!cancelled(item)"> {{item.playerOne.points}} : {{item.playerTwo.points}} </div>
-              <div *ngIf="cancelled(item)"> cancelled </div>
-            <button *ngIf="!scoreEditDisabled(item)" [disabled]="plusDisabled(2, item)" (click)="plus(item.playerTwo)"
-            style="margin-left: 20px; margin-right: 10px;">+</button>
-          <button *ngIf="!scoreEditDisabled(item)" [disabled]="minusDisabled(2, item)"
-            (click)="minus(item.playerTwo)">-</button>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="cancel">
-          <th mat-header-cell *matHeaderCellDef> * </th>
-          <td mat-cell *matCellDef="let item">
-            <button *ngIf="cancellable(item)" (click)="cancel(item)">cancel</button>
-            <button *ngIf="uncancellable(item)" (click)="uncancel(item)">aktivieren</button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsMatches"></tr>
-        <tr mat-row [class]="getMatchClass(row)" *matRowDef="let row; columns: displayedColumnsMatches;"></tr>
-      </table>
+    <div style="display: flex; flex-wrap: wrap; gap: 0.5em; ">
+      <app-match *ngFor="let match of group.matches" [match]="match" [disabled]="!groupActive" (change)="emitChange($event)"></app-match>
     </div>
+
   </mat-card-content>
 </mat-card>

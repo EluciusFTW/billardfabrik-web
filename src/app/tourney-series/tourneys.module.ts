@@ -50,6 +50,7 @@ import { TourneyYearListComponent } from './tourney-list/tourney-year-list.compo
 import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
 import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
 import { EloImportService } from './services/elo-import.service';
+import { MatchComponent } from './match/match.component';
 
 @NgModule({
     imports: [
@@ -77,7 +78,8 @@ import { EloImportService } from './services/elo-import.service';
         TourneysLeaderBoardsComponent,
         TourneySeriesOverviewComponent,
         TourneysLandingPageComponent,
-        TourneyDoubleEliminationStagesComponent
+        TourneyDoubleEliminationStagesComponent,
+        MatchComponent
     ],
     providers: [
         TourneyCreationService,
