@@ -21,7 +21,9 @@ export class MatchComponent {
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   scoreEditDisabled(): boolean {
-    return this.disabled || this.cancelled();
+    return this.disabled
+      || this.cancelled()
+      || this.match.status === MatchStatus.done;
   }
 
   cancelled(): boolean {
@@ -70,7 +72,6 @@ export class MatchComponent {
   }
 
   get matchClass(): string {
-    console.log('M: ', this.match)
     if (this.disabled) {
       return '';
     } else if (this.cancelled()) {
