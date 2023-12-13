@@ -3,21 +3,10 @@
 .all-content{
   display: flex;
   justify-content: center;
+  padding: 1em 2em 1em 2em;
 }
 
 .main-content {
-  padding: 1rem 2rem 1rem 2rem;
-  width: 1024px;
-}
-
-@media only screen and (max-width: $breakpoint1) {
-  .main-content {
-      width: 800px;
-  }
-}
-
-@media only screen and (max-width: $breakpoint2) {
-  .main-content {
-      width: 680px;
-  }
+  width: 100%;
+  max-width: 1280px;
 }

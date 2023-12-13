@@ -1,0 +1,32 @@
+.match {
+  min-width: 250px;
+  width: 100%;
+
+  .player {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .score {
+      min-width: 3em;
+      text-align: center;
+      height: 100%;
+    }
+
+    .name {
+      flex-grow: 2;
+    }
+
+    .buttons {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      padding: .25em;
+      text-align: center;
+    }
+  }
+}
+
+.mat-mdc-card-content {
+  padding: 0.5em;
+}

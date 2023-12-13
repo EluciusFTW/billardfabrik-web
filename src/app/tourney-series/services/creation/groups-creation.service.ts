@@ -83,7 +83,7 @@ export class GroupsCreationService {
   }
 
   private ToMatch(listing: number[], players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match {
-    return new Match(
+    return Match.create(
       MatchPlayer.From(players[listing[0] - 1]),
       MatchPlayer.From(players[listing[1] - 1]),
       info.discipline,

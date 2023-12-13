@@ -1,18 +1,20 @@
-<mat-table #tourneys [dataSource]="leaderBoardDataSource">
+<table mat-table #tourneys [dataSource]="leaderBoardDataSource">
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
   <ng-container matColumnDef="place">
-    <mat-header-cell class="very-narrow" *matHeaderCellDef> </mat-header-cell>
-    <mat-cell class="very-narrow" *matCellDef="let i = index;"> {{i+1}}. </mat-cell>
+    <th mat-header-cell *matHeaderCellDef> </th>
+    <td mat-cell *matCellDef="let i = index;"> {{i+1}}. </td>
   </ng-container>
 
   <ng-container matColumnDef="name">
-    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-    <mat-cell *matCellDef="let item"> {{item.name}} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let item"> {{item.name}} </td>
   </ng-container>
 
   <ng-container matColumnDef="placements">
-    <mat-header-cell *matHeaderCellDef> Platzierungen </mat-header-cell>
-    <mat-cell *matCellDef="let item">
+    <th mat-header-cell *matHeaderCellDef> Platzierungen </th>
+    <td mat-cell *matCellDef="let item">
       <div class="space-right" *ngIf="item.placements.gold"
         [matBadge]="item.placements.gold > 1 ? item.placements.gold : null" matBadgeSize="small">
         <i class="fas fa-medal gold-medal"></i>
@@ -25,37 +27,33 @@
         [matBadge]="item.placements.bronze > 1 ? item.placements.bronze : null" matBadgeSize="small">
         <i class="fas fa-medal bronze-medal"></i>
       </div>
-    </mat-cell>
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="participations">
-    <mat-header-cell class="centered narrow" *matHeaderCellDef> Teilnahmen </mat-header-cell>
-    <mat-cell class="centered narrow" *matCellDef="let item"> {{item.participations}} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef> Teilnahmen </th>
+    <td mat-cell *matCellDef="let item"> {{item.participations}} </td>
   </ng-container>
 
   <ng-container matColumnDef="matches">
-    <mat-header-cell class="centered narrow" *matHeaderCellDef> Matches </mat-header-cell>
-    <mat-cell class="centered narrow" *matCellDef="let item"> {{item.matches}} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef> Matches </th>
+    <td mat-cell *matCellDef="let item"> {{item.matches}} </td>
   </ng-container>
 
   <ng-container matColumnDef="score">
-    <mat-header-cell class="centered mid-wide" *matHeaderCellDef> Spiele </mat-header-cell>
-    <mat-cell class="centered mid-wide" *matCellDef="let item"> {{item.scored}} : {{item.received}}
-    </mat-cell>
+    <th mat-header-cell *matHeaderCellDef> Spiele </th>
+    <td mat-cell *matCellDef="let item"> {{item.scored}}:{{item.received}}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="winPercentage">
-    <mat-header-cell class="centered narrow" *matHeaderCellDef> Quote </mat-header-cell>
-    <mat-cell class="centered narrow" *matCellDef="let item"> {{item.winPercentage | percent}}
-    </mat-cell>
+    <th mat-header-cell *matHeaderCellDef> Quote </th>
+    <td mat-cell *matCellDef="let item"> {{item.winPercentage | percent}}
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="points">
-    <mat-header-cell class="centered narrow" *matHeaderCellDef> Punkte </mat-header-cell>
-    <mat-cell class="centered narrow" *matCellDef="let item"> {{ item.points }} </mat-cell>
+    <th mat-header-cell *matHeaderCellDef> Punkte </th>
+    <td mat-cell *matCellDef="let item"> {{ item.points }} </td>
   </ng-container>
-
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
-
-</mat-table>
+</table>

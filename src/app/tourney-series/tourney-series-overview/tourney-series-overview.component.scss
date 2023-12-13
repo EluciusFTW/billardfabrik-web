@@ -1,27 +1,21 @@
-.full-width {
-    width: 100%;
-}
 
-th.mat-mdc-header-cell {
-  font-size:10px;
+:host {
+  --min-width: 50px;
 }
-
 .mat-column-nrOf {
-  width:100px;
-}
-
-.mat-column-description {
-  width:600px;
+  width:10px;
 }
 
 .mat-column-places {
-  width:80px;
+  width: var(--min-width);
 }
 
 .mat-column-payout {
-  width:80px;
+  text-align: right;
+  width: var(--min-width);
 }
 
 .mat-column-points {
-  width:80px;
+  text-align: right;
+  width: var(--min-width);
 }

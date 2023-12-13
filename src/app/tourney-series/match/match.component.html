@@ -1,0 +1,41 @@
+<mat-card appearance="outlined" [class]="matchClass">
+  <mat-card-content>
+    <div class="match">
+      <div class="player">
+        <div class="name">{{match.playerOne.name}}</div>
+        <div class="score">{{match.playerOne.points}}</div>
+        <div class="buttons" [style.visibility]="getVisibility(scoreEditDisabled())">
+          <mat-icon
+            [style.visibility]="getVisibility(plusDisabled(1))"
+            (click)="plus(match.playerOne)">
+            add_box
+          </mat-icon>
+          <mat-icon
+            [style.visibility]="getVisibility(minusDisabled(1))"
+            (click)="minus(match.playerOne)">
+            indeterminate_check_box
+          </mat-icon>
+        </div>
+      </div>
+      <div class="player">
+        <div class="name">{{match.playerTwo.name}}</div>
+        <div class="score">{{match.playerTwo.points}}</div>
+        <div class="buttons" [style.visibility]="getVisibility(scoreEditDisabled())">
+          <mat-icon
+            [style.visibility]="getVisibility(plusDisabled(2))"
+            (click)="plus(match.playerTwo)">
+            add_box
+          </mat-icon>
+          <mat-icon
+            [style.visibility]="getVisibility(minusDisabled(2))"
+            (click)="minus(match.playerTwo)">
+            indeterminate_check_box
+          </mat-icon>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<!--
+<button *ngIf="cancellable()" (click)="cancel()">cancel</button>
+<button *ngIf="uncancellable()" (click)="uncancel()">aktivieren</button> -->

@@ -3,7 +3,7 @@
   <div style="display: flex; flex-direction: row; justify-content: space-between;">
     <div style="display:flex; flex-direction: column; width: 60%">
       <mat-selection-list #selectPlayers style="flex-grow: 1;" (selectionChange)="playerSelectionChange($event)">
-        <mat-list-option style="height: auto; font-size: 1rem;" *ngFor="let player of players" [value]="player">
+        <mat-list-option style="height: auto; font-size: 1em;" *ngFor="let player of players" [value]="player">
           {{ this.displayName(player) }}
         </mat-list-option>
       </mat-selection-list>
@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div style="display:flex; flex-direction: column; padding-top:8px; margin-right:0.5rem;">
+    <div style="display:flex; flex-direction: column; padding-top:8px; margin-right:0.5em;">
       <div>
         <span>Ausgewählte Spieler: </span>
         <span>{{selectPlayers.selectedOptions.selected.length}}</span>

@@ -40,7 +40,7 @@ export class EliminationMatchesCreationService {
           ? lastPlayers[index]
           : lastPlayers[numberOfMatches - index]
       ])
-      .map(pair => new Match(pair[0], pair[1], discipline, raceTo));
+      .map(pair => Match.create(pair[0], pair[1], discipline, raceTo));
   }
 
   private getWalks(numberOfWalks: number): MatchPlayer[] {

@@ -2,7 +2,7 @@
 .mat-column-max,
 .mat-column-trend,
 .mat-column-ranking {
-  justify-content:center;
+  text-align: center;
   max-width: 100px;
 }
 
@@ -12,5 +12,5 @@
 }
 
 .mat-column-place {
-  max-width: 3.5rem;
+  max-width: 3.5em;
 }

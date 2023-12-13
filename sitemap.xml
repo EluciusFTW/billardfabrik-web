@@ -44,4 +44,16 @@
     <loc>https://www.billardfabrik-leipzig.de/tourney-series/leaderboard</loc>
     <changefreq>weekly</changefreq>
   </url>
+  <url>
+    <loc>https://www.billardfabrik-leipzig.de/ranking/players</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.billardfabrik-leipzig.de/ranking/matches</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.billardfabrik-leipzig.de/ranking/details</loc>
+    <changefreq>weekly</changefreq>
+  </url>
 </urlset>

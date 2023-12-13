@@ -6,26 +6,26 @@
   <p>
     Ihr könnt auf die Spielernamen klicken um den gesamten Elo-Verlauf grafisch dargestellt zu sehen.
   </p>
-  <table mat-table #tourneys [dataSource]="dataSource">
 
+  <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="place">
-      <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-      <mat-cell *matCellDef="let i = index;"> {{i+1}}. </mat-cell>
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let i = index;"> {{i+1}}. </td>
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-      <mat-cell *matCellDef="let item" style="cursor: pointer;" (click)="showDetailsOf(item)"> {{item.name}} </mat-cell>
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let item" > {{item.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="matches">
-      <mat-header-cell *matHeaderCellDef> Matches </mat-header-cell>
-      <mat-cell *matCellDef="let item"> {{item.matches}} </mat-cell>
+      <th mat-header-cell *matHeaderCellDef> Matches </th>
+      <td mat-cell *matCellDef="let item"> {{item.matches}} </td>
     </ng-container>
 
     <ng-container matColumnDef="trend">
-      <mat-header-cell class="mid-wide" *matHeaderCellDef> Trend </mat-header-cell>
-      <mat-cell class="mid-wide" *matCellDef="let item">
+      <th mat-header-cell class="mid-wide" *matHeaderCellDef> Trend </th>
+      <td mat-cell class="mid-wide" *matCellDef="let item">
 
         <mat-icon *ngIf="(item.trend > flatnessBarrier)" class="material-symbols-outlined" style="color: green;">
           trending_up
@@ -36,21 +36,24 @@
         <mat-icon *ngIf="-flatnessBarrier > item.trend" class="material-symbols-outlined" style="color: red;">
           trending_down
         </mat-icon>
-      </mat-cell>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="max">
-      <mat-header-cell *matHeaderCellDef> vs Max</mat-header-cell>
-      <mat-cell *matCellDef="let item"> {{item.ranking - item.max}} </mat-cell>
+      <th mat-header-cell *matHeaderCellDef> vs Max</th>
+      <td mat-cell *matCellDef="let item"> {{item.ranking - item.max}} </td>
     </ng-container>
 
     <ng-container matColumnDef="ranking">
-      <mat-header-cell *matHeaderCellDef> Elo </mat-header-cell>
-      <mat-cell *matCellDef="let item"> {{item.ranking}} </mat-cell>
+      <th mat-header-cell *matHeaderCellDef> Elo </th>
+      <td mat-cell *matCellDef="let item"> {{item.ranking}} </td>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></mat-row>
-
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row
+      style="cursor: pointer;"
+      (click)="showDetailsOf(row)"
+      *matRowDef="let row; columns: displayedColumns;">
+    </tr>
   </table>
 </app-content-tile>

@@ -1,10 +1,9 @@
 @import '@angular/material/theming';
 @import 'app/app-theme.scss';
-
+@import 'assets/scss/breakpoints';
 
 html, body {
   width: 100%;
-  min-width: 480px;
   height: 100%;
   margin: 0;
   background-color: var(--color-secondary);
@@ -13,17 +12,11 @@ html, body {
   --color-primary: #780F07;
   --color-fourth: #EAE2D6;
 
-  --bp-1: 1092px;
-  --bp-2: 800px;
-
-
   --mat-prim: map-get($mat-blue-grey, 200);
 }
 
-
 p::first-letter {
-  font-size: 1.1rem;
-  line-height: 1rem;
+  font-size: 1.1em;
 }
 
 a {
@@ -32,4 +25,54 @@ a {
 
 .fill-remaining-space {
   flex: 1 1 auto;
+}
+
+// make badge smaller after breakpoint as well.
+
+@media (width < $breakpoint2) {
+  :root {
+    --mat-table-header-container-height: 18px;
+    --mat-table-row-item-container-height: 26px;
+    --mat-tab-header-label-text-size: 1.2em;
+
+    .mat-mdc-tab,
+    .mat-mdc-tab-header {
+      --mdc-secondary-navigation-tab-container-height: 28px;
+      --mat-tab-header-label-text-size: 1em;
+    }
+
+    .mat-mdc-cell {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      font-size: 10px;
+      line-height: normal;
+    }
+
+    .mat-mdc-header-cell {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      font-size:10px;
+    }
+  }
+}
+
+@media ($breakpoint2 <= width) and (width < $breakpoint1) {
+  :root {
+    --mat-table-header-container-height: 28px;
+    --mat-table-row-item-container-height: 36px;
+
+    .mat-mdc-tab,
+    .mat-mdc-tab-header {
+      --mdc-secondary-navigation-tab-container-height: 36px;
+      --mat-tab-header-label-text-size: 1em;
+    }
+
+    .mat-mdc-cell,
+    .mat-mdc-header-cell {
+      padding-left: 0.5em;
+      padding-right: 0.5em;
+      font-size: 12px;
+      line-height: normal;
+    }
+  }
 }

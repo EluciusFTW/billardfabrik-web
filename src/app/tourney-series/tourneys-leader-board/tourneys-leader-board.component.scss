@@ -1,27 +1,27 @@
-.mat-mdc-cell.centered {
-  text-align: center;
-  justify-content:center;
+.mat-column-place {
+  max-width: 3.5em;
 }
 
-.mat-mdc-header-cell.centered {
-  flex-direction: column;
+.mat-column-placements {
   justify-content: center;
 }
 
-.very-narrow {
-  max-width: 3.5rem;
+.mat-column-participations,
+.mat-column-winPercentage,
+.mat-column-points,
+.mat-column-matches {
+  width: 85px;
+  text-align: center;
 }
 
-.narrow {
-  max-width: 85px;
-}
-
-.mid-wide {
+.mat-column-score {
   max-width: 110px;
+  text-align: center;
 }
 
 .space-right {
   margin-right: 10px;
+  display: inline;
 }
 
 .gold-medal {

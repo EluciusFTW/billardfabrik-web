@@ -1,8 +1,17 @@
 @use '@angular/material' as mat;
 
+@import '../assets/scss/breakpoints';
 @include mat.core();
 
-$my-typography: mat.define-typography-config(
+// https://material.angular.io/guide/typography
+// by mat-typography, the following things are automatically applied
+// body: body-2
+// h1: headline-5
+// h2: headline-6
+// h3: subtitle-1
+// h4: body-1
+// h5, h6: Get class .mat-h*
+$typo-large: mat.define-typography-config(
   $headline-1: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
   $headline-2: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
   $headline-3: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
@@ -17,15 +26,60 @@ $my-typography: mat.define-typography-config(
   $button: mat.define-typography-level(15px, 28px, 500, 'Jost, sans-serif')
 );
 
+$typo-regular: mat.define-typography-config(
+  $headline-1: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-2: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-3: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-4: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-5: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-6: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $subtitle-1: mat.define-typography-level(20px, 30px, 500, 'Jost, sans-serif'),
+  $subtitle-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
+  $body-1: mat.define-typography-level(16px, 24px, 500, 'Jost, sans-serif'),
+  $body-2: mat.define-typography-level(14px, 20px, 400, 'Jost, sans-serif'),
+  $caption: mat.define-typography-level(14px, 20px, 500, 'Jost, sans-serif'),
+  $button: mat.define-typography-level(14px, 20px, 500, 'Jost, sans-serif')
+);
+
+$typo-small: mat.define-typography-config(
+  $headline-1: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-2: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-3: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-4: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-5: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-6: mat.define-typography-level(20px, 24px, 500, 'Jost, sans-serif'),
+  $subtitle-1: mat.define-typography-level(18px, 22px, 500, 'Jost, sans-serif'),
+  $subtitle-2: mat.define-typography-level(14px, 20px, 400, 'Jost, sans-serif'),
+  $body-1: mat.define-typography-level(14px, 24px, 500, 'Jost, sans-serif'),
+  $body-2: mat.define-typography-level(12px, 18px, 400, 'Jost, sans-serif'),
+  $caption: mat.define-typography-level(12px, 18px, 500, 'Jost, sans-serif'),
+  $button: mat.define-typography-level(12px, 18px, 500, 'Jost, sans-serif')
+);
+
+$typography: null;
+@media (width < $breakpoint2) {
+  $typography: $typo-regular;
+  @include mat.typography-hierarchy($typo-small);
+}
+
+@media ($breakpoint2 <= width) and (width < $breakpoint1) {
+  $typography: $typo-small;
+  @include mat.typography-hierarchy($typo-regular);
+}
+
+@media ($breakpoint1 <= width) {
+  $typography: $typo-regular;
+  @include mat.typography-hierarchy($typo-large);
+}
+
 $theme: mat.define-light-theme((
   color: (
     primary: mat.define-palette(mat.$blue-grey-palette, 200, 100, 400),
     accent: mat.define-palette(mat.$orange-palette, 300, 200, 600),
     warn: mat.define-palette(mat.$red-palette),
   ),
-  typography: $my-typography,
+  typography: $typo-regular,
   density: 0,
 ));
 
-@include mat.typography-hierarchy($my-typography);
 @include mat.all-component-themes($theme);
