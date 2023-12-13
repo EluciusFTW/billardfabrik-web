@@ -39,7 +39,7 @@ export class TourneyGroupComponent implements OnInit {
     this.change.emit($event);
   }
 
-  canFinalize(): boolean {
+  get canFinalize(): boolean {
     return this.userService.canHandleTourneys();
   }
 
