@@ -1,42 +1,17 @@
 <mat-card appearance="outlined" style="margin-top:2em;" *ngIf="!!stage">
   <mat-card-header style="margin-bottom:1em;">
     <mat-card-title>{{ stage.title }}</mat-card-title>
-    <mat-card-subtitle>
-      <span class="roundOver" *ngIf="this.stage.status == 2">
-        Die Runde ist beendet.
-      </span>
+    <mat-card-subtitle class="roundOver" *ngIf="stageCompleted">
     </mat-card-subtitle>
   </mat-card-header>
 
-  <mat-card-content>
-    <div class="mat-elevation-z2">
-      <table mat-table #eliminationGames [dataSource]="matches">
-        <ng-container matColumnDef="p1">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let item"> {{item.playerOne.name}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="p2">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let item"> {{item.playerTwo.name}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="score">
-          <th mat-header-cell *matHeaderCellDef> Spielstand </th>
-          <td mat-cell *matCellDef="let item">
-            <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(1, item)" (click)="plus(item.playerOne)">+</button>
-            <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(1, item)" (click)="minus(item.playerOne)" style="margin-left: 10px; margin-right: 20px;">-</button>
-            {{item.playerOne.points}} : {{item.playerTwo.points}}
-            <button *ngIf="!scoreEditDisabled()" [disabled]="plusDisabled(2, item)" (click)="plus(item.playerTwo)" style="margin-left: 20px; margin-right: 10px;">+</button>
-            <button *ngIf="!scoreEditDisabled()" [disabled]="minusDisabled(2, item)" (click)="minus(item.playerTwo)">-</button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumnsMatches"></tr>
-        <tr mat-row [class]="getMatchClass(row)" *matRowDef="let row; columns: displayedColumnsMatches;"></tr>
-      </table>
-    </div>
-  </mat-card-content>
+  <div style="display: flex; flex-direction: column; gap: 0.5em; margin: 0.5em;">
+    <app-match
+      *ngFor="let match of stage.matches"
+      [match]="match"
+      [disabled]="!stageActive"
+      (change)="emitChange($event)"></app-match>
+  </div>
 
   <mat-card-actions *ngIf="this.stage.status != 2">
     <button mat-button *ngIf="canHandleTourney()" [disabled]="!allGamesOver()" (click)="finalize()">Abschließen</button>
