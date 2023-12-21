@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PlayerRankingsComponent } from './player-rankings/player-rankings.component';
 import { RankingMatchesComponent } from './ranking-matches/ranking-matches.component';
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
+import { ImportMatchesComponent } from './import-matches/import-matches.component';
+import { UserGuard } from '../authentication/guards/user.guard';
 
 const routes: Routes = [{
   path: 'ranking',
@@ -13,6 +15,7 @@ const routes: Routes = [{
     { path: 'players', component: PlayerRankingsComponent },
     { path: 'matches', component: RankingMatchesComponent },
     { path: 'details', component: ScoringDetailsComponent },
+    { path: 'import', component: ImportMatchesComponent, canActivate: [UserGuard] },
   ]
 }];
 
