@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EloService, RankingMatch } from '../elo.service';
+import { EloService } from '../elo.service';
+import { RankingMatch } from '../models/ranking-match';
 import { firstValueFrom, take } from 'rxjs';
 import { TourneyFunctions } from 'src/app/tourney-series/tourney/tourney-functions';
 import { Match } from 'src/app/tourney-series/models/match';

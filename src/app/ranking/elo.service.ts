@@ -6,14 +6,13 @@ import { EloFunctions } from '../tourney-series/services/evaluation/elo-function
 import { RankingPlayer } from './models/ranking-player';
 import { EloPlayer } from './models/elo-player';
 import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
+import { RankingMatch } from './models/ranking-match';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';
 
 type FBase = { key: string }
 type Db<T> = T & FBase;
-export type RankingMatch = Match & {diff?: number, date?: string };
-
 @Injectable()
 export class EloService {
   private readonly lowerBoundOnGames = 10;
@@ -37,21 +36,16 @@ export class EloService {
 
   GetMatches(): Observable<RankingMatch[]> {
     return this.db
-      .list<Match>(DB_MATCHES_LPATH, ref => ref.limitToLast(50))
+      .list<RankingMatch>(DB_MATCHES_LPATH, ref => ref.limitToLast(50))
       .snapshotChanges()
       .pipe(map(snapshots => snapshots
         .map(item => item.payload)
-        .map(match => ({
-          date: TourneyFunctions
-            .NameFragmentToDate(match.key.substring(0,8))
-            .toLocaleDateString(),
-          ...match.val()
-        }))));
+        .map(match => match.val())));
   }
 
   private GetUnrankedMatches(): Observable<Db<RankingMatch>[]> {
     return this.db
-      .list<Match>(DB_MATCHES_LPATH, ref => ref.orderByChild('diff').equalTo(null))
+      .list<RankingMatch>(DB_MATCHES_LPATH, ref => ref.orderByChild('diff').equalTo(null))
       .snapshotChanges()
       .pipe(map(snapshots => snapshots
         .map(item => item.payload)

@@ -5,6 +5,8 @@ import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
 import { MatchStatus } from '../tourney-series/models/match-status';
 import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
+import { RankingMatch } from './models/ranking-match';
+import { Match } from '../tourney-series/models/match';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';
@@ -23,9 +25,17 @@ export class EloImportService {
       .concat(doubleEliminationMatches)
       .concat(singleeEliminationMatches)
       .filter(match => match.status === MatchStatus.done)
+      .map(match => this.toRankingMatch(match, tourney.meta.date!))
       .forEach(async (match, index) => await this.db
         .object(`${DB_MATCHES_LPATH}/${tourney.meta.date}-T-${index.toString().padStart(4, '0')}`)
         .update(match));
+  }
+
+  private toRankingMatch(match: Match, date: string): RankingMatch {
+    return {
+      date: date,
+      ... match
+    }
   }
 
   public async ImportPlayers(tourney: Tourney): Promise<void> {
