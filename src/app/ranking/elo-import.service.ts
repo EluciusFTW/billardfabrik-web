@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { Tourney } from '../models/tourney';
-import { TourneyFunctions } from '../tourney/tourney-functions';
+import { Tourney } from '../tourney-series/models/tourney';
+import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
-import { MatchStatus } from '../models/match-status';
-import { EloFunctions } from './evaluation/elo-functions';
+import { MatchStatus } from '../tourney-series/models/match-status';
+import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
 
 const DB_MATCHES_LPATH = 'elo/matches';
 const DB_PLAYERS_PATH = 'elo/players';

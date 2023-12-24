@@ -14,6 +14,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 import { EloDemoTableComponent } from './scoring-details/elo-demo-table/elo-demo-table.component';
 import { ImportMatchesComponent } from './import-matches/import-matches.component';
+import { EloImportService } from './elo-import.service';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,9 @@ import { ImportMatchesComponent } from './import-matches/import-matches.componen
     FormsModule,
     SharedModule
   ],
-  providers: [EloService]
+  providers: [
+    EloService, 
+    EloImportService
+  ]
 })
 export class RankingModule { }

@@ -10,7 +10,6 @@ import { PlayersService } from "../services/players.service";
 import { TourneysService } from "../services/tourneys.service";
 import { ShowResultsDialogComponent } from "./show-results.dialog.component";
 import { TourneyFunctions } from "../tourney/tourney-functions";
-import { EloImportService } from "../services/elo-import.service";
 
 @Component({
   selector: 'app-tourney-year-list',
@@ -36,7 +35,6 @@ export class TourneyYearListComponent implements OnInit {
     private tourneysService: TourneysService,
     private statisticsService: TourneyStatisticsService,
     private playersService: PlayersService,
-    private eloImportService: EloImportService,
     private userService: UserService,
     private dialog: MatDialog) { }
 
@@ -73,15 +71,7 @@ export class TourneyYearListComponent implements OnInit {
     }
   }
 
-  async considerForElo(tourney: Tourney) {
-    if (tourney.meta.status >= TourneyStatus.completed) {
-      console.log('Importing Players ...');
-      await this.eloImportService.ImportPlayers(tourney);
-      console.log('Importing Matches ...');
-      await this.eloImportService.ImportMatches(tourney);
-    }
-  }
-
+  
   niceName(dateName: string): string {
     return TourneyFunctions
       .NameFragmentToDate(dateName)
