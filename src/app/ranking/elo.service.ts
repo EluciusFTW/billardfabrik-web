@@ -7,8 +7,8 @@ import { EloPlayer } from './models/elo-player';
 import { IncomingMatch, RankingMatch } from './models/ranking-match';
 
 const DB_MATCHES_LPATH = 'elo/rankedmatches';
-const DB_INCOMING_MATCHES_LPATH = 'elo/incomingmatches';
-const DB_PLAYERS_PATH = 'elo/players';
+export const DB_INCOMING_MATCHES_LPATH = 'elo/incomingmatches';
+export const DB_PLAYERS_PATH = 'elo/players';
 
 type FBase = { key: string }
 type Db<T> = T & FBase;

@@ -8,9 +8,7 @@ import { EloFunctions } from '../tourney-series/services/evaluation/elo-function
 import { IncomingMatch } from './models/ranking-match';
 import { Match } from '../tourney-series/models/match';
 import { MatchPlayer } from '../tourney-series/models/match-player';
-
-const DB_INCOMING_MATCHES_LPATH = 'elo/incomingmatches';
-const DB_PLAYERS_PATH = 'elo/players';
+import { DB_INCOMING_MATCHES_LPATH, DB_PLAYERS_PATH } from './elo.service';
 
 @Injectable()
 export class EloImportService {
