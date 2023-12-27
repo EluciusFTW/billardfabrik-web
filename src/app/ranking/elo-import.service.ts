@@ -8,7 +8,7 @@ import { EloFunctions } from '../tourney-series/services/evaluation/elo-function
 import { IncomingMatch } from './models/ranking-match';
 import { Match } from '../tourney-series/models/match';
 import { MatchPlayer } from '../tourney-series/models/match-player';
-import { DB_INCOMING_MATCHES_LPATH, DB_PLAYERS_PATH } from './elo.service';
+import { DB_INCOMING_MATCHES_LPATH, DB_NEW_PLAYERS_PATH } from './elo.service';
 
 @Injectable()
 export class EloImportService {
@@ -24,6 +24,7 @@ export class EloImportService {
       .concat(doubleEliminationMatches)
       .concat(singleEliminationMatches)
       .filter(match => match.status === MatchStatus.done)
+      .filter(match => match.length >= 3)
       .filter(match => MatchPlayer.isReal(match.playerOne))
       .filter(match => MatchPlayer.isReal(match.playerTwo))
       .map(match => this.toRankingMatch(match, tourney.meta.date!));
@@ -51,7 +52,7 @@ export class EloImportService {
     let players = TourneyFunctions.GetPlayers(tourney);
     let existingPlayers = await firstValueFrom(
       this.db
-        .list<EloPlayer>(DB_PLAYERS_PATH)
+        .list<EloPlayer>(DB_NEW_PLAYERS_PATH)
         .snapshotChanges()
         .pipe(map(c => c.map(k => k.key))))
 
@@ -61,7 +62,7 @@ export class EloImportService {
 
     newPlayers.forEach(
       async player => await this.db
-        .object(`${DB_PLAYERS_PATH}/${this.keyFromName(player)}`)
+        .object(`${DB_NEW_PLAYERS_PATH}/${this.keyFromName(player)}`)
         .set(this.initialPlayer())
       );
 

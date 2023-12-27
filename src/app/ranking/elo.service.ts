@@ -8,10 +8,11 @@ import { IncomingMatch, RankingMatch } from './models/ranking-match';
 
 const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_MATCHES_LPATH = 'elo/incomingmatches';
-export const DB_PLAYERS_PATH = 'elo/players';
+export const DB_NEW_PLAYERS_PATH = 'elo/playersV2';
 
 type FBase = { key: string }
 type Db<T> = T & FBase;
+
 @Injectable()
 export class EloService {
   private readonly lowerBoundOnGames = 10;
@@ -21,7 +22,7 @@ export class EloService {
   GetRanking(): Observable<RankingPlayer[]> {
     return this.db
       .list<EloPlayer>(
-        DB_PLAYERS_PATH,
+        DB_NEW_PLAYERS_PATH,
         ref => ref
           .orderByChild('show')
           .equalTo(true))
@@ -84,7 +85,7 @@ export class EloService {
 
   private GetRankingPlayers(): Observable<Db<EloPlayer>[]> {
     return this.db
-      .list<EloPlayer>(DB_PLAYERS_PATH)
+      .list<EloPlayer>(DB_NEW_PLAYERS_PATH)
       .snapshotChanges()
       .pipe(map(snapshots => snapshots
         .map(item => item.payload)
@@ -149,7 +150,7 @@ export class EloService {
     let updates = rankings
       .map(r => ({key: this.keyFromName(r.name), c: { changes: r.changes }}))
       .map(r => this.db
-        .object(`${DB_PLAYERS_PATH}/${r.key}`)
+        .object(`${DB_NEW_PLAYERS_PATH}/${r.key}`)
         .update(r.c))
 
     return Promise.all(updates);
@@ -170,12 +171,12 @@ export class EloService {
 
     const players = await firstValueFrom(
       this.db
-        .list<EloPlayer>(DB_PLAYERS_PATH)
+        .list<EloPlayer>('elo/players')
         .snapshotChanges());
 
     const updates = players
       .map(async player => await this.db
-        .list<EloPlayer>(DB_PLAYERS_PATH)
+        .list<EloPlayer>(DB_NEW_PLAYERS_PATH)
         .update(player.key, {
           show: player.payload.val().show,
           changes: player.payload.val().changes.slice(0,1),
