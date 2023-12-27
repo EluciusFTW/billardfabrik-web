@@ -8,7 +8,7 @@ import { UserService } from 'src/app/authentication/user.service';
 @Component({
   selector: 'app-incoming-matches',
   templateUrl: './incoming-matches.component.html',
-  styleUrls: ['./incoming-matches.component.scss']
+  styleUrls: ['../ranked-matches/ranked-matches.component.scss']
 })
 export class IncomingMatchesComponent {
   unrankedMatchSubscription: Subscription;

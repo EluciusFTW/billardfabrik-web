@@ -19,6 +19,7 @@ import { ImportSingleMatchComponent } from './import-matches/import-single-match
 import { ImportTourneyComponent } from './import-matches/import-tourney/import-tourney.component';
 import { TourneysModule } from '../tourney-series/tourneys.module';
 import { IncomingMatchesComponent } from './ranking-matches/incoming-matches/incoming-matches.component';
+import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-matches.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { IncomingMatchesComponent } from './ranking-matches/incoming-matches/inc
     ImportMatchesComponent,
     ImportSingleMatchComponent,
     ImportTourneyComponent,
-    IncomingMatchesComponent
+    IncomingMatchesComponent,
+    RankedMatchesComponent
   ],
   imports: [
     RankingRoutingModule,
