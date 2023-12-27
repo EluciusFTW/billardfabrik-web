@@ -5,10 +5,11 @@ import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
 import { MatchStatus } from '../tourney-series/models/match-status';
 import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
-import { RankingMatch } from './models/ranking-match';
+import { IncomingMatch } from './models/ranking-match';
 import { Match } from '../tourney-series/models/match';
+import { MatchPlayer } from '../tourney-series/models/match-player';
 
-const DB_MATCHES_LPATH = 'elo/matches';
+const DB_INCOMING_MATCHES_LPATH = 'elo/incomingmatches';
 const DB_PLAYERS_PATH = 'elo/players';
 
 @Injectable()
@@ -16,29 +17,39 @@ export class EloImportService {
 
   constructor(private db: AngularFireDatabase) { }
 
-  async ImportMatches(tourney: Tourney): Promise<void> {
+  async ImportMatches(tourney: Tourney): Promise<IncomingMatch[]> {
     let groupMatches = tourney.groups?.flatMap(group => group.matches) || [];
     let doubleEliminationMatches = tourney.doubleEliminationStages?.flatMap(stage => stage.matches) || [];
-    let singleeEliminationMatches = tourney.eliminationStages?.flatMap(stage => stage.matches) || [];
+    let singleEliminationMatches = tourney.eliminationStages?.flatMap(stage => stage.matches) || [];
 
-    groupMatches
+    let allMatches = groupMatches
       .concat(doubleEliminationMatches)
-      .concat(singleeEliminationMatches)
+      .concat(singleEliminationMatches)
       .filter(match => match.status === MatchStatus.done)
-      .map(match => this.toRankingMatch(match, tourney.meta.date!))
-      .forEach(async (match, index) => await this.db
-        .object(`${DB_MATCHES_LPATH}/${tourney.meta.date}-T-${index.toString().padStart(4, '0')}`)
-        .update(match));
+      .filter(match => MatchPlayer.isReal(match.playerOne))
+      .filter(match => MatchPlayer.isReal(match.playerTwo))
+      .map(match => this.toRankingMatch(match, tourney.meta.date!));
+
+    allMatches.forEach(
+      async (match, index) => {
+        console.log('Importing match: ', match);
+        await this.db
+        .object(`${DB_INCOMING_MATCHES_LPATH}/${tourney.meta.date}-T-${index.toString().padStart(4, '0')}`)
+        .update(match)
+      });
+
+    return allMatches;
   }
 
-  private toRankingMatch(match: Match, date: string): RankingMatch {
+  private toRankingMatch(match: Match, date: string): IncomingMatch {
     return {
       date: date,
+      source: 'Tourney',
       ... match
     }
   }
 
-  public async ImportPlayers(tourney: Tourney): Promise<void> {
+  public async ImportPlayers(tourney: Tourney): Promise<string[]> {
     let players = TourneyFunctions.GetPlayers(tourney);
     let existingPlayers = await firstValueFrom(
       this.db
@@ -46,12 +57,17 @@ export class EloImportService {
         .snapshotChanges()
         .pipe(map(c => c.map(k => k.key))))
 
-    return players
+    let newPlayers = players
       .map(player => this.keyFromName(player))
-      .filter(playerKey => !existingPlayers.includes(playerKey))
-      .forEach(player => this.db
+      .filter(playerKey => !existingPlayers.includes(playerKey));
+
+    newPlayers.forEach(
+      async player => await this.db
         .object(`${DB_PLAYERS_PATH}/${this.keyFromName(player)}`)
-        .set(this.initialPlayer()));
+        .set(this.initialPlayer())
+      );
+
+    return newPlayers;
   }
 
   private initialPlayer(): EloPlayer {
