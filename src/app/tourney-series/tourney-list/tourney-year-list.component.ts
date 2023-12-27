@@ -70,7 +70,6 @@ export class TourneyYearListComponent implements OnInit {
       this.tourneysService.update(tourney, { type: 'ResultsPostProcessed' });
     }
   }
-
   
   niceName(dateName: string): string {
     return TourneyFunctions

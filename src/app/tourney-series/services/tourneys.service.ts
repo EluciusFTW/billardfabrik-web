@@ -42,7 +42,9 @@ export class TourneysService {
       .pipe(take(1))
       .subscribe(ts => ts.forEach((tourney, index) => {
         tourney.meta.occurrence = index + 1;
-        this.db.list(DB_TOURNEYS_LPATH).update(this.getKey(tourney), tourney);
+        this.db
+          .list(DB_TOURNEYS_LPATH)
+          .update(this.getKey(tourney), tourney);
       }));
   }
 
@@ -50,7 +52,9 @@ export class TourneysService {
     return this.db
       .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.limitToLast(1))
       .valueChanges()
-      .pipe(take(1), map(ts => ts[0]?.meta.occurrence ?? 0));
+      .pipe(
+        take(1), 
+        map(ts => ts[0]?.meta.occurrence ?? 0));
   }
 
   getFromYear(year: number): Observable<Tourney[]> {

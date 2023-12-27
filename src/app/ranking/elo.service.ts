@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable, firstValueFrom, map } from 'rxjs';
-import { Match } from '../tourney-series/models/match';
 import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
 import { RankingPlayer } from './models/ranking-player';
 import { EloPlayer } from './models/elo-player';
-import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { RankingMatch } from './models/ranking-match';
 
 const DB_MATCHES_LPATH = 'elo/matches';
@@ -21,16 +19,21 @@ export class EloService {
 
   GetRanking(): Observable<RankingPlayer[]> {
     return this.db
-      .list<EloPlayer>(DB_PLAYERS_PATH, ref => ref.orderByChild('show').equalTo(true))
+      .list<EloPlayer>(
+        DB_PLAYERS_PATH, 
+        ref => ref
+          .orderByChild('show')
+          .equalTo(true))
       .snapshotChanges()
-      .pipe(
-        map(snapshots => snapshots
-          .map(item => item.payload)
-          .filter(item => item.val().changes.length > this.lowerBoundOnGames)
-          .map(player => ({
-            name: this.nameFromKey(player.key),
-            allScores: player.val().changes.map(match => match.eloAfter),
-          }))
+      .pipe(map(snapshots => snapshots
+        .map(item => item.payload)
+        .filter(item => item.val().changes.length > this.lowerBoundOnGames)
+        .map(player => ({
+          name: this.nameFromKey(player.key),
+          allScores: player
+            .val().changes
+            .map(match => match.eloAfter),
+        }))
       ));
   }
 
@@ -43,9 +46,27 @@ export class EloService {
         .map(match => match.val())));
   }
 
+  async GetLastTourneyDate(): Promise<string> {
+    return firstValueFrom(
+      this.db
+        .list<RankingMatch>(
+          DB_MATCHES_LPATH, 
+          ref => ref
+            //.orderByChild('source')
+            //.equalTo('Tourney')
+            .limitToLast(1))
+        .snapshotChanges()
+        .pipe(map(snapshots => snapshots.map(item => item.key.substring(0,8))[0]))
+    )
+  } 
+
   private GetUnrankedMatches(): Observable<Db<RankingMatch>[]> {
     return this.db
-      .list<RankingMatch>(DB_MATCHES_LPATH, ref => ref.orderByChild('diff').equalTo(null))
+      .list<RankingMatch>(
+        DB_MATCHES_LPATH, 
+        ref => ref
+          .orderByChild('diff')
+          .equalTo(null))
       .snapshotChanges()
       .pipe(map(snapshots => snapshots
         .map(item => item.payload)
@@ -69,23 +90,20 @@ export class EloService {
   async Calculate(): Promise<void> {
     let rankings = await firstValueFrom(this.GetRankingFor());
     let unrankedMatches = await firstValueFrom(this.GetUnrankedMatches());
-    console.log('Unranked matches: ', unrankedMatches.length);
 
     let data = unrankedMatches
       .map(match => ({
         match: match,
-        p1: rankings.find(p => p.name === match.playerOne.name),
-        p2: rankings.find(p => p.name === match.playerTwo.name),
+        p1: rankings.find(player => player.name === match.playerOne.name),
+        p2: rankings.find(player => player.name === match.playerTwo.name),
       }))
       .filter(data => !!data.p1 && !!data.p2)
       // Test that idempotency does work properly
       .filter(data => !data.p1.changes.find(c => c.match === data.match.key))
       .filter(data => !data.p2.changes.find(c => c.match === data.match.key))
 
-    console.log('Unranked matches that proceed: ', data.length);
     data
       .forEach(data => {
-          // console.log('Ranking match: ', data.match);
           let elo1 = data.p1.changes[data.p1.changes.length - 1].eloAfter;
           let elo2 = data.p2.changes[data.p2.changes.length - 1].eloAfter;
           let completedMatch = {

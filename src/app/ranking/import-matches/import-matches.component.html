@@ -3,13 +3,13 @@
     Hier können einzelne Spiele eingegeben werden oder auch abgeschlossene Turniere importiert werden.
   </p>
 
-  <mat-tab-group>
+  <mat-tab-group mat-stretch-tabs="false">
     <mat-tab label="Turnier-Import">
-      Tourney
+      <app-import-tourney></app-import-tourney>
     </mat-tab>
 
     <mat-tab label="Einzelspiel">
-      SingleMatch
+      <app-import-single-match></app-import-single-match>
     </mat-tab>
   </mat-tab-group>
 </app-content-tile>
