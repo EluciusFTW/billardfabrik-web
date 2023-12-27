@@ -18,6 +18,7 @@ import { EloImportService } from './elo-import.service';
 import { ImportSingleMatchComponent } from './import-matches/import-single-match/import-single-match.component';
 import { ImportTourneyComponent } from './import-matches/import-tourney/import-tourney.component';
 import { TourneysModule } from '../tourney-series/tourneys.module';
+import { IncomingMatchesComponent } from './ranking-matches/incoming-matches/incoming-matches.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TourneysModule } from '../tourney-series/tourneys.module';
     EloDemoTableComponent,
     ImportMatchesComponent,
     ImportSingleMatchComponent,
-    ImportTourneyComponent
+    ImportTourneyComponent,
+    IncomingMatchesComponent
   ],
   imports: [
     RankingRoutingModule,
