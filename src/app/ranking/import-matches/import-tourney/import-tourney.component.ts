@@ -56,9 +56,9 @@ export class ImportTourneyComponent implements OnInit {
     await this.loadData();
   }
 
-  async reset() {
-    await this.eloService.reset();
-  }
+  // async reset() {
+  //   await this.eloService.reset();
+  // }
 
   private async importTourney(tourney: Tourney): Promise<void> {
     let importedPlayers = await this.eloImportService.ImportPlayers(tourney);
