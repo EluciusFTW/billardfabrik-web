@@ -49,8 +49,8 @@ import { PlacementRecordBuilder } from './services/evaluation/placement-record.b
 import { TourneyYearListComponent } from './tourney-list/tourney-year-list.component';
 import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
 import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
-import { EloImportService } from './services/elo-import.service';
 import { MatchComponent } from './match/match.component';
+import { DateKeyPipe } from './date-key.pipe';
 
 @NgModule({
     imports: [
@@ -61,6 +61,7 @@ import { MatchComponent } from './match/match.component';
         FormsModule,
         SharedModule
     ],
+    exports: [DateKeyPipe],
     declarations: [
         TourneyComponent,
         TourneyListComponent,
@@ -79,7 +80,8 @@ import { MatchComponent } from './match/match.component';
         TourneySeriesOverviewComponent,
         TourneysLandingPageComponent,
         TourneyDoubleEliminationStagesComponent,
-        MatchComponent
+        MatchComponent,
+        DateKeyPipe
     ],
     providers: [
         TourneyCreationService,
@@ -103,7 +105,6 @@ import { MatchComponent } from './match/match.component';
         TourneyMatchesService,
         TourneyPointsService,
         PlayersService,
-        EloImportService
     ]
 })
 export class TourneysModule { }

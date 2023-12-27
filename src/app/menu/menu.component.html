@@ -44,6 +44,7 @@
       <button mat-menu-item [routerLink]="'mensa'">Spielstätte</button>
       <button mat-menu-item [routerLink]="'membership'">Mitgliedschaft</button>
       <button mat-menu-item [matMenuTriggerFor]="tourneymenu">Donnerstags-Turniere</button>
+      <button mat-menu-item [matMenuTriggerFor]="rankingmenu">Rangliste</button>
       <button mat-menu-item [routerLink]="'training'">Training</button>
       <button mat-menu-item [routerLink]="'league'">Ligabetrieb</button>
       <button mat-menu-item [routerLink]="'contact'">Kontakt & Impressum</button>
@@ -53,6 +54,12 @@
       <button mat-menu-item [routerLink]="'tourney-series/overview'">Details</button>
       <button mat-menu-item [routerLink]="'tourney-series/leaderboard'">Leaderboards</button>
       <button mat-menu-item [routerLink]="'tourney-series/list'">Turniere</button>
+    </mat-menu>
+
+    <mat-menu #rankingmenu="matMenu">
+      <button mat-menu-item [routerLink]="'ranking/players'">Rangliste</button>
+      <button mat-menu-item [routerLink]="'ranking/matches'">Matches</button>
+      <button mat-menu-item [routerLink]="'ranking/details'">Details</button>
     </mat-menu>
   </div>
 

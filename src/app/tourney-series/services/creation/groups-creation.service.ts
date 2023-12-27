@@ -29,7 +29,7 @@ export class GroupsCreationService {
     let groupNumber = 1
 
     while (groupNumber <= info.nrOfGroups) {
-      let chunk = players.splice(0, groupSize - 1);
+      const chunk = players.splice(0, groupSize - 1);
       groups.push({
         number: groupNumber++,
         players: chunk,
@@ -45,8 +45,9 @@ export class GroupsCreationService {
   }
 
   private buildMatches(players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match[] {
-    var listings = this.listings(players.length);
-    return listings.map(listing => this.ToMatch(listing, players, info));
+    return this
+      .listings(players.length)
+      .map(listing => this.ToMatch(listing, players, info));
   }
 
   private listings(nrOfPlayers: number): number[][] {

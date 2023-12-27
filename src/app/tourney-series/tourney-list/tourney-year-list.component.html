@@ -6,7 +6,7 @@
 
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef> Datum </th>
-    <td mat-cell *matCellDef="let item"> {{niceName(item.meta.date)}} </td>
+    <td mat-cell *matCellDef="let item"> {{ item.meta.date | dateKey }} </td>
   </ng-container>
 
   <ng-container matColumnDef="status">

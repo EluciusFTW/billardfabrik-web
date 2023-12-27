@@ -1,42 +1,16 @@
 <app-content-tile [header]="'Letzten Matches'">
   <p>
-    Hier seht ihr die letzten 50 matches die in das Ranking eingeflossen sind.
+    Hier seht ihr die letzten gewerteten als auch die noch zu wertenden Matches.
   </p>
 
-  <table mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Datum </th>
-      <td mat-cell *matCellDef="let item"> {{ item.date }} </td>
-    </ng-container>
+  <mat-tab-group mat-stretch-tabs="false">
+    <mat-tab label="Letzten Matches">
+      <app-ranked-matches></app-ranked-matches>
+    </mat-tab>
 
-    <ng-container matColumnDef="p1">
-      <th mat-header-cell *matHeaderCellDef> Spieler 1 </th>
-      <td mat-cell *matCellDef="let item"> {{ item.playerOne.name }} </td>
-    </ng-container>
+    <mat-tab label="Unausgewertet">
+      <app-incoming-matches></app-incoming-matches>
+    </mat-tab>
+  </mat-tab-group>
 
-    <ng-container matColumnDef="p2">
-      <th mat-header-cell *matHeaderCellDef> Spieler 2 </th>
-      <td mat-cell *matCellDef="let item"> {{ item.playerTwo.name }} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="score">
-      <th mat-header-cell *matHeaderCellDef> Ergebnis </th>
-      <td mat-cell *matCellDef="let item">
-        {{ item.playerOne.points }} : {{ item.playerTwo.points }}
-      </td>
-    </ng-container>
-
-    <ng-container matColumnDef="diff">
-      <th mat-header-cell *matHeaderCellDef> &Delta; </th>
-      <td mat-cell *matCellDef="let item">
-        <span [class]="item.diff >= 0 ? 'pos' : 'neg'">{{ item.diff }} </span>
-        /
-        <span [class]="item.diff > 0 ? 'neg' : 'pos'">{{ -item.diff }} </span>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
-  </table>
-  <!-- <button (click)="Calculate()">Calculate</button> -->
 </app-content-tile>

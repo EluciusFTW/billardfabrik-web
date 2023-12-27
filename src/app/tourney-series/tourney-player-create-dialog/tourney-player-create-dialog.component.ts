@@ -46,7 +46,7 @@ export class TourneyPlayerCreateDialogComponent {
   private validate(name: string) : string {
     const letters = /^[a-zA-Z0-9]+$/;
 
-    for (var i = 0; i < name.length; i++) {
+    for (let i = 0; i < name.length; i++) {
       if (!name[i].match(letters) ) {
         this.error = 'Invalid character: ' + name[i];
         return name[i];

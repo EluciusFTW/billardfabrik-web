@@ -83,7 +83,7 @@ export class TourneySummaryComponent {
 
   calculate(): void {
     if (this.tourney.meta.status !== TourneyStatus.postProcessed) {
-      var result = this.statisticsService.Evaluate(this.tourney);
+      const result = this.statisticsService.Evaluate(this.tourney);
       if (result) {
         result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
       }

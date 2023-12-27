@@ -14,8 +14,15 @@
       }
     },
     "elo": {
-      "matches": {
-        ".indexOn": "diff"
+      ".write": "auth != null",
+      "rankedmatches": {
+        ".indexOn": [
+          "diff",
+          "source"
+        ]
+      },
+      "playersV2": {
+        ".indexOn": "show"
       }
     }
   }

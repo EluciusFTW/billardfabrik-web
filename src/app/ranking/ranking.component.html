@@ -1,8 +1,16 @@
 <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  <a mat-tab-link *ngFor="let tab of tabs"
+  <a mat-tab-link *ngFor="let tab of publicTabs"
     (click)="activeLink = tab.link"
     [active]="activeLink == tab.link"
-    [routerLink]="tab.link"> {{ tab.label }} </a>
+    [routerLink]="tab.link">
+    {{ tab.label }}
+  </a>
+  <a mat-tab-link *ngIf="isLoggedIn"
+    (click)="activeLink = 'import'"
+    [active]="activeLink == 'import'"
+    [routerLink]="'import'">
+    Import
+  </a>
 </nav>
 
 <mat-tab-nav-panel #tabPanel>

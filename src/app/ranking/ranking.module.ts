@@ -13,6 +13,13 @@ import { PlayerProgressionDialogComponent } from './player-rankings/player-progr
 import { NgChartsModule } from 'ng2-charts';
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 import { EloDemoTableComponent } from './scoring-details/elo-demo-table/elo-demo-table.component';
+import { ImportMatchesComponent } from './import-matches/import-matches.component';
+import { EloImportService } from './elo-import.service';
+import { ImportSingleMatchComponent } from './import-matches/import-single-match/import-single-match.component';
+import { ImportTourneyComponent } from './import-matches/import-tourney/import-tourney.component';
+import { TourneysModule } from '../tourney-series/tourneys.module';
+import { IncomingMatchesComponent } from './ranking-matches/incoming-matches/incoming-matches.component';
+import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-matches.component';
 
 @NgModule({
   declarations: [
@@ -21,10 +28,16 @@ import { EloDemoTableComponent } from './scoring-details/elo-demo-table/elo-demo
     PlayerProgressionDialogComponent,
     RankingMatchesComponent,
     ScoringDetailsComponent,
-    EloDemoTableComponent
+    EloDemoTableComponent,
+    ImportMatchesComponent,
+    ImportSingleMatchComponent,
+    ImportTourneyComponent,
+    IncomingMatchesComponent,
+    RankedMatchesComponent
   ],
   imports: [
     RankingRoutingModule,
+    TourneysModule,
     RouterModule,
     CommonModule,
     MaterialModule,
@@ -32,6 +45,9 @@ import { EloDemoTableComponent } from './scoring-details/elo-demo-table/elo-demo
     FormsModule,
     SharedModule
   ],
-  providers: [EloService]
+  providers: [
+    EloService, 
+    EloImportService
+  ]
 })
 export class RankingModule { }

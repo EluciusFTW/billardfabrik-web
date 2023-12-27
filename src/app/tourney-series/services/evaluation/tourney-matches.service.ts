@@ -21,7 +21,7 @@ export class TourneyMatchesService {
     const doubleEliminationMatches = (tourney.doubleEliminationStages ?? [])
       .map(stage => this.GetMatchesFromStage(tourney.meta, stage));
 
-    var allMatches = groupMatches
+    const allMatches = groupMatches
       .concat(singleEliminationMatches)
       .concat(doubleEliminationMatches);
 
