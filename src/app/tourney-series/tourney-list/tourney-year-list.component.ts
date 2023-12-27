@@ -55,7 +55,7 @@ export class TourneyYearListComponent implements OnInit {
   }
 
   show(tourney: Tourney) {
-    var result = this.statisticsService.Evaluate(tourney);
+    const result = this.statisticsService.Evaluate(tourney);
     this.dialog.open(ShowResultsDialogComponent, { data: result })
   }
 
@@ -64,7 +64,7 @@ export class TourneyYearListComponent implements OnInit {
       return;
     }
 
-    var result = this.statisticsService.Evaluate(tourney);
+    const result = this.statisticsService.Evaluate(tourney);
     if (result) {
       result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
       this.tourneysService.update(tourney, { type: 'ResultsPostProcessed' });

@@ -33,7 +33,7 @@ export class TourneysService {
   }
 
   addNumber(): void {
-    var tourneys = this.db
+    const tourneys = this.db
       .list<Tourney>(DB_TOURNEYS_LPATH)
       .snapshotChanges()
       .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
