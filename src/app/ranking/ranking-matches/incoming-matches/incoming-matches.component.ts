@@ -3,6 +3,7 @@ import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { EloService } from '../../elo.service';
 import { Subscription, take } from 'rxjs';
+import { UserService } from 'src/app/authentication/user.service';
 
 @Component({
   selector: 'app-incoming-matches',
@@ -16,7 +17,10 @@ export class IncomingMatchesComponent {
   dataSource = new MatTableDataSource<IncomingMatch>();
   displayedColumns = ['date', 'p1', 'p2', 'score'];
 
-  constructor(private eloService: EloService) { }
+  constructor(
+    private readonly eloService: EloService,
+    private readonly userService: UserService)
+  { }
 
   ngOnInit(): void {
     this.SetDataSource();
@@ -25,6 +29,10 @@ export class IncomingMatchesComponent {
   async Calculate(): Promise<void> {
     await this.eloService.UpdateEloScores();
     this.SetDataSource();
+  }
+
+  get isLoggedIn(): boolean {
+    return this.userService.isLoggedIn();
   }
 
   private SetDataSource() {

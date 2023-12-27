@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar *ngIf="isLoggedIn">
   <button mat-raised-button (click)="Calculate()" class="demo-button">
     Alle Auswerten
   </button>
