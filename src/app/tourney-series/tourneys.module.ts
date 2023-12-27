@@ -50,6 +50,7 @@ import { TourneyYearListComponent } from './tourney-list/tourney-year-list.compo
 import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
 import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
 import { MatchComponent } from './match/match.component';
+import { DateKeyPipe } from './date-key.pipe';
 
 @NgModule({
     imports: [
@@ -60,6 +61,7 @@ import { MatchComponent } from './match/match.component';
         FormsModule,
         SharedModule
     ],
+    exports: [DateKeyPipe],
     declarations: [
         TourneyComponent,
         TourneyListComponent,
@@ -78,7 +80,8 @@ import { MatchComponent } from './match/match.component';
         TourneySeriesOverviewComponent,
         TourneysLandingPageComponent,
         TourneyDoubleEliminationStagesComponent,
-        MatchComponent
+        MatchComponent,
+        DateKeyPipe
     ],
     providers: [
         TourneyCreationService,

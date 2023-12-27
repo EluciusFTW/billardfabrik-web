@@ -53,7 +53,7 @@ export class TourneysService {
       .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.limitToLast(1))
       .valueChanges()
       .pipe(
-        take(1), 
+        take(1),
         map(ts => ts[0]?.meta.occurrence ?? 0));
   }
 
@@ -69,6 +69,11 @@ export class TourneysService {
       .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.orderByKey().startAt(start).endAt(end))
       .snapshotChanges()
       .pipe(map(changes => <Tourney[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))));
+  }
+
+  getAfter(start: string): Observable<Tourney[]> {
+    const actualStart = start || "0";
+    return this.getBetween(`${+actualStart + 1}`, 'X');
   }
 
   update(tourney: Tourney, event: TourneyPhaseEvent): void {
@@ -89,23 +94,12 @@ export class TourneysService {
       .subscribe(last => {
         tourney.meta.occurrence = last + 1;
         this.db
-          .object(DB_TOURNEYS_LPATH + '/' + this.getDateString())
+          .object(DB_TOURNEYS_LPATH + '/' + tourney.meta.date)
           .set(tourney)
           .then(
             () => this.messageService.success('Neues Turnier erfolgreich gespeichert.'),
             () => this.messageService.failure('Fehler beim Speichern des neuen Turniers.'));
       })
-  }
-
-  private getDateString(): string {
-    const date = new Date();
-    const yy = date.getFullYear();
-    const mm = date.getMonth() + 1;
-    const dd = date.getDate();
-    return [yy,
-      (mm > 9 ? '' : '0') + mm,
-      (dd > 9 ? '' : '0') + dd
-    ].join('');
   }
 
   private getKey(tourney: Tourney): string {
