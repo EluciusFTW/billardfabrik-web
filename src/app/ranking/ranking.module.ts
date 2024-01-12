@@ -4,7 +4,7 @@ import { RankingComponent } from './ranking.component';
 import { RankingRoutingModule } from './ranking-routing.module';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { PlayerRankingsComponent } from './player-rankings/player-rankings.component';
 import { EloService } from './elo.service';
@@ -43,10 +43,11 @@ import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-
     MaterialModule,
     NgChartsModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule
   ],
   providers: [
-    EloService, 
+    EloService,
     EloImportService
   ]
 })

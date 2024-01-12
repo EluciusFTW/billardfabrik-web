@@ -19,7 +19,7 @@
         <span>{{selectPlayers.selectedOptions.selected.length}}</span>
       </div>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Spielmodus</mat-label>
         <mat-select [(value)]="selectedPlayModus">
           <mat-option *ngFor="let modus of playModi" [value]="modus">
@@ -28,7 +28,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="selectedPlayModus?.hasGroups" appearance="fill">
+      <mat-form-field *ngIf="selectedPlayModus?.hasGroups">
         <mat-label>Anzahl Gruppen</mat-label>
         <mat-select
           [(value)]="nrOfGroupsSelected"
@@ -39,7 +39,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="selectedPlayModus?.hasFirstElimination" appearance="fill">
+      <mat-form-field *ngIf="selectedPlayModus?.hasFirstElimination">
         <mat-label>Einfach-K.O. ab</mat-label>
         <mat-select [(value)]="firstEliminationSelected">
           <mat-option *ngFor="let stageType of firstElimination" [value]="stageType">
@@ -48,8 +48,7 @@
         </mat-select>
       </mat-form-field>
 
-
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Disziplin</mat-label>
         <mat-select [(value)]="disciplineSelected">
           <mat-option *ngFor="let discipline of disciplines" [value]="discipline">
@@ -58,7 +57,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Ausspielziel</mat-label>
         <mat-select [(value)]="raceLengthSelected">
           <mat-option *ngFor="let nr of raceLengths" [value]="nr">

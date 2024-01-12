@@ -11,6 +11,7 @@ html, body {
   --color-secondary: #63717e;
   --color-primary: #780F07;
   --color-fourth: #EAE2D6;
+  --color-error: red;
 
   --mat-prim: map-get($mat-blue-grey, 200);
 }
@@ -25,6 +26,9 @@ a {
 
 .fill-remaining-space {
   flex: 1 1 auto;
+}
+.row-1 {
+  display: flex; flex-direction: row; gap: 1em;
 }
 
 // make badge smaller after breakpoint as well.
