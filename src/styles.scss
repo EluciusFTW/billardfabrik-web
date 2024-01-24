@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 @import '@angular/material/theming';
 @import 'app/app-theme.scss';
 @import 'assets/scss/breakpoints';
@@ -27,6 +29,11 @@ a {
 .fill-remaining-space {
   flex: 1 1 auto;
 }
+
+.denser {
+  @include mat.all-component-densities(-3);
+}
+
 .row-1 {
   display: flex; flex-direction: row; gap: 1em;
 }
