@@ -4,11 +4,12 @@ import { Tourney } from '../tourney-series/models/tourney';
 import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
 import { MatchStatus } from '../tourney-series/models/match-status';
-import { EloFunctions } from '../tourney-series/services/evaluation/elo-functions';
+import { EloFunctions } from './elo-functions';
 import { IncomingMatch } from './models/ranking-match';
 import { Match } from '../tourney-series/models/match';
 import { MatchPlayer } from '../tourney-series/models/match-player';
 import { DB_INCOMING_MATCHES_LPATH, DB_NEW_PLAYERS_PATH } from './elo.service';
+import { EloPlayer, EloPlayerData } from './models/elo-models';
 
 @Injectable()
 export class EloImportService {
@@ -52,7 +53,7 @@ export class EloImportService {
     let players = TourneyFunctions.GetPlayers(tourney);
     let existingPlayers = await firstValueFrom(
       this.db
-        .list<EloPlayer>(DB_NEW_PLAYERS_PATH)
+        .list<EloPlayerData>(DB_NEW_PLAYERS_PATH)
         .snapshotChanges()
         .pipe(map(c => c.map(k => k.key))))
 
@@ -69,24 +70,20 @@ export class EloImportService {
     return newPlayers;
   }
 
-  private initialPlayer(): EloPlayer {
+  private initialPlayer(): EloPlayerData {
     return {
       show: true,
-      changes: [{ match: '__InitialSeed__', eloAfter: EloFunctions.InitialValue }],
+      changes: [{
+        match: '__InitialSeed__',
+        cla: EloFunctions.InitialValue,
+        bvf: EloFunctions.InitialValue,
+        wwb: EloFunctions.InitialValue,
+        wnb: EloFunctions.InitialValue,
+      }],
     }
   }
 
   private keyFromName(name: string): string {
     return name.replace(' ', '_');
   }
-}
-
-interface EloPlayer {
-  show: boolean
-  changes: EloDataPoint[];
-}
-
-interface EloDataPoint {
-  match: string,
-  eloAfter: number
 }
