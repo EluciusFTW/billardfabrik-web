@@ -33,31 +33,31 @@ export namespace TourneyPlacementType {
       case TourneyPlacementType.Last6:
         return '5.-6. Platz';
       case TourneyPlacementType.Last8:
-        return mode === TourneyMode.DoubleElimination
+        return mode === 'Doppel-K.O.'
           ? '7.-8. Platz'
           : '5.-8.';
       case TourneyPlacementType.Last12:
         return '9.-12. Platz';
       case TourneyPlacementType.Last16:
-        return mode === TourneyMode.DoubleElimination
+        return mode === 'Doppel-K.O.'
           ? '13.-16. Platz'
           : '9.-16. Platz';
       case TourneyPlacementType.Last24:
         return '17.-24. Platz';
       case TourneyPlacementType.Last32:
-        return mode === TourneyMode.DoubleElimination
+        return mode === 'Doppel-K.O.'
           ? '25.-32. Platz'
           : '17.-32. Platz';
       case TourneyPlacementType.Last48:
         return '33.-48. Platz';
       case TourneyPlacementType.Last64:
-        return mode === TourneyMode.DoubleElimination
+        return mode === 'Doppel-K.O.'
           ? '49.-64. Platz'
           : '33.-64. Platz';
       case TourneyPlacementType.Last96:
         return '65.-96. Platz';
       case TourneyPlacementType.Last128:
-        return mode === TourneyMode.DoubleElimination
+        return mode === 'Doppel-K.O.'
           ? '65.-128. Platz'
           : '97.-128. Platz';
       case TourneyPlacementType.Last256:

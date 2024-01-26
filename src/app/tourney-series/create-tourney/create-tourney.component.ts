@@ -9,7 +9,6 @@ import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dia
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
-import { TourneyMode } from '../models/tourney-mode';
 import { TourneyInfo } from '../models/tourney-info';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { TourneyModeViewModel } from './tourney-mode-view-model';
@@ -24,14 +23,12 @@ export class CreateTourneyComponent {
 
   playModi: TourneyModeViewModel[] = [
     {
-      label: 'Gruppen + Einfach-K.O.',
-      mode: TourneyMode.GroupsThenSingleElimination,
+      mode: 'Gruppe + Einfach-K.O.',
       hasFirstElimination: false,
       hasGroups: true
     },
     {
-      label: 'Doppel-K.O.',
-      mode: TourneyMode.DoubleElimination,
+      mode: 'Doppel-K.O.',
       hasFirstElimination: true,
       hasGroups: false
     }];
@@ -119,7 +116,7 @@ export class CreateTourneyComponent {
       mode: this.selectedPlayModus.mode
     };
 
-    this.tourney = this.selectedPlayModus.mode === TourneyMode.GroupsThenSingleElimination
+    this.tourney = this.selectedPlayModus.mode === 'Gruppe + Einfach-K.O.'
       ? this.createSingle(info)
       : this.createDouble(info)
 

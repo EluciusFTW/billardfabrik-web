@@ -23,7 +23,7 @@
         <mat-label>Spielmodus</mat-label>
         <mat-select [(value)]="selectedPlayModus">
           <mat-option *ngFor="let modus of playModi" [value]="modus">
-            {{ modus.label }}
+            {{ modus.mode }}
           </mat-option>
         </mat-select>
       </mat-form-field>

@@ -7,7 +7,6 @@ import { TourneyStatisticsService } from '../../services/evaluation/tourney-stat
 import { PlayersService } from '../../services/players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-import { TourneyMode, TourneyModeMapper } from '../../models/tourney-mode';
 import { ModificationFunctions } from './modification-functions';
 import { UserService } from 'src/app/authentication/user.service';
 
@@ -56,10 +55,6 @@ export class TourneySummaryComponent {
     return this.userService.canHandleTourneys();
   }
 
-  getModus(): string {
-    return TourneyModeMapper.map(this.tourney?.meta?.modus ?? 0);
-  }
-
   getWinner(): string {
     return TourneyFunctions.GetWinner(this.tourney);
   }
@@ -94,7 +89,7 @@ export class TourneySummaryComponent {
     // Evaluation of double elimination tourneys is still not implemented
     return this.userService.canHandleTourneys()
       && this.tourney.meta.status === TourneyStatus.completed
-      && this.tourney.meta.modus === TourneyMode.GroupsThenSingleElimination
+      && this.tourney.meta.modus === 'Gruppe + Einfach-K.O.'
   }
 
   start(): void {
