@@ -20,21 +20,18 @@ export class RankedMatchesComponent implements OnInit {
 
   ngOnInit(): void {
     this.eloService
-      .GetRankedMatches()
+      .GetRankedMatches(200)
       .pipe(take(1))
-      .subscribe(
-        matches => {
-          this.rankingMatches = matches
-            .map(match => ({
-                ... match,
-                p1: match.playerOne.name,
-                p2: match.playerTwo.name
-            }))
-            .reverse();
-
-          this.setDataSource();
-        }
-      )
+      .subscribe(matches => {
+        this.rankingMatches = matches
+          .map(match => ({
+              ... match,
+              p1: match.playerOne.name,
+              p2: match.playerTwo.name
+          }))
+          .reverse();
+        this.setDataSource();
+      });
   }
 
   setDataSource() {

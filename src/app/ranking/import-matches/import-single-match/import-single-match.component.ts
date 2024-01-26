@@ -6,6 +6,9 @@ import { Match } from 'src/app/tourney-series/models/match';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
 import { MatchStatus } from 'src/app/tourney-series/models/match-status';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { IncomingChallengeMatch, IncomingMatch } from '../../models/ranking-match';
+import { EloChallengeImportService } from '../../elo-challenge-import.service';
+import { TourneyFunctions } from 'src/app/tourney-series/tourney/tourney-functions';
 
 @Component({
   selector: 'app-import-single-match',
@@ -27,7 +30,10 @@ export class ImportSingleMatchComponent implements OnInit {
 
   matchForm: FormGroup;
 
-  constructor(private readonly eloService: EloService) {
+  constructor(
+    private readonly eloService: EloService,
+    private readonly importService: EloChallengeImportService
+  ) {
     this.disciplines = PoolDisciplineMapper.getAllValues();
     this.selectDiscipline = new FormControl<string>(this.disciplines[0], [Validators.required]);
     this.selectDate = new FormControl<Date>(new Date(), [Validators.required]);
@@ -65,7 +71,7 @@ export class ImportSingleMatchComponent implements OnInit {
     const p1s = this.matchForm.value.playerOneScore;
     const p2s = this.matchForm.value.playerTwoScore;
 
-    const match: Match = {
+    const match: IncomingChallengeMatch = {
       playerOne: {
         ... MatchPlayer.From(this.matchForm.value.selectPlayerOne),
         points: p1s
@@ -75,12 +81,12 @@ export class ImportSingleMatchComponent implements OnInit {
         points: p2s
       },
       discipline: PoolDisciplineMapper.mapToEnum(this.matchForm.value.selectDiscipline),
-      status: MatchStatus.done,
-      length: Math.max(p1s, p2s)
+      length: Math.max(p1s, p2s),
+      date: TourneyFunctions.DateToNameFragment(new Date(this.matchForm.value.selectDate)),
+      source: 'Challenge'
     }
 
-    console.log('Match: ', match);
-    console.log('Group: ', this.matchForm.value);
+    this.importService.ImportSingleMatch(match);
   }
 }
 

@@ -28,27 +28,22 @@ export class IncomingMatchesComponent {
 
   async Calculate(): Promise<void> {
     await this.eloService.UpdateEloScores();
-    this.SetDataSource();
+    await this.SetDataSource();
   }
 
   get isLoggedIn(): boolean {
     return this.userService.isLoggedIn();
   }
 
-  private SetDataSource() {
-    this.eloService
-      .GetUnrankedMatches()
-      .pipe(take(1))
-      .subscribe(
-        matches => {
-          this.unrankedMatches = matches
-            .map(match => ({
-              ...match,
-              p1: match.playerOne.name,
-              p2: match.playerTwo.name
-            }))
-            .reverse();
-          this.dataSource = new MatTableDataSource(this.unrankedMatches);
-        });
+  private async SetDataSource() {
+    const matches = await this.eloService.GetUnrankedMatches();
+    this.unrankedMatches = matches
+      .map(match => ({
+        ...match,
+        p1: match.playerOne.name,
+        p2: match.playerTwo.name
+      }))
+      .reverse();
+    this.dataSource = new MatTableDataSource(this.unrankedMatches);
   }
 }

@@ -5,11 +5,11 @@ import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
 import { MatchStatus } from '../tourney-series/models/match-status';
 import { EloFunctions } from './elo-functions';
-import { IncomingMatch } from './models/ranking-match';
+import { IncomingMatch, IncomingTourneyMatch } from './models/ranking-match';
 import { Match } from '../tourney-series/models/match';
 import { MatchPlayer } from '../tourney-series/models/match-player';
-import { DB_INCOMING_MATCHES_LPATH, DB_NEW_PLAYERS_PATH } from './elo.service';
-import { EloPlayer, EloPlayerData } from './models/elo-models';
+import { DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_NEW_PLAYERS_PATH } from './elo.service';
+import { EloPlayerData } from './models/elo-models';
 
 @Injectable()
 export class EloImportService {
@@ -28,24 +28,28 @@ export class EloImportService {
       .filter(match => match.length >= 3)
       .filter(match => MatchPlayer.isReal(match.playerOne))
       .filter(match => MatchPlayer.isReal(match.playerTwo))
-      .map(match => this.toRankingMatch(match, tourney.meta.date!));
+      .map(match => this.toIncomingTourneyMatch(match, tourney.meta.date!));
 
-    allMatches.forEach(
-      async (match, index) => {
-        console.log('Importing match: ', match);
+    allMatches
+      .forEach(async (match, index) => {
         await this.db
-        .object(`${DB_INCOMING_MATCHES_LPATH}/${tourney.meta.date}-T-${index.toString().padStart(4, '0')}`)
-        .update(match)
+          .object(this.tourneyMatchPath(match, index))
+          .update(match)
       });
 
     return allMatches;
   }
 
-  private toRankingMatch(match: Match, date: string): IncomingMatch {
+  private tourneyMatchPath(match: IncomingTourneyMatch, index: number): string {
+    return `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${match.date}-T-${index.toString().padStart(4, '0')}`;
+  }
+
+  private toIncomingTourneyMatch(match: Match, date: string): IncomingTourneyMatch {
+    const { status, ...rest } = match;
     return {
       date: date,
       source: 'Tourney',
-      ... match
+      ... rest
     }
   }
 

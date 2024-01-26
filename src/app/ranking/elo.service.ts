@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AngularFireDatabase, SnapshotAction } from '@angular/fire/compat/database';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { EloFunctions } from './elo-functions';
 import { RankingPlayer } from './models/ranking-player';
 import { IncomingMatch, ScoredMatch } from './models/ranking-match';
-import { EloDataPoint, EloPlayer, EloPlayerData, EloScores } from './models/elo-models';
+import { EloPlayer, EloPlayerData } from './models/elo-models';
 
 const DB_MATCHES_LPATH = 'elo/rankedmatches';
-export const DB_INCOMING_MATCHES_LPATH = 'elo/incomingmatches';
+export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
+export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
 export const DB_NEW_PLAYERS_PATH = 'elo/playersV2';
 
 type FBase = { key: string }
@@ -16,8 +17,7 @@ type Db<T> = T & FBase;
 @Injectable()
 export class EloService {
   private readonly lowerBoundOnGames = 10;
-
-  constructor(private db: AngularFireDatabase) { }
+  private readonly db = inject(AngularFireDatabase)
 
   GetRanking(): Observable<RankingPlayer[]> {
     return this
@@ -40,7 +40,7 @@ export class EloService {
       .pipe(map(snapshot => snapshot.map(item => this.nameFromKey(item.key))));
   }
 
-  private GetParticipatingPlayers(): Observable<SnapshotAction<EloPlayerData>[]> { // Observable<Db<EloPlayer>[]>
+  private GetParticipatingPlayers(): Observable<SnapshotAction<EloPlayerData>[]> {
     return this.db
       .list<EloPlayerData>(
         DB_NEW_PLAYERS_PATH,
@@ -50,12 +50,11 @@ export class EloService {
       .snapshotChanges();
   }
 
-  GetRankedMatches(): Observable<ScoredMatch[]> {
+  GetRankedMatches(nrOf: number): Observable<ScoredMatch[]> {
     return this.db
-      .list<ScoredMatch>(DB_MATCHES_LPATH, ref => ref.limitToLast(200))
-      .snapshotChanges()
-      .pipe(map(snapshots => snapshots.map(matchSnapshot => matchSnapshot.payload.val())));
-  }
+      .list<ScoredMatch>(DB_MATCHES_LPATH, ref => ref.limitToLast(nrOf))
+      .valueChanges();
+    }
 
   async GetLastTourneyDate(): Promise<string> {
     const lastRanked = await firstValueFrom(
@@ -67,7 +66,7 @@ export class EloService {
 
     const lastImported = firstValueFrom(
       this.db
-        .list<IncomingMatch>(DB_INCOMING_MATCHES_LPATH, this.LastTourneyMatch())
+        .list<IncomingMatch>(DB_INCOMING_TOURNEY_MATCHES_LPATH, this.LastTourneyMatch())
         .snapshotChanges()
         .pipe(map(snapshots => snapshots.map(item => item.key.substring(0,8))[0]))
     )
@@ -82,14 +81,19 @@ export class EloService {
       .limitToLast(1);
   }
 
-  GetUnrankedMatches(): Observable<Db<IncomingMatch>[]> {
-    return this.db
-      .list<IncomingMatch>(DB_INCOMING_MATCHES_LPATH)
-      .snapshotChanges()
-      .pipe(map(snapshots => snapshots
-        .map(item => item.payload)
-        .map(match => ({ key: match.key, ...match.val()}))
-      ));
+  async GetUnrankedMatches(): Promise<Db<IncomingMatch>[]> {
+    const tourneySnapshots = await firstValueFrom(this.db
+      .list<IncomingMatch>(DB_INCOMING_TOURNEY_MATCHES_LPATH)
+      .snapshotChanges());
+
+    const challengeSnapshots = await firstValueFrom(this.db
+      .list<IncomingMatch>(DB_INCOMING_CHALLENGE_MATCHES_LPATH)
+      .snapshotChanges())
+
+    return tourneySnapshots
+      .concat(challengeSnapshots)
+      .map(item => item.payload)
+      .map(match => ({ key: match.key, ...match.val()}));
   }
 
   private GetRankingPlayers(): Observable<Db<EloPlayer>[]> {
@@ -107,7 +111,7 @@ export class EloService {
 
   async UpdateEloScores(): Promise<void> {
     let players = await firstValueFrom(this.GetRankingPlayers());
-    let unrankedMatches = await firstValueFrom(this.GetUnrankedMatches());
+    let unrankedMatches = await this.GetUnrankedMatches();
 
     let matchData = unrankedMatches
       .map(match => ({
@@ -147,11 +151,19 @@ export class EloService {
   }
 
   private async RemoveIncomingMatches(matches: Db<IncomingMatch>[]): Promise<void[]> {
-    let removals = matches.map(match => this.db
-      .list(DB_INCOMING_MATCHES_LPATH)
-      .remove(match.key));
+    let removals = matches
+      .filter(match => match.source === 'Tourney')
+      .map(match => this.db
+        .list(DB_INCOMING_TOURNEY_MATCHES_LPATH)
+        .remove(match.key));
 
-    return Promise.all(removals);
+    let challenges = matches
+      .filter(match => match.source === 'Challenge')
+      .map(match => this.db
+        .list(DB_INCOMING_CHALLENGE_MATCHES_LPATH)
+        .remove(match.key));
+
+    return Promise.all(removals.concat(challenges));
   }
 
   UpdatePlayers(rankings: EloPlayer[]): Promise<void[]> {
@@ -175,7 +187,7 @@ export class EloService {
 
   async reset(): Promise<void> {
     await this.db.object(DB_MATCHES_LPATH).remove();
-    await this.db.object(DB_INCOMING_MATCHES_LPATH).remove();
+    await this.db.object(DB_INCOMING_TOURNEY_MATCHES_LPATH).remove();
 
     const players = await firstValueFrom(
       this.db

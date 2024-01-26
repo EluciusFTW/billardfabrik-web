@@ -3,13 +3,13 @@
 </p>
 
 <ng-template #tourneyTable>
-  <mat-toolbar>
+  <mat-toolbar class="row-1">
     <button mat-raised-button (click)="importBatch()" class="demo-button">
       Batch importieren
     </button>
-    <!-- <button mat-raised-button (click)="reset()" class="demo-button">
+    <button mat-raised-button (click)="reset()" class="demo-button">
       Reset
-    </button> -->
+    </button>
   </mat-toolbar>
   <table  mat-table #tourneys [dataSource]="unimportedTourneys">
     <ng-container matColumnDef="name" >
