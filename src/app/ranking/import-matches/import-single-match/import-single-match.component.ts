@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { PoolDisciplineMapper } from 'src/app/tourney-series/models/pool-discipline';
 import { EloService } from '../../elo.service';
 import { take } from 'rxjs';
-import { Match } from 'src/app/tourney-series/models/match';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
-import { MatchStatus } from 'src/app/tourney-series/models/match-status';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { IncomingChallengeMatch, IncomingMatch } from '../../models/ranking-match';
+import { IncomingChallengeMatch } from '../../models/ranking-match';
 import { EloChallengeImportService } from '../../elo-challenge-import.service';
 import { TourneyFunctions } from 'src/app/tourney-series/tourney/tourney-functions';
+import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/pool-discipline';
 
 @Component({
   selector: 'app-import-single-match',
@@ -17,7 +15,7 @@ import { TourneyFunctions } from 'src/app/tourney-series/tourney/tourney-functio
 })
 export class ImportSingleMatchComponent implements OnInit {
 
-  disciplines: string[] = [];
+  disciplines: PoolDiscipline[] = [];
   players: string[] = [];
   availablePlayers: string[] = [];
 
@@ -34,7 +32,7 @@ export class ImportSingleMatchComponent implements OnInit {
     private readonly eloService: EloService,
     private readonly importService: EloChallengeImportService
   ) {
-    this.disciplines = PoolDisciplineMapper.getAllValues();
+    this.disciplines = [ ...POOL_DISCIPLINES ];
     this.selectDiscipline = new FormControl<string>(this.disciplines[0], [Validators.required]);
     this.selectDate = new FormControl<Date>(new Date(), [Validators.required]);
 
@@ -80,7 +78,7 @@ export class ImportSingleMatchComponent implements OnInit {
         ... MatchPlayer.From(this.matchForm.value.selectPlayerTwo),
         points: p2s
       },
-      discipline: PoolDisciplineMapper.mapToEnum(this.matchForm.value.selectDiscipline),
+      discipline: this.matchForm.value.selectDiscipline,
       length: Math.max(p1s, p2s),
       date: TourneyFunctions.DateToNameFragment(new Date(this.matchForm.value.selectDate)),
       source: 'Challenge'

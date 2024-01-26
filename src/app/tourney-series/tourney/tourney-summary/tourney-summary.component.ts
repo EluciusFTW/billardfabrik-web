@@ -2,7 +2,6 @@ import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
-import { PoolDisciplineMapper } from '../../models/pool-discipline';
 import { TourneyFunctions } from '../tourney-functions';
 import { TourneyStatisticsService } from '../../services/evaluation/tourney-statistics.service';
 import { PlayersService } from '../../services/players.service';
@@ -55,10 +54,6 @@ export class TourneySummaryComponent {
 
   canAddPlayers(): boolean {
     return this.userService.canHandleTourneys();
-  }
-
-  getDiscipline(): string {
-    return PoolDisciplineMapper.map(this.tourney?.meta?.discipline);
   }
 
   getModus(): string {

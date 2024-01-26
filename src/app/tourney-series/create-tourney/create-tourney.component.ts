@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TourneyCreationService } from '../services/creation/tourney-creation.service';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
-import { PoolDisciplineMapper, PoolDiscipline } from '../models/pool-discipline';
+import { POOL_DISCIPLINES, PoolDiscipline } from '../models/pool-discipline';
 import { Subscription } from 'rxjs';
 import { PlayersService } from '../services/players.service';
 import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dialog/tourney-player-create-dialog.component';
@@ -42,8 +42,8 @@ export class CreateTourneyComponent {
   raceLengths: number[] = [3, 4, 5, 6];
   raceLengthSelected: number = 4;
 
-  disciplines: string[] = [];
-  disciplineSelected: string;
+  disciplines: PoolDiscipline[] = [];
+  disciplineSelected: PoolDiscipline;
 
   firstElimination: TourneyEliminationStageType[] = [
     TourneyEliminationStageType.final,
@@ -61,8 +61,8 @@ export class CreateTourneyComponent {
     private playersService: PlayersService,
     public dialog: MatDialog
   ) {
-    this.disciplines = PoolDisciplineMapper.getAllValues();
-    this.disciplineSelected = PoolDisciplineMapper.map(PoolDiscipline.NineBall);
+    this.disciplines = [ ... POOL_DISCIPLINES ];
+    this.disciplineSelected = '9-Ball';
 
     this.playerSub = this.playersService
       .getAllTourneyPlayers()
@@ -114,7 +114,7 @@ export class CreateTourneyComponent {
     let info = {
       players: selectedPlayerNames,
       raceLength: this.raceLengthSelected,
-      discipline: PoolDisciplineMapper.mapToEnum(this.disciplineSelected),
+      discipline: this.disciplineSelected,
       name: 'Donnerstags-Turnier',
       mode: this.selectedPlayModus.mode
     };
