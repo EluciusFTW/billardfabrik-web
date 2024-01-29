@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { IncomingChallengeMatch } from './models/ranking-match';
 import { DB_INCOMING_CHALLENGE_MATCHES_LPATH } from './elo.service';
+import { FirebaseService } from '../shared/firebase.service';
 
 @Injectable()
-export class EloChallengeImportService {
-
-  constructor(private db: AngularFireDatabase) { }
+export class EloChallengeImportService extends FirebaseService {
 
   private async challengeMatchPath(match: IncomingChallengeMatch): Promise<string> {
     const matchref = await this.db

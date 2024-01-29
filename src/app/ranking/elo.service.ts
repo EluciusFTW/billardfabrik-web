@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { AngularFireDatabase, SnapshotAction } from '@angular/fire/compat/database';
+import { Injectable } from '@angular/core';
+import { SnapshotAction } from '@angular/fire/compat/database';
 import { Observable, firstValueFrom, map } from 'rxjs';
 import { EloFunctions } from './elo-functions';
 import { RankingPlayer } from './models/ranking-player';
@@ -7,6 +7,7 @@ import { IncomingMatch, ScoredMatch } from './models/ranking-match';
 import { EloPlayer, EloPlayerData } from './models/elo-models';
 import { Db } from '../shared/firebase-utilities';
 import { PlayerFunctions } from '../players/player-functions';
+import { FirebaseService } from '../shared/firebase.service';
 
 const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
@@ -14,9 +15,8 @@ export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-cha
 export const DB_NEW_PLAYERS_PATH = 'elo/playersV2';
 
 @Injectable()
-export class EloService {
+export class EloService extends FirebaseService {
   private readonly lowerBoundOnGames = 10;
-  private readonly db = inject(AngularFireDatabase)
 
   GetRanking(): Observable<RankingPlayer[]> {
     return this

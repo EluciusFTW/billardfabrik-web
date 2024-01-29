@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Tourney } from '../tourney-series/models/tourney';
 import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { firstValueFrom, map } from 'rxjs';
@@ -10,11 +9,11 @@ import { Match } from '../tourney-series/models/match';
 import { MatchPlayer } from '../tourney-series/models/match-player';
 import { DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_NEW_PLAYERS_PATH } from './elo.service';
 import { EloPlayerData } from './models/elo-models';
+import { PlayerFunctions } from '../players/player-functions';
+import { FirebaseService } from '../shared/firebase.service';
 
 @Injectable()
-export class EloImportService {
-
-  constructor(private db: AngularFireDatabase) { }
+export class EloImportService extends FirebaseService {
 
   async ImportMatches(tourney: Tourney): Promise<IncomingMatch[]> {
     let groupMatches = tourney.groups?.flatMap(group => group.matches) || [];
@@ -62,12 +61,12 @@ export class EloImportService {
         .pipe(map(c => c.map(k => k.key))))
 
     let newPlayers = players
-      .map(player => this.keyFromName(player))
+      .map(player => PlayerFunctions.keyFromName(player))
       .filter(playerKey => !existingPlayers.includes(playerKey));
 
     newPlayers.forEach(
       async player => await this.db
-        .object(`${DB_NEW_PLAYERS_PATH}/${this.keyFromName(player)}`)
+        .object(`${DB_NEW_PLAYERS_PATH}/${PlayerFunctions.keyFromName(player)}`)
         .set(this.initialPlayer())
       );
 
@@ -85,9 +84,5 @@ export class EloImportService {
         wnb: EloFunctions.InitialValue,
       }],
     }
-  }
-
-  private keyFromName(name: string): string {
-    return name.replace(' ', '_');
   }
 }
