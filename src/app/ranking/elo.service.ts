@@ -5,14 +5,13 @@ import { EloFunctions } from './elo-functions';
 import { RankingPlayer } from './models/ranking-player';
 import { IncomingMatch, ScoredMatch } from './models/ranking-match';
 import { EloPlayer, EloPlayerData } from './models/elo-models';
+import { Db } from '../shared/firebase-utilities';
+import { PlayerFunctions } from '../players/player-functions';
 
 const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
 export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
 export const DB_NEW_PLAYERS_PATH = 'elo/playersV2';
-
-type FBase = { key: string }
-type Db<T> = T & FBase;
 
 @Injectable()
 export class EloService {
@@ -26,7 +25,7 @@ export class EloService {
         map(snapshots => snapshots
           .filter(item => item.payload.val().changes.length > this.lowerBoundOnGames)
           .map(playerSnapshot => ({
-            name: this.nameFromKey(playerSnapshot.key),
+            name: PlayerFunctions.nameFromKey(playerSnapshot.key),
             allScores: playerSnapshot.payload
               .val().changes
               .map(match => match.wnb),
@@ -37,7 +36,7 @@ export class EloService {
   GetParticipatingPlayerNames(): Observable<string[]> {
     return this
       .GetParticipatingPlayers()
-      .pipe(map(snapshot => snapshot.map(item => this.nameFromKey(item.key))));
+      .pipe(map(snapshot => snapshot.map(item => PlayerFunctions.nameFromKey(item.key))));
   }
 
   private GetParticipatingPlayers(): Observable<SnapshotAction<EloPlayerData>[]> {
@@ -104,7 +103,7 @@ export class EloService {
         .map(item => item.payload)
         .map(player => ({
           key: player.key,
-          name: this.nameFromKey(player.key),
+          name: PlayerFunctions.nameFromKey(player.key),
           ...player.val()}))
       ));
   }
@@ -168,7 +167,7 @@ export class EloService {
 
   UpdatePlayers(rankings: EloPlayer[]): Promise<void[]> {
     let updates = rankings
-      .map(r => ({ key: this.keyFromName(r.name), c: { changes: r.changes } }))
+      .map(r => ({ key: PlayerFunctions.keyFromName(r.name), c: { changes: r.changes } }))
       .map(r => this.db
         .object(`${DB_NEW_PLAYERS_PATH}/${r.key}`)
         .update(r.c))
@@ -203,13 +202,5 @@ export class EloService {
         }));
 
     await Promise.all(updates);
-  }
-
-  private nameFromKey(name: string): string {
-    return name.replace('_', ' ');
-  }
-
-  private keyFromName(name: string): string {
-    return name.replace(' ', '_');
   }
 }
