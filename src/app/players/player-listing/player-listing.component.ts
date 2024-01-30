@@ -3,7 +3,6 @@ import { Player } from '../player';
 import { PlayersService } from '../players.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
-import { Db } from 'src/app/shared/firebase-utilities';
 
 @Component({
   selector: 'app-player-listing',
@@ -13,6 +12,12 @@ import { Db } from 'src/app/shared/firebase-utilities';
 export class PlayerListingComponent {
 
   private readonly playersService = inject(PlayersService);
+
+  clubPlayers = true;
+  externals = true;
+
+  nrSelected = 0;
+  nrTotal = 0;
 
   players: Player[];
   dataSource = new MatTableDataSource<Player>();
@@ -24,8 +29,20 @@ export class PlayerListingComponent {
       .pipe(take(1))
       .subscribe(players => {
         this.players = players
-        this.dataSource = new MatTableDataSource<Player>(players);
+        this.nrTotal = players.length;
+        this.setDataSource();
       });
+  }
+
+
+  setDataSource(): void {
+    const filteredMatches = this.players
+      .filter(match =>
+        this.clubPlayers && match.clubPlayer
+        || this.externals && !match.clubPlayer)
+
+    this.nrSelected = filteredMatches.length;
+    this.dataSource = new MatTableDataSource(filteredMatches);
   }
 
   update(player: Player): void {

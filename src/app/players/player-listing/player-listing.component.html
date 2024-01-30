@@ -1,21 +1,28 @@
-<!-- <mat-toolbar>
-  <mat-checkbox [(ngModel)]="includeTourneys" (change)="setDataSource()">Turnierspiele</mat-checkbox>
-  <mat-checkbox [(ngModel)]="includeChallenges" (change)="setDataSource()">Forderungen</mat-checkbox>
-</mat-toolbar> -->
+
 <app-content-tile [header]="'Spielerverwaltung'">
   <p>
     Hier kannst Du neue Spieler anlegen, sowie Spieler für Turniere und die Elo-Rangliste freischalten.
+    Beachte, dass nur Mitglieder für die Elo-Rangliste freigeschaltet werden können.
   </p>
+
+  <mat-toolbar>
+    <mat-checkbox [(ngModel)]="clubPlayers" (change)="setDataSource()">Mitglieder</mat-checkbox>
+    <mat-checkbox [(ngModel)]="externals" (change)="setDataSource()">Externe</mat-checkbox>
+    <span class="fill-remaining-space"> </span>
+    <div style="font-size: 0.5em;">{{ nrSelected }} / {{ nrTotal }}</div>
+  </mat-toolbar>
 
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
-      <td mat-cell *matCellDef="let player"> {{ player.firstName + ' ' + player.lastName}} </td>
+      <td mat-cell *matCellDef="let player"> {{ player | name }} </td>
     </ng-container>
 
     <ng-container matColumnDef="club">
-      <th mat-header-cell *matHeaderCellDef> Verein </th>
-      <td mat-cell *matCellDef="let player"> {{ player.club}} </td>
+      <th mat-header-cell *matHeaderCellDef> Mitglied </th>
+      <td mat-cell *matCellDef="let player">
+        <mat-checkbox [(ngModel)]="player.clubPlayer" (change)="update(player)"></mat-checkbox>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="showForTourneys">
@@ -28,7 +35,8 @@
     <ng-container matColumnDef="showForElo">
       <th mat-header-cell *matHeaderCellDef> Elo </th>
       <td mat-cell *matCellDef="let player">
-        <mat-checkbox [(ngModel)]="player.showForElo"></mat-checkbox>
+        <mat-checkbox *ngIf="!player.clubPlayer" disabled></mat-checkbox>
+        <mat-checkbox *ngIf="player.clubPlayer" [(ngModel)]="player.showForElo"></mat-checkbox>
       </td>
     </ng-container>
 
