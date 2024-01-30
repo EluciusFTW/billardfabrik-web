@@ -9,13 +9,10 @@ import { TourneyPlayer } from '../models/evaluation/tourney-player';
 })
 export class TourneyPlayerCreateDialogComponent {
 
-  dialogTitle: string = 'Neuen Spieler anlegen';
   firstName: string;
   lastName: string;
-  clubName: string;
   club: boolean = false;
-  ourClub: boolean = false;
-  error: string = "";
+  error: string = '';
 
   constructor(
     public dialogRef: MatDialogRef<TourneyPlayerCreateDialogComponent>,
@@ -24,20 +21,19 @@ export class TourneyPlayerCreateDialogComponent {
   submit(): void {
     const firstNameError = this.validate(this.firstName)
     if(firstNameError){
-      this.error = "First name contains illegal character: " + firstNameError;
+      this.error = "Unerlaubtes Zeichen im Vornamen: " + firstNameError;
       return;
     }
 
     const lastNameError = this.validate(this.lastName)
     if(lastNameError){
-      this.error = "Last name contains illegal character: " + lastNameError;
+      this.error = "Unerlaubtes Zeichen im Nachnamen: " + lastNameError;
       return;
     }
 
     this.player.firstName = this.firstName;
     this.player.lastName = this.lastName;
     this.player.clubPlayer = this.club;
-    this.player.club = this.getClubName()
     this.player.enteredInSystem = new Date().valueOf();
 
     this.dialogRef.close(this.player);
@@ -54,14 +50,6 @@ export class TourneyPlayerCreateDialogComponent {
     }
 
     return '';
-  }
-
-  private getClubName(): string{
-    return this.club
-      ? this.ourClub
-        ? 'BILLARDFABRIK'
-        : this.clubName || ''
-      : '';
   }
 
   abort(): void {

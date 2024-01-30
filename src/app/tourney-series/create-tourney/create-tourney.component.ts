@@ -39,8 +39,8 @@ export class CreateTourneyComponent {
   raceLengths: number[] = [3, 4, 5, 6];
   raceLengthSelected: number = 4;
 
-  disciplines: PoolDiscipline[] = [];
-  disciplineSelected: PoolDiscipline;
+  disciplines: PoolDiscipline[] = [ ... POOL_DISCIPLINES ];
+  disciplineSelected: PoolDiscipline = '9-Ball';
 
   firstElimination: TourneyEliminationStageType[] = [
     TourneyEliminationStageType.final,
@@ -58,9 +58,7 @@ export class CreateTourneyComponent {
     private playersService: PlayersService,
     public dialog: MatDialog
   ) {
-    this.disciplines = [ ... POOL_DISCIPLINES ];
-    this.disciplineSelected = '9-Ball';
-
+    this.selectedPlayModus = this.playModi[0];
     this.playerSub = this.playersService
       .getAllTourneyPlayers()
       .subscribe(

@@ -1,27 +1,21 @@
-<h1 mat-dialog-title>{{ dialogTitle }} </h1>
+<h1 mat-dialog-title> Neuen Spieler anlegen </h1>
 <div mat-dialog-content>
 
   <form #playerAddForm="ngForm">
     <mat-form-field>
       <input name="fP" placeholder="Vorname" matInput [(ngModel)]="firstName" required>
     </mat-form-field>
-    
-    <mat-form-field>
-      <input name="fP" placeholder="Nachname" matInput [(ngModel)]="lastName" required>
-    </mat-form-field>
-
-    <mat-checkbox name="cl" matInput [(ngModel)]="club">Vereinsspieler?</mat-checkbox>
-
-    <mat-checkbox name="clbf" [disabled]="!club" [(ngModel)]="ourClub">BillardFabrik Leipzig?</mat-checkbox>
 
     <mat-form-field>
-      <input name="cln" [disabled]="!club || ourClub" placeholder="Verein" matInput [(ngModel)]="clubName" required>
+      <input name="lP" placeholder="Nachname" matInput [(ngModel)]="lastName" required>
     </mat-form-field>
+
+    <mat-checkbox name="cl" [(ngModel)]="club">BillardFabrik Leipzig?</mat-checkbox>
 
     <div *ngIf="error" style="color:red">
       {{ error }}
     </div>
-</form>
+  </form>
 </div>
 
 <div mat-dialog-actions>

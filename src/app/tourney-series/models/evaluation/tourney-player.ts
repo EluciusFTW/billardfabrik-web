@@ -5,7 +5,6 @@ export interface TourneyPlayer {
   firstName: string;
   lastName: string;
   clubPlayer: boolean;
-  club?: string;
   enteredInSystem: number;
   placements?: PlacementRecord[];
   matches?: PlayerMatchRecord[];
