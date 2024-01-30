@@ -14,13 +14,14 @@ import { NgChartsModule } from 'ng2-charts';
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 import { EloDemoTableComponent } from './scoring-details/elo-demo-table/elo-demo-table.component';
 import { ImportMatchesComponent } from './import-matches/import-matches.component';
-import { EloImportService } from './elo-import.service';
+import { EloTourneyImportService } from './elo-tourney-import.service';
 import { ImportSingleMatchComponent } from './import-matches/import-single-match/import-single-match.component';
 import { ImportTourneyComponent } from './import-matches/import-tourney/import-tourney.component';
 import { TourneysModule } from '../tourney-series/tourneys.module';
 import { IncomingMatchesComponent } from './ranking-matches/incoming-matches/incoming-matches.component';
 import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-matches.component';
 import { EloChallengeImportService } from './elo-challenge-import.service';
+import { EloPlayerImportService } from './elo-player-import.service';
 
 @NgModule({
   declarations: [
@@ -49,8 +50,9 @@ import { EloChallengeImportService } from './elo-challenge-import.service';
   ],
   providers: [
     EloService,
-    EloImportService,
-    EloChallengeImportService
+    EloTourneyImportService,
+    EloChallengeImportService,
+    EloPlayerImportService
   ]
 })
 export class RankingModule { }

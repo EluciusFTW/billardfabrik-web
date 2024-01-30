@@ -5,7 +5,7 @@ import { Tourney } from 'src/app/tourney-series/models/tourney';
 import { take } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { TourneyStatus, TourneyStatusMapper } from 'src/app/tourney-series/models/tourney-status';
-import { EloImportService } from '../../elo-import.service';
+import { EloTourneyImportService } from '../../elo-tourney-import.service';
 
 @Component({
   selector: 'app-import-tourney',
@@ -20,7 +20,7 @@ export class ImportTourneyComponent implements OnInit {
 
   constructor(
     private readonly eloService: EloService,
-    private readonly eloImportService: EloImportService,
+    private readonly tourneyImportService: EloTourneyImportService,
     private readonly tourneysService: TourneysService) {
   }
 
@@ -61,7 +61,6 @@ export class ImportTourneyComponent implements OnInit {
   }
 
   private async importTourney(tourney: Tourney): Promise<void> {
-    await this.eloImportService.ImportPlayers(tourney);
-    await this.eloImportService.ImportMatches(tourney);
+    await this.tourneyImportService.ImportTourney(tourney);
   }
 }

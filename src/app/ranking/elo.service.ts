@@ -23,7 +23,7 @@ export class EloService extends FirebaseService {
     .GetParticipatingPlayers()
       .pipe(
         map(snapshots => snapshots
-          .filter(item => item.payload.val().changes.length > this.lowerBoundOnGames)
+          .filter(item => item.payload.val().changes?.length > this.lowerBoundOnGames)
           .map(playerSnapshot => ({
             name: PlayerFunctions.nameFromKey(playerSnapshot.key),
             allScores: playerSnapshot.payload
