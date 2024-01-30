@@ -6,6 +6,7 @@ import { PlayersRoutingModule } from "./players-routing.module";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
+import { PlayerNamePipe } from "./player-name.pipe";
 
 @NgModule({
   imports: [
@@ -15,9 +16,12 @@ import { SharedModule } from "../shared/shared.module";
     PlayersRoutingModule,
     MaterialModule
   ],
-  exports: [],
+  exports: [
+    PlayerNamePipe
+  ],
   declarations: [
-    PlayerListingComponent
+    PlayerListingComponent,
+    PlayerNamePipe
   ],
   providers: [
     PlayersService

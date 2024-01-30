@@ -12,4 +12,8 @@ export class PlayerFunctions {
   public static nameFromKey(name: string): string {
     return name.replace('_', ' ');
   }
+
+  public static displayName(player: Player): string {
+    return `${player.firstName} ${player.lastName}`;
+  }
 }

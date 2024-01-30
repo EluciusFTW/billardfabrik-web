@@ -3,8 +3,7 @@ import { TourneyCreationService } from '../services/creation/tourney-creation.se
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
 import { POOL_DISCIPLINES, PoolDiscipline } from '../models/pool-discipline';
-import { Subscription } from 'rxjs';
-import { PlayersService } from '../services/players.service';
+import { Subscription, map, take } from 'rxjs';
 import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dialog/tourney-player-create-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
@@ -12,6 +11,8 @@ import { TourneysService } from '../services/tourneys.service';
 import { TourneyInfo } from '../models/tourney-info';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { TourneyModeViewModel } from './tourney-mode-view-model';
+import { PlayersService } from 'src/app/players/players.service';
+import { PlayerFunctions } from 'src/app/players/player-functions';
 
 @Component({
   templateUrl: './create-tourney.component.html',
@@ -60,14 +61,11 @@ export class CreateTourneyComponent {
   ) {
     this.selectedPlayModus = this.playModi[0];
     this.playerSub = this.playersService
-      .getAllTourneyPlayers()
-      .subscribe(
-        players => {
-          const currentPlayerNames = this.players.map(player => this.displayName(player));
-          const newPlayers = players.filter(player => !currentPlayerNames.includes(this.displayName(player)));
-          newPlayers.forEach(player => this.players.push(player));
-        },
-    );
+      .getPlayers()
+      .pipe(
+        map(ps => ps.filter(p => p.showForTourneys)),
+        take(1))
+      .subscribe(players => this.players = players);
   }
 
   playerSelectionChange(event: any): void {
@@ -94,8 +92,10 @@ export class CreateTourneyComponent {
       .subscribe(
         result => {
           if (result) {
-            const returnItem = result as TourneyPlayer;
-            this.playersService.updatePlayer(returnItem);
+            const player = result as TourneyPlayer;
+            this.playersService
+              .createPlayer(player)
+              .then(_ => this.players.push(player));
           }
         }
       )
@@ -104,7 +104,7 @@ export class CreateTourneyComponent {
   submitSelected(selectedItems: any[]): void {
     let selectedPlayerNames = selectedItems
       .map(item => item.value)
-      .map(player => this.displayName(player));
+      .map(player => PlayerFunctions.displayName(player));
 
     let info = {
       players: selectedPlayerNames,
@@ -135,10 +135,6 @@ export class CreateTourneyComponent {
       firstEliminationStage: this.firstEliminationSelected
     }
     return this.createTourneyService.createDouble(enrichedInfo);
-  }
-
-  displayName(player: TourneyPlayer): string {
-    return `${player.firstName} ${player.lastName}`;
   }
 
   typeName(type: TourneyEliminationStageType): string {

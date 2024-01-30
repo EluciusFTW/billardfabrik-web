@@ -17,9 +17,10 @@ export class PlayersService extends FirebaseService {
       .valueChanges()
   }
 
-  updatePlayer(player: Player): void {
+  updatePlayer(player: Player): Promise<void> {
     let key = PlayerFunctions.keyFromPlayer(player);
-    this.db
+
+    return this.db
       .list(DB_PLAYERS_LPATH)
       .update(key, player)
       .then(
@@ -27,8 +28,8 @@ export class PlayersService extends FirebaseService {
         _ => this.messageService.failure('Fehler beim Aktualisieren des Spielers :/'));;
   }
 
-  createPlayer(player: Player): void {
-    this.db
+  createPlayer(player: Player): Promise<void> {
+    return this.db
       .object(DB_PLAYERS_LPATH + '/' + PlayerFunctions.keyFromPlayer(player))
       .set(player)
       .then(

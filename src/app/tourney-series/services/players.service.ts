@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { first, map } from 'rxjs/operators';
 import { TourneyPlayerEvaluation } from '../models/evaluation/tourney-player-evaluation';
@@ -10,23 +9,14 @@ import { TourneyPlacementType } from '../models/evaluation/tourney-placement-typ
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { PlayerResultsRecord } from '../models/evaluation/player-results-record';
 import { TourneyFunctions } from '../tourney/tourney-functions';
+import { FirebaseService } from 'src/app/shared/firebase.service';
 
 const DB_PLAYERS_LPATH = 'tourneySeries/players';
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
 
 @Injectable()
-export class PlayersService {
-
-  constructor(private db: AngularFireDatabase, private messageService: OwnMessageService) { }
-
-  getAllTourneyPlayers(): Observable<TourneyPlayer[]> {
-    return this.db
-      .list<TourneyPlayer>(DB_PLAYERS_LPATH)
-      .snapshotChanges()
-      .pipe(
-        map(changes => <TourneyPlayer[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() })))
-      );
-  }
+export class PlayersService extends FirebaseService {
+  private readonly messageService = inject(OwnMessageService);
 
   getAllLeaderboardPlayers(start: string, end: string): Observable<LeaderBoardPlayer[]> {
     return this.db

@@ -51,6 +51,7 @@ import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.c
 import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
 import { MatchComponent } from './match/match.component';
 import { DateKeyPipe } from './date-key.pipe';
+import { PlayersModule } from '../players/players.module';
 
 @NgModule({
     imports: [
@@ -59,6 +60,7 @@ import { DateKeyPipe } from './date-key.pipe';
         CommonModule,
         MaterialModule,
         FormsModule,
+        PlayersModule,
         SharedModule
     ],
     exports: [DateKeyPipe],

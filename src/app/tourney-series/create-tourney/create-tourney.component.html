@@ -4,7 +4,7 @@
     <div style="display:flex; flex-direction: column; width: 60%">
       <mat-selection-list #selectPlayers style="flex-grow: 1;" (selectionChange)="playerSelectionChange($event)">
         <mat-list-option style="height: auto; font-size: 1em;" *ngFor="let player of players" [value]="player">
-          {{ this.displayName(player) }}
+          {{ player | name }}
         </mat-list-option>
       </mat-selection-list>
 
