@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
-import { SnapshotAction } from '@angular/fire/compat/database';
-import { Observable, firstValueFrom, map } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { Observable, firstValueFrom, map, of } from 'rxjs';
 import { EloFunctions } from './elo-functions';
 import { RankingPlayer } from './models/ranking-player';
 import { IncomingMatch, ScoredMatch } from './models/ranking-match';
@@ -8,6 +7,7 @@ import { EloPlayer, EloPlayerData } from './models/elo-models';
 import { Db } from '../shared/firebase-utilities';
 import { PlayerFunctions } from '../players/player-functions';
 import { FirebaseService } from '../shared/firebase.service';
+import { PlayersService } from '../players/players.service';
 
 const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
@@ -17,36 +17,34 @@ export const DB_NEW_PLAYERS_PATH = 'elo/playersV2';
 @Injectable()
 export class EloService extends FirebaseService {
   private readonly lowerBoundOnGames = 10;
+  private readonly playersService = inject(PlayersService);
 
-  GetRanking(): Observable<RankingPlayer[]> {
-    return this
-    .GetParticipatingPlayers()
-      .pipe(
-        map(snapshots => snapshots
-          .filter(item => item.payload.val().changes?.length > this.lowerBoundOnGames)
-          .map(playerSnapshot => ({
-            name: PlayerFunctions.nameFromKey(playerSnapshot.key),
-            allScores: playerSnapshot.payload
-              .val().changes
-              .map(match => match.wnb),
-          })))
+  async GetRanking(): Promise<RankingPlayer[]> {
+    const eloPlayers = await firstValueFrom(
+      this.playersService
+        .getEloPlayers()
+        .pipe(map(ps => ps.map(p => PlayerFunctions.displayName(p))))
       );
-  }
 
-  GetParticipatingPlayerNames(): Observable<string[]> {
-    return this
-      .GetParticipatingPlayers()
-      .pipe(map(snapshot => snapshot.map(item => PlayerFunctions.nameFromKey(item.key))));
-  }
-
-  private GetParticipatingPlayers(): Observable<SnapshotAction<EloPlayerData>[]> {
-    return this.db
-      .list<EloPlayerData>(
-        DB_NEW_PLAYERS_PATH,
-        ref => ref
-          .orderByChild('show')
-          .equalTo(true))
-      .snapshotChanges();
+    return firstValueFrom(
+      this.db
+        .list<EloPlayerData>(
+          DB_NEW_PLAYERS_PATH,
+          ref => ref
+            .orderByChild('show')
+            .equalTo(true))
+        .snapshotChanges()
+        .pipe(
+          map(snapshots => snapshots
+            .filter(item => item.payload.val().changes?.length > this.lowerBoundOnGames)
+            .map(playerSnapshot => ({
+              name: PlayerFunctions.nameFromKey(playerSnapshot.key),
+              allScores: playerSnapshot.payload
+                .val().changes
+                .map(match => match.wnb),
+              }))
+            .filter(player => eloPlayers.includes(player.name))
+          )));
   }
 
   GetRankedMatches(nrOf: number): Observable<ScoredMatch[]> {

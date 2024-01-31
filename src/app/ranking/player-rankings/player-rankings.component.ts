@@ -18,24 +18,19 @@ export class PlayerRankingsComponent implements OnInit {
 
   constructor(private eloService: EloService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    this.eloService
-      .GetRanking()
-      .pipe(take(1))
-      .subscribe(
-        players => {
-          let sorted = players
-            .map(player => ({
-              ... player,
-              ranking: player.allScores[player.allScores.length -1],
-              matches: player.allScores.length -1, // -1 bc the initial seed is a score
-              max: Math.max(... player.allScores),
-              trend: player.allScores[player.allScores.length - 1] - player.allScores[player.allScores.length - 6]
-            }))
-            .sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
-          this.dataSource = new MatTableDataSource(sorted);
-        }
-      )
+  async ngOnInit(): Promise<void> {
+    const players = await this.eloService.GetRanking();
+
+    let sorted = players
+      .map(player => ({
+        ... player,
+        ranking: player.allScores[player.allScores.length - 1],
+        matches: player.allScores.length - 1, // -1 bc the initial seed is a score
+        max: Math.max(... player.allScores),
+        trend: player.allScores[player.allScores.length - 1] - player.allScores[player.allScores.length - 6]
+      }))
+      .sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
+    this.dataSource = new MatTableDataSource(sorted);
   }
 
   showDetailsOf(player: any) {

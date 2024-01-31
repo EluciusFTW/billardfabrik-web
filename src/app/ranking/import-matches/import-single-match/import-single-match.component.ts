@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { EloService } from '../../elo.service';
-import { take } from 'rxjs';
+import { Component, OnInit, inject } from '@angular/core';
+import { map, take } from 'rxjs';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { IncomingChallengeMatch } from '../../models/ranking-match';
 import { EloChallengeImportService } from '../../elo-challenge-import.service';
 import { TourneyFunctions } from 'src/app/tourney-series/tourney/tourney-functions';
 import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/pool-discipline';
+import { PlayersService } from 'src/app/players/players.service';
+import { PlayerFunctions } from 'src/app/players/player-functions';
 
 @Component({
   selector: 'app-import-single-match',
@@ -15,7 +16,10 @@ import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/
 })
 export class ImportSingleMatchComponent implements OnInit {
 
-  disciplines: PoolDiscipline[] = [];
+  private readonly eloService = inject(PlayersService);
+  private readonly importService = inject(EloChallengeImportService);
+
+  disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
   players: string[] = [];
   availablePlayers: string[] = [];
 
@@ -28,11 +32,7 @@ export class ImportSingleMatchComponent implements OnInit {
 
   matchForm: FormGroup;
 
-  constructor(
-    private readonly eloService: EloService,
-    private readonly importService: EloChallengeImportService
-  ) {
-    this.disciplines = [ ...POOL_DISCIPLINES ];
+  constructor() {
     this.selectDiscipline = new FormControl<string>(this.disciplines[0], [Validators.required]);
     this.selectDate = new FormControl<Date>(new Date(), [Validators.required]);
 
@@ -49,11 +49,16 @@ export class ImportSingleMatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.eloService
-      .GetParticipatingPlayerNames()
-      .pipe(take(1))
-      .subscribe(players => {
-        this.players = players;
-        this.availablePlayers = players;
+      // Replace with PlayersService getplayers with shoeForElo,
+      // then, if the elo player does not exist, create him on the first push.
+      .getEloPlayers()
+      .pipe(
+        map(players => players.map(player => PlayerFunctions.displayName(player))),
+        take(1)
+      )
+      .subscribe(playerNames => {
+        this.players = playerNames;
+        this.availablePlayers = playerNames;
       })
   }
 
