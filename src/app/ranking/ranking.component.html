@@ -11,6 +11,12 @@
     [routerLink]="'import'">
     Import
   </a>
+  <a mat-tab-link *ngIf="isLoggedIn"
+    (click)="activeLink = 'player-management'"
+    [active]="activeLink == 'player-management'"
+    [routerLink]="'player-management'">
+    Spielerverwaltung
+  </a>
 </nav>
 
 <mat-tab-nav-panel #tabPanel>

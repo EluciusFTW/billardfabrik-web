@@ -11,13 +11,13 @@
       <mat-icon class="menu-item-icon">groups</mat-icon>
       <span class="menu-item-text">Mitgliedschaft</span>
     </div>
-    <div class="menu-item" [routerLink]="'tourney-series'" routerLinkActive="bgcol-primary-darker">
-      <mat-icon class="menu-item-icon">emoji_events</mat-icon>
-      <span class="menu-item-text">Turniere</span>
-    </div>
     <div class="menu-item" [routerLink]="'ranking'" routerLinkActive="bgcol-primary-darker">
       <mat-icon class="menu-item-icon">trending_up</mat-icon>
       <span class="menu-item-text">Rangliste</span>
+    </div>
+    <div class="menu-item" [routerLink]="'tourney-series'" routerLinkActive="bgcol-primary-darker">
+      <mat-icon class="menu-item-icon">emoji_events</mat-icon>
+      <span class="menu-item-text">Turniere</span>
     </div>
     <div class="menu-item" [routerLink]="'training'" routerLinkActive="bgcol-primary-darker">
       <mat-icon class="menu-item-icon">sports_kabaddi</mat-icon>
@@ -60,6 +60,8 @@
       <button mat-menu-item [routerLink]="'ranking/players'">Rangliste</button>
       <button mat-menu-item [routerLink]="'ranking/matches'">Matches</button>
       <button mat-menu-item [routerLink]="'ranking/details'">Details</button>
+      <button *ngIf='isLoggedIn' mat-menu-item [routerLink]="'ranking/import'">Import</button>
+      <button *ngIf='isLoggedIn' mat-menu-item [routerLink]="'ranking/player-management'">Spielerverwaltung</button>
     </mat-menu>
   </div>
 

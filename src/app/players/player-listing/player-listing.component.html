@@ -9,7 +9,9 @@
     <mat-checkbox [(ngModel)]="clubPlayers" (change)="setDataSource()">Mitglieder</mat-checkbox>
     <mat-checkbox [(ngModel)]="externals" (change)="setDataSource()">Externe</mat-checkbox>
     <span class="fill-remaining-space"> </span>
-    <div style="font-size: 0.5em;">{{ nrSelected }} / {{ nrTotal }}</div>
+
+    <div style="font-size: 0.5em; padding-right:1em;">{{ nrSelected }} / {{ nrTotal }}</div>
+    <button mat-raised-button color="accent">+</button>
   </mat-toolbar>
 
   <table mat-table [dataSource]="dataSource">
