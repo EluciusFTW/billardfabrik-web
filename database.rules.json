@@ -24,6 +24,10 @@
       "playersV2": {
         ".indexOn": "show"
       }
+    },
+    "players": {
+      ".write": "auth != null",
+      ".indexOn": "clubPlayer"
     }
   }
 }
