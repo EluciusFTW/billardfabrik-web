@@ -20,8 +20,6 @@ import { PlayerFunctions } from 'src/app/players/player-functions';
 export class CreateTourneyComponent {
 
   players: TourneyPlayer[] = [];
-  private playerSub: Subscription;
-
   playModi: TourneyModeViewModel[] = [
     {
       mode: 'Gruppe + Einfach-K.O.',
@@ -37,18 +35,18 @@ export class CreateTourneyComponent {
 
   nrOfGroupsSelected: number;
 
-  raceLengths: number[] = [3, 4, 5, 6];
+  raceLengths = [3, 4, 5, 6];
   raceLengthSelected: number = 4;
 
   disciplines: PoolDiscipline[] = [ ... POOL_DISCIPLINES ];
   disciplineSelected: PoolDiscipline = '9-Ball';
 
-  firstElimination: TourneyEliminationStageType[] = [
+  firstElimination = [
     TourneyEliminationStageType.final,
     TourneyEliminationStageType.semiFinal,
     TourneyEliminationStageType.quarterFinal
   ];
-  firstEliminationSelected: TourneyEliminationStageType;
+  firstEliminationSelected = TourneyEliminationStageType.final;
 
   tourney: Tourney = <Tourney>{};
   group: TourneyGroup[];
@@ -60,11 +58,9 @@ export class CreateTourneyComponent {
     public dialog: MatDialog
   ) {
     this.selectedPlayModus = this.playModi[0];
-    this.playerSub = this.playersService
-      .getPlayers()
-      .pipe(
-        map(ps => ps.filter(p => p.showForTourneys)),
-        take(1))
+    this.playersService
+      .getTourneyPlayers()
+      .pipe(take(1))
       .subscribe(players => this.players = players);
   }
 
@@ -139,11 +135,5 @@ export class CreateTourneyComponent {
 
   typeName(type: TourneyEliminationStageType): string {
     return TourneyEliminationStageType.map(type);
-  }
-
-  ngOnDestroy() {
-    if (this.playerSub) {
-      this.playerSub.unsubscribe();
-    }
   }
 }

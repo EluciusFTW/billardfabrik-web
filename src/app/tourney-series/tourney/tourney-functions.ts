@@ -88,4 +88,8 @@ export class TourneyFunctions {
       (dd > 9 ? '' : '0') + dd
     ].join('');
   }
+
+  public static Key(tourney: Tourney): string {
+    return tourney.meta.date;
+  }
 }

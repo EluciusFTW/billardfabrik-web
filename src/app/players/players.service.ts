@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { Player } from 'src/app/players/player';
-import { Observable, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { FirebaseService } from '../shared/firebase.service';
 
 const DB_PLAYERS_LPATH = 'players';
@@ -24,6 +24,14 @@ export class PlayersService extends FirebaseService {
         .equalTo(true))
       .valueChanges()
       .pipe(map(ps => ps.filter(p => p.showForElo)))
+  }
+
+  getTourneyPlayers(): Observable<Player[]> {
+    return this.db
+      .list<Player>(DB_PLAYERS_LPATH, ref => ref
+        .orderByChild('showForTourney')
+        .equalTo(true))
+      .valueChanges()
   }
 
   updatePlayer(player: Player): Promise<void> {
