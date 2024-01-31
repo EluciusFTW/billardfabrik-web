@@ -1,22 +1,19 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TourneyPlayer } from '../models/evaluation/tourney-player';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Player } from '../player';
 
 @Component({
-  selector: 'app-tourney-player-create-dialog',
-  templateUrl: './tourney-player-create-dialog.component.html',
-  styleUrls: ['tourney-player-create-dialog.component.scss']
+  templateUrl: './player-create-dialog.component.html',
+  styleUrls: ['player-create-dialog.component.scss']
 })
-export class TourneyPlayerCreateDialogComponent {
+export class PlayerCreateDialogComponent {
 
   firstName: string;
   lastName: string;
   club: boolean = false;
   error: string = '';
 
-  constructor(
-    public dialogRef: MatDialogRef<TourneyPlayerCreateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public player: TourneyPlayer) { }
+  constructor(public dialogRef: MatDialogRef<PlayerCreateDialogComponent>) { }
 
   submit(): void {
     const firstNameError = this.validate(this.firstName)
@@ -31,12 +28,17 @@ export class TourneyPlayerCreateDialogComponent {
       return;
     }
 
-    this.player.firstName = this.firstName;
-    this.player.lastName = this.lastName;
-    this.player.clubPlayer = this.club;
-    this.player.enteredInSystem = new Date().valueOf();
+    const player: Player = {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      clubPlayer: this.club,
+      enteredInSystem: new Date().valueOf(),
+      showForElo: true,
+      showForTourneys: true,
+      showForLeaderboard: true
+    }
 
-    this.dialogRef.close(this.player);
+    this.dialogRef.close(player);
   }
 
   private validate(name: string) : string {

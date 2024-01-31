@@ -7,6 +7,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { PlayerNamePipe } from "./player-name.pipe";
+import { PlayerCreateDialogComponent } from "./player-create-dialog/player-create-dialog.component";
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { PlayerNamePipe } from "./player-name.pipe";
   ],
   declarations: [
     PlayerListingComponent,
+    PlayerCreateDialogComponent,
     PlayerNamePipe
   ],
   providers: [

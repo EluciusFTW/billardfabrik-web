@@ -4,7 +4,7 @@ import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
 import { POOL_DISCIPLINES, PoolDiscipline } from '../models/pool-discipline';
 import { Subscription, map, take } from 'rxjs';
-import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dialog/tourney-player-create-dialog.component';
+import { PlayerCreateDialogComponent } from '../../players/player-create-dialog/player-create-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
@@ -83,7 +83,7 @@ export class CreateTourneyComponent {
 
   addPlayer(): void {
     this.dialog
-      .open(TourneyPlayerCreateDialogComponent, { data: {} })
+      .open(PlayerCreateDialogComponent, { data: {} })
       .afterClosed()
       .subscribe(
         result => {

@@ -15,7 +15,6 @@ import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summa
 import { TourneyGroupComponent } from './tourney-group/tourney-group.component';
 import { TourneyGroupStageComponent } from './tourney/tourney-group-stage/tourney-group-stage.component';
 import { TourneyGroupStageAddPlayerDialogComponent } from './tourney/tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-import { TourneyPlayerCreateDialogComponent } from './tourney-player-create-dialog/tourney-player-create-dialog.component';
 import { TourneysService } from './services/tourneys.service';
 
 import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
@@ -69,7 +68,6 @@ import { PlayersModule } from '../players/players.module';
         TourneyListComponent,
         TourneyYearListComponent,
         TourneyGroupComponent,
-        TourneyPlayerCreateDialogComponent,
         ShowResultsDialogComponent,
         CreateTourneyComponent,
         TourneyGroupStageComponent,

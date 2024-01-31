@@ -4,5 +4,6 @@ export interface Player {
   clubPlayer: boolean;
   enteredInSystem: number;
   showForTourneys: boolean;
+  showForLeaderboard: boolean;
   showForElo: boolean;
 }

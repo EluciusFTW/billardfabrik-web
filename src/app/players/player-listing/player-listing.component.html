@@ -11,7 +11,7 @@
     <span class="fill-remaining-space"> </span>
 
     <div style="font-size: 0.5em; padding-right:1em;">{{ nrSelected }} / {{ nrTotal }}</div>
-    <button mat-raised-button color="accent">+</button>
+    <button mat-raised-button color="accent" (click)="addPlayer()">+</button>
   </mat-toolbar>
 
   <table mat-table [dataSource]="dataSource">

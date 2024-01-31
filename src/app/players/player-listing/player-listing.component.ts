@@ -3,6 +3,9 @@ import { Player } from '../player';
 import { PlayersService } from '../players.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { take } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { PlayerCreateDialogComponent } from '../player-create-dialog/player-create-dialog.component';
+import { PlayerFunctions } from '../player-functions';
 
 @Component({
   selector: 'app-player-listing',
@@ -12,14 +15,17 @@ import { take } from 'rxjs';
 export class PlayerListingComponent {
 
   private readonly playersService = inject(PlayersService);
+  public dialog = inject(MatDialog);
 
   clubPlayers = true;
   externals = true;
 
   nrSelected = 0;
-  nrTotal = 0;
-
   players: Player[];
+  get nrTotal() {
+    return this.players?.length ?? 0;
+  }
+
   dataSource = new MatTableDataSource<Player>();
   displayedColumns = ['name', 'club', 'showForTourneys', 'showForLeaderboard', 'showForElo'];
 
@@ -29,24 +35,37 @@ export class PlayerListingComponent {
       .pipe(take(1))
       .subscribe(players => {
         this.players = players
-        this.nrTotal = players.length;
         this.setDataSource();
       });
   }
 
-
   setDataSource(): void {
-    const filteredMatches = this.players
-      .filter(match =>
-        this.clubPlayers && match.clubPlayer
-        || this.externals && !match.clubPlayer)
+    const filteredPlayers = this.players
+      .filter(player =>
+        this.clubPlayers && player.clubPlayer
+        || this.externals && !player.clubPlayer)
 
-    this.nrSelected = filteredMatches.length;
-    this.dataSource = new MatTableDataSource(filteredMatches);
+    this.nrSelected = filteredPlayers.length;
+    this.dataSource = new MatTableDataSource(filteredPlayers);
   }
 
-  update(player: Player): void {
-    this.playersService.updatePlayer(player);
+  addPlayer(): void {
+    this.dialog
+      .open(PlayerCreateDialogComponent, { data: {} })
+      .afterClosed()
+      .subscribe(
+        result => {
+          if (result) {
+            const player = result as Player;
+            this.playersService.createPlayer(player)
+            this.players.push(player);
+            this.players.sort(PlayerFunctions.sortPlayers);
+            this.setDataSource();
+          }});
+  }
+
+  async update(player: Player): Promise<void> {
+    await this.playersService.updatePlayer(player);
   }
 
   setp(): void {
