@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { first, map } from 'rxjs/operators';
 import { TourneyPlayerEvaluation } from '../models/evaluation/tourney-player-evaluation';
@@ -10,22 +10,30 @@ import { PlayerResultsRecord } from '../models/evaluation/player-results-record'
 import { TourneyFunctions } from '../tourney/tourney-functions';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
+import { PlayersService as PS } from 'src/app/players/players.service';
 
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
 
 @Injectable()
 export class PlayersService extends FirebaseService {
-  private readonly messageService = inject(OwnMessageService);
+  private readonly playersService = inject(PS);
 
-  getAllLeaderboardPlayers(start: string, end: string): Observable<LeaderBoardPlayer[]> {
-    return this.db
+  async getAllLeaderboardPlayers(start: string, end: string): Promise<LeaderBoardPlayer[]> {
+    const leaderBoardParticipants = await firstValueFrom(
+      this.playersService
+        .getLeaderBoardPlayers()
+        .pipe(map(players => players.map(player => PlayerFunctions.keyFromPlayer(player))))
+      );
+
+    return firstValueFrom(this.db
       .list<PlayerResultsRecord>(DB_PLAYERRESULTS_LPATH)
       .snapshotChanges()
       .pipe(
         map(snapshots => snapshots
+          .filter(snapshot => leaderBoardParticipants.includes(snapshot.payload.key))
           .map(snapshot => this.toLeaderBoardPlayer(snapshot.payload.key, snapshot.payload.val(), start, end))
           .filter(player => player.participations > 0))
-      );
+      ));
   }
 
   private toLeaderBoardPlayer(nameKey: string, player: PlayerResultsRecord, start: string, end: string): LeaderBoardPlayer {

@@ -21,7 +21,7 @@ export class PlayerListingComponent {
 
   players: Player[];
   dataSource = new MatTableDataSource<Player>();
-  displayedColumns = ['name', 'club', 'showForTourneys', 'showForElo'];
+  displayedColumns = ['name', 'club', 'showForTourneys', 'showForLeaderboard', 'showForElo'];
 
   ngOnInit(): void {
     this.playersService

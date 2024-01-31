@@ -29,7 +29,15 @@ export class PlayersService extends FirebaseService {
   getTourneyPlayers(): Observable<Player[]> {
     return this.db
       .list<Player>(DB_PLAYERS_LPATH, ref => ref
-        .orderByChild('showForTourney')
+        .orderByChild('showForTourneys')
+        .equalTo(true))
+      .valueChanges()
+  }
+
+  getLeaderBoardPlayers(): Observable<Player[]> {
+    return this.db
+      .list<Player>(DB_PLAYERS_LPATH, ref => ref
+        .orderByChild('showForLeaderboard')
         .equalTo(true))
       .valueChanges()
   }
