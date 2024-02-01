@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { EloService } from '../../elo.service';
 import { TourneysService } from 'src/app/tourney-series/services/tourneys.service';
 import { Tourney } from 'src/app/tourney-series/models/tourney';
@@ -12,24 +12,20 @@ import { EloTourneyImportService } from '../../elo-tourney-import.service';
   templateUrl: './import-tourney.component.html'
 })
 export class ImportTourneyComponent implements OnInit {
+  private readonly tourneyImportService = inject(EloTourneyImportService);
+  private readonly tourneysService = inject(TourneysService);
 
   lastImported = ''
   noTourneys = false;
   unimportedTourneys: MatTableDataSource<Tourney>;
   displayedColumns = ['name', 'date', 'status'];
 
-  constructor(
-    private readonly eloService: EloService,
-    private readonly tourneyImportService: EloTourneyImportService,
-    private readonly tourneysService: TourneysService) {
-  }
-
   async ngOnInit() {
     await this.loadData();
   }
 
   private async loadData(): Promise<void> {
-    this.lastImported = await this.eloService.GetLastTourneyDate();
+    this.lastImported = await this.tourneyImportService.GetLastTourneyDate();
     this.tourneysService
       .getAfter(this.lastImported)
       .pipe(take(1))
@@ -54,10 +50,6 @@ export class ImportTourneyComponent implements OnInit {
 
     await Promise.all(imports);
     await this.loadData();
-  }
-
-  async reset() {
-    await this.eloService.reset();
   }
 
   private async importTourney(tourney: Tourney): Promise<void> {

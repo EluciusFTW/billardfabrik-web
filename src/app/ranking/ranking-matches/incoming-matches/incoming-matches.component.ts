@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { EloService } from '../../elo.service';
-import { Subscription, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/authentication/user.service';
+import { EloRankingService } from '../../elo-ranking.service';
 
 @Component({
   selector: 'app-incoming-matches',
@@ -11,16 +12,14 @@ import { UserService } from 'src/app/authentication/user.service';
   styleUrls: ['../ranked-matches/ranked-matches.component.scss']
 })
 export class IncomingMatchesComponent {
-  unrankedMatchSubscription: Subscription;
+  private readonly eloService = inject(EloService);
+  private readonly eloRankingService = inject(EloRankingService);
+  private readonly userService = inject(UserService);
 
+  unrankedMatchSubscription: Subscription;
   unrankedMatches: IncomingMatch[];
   dataSource = new MatTableDataSource<IncomingMatch>();
   displayedColumns = ['date', 'p1', 'p2', 'score'];
-
-  constructor(
-    private readonly eloService: EloService,
-    private readonly userService: UserService)
-  { }
 
   ngOnInit(): void {
     this.SetDataSource();
@@ -36,7 +35,7 @@ export class IncomingMatchesComponent {
   }
 
   private async SetDataSource() {
-    const matches = await this.eloService.GetUnrankedMatches();
+    const matches = await this.eloRankingService.GetUnrankedMatches();
     this.unrankedMatches = matches
       .map(match => ({
         ...match,

@@ -1,13 +1,8 @@
-export type HasName = {
-  name: string;
-}
-
 export type EloPlayerData = {
-  show: boolean;
   changes: EloDataPoint[];
 }
 
-export type EloPlayer = HasName & EloPlayerData;
+export type EloPlayer = EloPlayerData & { name: string; };
 
 export type EloScores = {
   cla: number;

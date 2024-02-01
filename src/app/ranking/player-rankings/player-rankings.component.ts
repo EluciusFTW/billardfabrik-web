@@ -5,6 +5,7 @@ import { take, pipe } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerProgressionDialogComponent } from './player-progression-dialog.component';
 import { ComputedRankingPlayer } from '../models/ranking-player';
+import { EloRankingService } from '../elo-ranking.service';
 
 @Component({
   templateUrl: './player-rankings.component.html',
@@ -16,10 +17,10 @@ export class PlayerRankingsComponent implements OnInit {
   dataSource = new MatTableDataSource<ComputedRankingPlayer>();
   displayedColumns = ['place', 'name', 'matches', 'trend', 'max', 'ranking'];
 
-  constructor(private eloService: EloService, private dialog: MatDialog) { }
+  constructor(private eloRankingService: EloRankingService, private dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
-    const players = await this.eloService.GetRanking();
+    const players = await this.eloRankingService.GetRanking();
 
     let sorted = players
       .map(player => ({
@@ -30,10 +31,11 @@ export class PlayerRankingsComponent implements OnInit {
         trend: player.allScores[player.allScores.length - 1] - player.allScores[player.allScores.length - 6]
       }))
       .sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
-    this.dataSource = new MatTableDataSource(sorted);
+
+      this.dataSource = new MatTableDataSource(sorted);
   }
 
-  showDetailsOf(player: any) {
+  showDetailsOf(player: ComputedRankingPlayer) {
     this.dialog.open(PlayerProgressionDialogComponent, {
       data: player,
       width: '80%',
