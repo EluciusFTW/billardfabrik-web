@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { map, take } from 'rxjs';
+import { firstValueFrom, map, take } from 'rxjs';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { IncomingChallengeMatch } from '../../models/ranking-match';
@@ -20,7 +20,6 @@ export class ImportSingleMatchComponent implements OnInit {
   private readonly importService = inject(EloChallengeImportService);
 
   disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
-  players: string[] = [];
   availablePlayers: string[] = [];
 
   selectDiscipline: FormControl<string>;
@@ -47,19 +46,11 @@ export class ImportSingleMatchComponent implements OnInit {
     { validators: [duplicatePlayerValidator, noWinnerValidator] });
   }
 
-  ngOnInit(): void {
-    this.eloService
-      // Replace with PlayersService getplayers with shoeForElo,
-      // then, if the elo player does not exist, create him on the first push.
-      .getEloPlayers()
-      .pipe(
-        map(players => players.map(player => PlayerFunctions.displayName(player))),
-        take(1)
-      )
-      .subscribe(playerNames => {
-        this.players = playerNames;
-        this.availablePlayers = playerNames;
-      })
+  async ngOnInit() {
+    this.availablePlayers = await firstValueFrom(
+      this.eloService
+        .getEloPlayers()
+        .pipe(map(players => players.map(PlayerFunctions.displayName))));
   }
 
   get p1s() {
@@ -89,7 +80,7 @@ export class ImportSingleMatchComponent implements OnInit {
       source: 'Challenge'
     }
 
-    this.importService.ImportSingleMatch(match);
+    this.importService.Import(match);
   }
 }
 

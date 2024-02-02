@@ -42,21 +42,23 @@ export class EloRankingService extends FirebaseService {
         .object(DB_NEW_PLAYERS_PATH)
         .valueChanges()
         .pipe(
-          map(value => Object
-            .entries(value)
-            .map(kvp => ({
-                name: PlayerFunctions.nameFromKey(kvp[0]),
-                ... kvp[1]
-              } as EloPlayer))
-            .filter(player => player.changes.length < this.lowerBoundOnGames)
-            .filter(player => playerNames.includes(player.name)
-        ))));
+          map(value => value
+            ? Object
+                .entries(value)
+                .map(kvp => ({
+                    name: PlayerFunctions.nameFromKey(kvp[0]),
+                    ... kvp[1]
+                  } as EloPlayer))
+                .filter(player => player.changes.length < this.lowerBoundOnGames)
+                .filter(player => playerNames.includes(player.name))
+            : []
+        )));
   }
 
   private GetPlayerNames(): Promise<string[]> {
     const playerNames$ = this.playersService
       .getEloPlayers()
-      .pipe(map(ps => ps.map(p => PlayerFunctions.displayName(p))))
+      .pipe(map(players => players.map(PlayerFunctions.displayName)));
     return firstValueFrom(playerNames$);
   }
 

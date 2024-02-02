@@ -19,7 +19,6 @@
         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
         <div class="error-message" *ngIf="selectDate.errors?.['inTheFuture']">Das Spiel muss schon stattgefunden haben</div>
       </mat-form-field>
-
     </div>
 
     <div class="row-1">
@@ -58,7 +57,5 @@
       </mat-form-field>
     </div>
     <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Speichern</button>
-
-
   </form>
 </app-content-tile>
