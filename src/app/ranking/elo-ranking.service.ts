@@ -28,7 +28,7 @@ export class EloRankingService extends FirebaseService {
               name: PlayerFunctions.nameFromKey(playerSnapshot.key),
               allScores: playerSnapshot.payload
                 .val().changes
-                .map(match => match.wnb),
+                .map(match => match.bvf),
               }))
             .filter(player => playerNames.includes(player.name))
           )));
@@ -77,9 +77,21 @@ export class EloRankingService extends FirebaseService {
       .list<IncomingMatch>(DB_INCOMING_CHALLENGE_MATCHES_LPATH)
       .snapshotChanges())
 
-    return tourneySnapshots
+    const allMatches = tourneySnapshots
       .concat(challengeSnapshots)
       .map(item => item.payload)
       .map(match => ({ key: match.key, ...match.val()}));
+
+    return allMatches.sort(this.compare)
+  }
+
+  private compare(a, b) {
+    if ( a.key < b.key ){
+      return -1;
+    }
+    if ( a.key > b.key ){
+      return 1;
+    }
+    return 0;
   }
 }
