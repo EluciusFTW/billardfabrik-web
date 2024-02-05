@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
-import { EloService } from '../../elo.service';
-import { take } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
+import { EloRankingService } from '../../elo-ranking.service';
 
 @Component({
   selector: 'app-ranked-matches',
@@ -10,39 +10,13 @@ import { take } from 'rxjs';
   styleUrls: ['./ranked-matches.component.scss']
 })
 export class RankedMatchesComponent implements OnInit {
-  rankingMatches: IncomingMatch[];
-  dataSource = new MatTableDataSource<IncomingMatch>();
-  includeTourneys = true;
-  includeChallenges = true;
+  private readonly eloRankingService = inject(EloRankingService);
+
+  dataSource = new MatTableDataSource<IncomingMatch>([]);
   displayedColumns = ['date', 'p1', 'p2', 'score', 'diff'];
 
-  constructor(private eloService: EloService) { }
-
-  ngOnInit(): void {
-    this.eloService
-      .GetRankedMatches()
-      .pipe(take(1))
-      .subscribe(
-        matches => {
-          this.rankingMatches = matches
-            .map(match => ({
-                ... match,
-                p1: match.playerOne.name,
-                p2: match.playerTwo.name
-            }))
-            .reverse();
-
-          this.setDataSource();
-        }
-      )
-  }
-
-  setDataSource() {
-    const filteredMatches = this.rankingMatches
-      .filter(match =>
-        this.includeTourneys && match.source === 'Tourney'
-        || this.includeChallenges && match.source === 'Challenge')
-
-    this.dataSource = new MatTableDataSource(filteredMatches);
+  async ngOnInit() {
+    const matches = await firstValueFrom(this.eloRankingService.GetRankedTourneyMatches(50));
+    this.dataSource = new MatTableDataSource(matches.reverse());
   }
 }

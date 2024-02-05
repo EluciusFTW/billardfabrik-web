@@ -1,0 +1,55 @@
+
+<app-content-tile [header]="'Spielerverwaltung'">
+  <p>
+    Hier kannst Du neue Spieler anlegen, sowie Spieler für Turniere und die Elo-Rangliste freischalten.
+    Beachte, dass nur Mitglieder für die Elo-Rangliste freigeschaltet werden können.
+  </p>
+
+  <mat-toolbar>
+    <mat-checkbox [(ngModel)]="clubPlayers" (change)="setDataSource()">Mitglieder</mat-checkbox>
+    <mat-checkbox [(ngModel)]="externals" (change)="setDataSource()">Externe</mat-checkbox>
+    <span class="fill-remaining-space"> </span>
+
+    <div style="font-size: 0.5em; padding-right:1em;">{{ nrSelected }} / {{ nrTotal }}</div>
+    <button mat-raised-button color="accent" (click)="addPlayer()">+</button>
+  </mat-toolbar>
+
+  <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let player"> {{ player | name }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="club">
+      <th mat-header-cell *matHeaderCellDef> Mitglied </th>
+      <td mat-cell *matCellDef="let player">
+        <mat-checkbox [(ngModel)]="player.clubPlayer" (change)="update(player)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="showForTourneys">
+      <th mat-header-cell *matHeaderCellDef> Turniere </th>
+      <td mat-cell *matCellDef="let player">
+        <mat-checkbox [(ngModel)]="player.showForTourneys" (change)="update(player)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="showForLeaderboard">
+      <th mat-header-cell *matHeaderCellDef> Leaderboard </th>
+      <td mat-cell *matCellDef="let player">
+        <mat-checkbox [(ngModel)]="player.showForLeaderboard" (change)="update(player)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="showForElo">
+      <th mat-header-cell *matHeaderCellDef> Elo </th>
+      <td mat-cell *matCellDef="let player">
+        <mat-checkbox *ngIf="!player.clubPlayer" disabled></mat-checkbox>
+        <mat-checkbox *ngIf="player.clubPlayer" [(ngModel)]="player.showForElo" (change)="update(player)"></mat-checkbox>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+  </table>
+</app-content-tile>

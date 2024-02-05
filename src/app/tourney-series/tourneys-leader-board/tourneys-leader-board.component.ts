@@ -24,15 +24,10 @@ export class TourneysLeaderBoardComponent implements OnInit {
 
   constructor(private playersService: PlayersService) { }
 
-  ngOnInit(): void {
-    this.playersService
-      .getAllLeaderboardPlayers(this.startingAt, this.endingAt)
-      .pipe(take(1))
-      .subscribe(
-        leaderBoardPlayers => {
-          this.leaderBoardPlayers = leaderBoardPlayers.sort((playerOne, playerTwo) => playerTwo.points - playerOne.points);
-          this.leaderBoardDataSource = new MatTableDataSource<LeaderBoardPlayer>(this.leaderBoardPlayers);
-        }
-      )
+  async ngOnInit(): Promise<void> {
+    let players = await this.playersService.getAllLeaderboardPlayers(this.startingAt, this.endingAt);
+
+    this.leaderBoardPlayers = players.sort((playerOne, playerTwo) => playerTwo.points - playerOne.points);
+    this.leaderBoardDataSource = new MatTableDataSource<LeaderBoardPlayer>(this.leaderBoardPlayers);
   }
 }

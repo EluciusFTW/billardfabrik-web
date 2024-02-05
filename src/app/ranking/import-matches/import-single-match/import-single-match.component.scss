@@ -1,0 +1,18 @@
+.points {
+  width: 6em;
+}
+
+.other {
+  width: 20em;
+}
+
+:host{
+  --mdc-filled-text-field-label-text-size: 12px;
+  --mdc-filled-text-field-input-text-size: 4px;
+}
+
+.error-message {
+  color: var(--color-error);
+  font-size: .5em;
+  line-height: 1;
+}

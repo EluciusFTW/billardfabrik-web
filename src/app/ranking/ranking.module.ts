@@ -4,7 +4,7 @@ import { RankingComponent } from './ranking.component';
 import { RankingRoutingModule } from './ranking-routing.module';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { PlayerRankingsComponent } from './player-rankings/player-rankings.component';
 import { EloService } from './elo.service';
@@ -14,12 +14,15 @@ import { NgChartsModule } from 'ng2-charts';
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 import { EloDemoTableComponent } from './scoring-details/elo-demo-table/elo-demo-table.component';
 import { ImportMatchesComponent } from './import-matches/import-matches.component';
-import { EloImportService } from './elo-import.service';
+import { EloTourneyImportService } from './elo-tourney-import.service';
 import { ImportSingleMatchComponent } from './import-matches/import-single-match/import-single-match.component';
 import { ImportTourneyComponent } from './import-matches/import-tourney/import-tourney.component';
 import { TourneysModule } from '../tourney-series/tourneys.module';
 import { IncomingMatchesComponent } from './ranking-matches/incoming-matches/incoming-matches.component';
 import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-matches.component';
+import { EloChallengeImportService } from './elo-challenge-import.service';
+import { EloRankingService } from './elo-ranking.service';
+import { RankedChallengesComponent } from './ranking-matches/ranked-challenges/ranked-challenges.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,8 @@ import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-
     ImportSingleMatchComponent,
     ImportTourneyComponent,
     IncomingMatchesComponent,
-    RankedMatchesComponent
+    RankedMatchesComponent,
+    RankedChallengesComponent
   ],
   imports: [
     RankingRoutingModule,
@@ -43,11 +47,14 @@ import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-
     MaterialModule,
     NgChartsModule,
     FormsModule,
+    ReactiveFormsModule,
     SharedModule
   ],
   providers: [
-    EloService, 
-    EloImportService
+    EloService,
+    EloTourneyImportService,
+    EloChallengeImportService,
+    EloRankingService
   ]
 })
 export class RankingModule { }

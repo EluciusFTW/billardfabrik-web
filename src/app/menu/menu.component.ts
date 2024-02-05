@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { UserService } from '../authentication/user.service';
 
 @Component({
   selector: 'app-menu',
@@ -6,4 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent {
+  private readonly userService = inject(UserService);
+
+  get isLoggedIn(): boolean {
+    return this.userService.isLoggedIn();
+  }
 }

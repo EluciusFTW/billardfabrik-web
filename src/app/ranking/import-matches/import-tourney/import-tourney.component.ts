@@ -1,35 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { EloService } from '../../elo.service';
 import { TourneysService } from 'src/app/tourney-series/services/tourneys.service';
 import { Tourney } from 'src/app/tourney-series/models/tourney';
 import { take } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { TourneyStatus, TourneyStatusMapper } from 'src/app/tourney-series/models/tourney-status';
-import { EloImportService } from '../../elo-import.service';
+import { EloTourneyImportService } from '../../elo-tourney-import.service';
+import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 
 @Component({
   selector: 'app-import-tourney',
   templateUrl: './import-tourney.component.html'
 })
 export class ImportTourneyComponent implements OnInit {
+  private readonly tourneyImportService = inject(EloTourneyImportService);
+  private readonly tourneysService = inject(TourneysService);
+  private readonly messager = inject(OwnMessageService);
 
   lastImported = ''
-  noTourneys = false;
+  noTourneys = true;
   unimportedTourneys: MatTableDataSource<Tourney>;
   displayedColumns = ['name', 'date', 'status'];
-
-  constructor(
-    private readonly eloService: EloService,
-    private readonly eloImportService: EloImportService,
-    private readonly tourneysService: TourneysService) {
-  }
 
   async ngOnInit() {
     await this.loadData();
   }
 
   private async loadData(): Promise<void> {
-    this.lastImported = await this.eloService.GetLastTourneyDate();
+    this.lastImported = await this.tourneyImportService.GetLastTourneyDate();
     this.tourneysService
       .getAfter(this.lastImported)
       .pipe(take(1))
@@ -52,19 +50,14 @@ export class ImportTourneyComponent implements OnInit {
   async importBatch() {
     const imports = this.unimportedTourneys.data.map(tourney => this.importTourney(tourney));
 
-    await Promise.all(imports);
+    await Promise
+      .all(imports)
+      .then(_ => this.messager.success(`${this.unimportedTourneys.data.length} Turniere erfolgreich importiert!`));
+
     await this.loadData();
   }
 
-  // async reset() {
-  //   await this.eloService.reset();
-  // }
-
   private async importTourney(tourney: Tourney): Promise<void> {
-    let importedPlayers = await this.eloImportService.ImportPlayers(tourney);
-    console.log('Imported Players: ', importedPlayers);
-
-    let importedMatches = await this.eloImportService.ImportMatches(tourney);
-    console.log('Imported Matches: ', importedMatches);
+    await this.tourneyImportService.ImportTourney(tourney);
   }
 }

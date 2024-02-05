@@ -15,7 +15,7 @@ export class TourneyFunctions {
   }
 
   public static GetPlayers(tourney: Tourney): string[] {
-    return tourney.meta.modus === TourneyMode.GroupsThenSingleElimination
+    return tourney.meta.modus === 'Gruppe + Einfach-K.O.'
       ? this.GetPlayersFromGroups(tourney)
       : this.GetPlayersFromEntryStage(tourney)
   }
@@ -28,7 +28,7 @@ export class TourneyFunctions {
   }
 
   private static GetPlayersFromGroups(tourney: Tourney): string[] {
-    return tourney.groups?.flatMap(g => g.players) || [];
+    return tourney.groups?.flatMap(group => group.players) || [];
   }
 
   public static GetMatches(tourney: Tourney): Match[] {
@@ -87,5 +87,9 @@ export class TourneyFunctions {
       (mm > 9 ? '' : '0') + mm,
       (dd > 9 ? '' : '0') + dd
     ].join('');
+  }
+
+  public static Key(tourney: Tourney): string {
+    return tourney.meta.date;
   }
 }

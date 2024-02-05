@@ -2,17 +2,17 @@ import { Component } from '@angular/core';
 import { TourneyCreationService } from '../services/creation/tourney-creation.service';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
-import { PoolDisciplineMapper, PoolDiscipline } from '../models/pool-discipline';
-import { Subscription } from 'rxjs';
-import { PlayersService } from '../services/players.service';
-import { TourneyPlayerCreateDialogComponent } from '../tourney-player-create-dialog/tourney-player-create-dialog.component';
+import { POOL_DISCIPLINES, PoolDiscipline } from '../models/pool-discipline';
+import { Subscription, map, take } from 'rxjs';
+import { PlayerCreateDialogComponent } from '../../players/player-create-dialog/player-create-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
-import { TourneyMode } from '../models/tourney-mode';
 import { TourneyInfo } from '../models/tourney-info';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { TourneyModeViewModel } from './tourney-mode-view-model';
+import { PlayersService } from 'src/app/players/players.service';
+import { PlayerFunctions } from 'src/app/players/player-functions';
 
 @Component({
   templateUrl: './create-tourney.component.html',
@@ -20,18 +20,14 @@ import { TourneyModeViewModel } from './tourney-mode-view-model';
 export class CreateTourneyComponent {
 
   players: TourneyPlayer[] = [];
-  private playerSub: Subscription;
-
   playModi: TourneyModeViewModel[] = [
     {
-      label: 'Gruppen + Einfach-K.O.',
-      mode: TourneyMode.GroupsThenSingleElimination,
+      mode: 'Gruppe + Einfach-K.O.',
       hasFirstElimination: false,
       hasGroups: true
     },
     {
-      label: 'Doppel-K.O.',
-      mode: TourneyMode.DoubleElimination,
+      mode: 'Doppel-K.O.',
       hasFirstElimination: true,
       hasGroups: false
     }];
@@ -39,18 +35,18 @@ export class CreateTourneyComponent {
 
   nrOfGroupsSelected: number;
 
-  raceLengths: number[] = [3, 4, 5, 6];
+  raceLengths = [3, 4, 5, 6];
   raceLengthSelected: number = 4;
 
-  disciplines: string[] = [];
-  disciplineSelected: string;
+  disciplines: PoolDiscipline[] = [ ... POOL_DISCIPLINES ];
+  disciplineSelected: PoolDiscipline = '9-Ball';
 
-  firstElimination: TourneyEliminationStageType[] = [
+  firstElimination = [
     TourneyEliminationStageType.final,
     TourneyEliminationStageType.semiFinal,
     TourneyEliminationStageType.quarterFinal
   ];
-  firstEliminationSelected: TourneyEliminationStageType;
+  firstEliminationSelected = TourneyEliminationStageType.final;
 
   tourney: Tourney = <Tourney>{};
   group: TourneyGroup[];
@@ -61,18 +57,11 @@ export class CreateTourneyComponent {
     private playersService: PlayersService,
     public dialog: MatDialog
   ) {
-    this.disciplines = PoolDisciplineMapper.getAllValues();
-    this.disciplineSelected = PoolDisciplineMapper.map(PoolDiscipline.NineBall);
-
-    this.playerSub = this.playersService
-      .getAllTourneyPlayers()
-      .subscribe(
-        players => {
-          const currentPlayerNames = this.players.map(player => this.displayName(player));
-          const newPlayers = players.filter(player => !currentPlayerNames.includes(this.displayName(player)));
-          newPlayers.forEach(player => this.players.push(player));
-        },
-    );
+    this.selectedPlayModus = this.playModi[0];
+    this.playersService
+      .getTourneyPlayers()
+      .pipe(take(1))
+      .subscribe(players => this.players = players);
   }
 
   playerSelectionChange(event: any): void {
@@ -94,13 +83,15 @@ export class CreateTourneyComponent {
 
   addPlayer(): void {
     this.dialog
-      .open(TourneyPlayerCreateDialogComponent, { data: {} })
+      .open(PlayerCreateDialogComponent, { data: {} })
       .afterClosed()
       .subscribe(
         result => {
           if (result) {
-            const returnItem = result as TourneyPlayer;
-            this.playersService.updatePlayer(returnItem);
+            const player = result as TourneyPlayer;
+            this.playersService
+              .createPlayer(player)
+              .then(_ => this.players.push(player));
           }
         }
       )
@@ -109,17 +100,17 @@ export class CreateTourneyComponent {
   submitSelected(selectedItems: any[]): void {
     let selectedPlayerNames = selectedItems
       .map(item => item.value)
-      .map(player => this.displayName(player));
+      .map(player => PlayerFunctions.displayName(player));
 
     let info = {
       players: selectedPlayerNames,
       raceLength: this.raceLengthSelected,
-      discipline: PoolDisciplineMapper.mapToEnum(this.disciplineSelected),
+      discipline: this.disciplineSelected,
       name: 'Donnerstags-Turnier',
       mode: this.selectedPlayModus.mode
     };
 
-    this.tourney = this.selectedPlayModus.mode === TourneyMode.GroupsThenSingleElimination
+    this.tourney = this.selectedPlayModus.mode === 'Gruppe + Einfach-K.O.'
       ? this.createSingle(info)
       : this.createDouble(info)
 
@@ -142,17 +133,7 @@ export class CreateTourneyComponent {
     return this.createTourneyService.createDouble(enrichedInfo);
   }
 
-  displayName(player: TourneyPlayer): string {
-    return `${player.firstName} ${player.lastName}`;
-  }
-
   typeName(type: TourneyEliminationStageType): string {
     return TourneyEliminationStageType.map(type);
-  }
-
-  ngOnDestroy() {
-    if (this.playerSub) {
-      this.playerSub.unsubscribe();
-    }
   }
 }

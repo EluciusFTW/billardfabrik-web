@@ -6,6 +6,7 @@ import { RankingMatchesComponent } from './ranking-matches/ranking-matches.compo
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 import { ImportMatchesComponent } from './import-matches/import-matches.component';
 import { UserGuard } from '../authentication/guards/user.guard';
+import { PlayerListingComponent } from '../players/player-listing/player-listing.component';
 
 const routes: Routes = [{
   path: 'ranking',
@@ -16,15 +17,16 @@ const routes: Routes = [{
     { path: 'matches', component: RankingMatchesComponent },
     { path: 'details', component: ScoringDetailsComponent },
     { path: 'import', component: ImportMatchesComponent, canActivate: [UserGuard] },
+    { path: 'player-management', component: PlayerListingComponent, canActivate: [UserGuard] }
   ]
 }];
 
 @NgModule({
-imports: [
-  RouterModule.forChild(routes)
-],
-exports: [
-  RouterModule
-]
+  imports: [
+    RouterModule.forChild(routes)
+  ],
+  exports: [
+    RouterModule
+  ]
 })
 export class RankingRoutingModule { }

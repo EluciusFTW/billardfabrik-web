@@ -1,7 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TourneyPlayer } from '../models/evaluation/tourney-player';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { Injectable, inject } from '@angular/core';
+import { Observable, firstValueFrom } from 'rxjs';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { first, map } from 'rxjs/operators';
 import { TourneyPlayerEvaluation } from '../models/evaluation/tourney-player-evaluation';
@@ -10,33 +8,32 @@ import { TourneyPlacementType } from '../models/evaluation/tourney-placement-typ
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { PlayerResultsRecord } from '../models/evaluation/player-results-record';
 import { TourneyFunctions } from '../tourney/tourney-functions';
+import { FirebaseService } from 'src/app/shared/firebase.service';
+import { PlayerFunctions } from 'src/app/players/player-functions';
+import { PlayersService as PS } from 'src/app/players/players.service';
 
-const DB_PLAYERS_LPATH = 'tourneySeries/players';
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
 
 @Injectable()
-export class PlayersService {
+export class PlayersService extends FirebaseService {
+  private readonly playersService = inject(PS);
 
-  constructor(private db: AngularFireDatabase, private messageService: OwnMessageService) { }
-
-  getAllTourneyPlayers(): Observable<TourneyPlayer[]> {
-    return this.db
-      .list<TourneyPlayer>(DB_PLAYERS_LPATH)
-      .snapshotChanges()
-      .pipe(
-        map(changes => <TourneyPlayer[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() })))
+  async getAllLeaderboardPlayers(start: string, end: string): Promise<LeaderBoardPlayer[]> {
+    const leaderBoardParticipants = await firstValueFrom(
+      this.playersService
+        .getLeaderBoardPlayers()
+        .pipe(map(players => players.map(player => PlayerFunctions.keyFromPlayer(player))))
       );
-  }
 
-  getAllLeaderboardPlayers(start: string, end: string): Observable<LeaderBoardPlayer[]> {
-    return this.db
+    return firstValueFrom(this.db
       .list<PlayerResultsRecord>(DB_PLAYERRESULTS_LPATH)
       .snapshotChanges()
       .pipe(
         map(snapshots => snapshots
+          .filter(snapshot => leaderBoardParticipants.includes(snapshot.payload.key))
           .map(snapshot => this.toLeaderBoardPlayer(snapshot.payload.key, snapshot.payload.val(), start, end))
           .filter(player => player.participations > 0))
-      );
+      ));
   }
 
   private toLeaderBoardPlayer(nameKey: string, player: PlayerResultsRecord, start: string, end: string): LeaderBoardPlayer {
@@ -53,7 +50,7 @@ export class PlayersService {
       .filter(match => match.when <= latestTick);
 
     return {
-      name: this.nameFromKey(nameKey),
+      name: PlayerFunctions.nameFromKey(nameKey),
       points: placements.reduce((acc, curr) => acc + curr.points, 0),
       participations: placements.length,
       winPercentage: matches.filter(m => m.myScore > m.oppScore).length / matches.length,
@@ -66,25 +63,6 @@ export class PlayersService {
         bronze: placements.filter(record => record.placement === TourneyPlacementType.Third).length
       },
     }
-  }
-
-  updatePlayer(item: TourneyPlayer): void {
-    const key = this.getKey(item);
-    if (!!key) {
-      this.db
-        .list(DB_PLAYERS_LPATH)
-        .update(key, item);
-    } else {
-      this.saveItem(item);
-    }
-  }
-
-  saveItem(player: TourneyPlayer): void {
-    this.messageService.success('Save called ');
-
-    this.db
-      .object(DB_PLAYERS_LPATH + '/' + this.keyFromPlayer(player))
-      .set(player);
   }
 
   AddPlayerRecord(evaluation: TourneyPlayerEvaluation): void {
@@ -101,36 +79,17 @@ export class PlayersService {
       .snapshotChanges()
       .pipe(
         first(),
-        map(changes => <PlayerMatchRecord[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))),
-      )
+        map(changes => <PlayerMatchRecord[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))))
       .subscribe(
         matches => {
           if (!matches.find(m => m.opponent === match.opponent && m.type === match.type)) {
             this.db
               .list<PlayerMatchRecord>(matchesPath)
               .push(match);
-          }
-        }
-      );
+          }});
   }
 
   private playerResultsKey(name: string): string {
-    return DB_PLAYERRESULTS_LPATH + '/' + this.keyFromName(name);
-  }
-
-  private getKey(n: TourneyPlayer): string {
-    return (<any>n).key;
-  }
-
-  private keyFromPlayer(player: TourneyPlayer): string {
-    return player.firstName + '_' + player.lastName;
-  }
-
-  private keyFromName(name: string): string {
-    return name.replace(' ', '_');
-  }
-
-  private nameFromKey(name: string): string {
-    return name.replace('_', ' ');
+    return DB_PLAYERRESULTS_LPATH + '/' + PlayerFunctions.keyFromName(name);
   }
 }

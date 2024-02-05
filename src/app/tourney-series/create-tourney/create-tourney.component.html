@@ -4,7 +4,7 @@
     <div style="display:flex; flex-direction: column; width: 60%">
       <mat-selection-list #selectPlayers style="flex-grow: 1;" (selectionChange)="playerSelectionChange($event)">
         <mat-list-option style="height: auto; font-size: 1em;" *ngFor="let player of players" [value]="player">
-          {{ this.displayName(player) }}
+          {{ player | name }}
         </mat-list-option>
       </mat-selection-list>
 
@@ -19,16 +19,16 @@
         <span>{{selectPlayers.selectedOptions.selected.length}}</span>
       </div>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Spielmodus</mat-label>
         <mat-select [(value)]="selectedPlayModus">
           <mat-option *ngFor="let modus of playModi" [value]="modus">
-            {{ modus.label }}
+            {{ modus.mode }}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="selectedPlayModus?.hasGroups" appearance="fill">
+      <mat-form-field *ngIf="selectedPlayModus?.hasGroups">
         <mat-label>Anzahl Gruppen</mat-label>
         <mat-select
           [(value)]="nrOfGroupsSelected"
@@ -39,7 +39,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="selectedPlayModus?.hasFirstElimination" appearance="fill">
+      <mat-form-field *ngIf="selectedPlayModus?.hasFirstElimination">
         <mat-label>Einfach-K.O. ab</mat-label>
         <mat-select [(value)]="firstEliminationSelected">
           <mat-option *ngFor="let stageType of firstElimination" [value]="stageType">
@@ -48,8 +48,7 @@
         </mat-select>
       </mat-form-field>
 
-
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Disziplin</mat-label>
         <mat-select [(value)]="disciplineSelected">
           <mat-option *ngFor="let discipline of disciplines" [value]="discipline">
@@ -58,7 +57,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field>
         <mat-label>Ausspielziel</mat-label>
         <mat-select [(value)]="raceLengthSelected">
           <mat-option *ngFor="let nr of raceLengths" [value]="nr">
@@ -67,11 +66,9 @@
         </mat-select>
       </mat-form-field>
 
-      <div>
-        <button mat-raised-button (click)="submitSelected(selectPlayers.selectedOptions.selected)">
-          Turnier Erstellen
-        </button>
-      </div>
+      <button mat-raised-button (click)="submitSelected(selectPlayers.selectedOptions.selected)">
+        Turnier Erstellen
+      </button>
     </div>
   </div>
 </app-content-tile>

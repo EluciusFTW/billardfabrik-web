@@ -1,15 +1,16 @@
-<p *ngIf="noTourneys; else tourneyTable">
-  Es gibt keine Turniere zum importieren!
-</p>
+<div
+  *ngIf="noTourneys; else tourneyTable"
+  style="display:flex; justify-content: center; align-items:center; height: 10em;">
+  <span>
+    Hurra, es gibt zur Zeit keine Turniere zum importieren!
+  </span>
+</div>
 
 <ng-template #tourneyTable>
-  <mat-toolbar>
+  <mat-toolbar class="row-1">
     <button mat-raised-button (click)="importBatch()" class="demo-button">
       Batch importieren
     </button>
-    <!-- <button mat-raised-button (click)="reset()" class="demo-button">
-      Reset
-    </button> -->
   </mat-toolbar>
   <table  mat-table #tourneys [dataSource]="unimportedTourneys">
     <ng-container matColumnDef="name" >

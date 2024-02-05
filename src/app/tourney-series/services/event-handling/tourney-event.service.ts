@@ -46,10 +46,10 @@ export class TourneyEventService {
 
   startTourney(tourney: Tourney) {
     tourney.meta.status = TourneyStatus.ongoing;
-    if (tourney.meta.modus === TourneyMode.GroupsThenSingleElimination) {
+    if (tourney.meta.modus === 'Gruppe + Einfach-K.O.') {
       tourney.groups.forEach(group => group.status = TourneyPhaseStatus.readyOrOngoing);
     }
-    else if (tourney.meta.modus === TourneyMode.DoubleElimination) {
+    else if (tourney.meta.modus === 'Doppel-K.O.') {
       const entryStage = tourney.doubleEliminationStages
         .filter(stage => TourneyDoubleEliminationStageType.isEntryStage(stage.type))
         .sort((s1, s2) => s1.type - s2.type)[0];

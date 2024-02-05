@@ -1,12 +1,12 @@
 import { Match } from '../../tourney-series/models/match';
+import { EloScores } from './elo-models';
 
-export type MatchSource = 'Tourney' | 'Challenge';
+type DatedMatch = Omit<Match & { date: string }, 'status'>
 
-export type IncomingMatch = Match & {
-    date: string;
-    source: MatchSource
-};
+export type IncomingTourneyMatch = DatedMatch & { source: 'Tourney' }
+export type IncomingChallengeMatch = DatedMatch & { source: 'Challenge' }
+export type IncomingMatch = IncomingChallengeMatch | IncomingTourneyMatch;
 
-export type RankingMatch = IncomingMatch & {
-  diff: number;
+export type ScoredMatch = IncomingMatch & {
+  scores: EloScores;
 };

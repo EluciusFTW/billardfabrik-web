@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EloFunctions, EloMode } from 'src/app/tourney-series/services/evaluation/elo-functions';
+import { EloFunctions } from 'src/app/ranking/elo-functions';
+import { EloMode } from '../../models/elo-models';
 
 @Component({
   selector: 'app-elo-demo-table',
@@ -26,16 +27,16 @@ export class EloDemoTableComponent implements OnInit {
     let matches = (this.EloPairs || [])
       .map(pair => ({
         matches: this.possibleOpponentScores.map(score => ({
-          pointsScoredByOne: 9,
-          eloScoreOfOne: pair.elo1,
-          pointsScoredByTwo: score,
-          eloScoreOfTwo: pair.elo2
+          p1Points: 9,
+          p1Elo: pair.elo1,
+          p2Points: score,
+          p2Elo: pair.elo2
         })),
         mode: pair.mode
       }))
       .map(batch => ({
-        elo1: batch.matches[0].eloScoreOfOne,
-        elo2: batch.matches[0].eloScoreOfTwo,
+        elo1: batch.matches[0].p1Elo,
+        elo2: batch.matches[0].p2Elo,
         s: batch.mode
           ? batch.matches.map(match => EloFunctions.calculate(match, batch.mode))
           : batch.matches.map(match => EloFunctions.calculate(match))

@@ -15,7 +15,6 @@ import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summa
 import { TourneyGroupComponent } from './tourney-group/tourney-group.component';
 import { TourneyGroupStageComponent } from './tourney/tourney-group-stage/tourney-group-stage.component';
 import { TourneyGroupStageAddPlayerDialogComponent } from './tourney/tourney-group-stage/tourney-group-stage-add-player-dialog.component';
-import { TourneyPlayerCreateDialogComponent } from './tourney-player-create-dialog/tourney-player-create-dialog.component';
 import { TourneysService } from './services/tourneys.service';
 
 import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
@@ -51,6 +50,7 @@ import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.c
 import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
 import { MatchComponent } from './match/match.component';
 import { DateKeyPipe } from './date-key.pipe';
+import { PlayersModule } from '../players/players.module';
 
 @NgModule({
     imports: [
@@ -59,6 +59,7 @@ import { DateKeyPipe } from './date-key.pipe';
         CommonModule,
         MaterialModule,
         FormsModule,
+        PlayersModule,
         SharedModule
     ],
     exports: [DateKeyPipe],
@@ -67,7 +68,6 @@ import { DateKeyPipe } from './date-key.pipe';
         TourneyListComponent,
         TourneyYearListComponent,
         TourneyGroupComponent,
-        TourneyPlayerCreateDialogComponent,
         ShowResultsDialogComponent,
         CreateTourneyComponent,
         TourneyGroupStageComponent,
