@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-mensa',
   templateUrl: './mensa.component.html',
-  styleUrls: ['./mensa.component.scss']
+  styles: [`
+    .mensa-logo {
+      height: 90px;
+      float: right;
+      padding: 1em;
+    }`]
 })
 export class MensaComponent { }

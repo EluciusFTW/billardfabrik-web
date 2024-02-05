@@ -1,18 +1,12 @@
 import { Component } from '@angular/core';
-import { UserService } from '../authentication/user.service';
+import { AuthorizedComponent } from '../shared/authorized.component';
 
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.component.html',
   styleUrls: ['./ranking.component.scss']
 })
-export class RankingComponent {
-
-  constructor(private readonly userService: UserService) {}
-
-  get isLoggedIn(): boolean {
-    return this.userService.isLoggedIn();
-  }
+export class RankingComponent extends AuthorizedComponent {
 
   publicTabs = [
     { link: 'players', label: 'Rangliste' },

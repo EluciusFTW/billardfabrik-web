@@ -1,15 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { UserService } from '../authentication/user.service';
+import { AuthorizedComponent } from '../shared/authorized.component';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent {
-
-  constructor(private userService: UserService) {
-  }
+export class FooterComponent extends AuthorizedComponent {
 
   login(): void {
     this.userService.login();
@@ -21,9 +19,5 @@ export class FooterComponent {
 
   logout(): void {
     this.userService.logout();
-  }
-
-  isLoggedIn(): boolean {
-    return this.userService.isLoggedIn();
   }
 }

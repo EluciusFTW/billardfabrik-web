@@ -2,18 +2,17 @@ import { Component, inject } from '@angular/core';
 import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { EloService } from '../../elo.service';
-import { UserService } from 'src/app/authentication/user.service';
 import { EloRankingService } from '../../elo-ranking.service';
+import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 
 @Component({
   selector: 'app-incoming-matches',
   templateUrl: './incoming-matches.component.html',
   styleUrls: ['../ranked-matches/ranked-matches.component.scss']
 })
-export class IncomingMatchesComponent {
+export class IncomingMatchesComponent extends AuthorizedComponent {
   private readonly eloService = inject(EloService);
   private readonly eloRankingService = inject(EloRankingService);
-  private readonly userService = inject(UserService);
 
   unrankedMatches: IncomingMatch[];
   dataSource = new MatTableDataSource<IncomingMatch>();
@@ -26,10 +25,6 @@ export class IncomingMatchesComponent {
   async Calculate(): Promise<void> {
     await this.eloService.UpdateEloScores();
     await this.SetDataSource();
-  }
-
-  get isLoggedIn(): boolean {
-    return this.userService.isLoggedIn();
   }
 
   private async SetDataSource() {

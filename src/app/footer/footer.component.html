@@ -6,7 +6,7 @@
     </a>
   </button>
 
-  <button mat-button color="primary" *ngIf="!isLoggedIn(); else loggedIn" (click)="login()">
+  <button mat-button color="primary" *ngIf="!isLoggedIn; else loggedIn" (click)="login()">
     <div class="material-icons">login</div>
   </button>
 
