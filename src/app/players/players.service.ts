@@ -61,8 +61,4 @@ export class PlayersService extends FirebaseService {
         _ => this.messageService.success('Spieler erfolgreich hinzugefügt!'),
         _ => this.messageService.failure('Fehler beim Speichern des Spielers :/'));
   }
-
-  setp(): void {
-    this.db.object(DB_PLAYERS_LPATH).set({a: 'hello'});
-  }
 }

@@ -67,8 +67,4 @@ export class PlayerListingComponent {
   async update(player: Player): Promise<void> {
     await this.playersService.updatePlayer(player);
   }
-
-  setp(): void {
-    this.playersService.setp();
-  }
 }
