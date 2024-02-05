@@ -1,0 +1,63 @@
+<app-content-tile [header]="'Spiel eingeben'">
+  <form [formGroup]="matchForm" (ngSubmit)="calculate()">
+
+    <div class="row-1">
+      <mat-form-field class="points">
+        <mat-label>Elo 1</mat-label>
+        <input type="number" matInput formControlName="playerOneElo" required>
+      </mat-form-field>
+
+      <mat-form-field class="points">
+        <mat-label>Pkt</mat-label>
+        <input type="number" matInput formControlName="playerOneScore" required>
+        <!-- <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div> -->
+      </mat-form-field>
+    </div>
+
+    <div class="row-1">
+      <mat-form-field class="points">
+        <mat-label>Elo 2</mat-label>
+        <input type="number" matInput formControlName="playerTwoElo" required>
+        <!-- <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div> -->
+      </mat-form-field>
+
+      <mat-form-field class="points">
+        <mat-label>Pkt</mat-label>
+        <input type="number" matInput formControlName="playerTwoScore" required>
+        <!-- <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div> -->
+      </mat-form-field>
+    </div>
+    <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Berechnen</button>
+  </form>
+  <hr>
+  <div *ngIf="score" style="display: grid; grid-template-columns: auto auto; padding: .5em;">
+    <span>Klassisch</span>
+    <div>
+      <span [class]="score.cla  >= 0 ? 'pos' : 'neg'">{{ score.cla }} </span>
+      /
+      <span [class]="score.cla > 0 ? 'neg' : 'pos'">{{ -score.cla }} </span>
+    </div>
+
+    <span>Gewichtet ohne Bonus</span>
+    <div>
+      <span [class]="score.wnb  >= 0 ? 'pos' : 'neg'">{{ score.wnb }} </span>
+      /
+      <span [class]="score.wnb > 0 ? 'neg' : 'pos'">{{ -score.wnb }} </span>
+    </div>
+
+    <span>Gewichtet mit Bonus</span>
+    <div>
+      <span [class]="score.wwb  >= 0 ? 'pos' : 'neg'">{{ score.wwb }} </span>
+      /
+      <span [class]="score.wwb > 0 ? 'neg' : 'pos'">{{ -score.wwb }} </span>
+    </div>
+
+    <span style="background-color: beige;">Gewichtet mit Bonus und var. K-Faktor</span>
+    <div style="background-color: beige;">
+      <span [class]="score.bvf  >= 0 ? 'pos' : 'neg'">{{ score.bvf }} </span>
+      /
+      <span [class]="score.bvf > 0 ? 'neg' : 'pos'">{{ -score.bvf }} </span>
+    </div>
+  </div>
+
+</app-content-tile>

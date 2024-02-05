@@ -23,6 +23,7 @@ import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-
 import { EloChallengeImportService } from './elo-challenge-import.service';
 import { EloRankingService } from './elo-ranking.service';
 import { RankedChallengesComponent } from './ranking-matches/ranked-challenges/ranked-challenges.component';
+import { EloSimulationComponent } from './scoring-details/elo-simulation/elo-simulation.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RankedChallengesComponent } from './ranking-matches/ranked-challenges/r
     ImportTourneyComponent,
     IncomingMatchesComponent,
     RankedMatchesComponent,
-    RankedChallengesComponent
+    RankedChallengesComponent,
+    EloSimulationComponent
   ],
   imports: [
     RankingRoutingModule,
