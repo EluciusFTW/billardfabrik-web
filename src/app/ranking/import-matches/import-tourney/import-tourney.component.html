@@ -1,6 +1,10 @@
-<p style="padding-top: 1em;" *ngIf="noTourneys; else tourneyTable">
-  Es gibt keine Turniere zum importieren!
-</p>
+<div
+  *ngIf="noTourneys; else tourneyTable"
+  style="display:flex; justify-content: center; align-items:center; height: 10em;">
+  <span>
+    Hurra, es gibt zur Zeit keine Turniere zum importieren!
+  </span>
+</div>
 
 <ng-template #tourneyTable>
   <mat-toolbar class="row-1">

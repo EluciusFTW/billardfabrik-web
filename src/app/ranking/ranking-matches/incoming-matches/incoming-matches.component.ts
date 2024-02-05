@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { EloService } from '../../elo.service';
-import { Subscription } from 'rxjs';
 import { UserService } from 'src/app/authentication/user.service';
 import { EloRankingService } from '../../elo-ranking.service';
 
@@ -16,7 +15,6 @@ export class IncomingMatchesComponent {
   private readonly eloRankingService = inject(EloRankingService);
   private readonly userService = inject(UserService);
 
-  unrankedMatchSubscription: Subscription;
   unrankedMatches: IncomingMatch[];
   dataSource = new MatTableDataSource<IncomingMatch>();
   displayedColumns = ['date', 'p1', 'p2', 'score'];

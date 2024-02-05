@@ -62,11 +62,25 @@ export class EloRankingService extends FirebaseService {
     return firstValueFrom(playerNames$);
   }
 
-  GetRankedMatches(nrOf: number): Observable<ScoredMatch[]> {
+  GetRankedTourneyMatches(nrOf: number): Observable<ScoredMatch[]> {
     return this.db
-      .list<ScoredMatch>(DB_MATCHES_LPATH, ref => ref.limitToLast(nrOf))
+      .list<ScoredMatch>(
+        DB_MATCHES_LPATH,
+        ref => ref
+          .orderByChild('source').equalTo(`Tourney`)
+          .limitToLast(nrOf))
       .valueChanges();
-    }
+  }
+
+  GetRankedChallenges(nrOf: number): Observable<ScoredMatch[]> {
+    return this.db
+      .list<ScoredMatch>(
+        DB_MATCHES_LPATH,
+        ref => ref
+          .orderByChild('source').equalTo(`Challenge`)
+          .limitToLast(nrOf))
+      .valueChanges();
+  }
 
   async GetUnrankedMatches(): Promise<Db<IncomingMatch>[]> {
     const tourneySnapshots = await firstValueFrom(this.db

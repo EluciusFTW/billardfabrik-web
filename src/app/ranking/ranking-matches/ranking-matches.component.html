@@ -1,14 +1,18 @@
 <app-content-tile [header]="'Letzte Matches'">
   <p>
-    Hier seht ihr die letzten 50 gewerteten als auch die noch zu wertenden Matches.
+    Hier könnt ihr die letzten Turnierspiele als auch Challenge matches und deren Auswertung finden.
   </p>
 
   <mat-tab-group mat-stretch-tabs="false">
-    <mat-tab label="Letzte Matches">
+    <mat-tab label="Letzte 50 Turnierspiele">
       <app-ranked-matches></app-ranked-matches>
     </mat-tab>
 
-    <mat-tab label="Unausgewertet">
+    <mat-tab label="Letzte 50 Challenges">
+      <app-ranked-challenges></app-ranked-challenges>
+    </mat-tab>
+
+    <mat-tab label="Unausgewertete Spiele">
       <app-incoming-matches></app-incoming-matches>
     </mat-tab>
   </mat-tab-group>
