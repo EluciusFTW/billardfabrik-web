@@ -22,16 +22,10 @@ export class RankedMatchesComponent implements OnInit {
 
   ngOnInit(): void {
     this.eloRankingService
-      .GetRankedMatches(200)
+      .GetRankedMatches(50)
       .pipe(take(1))
       .subscribe(matches => {
-        this.rankingMatches = matches
-          .map(match => ({
-              ... match,
-              p1: match.playerOne.name,
-              p2: match.playerTwo.name
-          }))
-          .reverse();
+        this.rankingMatches = matches.reverse();
         this.setDataSource();
       });
   }
