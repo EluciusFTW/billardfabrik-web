@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { MatTableDataSource } from '@angular/material/table';
 import { TourneyStatus, TourneyStatusMapper } from 'src/app/tourney-series/models/tourney-status';
 import { EloTourneyImportService } from '../../elo-tourney-import.service';
+import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 
 @Component({
   selector: 'app-import-tourney',
@@ -14,9 +15,10 @@ import { EloTourneyImportService } from '../../elo-tourney-import.service';
 export class ImportTourneyComponent implements OnInit {
   private readonly tourneyImportService = inject(EloTourneyImportService);
   private readonly tourneysService = inject(TourneysService);
+  private readonly messager = inject(OwnMessageService);
 
   lastImported = ''
-  noTourneys = false;
+  noTourneys = true;
   unimportedTourneys: MatTableDataSource<Tourney>;
   displayedColumns = ['name', 'date', 'status'];
 
@@ -48,7 +50,10 @@ export class ImportTourneyComponent implements OnInit {
   async importBatch() {
     const imports = this.unimportedTourneys.data.map(tourney => this.importTourney(tourney));
 
-    await Promise.all(imports);
+    await Promise
+      .all(imports)
+      .then(_ => this.messager.success(`${this.unimportedTourneys.data.length} Turniere erfolgreich importiert!`));
+
     await this.loadData();
   }
 

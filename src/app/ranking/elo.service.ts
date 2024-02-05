@@ -10,7 +10,7 @@ import { EloRankingService } from './elo-ranking.service';
 export const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
 export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
-export const DB_NEW_PLAYERS_PATH = 'elo/playersV2';
+export const DB_NEW_PLAYERS_PATH = 'elo/players';
 
 @Injectable()
 export class EloService extends FirebaseService {

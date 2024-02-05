@@ -7,9 +7,11 @@ import { MatchPlayer } from '../tourney-series/models/match-player';
 import { DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH } from './elo.service';
 import { FirebaseService } from '../shared/firebase.service';
 import { firstValueFrom, map } from 'rxjs';
+import { OwnMessageService } from '../shared/services/own-message.service';
 
 @Injectable()
 export class EloTourneyImportService extends FirebaseService {
+  private readonly messager = inject(OwnMessageService);
 
   async ImportTourney(tourney: Tourney): Promise<IncomingMatch[]> {
 
@@ -31,6 +33,10 @@ export class EloTourneyImportService extends FirebaseService {
         await this.db
           .object(this.tourneyMatchPath(match, index))
           .update(match)
+          .then(
+            _ => {},
+            error => this.messager.failure(`Fehler beim importieren: ${error}.`)
+          );
       });
 
     return allMatches;
