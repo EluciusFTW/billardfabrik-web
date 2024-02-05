@@ -13,16 +13,15 @@
         ".write": "auth != null"
       }
     },
+    "challenges": {
+      ".write": "auth != null"
+    },
     "elo": {
       ".write": "auth != null",
       "rankedmatches": {
         ".indexOn": [
-          "diff",
           "source"
         ]
-      },
-      "playersV2": {
-        ".indexOn": "show"
       }
     },
     "players": {
