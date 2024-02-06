@@ -24,7 +24,7 @@
       <mat-form-field class="points">
         <mat-label>Pkt</mat-label>
         <input type="number" matInput formControlName="playerTwoScore" required>
-        <!-- <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div> -->
+        <div class="error-message" *ngIf="matchForm.errors?.['noWinner']">Es muss einen Gewinner geben.</div>
       </mat-form-field>
     </div>
     <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Berechnen</button>

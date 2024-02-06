@@ -7,6 +7,13 @@ import { EloDataPoint, EloScores } from '../../models/elo-models';
 @Component({
   selector: 'app-elo-simulation',
   templateUrl: './elo-simulation.component.html',
+  styles: [`
+    .error-message {
+      color: var(--color-error);
+      font-size: .5em;
+      line-height: 1;
+    }
+  `]
 })
 export class EloSimulationComponent {
 
@@ -31,8 +38,6 @@ export class EloSimulationComponent {
       p1DataPoint: this.createDataPoint(this.matchForm.value.playerOneElo),
       p2DataPoint: this.createDataPoint(this.matchForm.value.playerTwoElo),
     });
-
-    console.log(this.score);
   }
 
   private createDataPoint(value: number): EloDataPoint {

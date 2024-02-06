@@ -78,7 +78,6 @@ export class EloFunctions {
       ? this.Bonus(match.p1Points, match.p2Points)
       : 0;
 
-    console.log('B: ', bonus);
     return actual + bonus - expected;
   }
 
