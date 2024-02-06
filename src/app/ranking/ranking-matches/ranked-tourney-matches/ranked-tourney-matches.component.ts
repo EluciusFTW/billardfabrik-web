@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 import { EloRankingService } from '../../elo-ranking.service';
 
 @Component({
-  selector: 'app-ranked-matches',
+  selector: 'app-ranked-tourney-matches',
   templateUrl: './ranked-tourney-matches.component.html',
   styleUrls: ['./ranked-tourney-matches.component.scss']
 })
