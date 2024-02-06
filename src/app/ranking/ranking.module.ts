@@ -19,11 +19,12 @@ import { ImportSingleMatchComponent } from './import-matches/import-single-match
 import { ImportTourneyComponent } from './import-matches/import-tourney/import-tourney.component';
 import { TourneysModule } from '../tourney-series/tourneys.module';
 import { IncomingMatchesComponent } from './ranking-matches/incoming-matches/incoming-matches.component';
-import { RankedMatchesComponent } from './ranking-matches/ranked-matches/ranked-matches.component';
+import { RankedMatchesComponent } from './ranking-matches/ranked-tourney-matches/ranked-tourney-matches.component';
 import { EloChallengeImportService } from './elo-challenge-import.service';
 import { EloRankingService } from './elo-ranking.service';
 import { RankedChallengesComponent } from './ranking-matches/ranked-challenges/ranked-challenges.component';
 import { EloSimulationComponent } from './scoring-details/elo-simulation/elo-simulation.component';
+import { ScoreDisplayComponent } from './score-display/score-display.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { EloSimulationComponent } from './scoring-details/elo-simulation/elo-sim
     IncomingMatchesComponent,
     RankedMatchesComponent,
     RankedChallengesComponent,
-    EloSimulationComponent
+    EloSimulationComponent,
+    ScoreDisplayComponent
   ],
   imports: [
     RankingRoutingModule,

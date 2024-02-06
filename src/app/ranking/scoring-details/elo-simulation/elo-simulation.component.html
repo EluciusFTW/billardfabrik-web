@@ -32,32 +32,16 @@
   <hr>
   <div *ngIf="score" style="display: grid; grid-template-columns: auto auto; padding: .5em;">
     <span>Klassisch</span>
-    <div>
-      <span [class]="score.cla  >= 0 ? 'pos' : 'neg'">{{ score.cla }} </span>
-      /
-      <span [class]="score.cla > 0 ? 'neg' : 'pos'">{{ -score.cla }} </span>
-    </div>
+    <app-score-display [score]="score.cla"></app-score-display>
 
     <span>Gewichtet ohne Bonus</span>
-    <div>
-      <span [class]="score.wnb  >= 0 ? 'pos' : 'neg'">{{ score.wnb }} </span>
-      /
-      <span [class]="score.wnb > 0 ? 'neg' : 'pos'">{{ -score.wnb }} </span>
-    </div>
+    <app-score-display [score]="score.wnb"></app-score-display>
 
     <span>Gewichtet mit Bonus</span>
-    <div>
-      <span [class]="score.wwb  >= 0 ? 'pos' : 'neg'">{{ score.wwb }} </span>
-      /
-      <span [class]="score.wwb > 0 ? 'neg' : 'pos'">{{ -score.wwb }} </span>
-    </div>
+    <app-score-display [score]="score.wwb"></app-score-display>
 
     <span style="background-color: beige;">Gewichtet mit Bonus und var. K-Faktor</span>
-    <div style="background-color: beige;">
-      <span [class]="score.bvf  >= 0 ? 'pos' : 'neg'">{{ score.bvf }} </span>
-      /
-      <span [class]="score.bvf > 0 ? 'neg' : 'pos'">{{ -score.bvf }} </span>
-    </div>
+    <app-score-display [score]="score.bvf" style="background-color: beige;"></app-score-display>
   </div>
 
 </app-content-tile>

@@ -52,7 +52,6 @@ import { PlayersModule } from './players/players.module';
     RankingModule,
     PlayersModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

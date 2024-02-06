@@ -7,7 +7,6 @@ import { EloDataPoint, EloScores } from '../../models/elo-models';
 @Component({
   selector: 'app-elo-simulation',
   templateUrl: './elo-simulation.component.html',
-  styleUrls: ['./elo-simulation.component.scss']
 })
 export class EloSimulationComponent {
 
