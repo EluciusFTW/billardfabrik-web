@@ -5,9 +5,9 @@ import { firstValueFrom } from 'rxjs';
 import { EloRankingService } from '../../elo-ranking.service';
 
 @Component({
-  selector: 'app-ranked-matches',
-  templateUrl: './ranked-matches.component.html',
-  styleUrls: ['./ranked-matches.component.scss']
+  selector: 'app-ranked-tourney-matches',
+  templateUrl: './ranked-tourney-matches.component.html',
+  styleUrls: ['./ranked-tourney-matches.component.scss']
 })
 export class RankedMatchesComponent implements OnInit {
   private readonly eloRankingService = inject(EloRankingService);

@@ -15,6 +15,8 @@ const routes: Routes = [
   { path: 'membership', component: MembershipComponent },
   { path: 'training', component: TrainingComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'tourney-series', loadChildren: () => import('./tourney-series/tourneys.module').then(m => m.TourneysModule) },
+  { path: 'ranking', loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingModule) }
 ];
 
 @NgModule({

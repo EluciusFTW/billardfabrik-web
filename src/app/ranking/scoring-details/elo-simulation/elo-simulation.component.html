@@ -1,0 +1,47 @@
+<app-content-tile [header]="'Spiel eingeben'">
+  <form [formGroup]="matchForm" (ngSubmit)="calculate()">
+
+    <div class="row-1">
+      <mat-form-field class="points">
+        <mat-label>Elo 1</mat-label>
+        <input type="number" matInput formControlName="playerOneElo" required>
+      </mat-form-field>
+
+      <mat-form-field class="points">
+        <mat-label>Pkt</mat-label>
+        <input type="number" matInput formControlName="playerOneScore" required>
+        <!-- <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div> -->
+      </mat-form-field>
+    </div>
+
+    <div class="row-1">
+      <mat-form-field class="points">
+        <mat-label>Elo 2</mat-label>
+        <input type="number" matInput formControlName="playerTwoElo" required>
+        <!-- <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div> -->
+      </mat-form-field>
+
+      <mat-form-field class="points">
+        <mat-label>Pkt</mat-label>
+        <input type="number" matInput formControlName="playerTwoScore" required>
+        <div class="error-message" *ngIf="matchForm.errors?.['noWinner']">Es muss einen Gewinner geben.</div>
+      </mat-form-field>
+    </div>
+    <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Berechnen</button>
+  </form>
+  <hr>
+  <div *ngIf="score" style="display: grid; grid-template-columns: auto auto; padding: .5em;">
+    <span>Klassisch</span>
+    <app-score-display [score]="score.cla"></app-score-display>
+
+    <span>Gewichtet ohne Bonus</span>
+    <app-score-display [score]="score.wnb"></app-score-display>
+
+    <span>Gewichtet mit Bonus</span>
+    <app-score-display [score]="score.wwb"></app-score-display>
+
+    <span style="background-color: beige;">Gewichtet mit Bonus und var. K-Faktor</span>
+    <app-score-display [score]="score.bvf" style="background-color: beige;"></app-score-display>
+  </div>
+
+</app-content-tile>

@@ -19,12 +19,9 @@ import { MembershipComponent } from './membership/membership.component';
 import { TrainingComponent } from './training/training.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
-import { TourneysModule } from './tourney-series/tourneys.module';
 import { MensaComponent } from './mensa/mensa.component';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { FooterComponent } from './footer/footer.component';
-import { RankingModule } from './ranking/ranking.module';
-import { PlayersModule } from './players/players.module';
 
 @NgModule({
   declarations: [
@@ -47,12 +44,8 @@ import { PlayersModule } from './players/players.module';
     AngularFireDatabaseModule,
     AuthenticationModule,
     MaterialModule,
-    AppRoutingModule,
-    TourneysModule,
-    RankingModule,
-    PlayersModule
+    AppRoutingModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

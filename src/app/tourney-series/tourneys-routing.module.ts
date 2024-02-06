@@ -8,7 +8,9 @@ import { TourneysLandingPageComponent } from "./tourneys-landing-page.component"
 import { TourneysLeaderBoardsComponent } from "./tourneys-leader-board/tourney-leader-boards.component";
 
 const routes: Routes = [{
-    path: 'tourney-series', component: TourneysLandingPageComponent, children: [
+    path: '',
+    component: TourneysLandingPageComponent,
+    children: [
       { path: '', redirectTo: 'overview', pathMatch: 'full' },
       { path: 'overview', component: TourneySeriesOverviewComponent },
       { path: ':id/tourney', component: TourneyComponent },

@@ -24,9 +24,7 @@
     <ng-container matColumnDef="diff">
       <th mat-header-cell *matHeaderCellDef> &Delta; </th>
       <td mat-cell *matCellDef="let item">
-        <span [class]="item.scores.bvf >= 0 ? 'pos' : 'neg'">{{ item.scores.bvf }} </span>
-        /
-        <span [class]="item.scores.bvf > 0 ? 'neg' : 'pos'">{{ -item.scores.bvf }} </span>
+        <app-score-display [score]="item.scores.bvf"></app-score-display>
       </td>
     </ng-container>
 

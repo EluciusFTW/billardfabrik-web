@@ -4,7 +4,7 @@ export class EloFunctions {
 
   public static readonly InitialValue = 1500;
   private static readonly exponentDivisor = 400;
-  private static readonly winBonus = 25;
+  private static readonly winBonus = 40;
   private static readonly K = 32;
 
   public static Add(standing: EloStanding, scores: EloScores, forPlayer: 'P1' | 'P2'): EloStanding {
@@ -70,7 +70,9 @@ export class EloFunctions {
     const expected = this.E(q1,q2);
     const actual = mode !== 'classic'
       ? this.E(match.p1Points, match.p2Points)
-      : 1;
+      : match.p1Points > match.p2Points
+        ? 1
+        : 0;
 
     const bonus = mode === 'weightedWithBonus'
       ? this.Bonus(match.p1Points, match.p2Points)
@@ -80,8 +82,9 @@ export class EloFunctions {
   }
 
   private static Bonus(s1: number, s2:number): number {
-    let m = Math.max(s1,s2);
-    return m/(m + this.winBonus);
+    const sign = Math.sign(s1 - s2);
+    const m = Math.max(s1,s2);
+    return sign * m/(m + this.winBonus);
   }
 
   private static Q(elo: number): number {

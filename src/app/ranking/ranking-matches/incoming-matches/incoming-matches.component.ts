@@ -8,7 +8,7 @@ import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 @Component({
   selector: 'app-incoming-matches',
   templateUrl: './incoming-matches.component.html',
-  styleUrls: ['../ranked-matches/ranked-matches.component.scss']
+  styleUrls: ['../ranked-tourney-matches/ranked-tourney-matches.component.scss']
 })
 export class IncomingMatchesComponent extends AuthorizedComponent {
   private readonly eloService = inject(EloService);
