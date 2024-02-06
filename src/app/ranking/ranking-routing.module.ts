@@ -9,7 +9,7 @@ import { UserGuard } from '../authentication/guards/user.guard';
 import { PlayerListingComponent } from '../players/player-listing/player-listing.component';
 
 const routes: Routes = [{
-  path: 'ranking',
+  path: '',
   component: RankingComponent,
   children: [
     { path: '', redirectTo: 'players', pathMatch: 'full' },
