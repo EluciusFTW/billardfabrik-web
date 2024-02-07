@@ -10,7 +10,7 @@ import { EloRankingService } from './elo-ranking.service';
 export const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
 export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
-export const DB_NEW_PLAYERS_PATH = 'elo/players';
+export const DB_PLAYERS_PATH = 'elo/players';
 
 @Injectable()
 export class EloService extends FirebaseService {
@@ -92,10 +92,10 @@ export class EloService extends FirebaseService {
 
   UpdatePlayers(rankings: EloPlayer[]): Promise<void[]> {
     let updates = rankings
-      .map(r => ({ key: PlayerFunctions.keyFromName(r.name), c: { changes: r.changes } }))
-      .map(r => this.db
-        .object(`${DB_NEW_PLAYERS_PATH}/${r.key}`)
-        .update(r.c))
+      .map(ranking => ({ key: PlayerFunctions.keyFromName(ranking.name), c: { changes: ranking.changes } }))
+      .map(ranking => this.db
+        .object(`${DB_PLAYERS_PATH}/${ranking.key}`)
+        .update(ranking.c))
 
     return Promise.all(updates);
   }

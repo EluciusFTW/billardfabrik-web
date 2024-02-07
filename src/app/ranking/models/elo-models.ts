@@ -1,9 +1,3 @@
-export type EloPlayerData = {
-  changes: EloDataPoint[];
-}
-
-export type EloPlayer = EloPlayerData & { name: string; };
-
 export type EloScores = {
   cla: number;
   bvf: number;
@@ -16,6 +10,12 @@ export type EloStanding = EloScores;
 export type EloDataPoint = EloStanding & {
   match: string;
 };
+
+export type EloPlayerData = {
+  changes: EloDataPoint[];
+}
+
+export type EloPlayer = EloPlayerData & { name: string; };
 
 export type EloMode = 'classic' | 'weighted' | 'weightedWithBonus';
 

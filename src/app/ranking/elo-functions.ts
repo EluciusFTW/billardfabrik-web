@@ -83,8 +83,8 @@ export class EloFunctions {
 
   private static Bonus(s1: number, s2:number): number {
     const sign = Math.sign(s1 - s2);
-    const m = Math.max(s1,s2);
-    return sign * m/(m + this.winBonus);
+    const max = Math.max(s1, s2);
+    return sign * max/(max + this.winBonus);
   }
 
   private static Q(elo: number): number {
