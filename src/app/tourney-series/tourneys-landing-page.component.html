@@ -11,10 +11,14 @@
 </app-content-tile>
 
 <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  <a mat-tab-link *ngFor="let tab of tabs"
-    (click)="activeLink = tab.link"
-    [active]="activeLink == tab.link"
-    [routerLink]="tab.link"> {{ tab.label }} </a>
+  @for (tab of tabs; track tab.link){
+    <a mat-tab-link
+      (click)="activeLink = tab.link"
+      [active]="activeLink == tab.link"
+      [routerLink]="tab.link">
+      {{ tab.label }}
+    </a>
+  }
 </nav>
 
 <mat-tab-nav-panel #tabPanel>

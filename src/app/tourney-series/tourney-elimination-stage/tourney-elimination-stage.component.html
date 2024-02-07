@@ -6,11 +6,13 @@
   </mat-card-header>
 
   <div style="display: flex; flex-direction: column; gap: 0.5em; margin: 0.5em;">
-    <app-match
-      *ngFor="let match of stage.matches"
-      [match]="match"
-      [disabled]="!stageActive"
-      (change)="emitChange($event)"></app-match>
+    @for (match of stage.matches; track match) {
+      <app-match
+        [match]="match"
+        [disabled]="!stageActive"
+        (change)="emitChange($event)">
+      </app-match>
+    }
   </div>
 
   <mat-card-actions *ngIf="this.stage.status != 2">

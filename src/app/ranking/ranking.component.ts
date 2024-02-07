@@ -11,8 +11,14 @@ export class RankingComponent extends AuthorizedComponent {
   publicTabs = [
     { link: 'players', label: 'Rangliste' },
     { link: 'matches', label: 'Matches' },
-    { link: 'details', label: 'Details' },
-  ]
+    { link: 'details', label: 'Details' }
+  ] as const;
+
+
+  authenticatedTabs = [
+    { link: 'import', label: 'Import' },
+    { link: 'player-management', label: 'Spielerverwaltung' }
+  ] as const;
 
   activeLink = "players";
 }

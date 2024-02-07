@@ -4,9 +4,11 @@
       <mat-form-field class="other">
         <mat-label>Disziplin</mat-label>
         <mat-select formControlName="selectDiscipline">
-          <mat-option *ngFor="let discipline of disciplines" [value]="discipline">
-            {{ discipline }}
-          </mat-option>
+          @for (discipline of disciplines; track discipline) {
+            <mat-option [value]="discipline">
+              {{ discipline }}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
     </div>
@@ -25,9 +27,11 @@
       <mat-form-field>
         <mat-label>Spieler 1</mat-label>
         <mat-select formControlName="selectPlayerOne">
-          <mat-option *ngFor="let player of availablePlayers" [value]="player">
-            {{ player }}
-          </mat-option>
+          @for (player of availablePlayers; track player) {
+            <mat-option [value]="player">
+              {{ player }}
+            </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
@@ -42,9 +46,11 @@
       <mat-form-field>
         <mat-label>Spieler 2</mat-label>
         <mat-select formControlName="selectPlayerTwo">
-          <mat-option *ngFor="let player of availablePlayers" [value]="player">
-            {{ player }}
-          </mat-option>
+          @for (player of availablePlayers; track player) {
+            <mat-option [value]="player">
+              {{ player }}
+            </mat-option>
+          }
         </mat-select>
         <div class="error-message" *ngIf="matchForm.errors?.['duplicatePlayer']">Spiele gegen sich selbst zählen nicht für den ELO Score :)</div>
       </mat-form-field>

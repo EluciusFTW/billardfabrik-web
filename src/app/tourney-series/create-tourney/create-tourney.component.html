@@ -3,9 +3,11 @@
   <div style="display: flex; flex-direction: row; justify-content: space-between;">
     <div style="display:flex; flex-direction: column; width: 60%">
       <mat-selection-list #selectPlayers style="flex-grow: 1;" (selectionChange)="playerSelectionChange($event)">
-        <mat-list-option style="height: auto; font-size: 1em;" *ngFor="let player of players" [value]="player">
-          {{ player | name }}
-        </mat-list-option>
+        @for(player of players; track player.enteredInSystem) {
+          <mat-list-option style="height: auto; font-size: 1em;" [value]="player">
+            {{ player | name }}
+          </mat-list-option>
+        }
       </mat-selection-list>
 
       <div>
@@ -22,9 +24,9 @@
       <mat-form-field>
         <mat-label>Spielmodus</mat-label>
         <mat-select [(value)]="selectedPlayModus">
-          <mat-option *ngFor="let modus of playModi" [value]="modus">
-            {{ modus.mode }}
-          </mat-option>
+          @for (modus of playModi; track modus){
+            <mat-option [value]="modus"> {{ modus.mode }} </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
@@ -33,36 +35,36 @@
         <mat-select
           [(value)]="nrOfGroupsSelected"
           [disabled]="nrOfGroups(selectPlayers.selectedOptions.selected.length).length === 1">
-          <mat-option *ngFor="let nr of nrOfGroups(selectPlayers.selectedOptions.selected.length)" [value]="nr">
-            {{ nr }}
-          </mat-option>
+          @for(nr of nrOfGroups(selectPlayers.selectedOptions.selected.length); track nr){
+            <mat-option [value]="nr"> {{ nr }} </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field *ngIf="selectedPlayModus?.hasFirstElimination">
         <mat-label>Einfach-K.O. ab</mat-label>
         <mat-select [(value)]="firstEliminationSelected">
-          <mat-option *ngFor="let stageType of firstElimination" [value]="stageType">
-            {{ typeName(stageType) }}
-          </mat-option>
+          @for(stageType of firstElimination; track stageType) {
+            <mat-option [value]="stageType"> {{ typeName(stageType) }} </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Disziplin</mat-label>
         <mat-select [(value)]="disciplineSelected">
-          <mat-option *ngFor="let discipline of disciplines" [value]="discipline">
-            {{ discipline }}
-          </mat-option>
+          @for(discipline of disciplines; track discipline) {
+            <mat-option [value]="discipline"> {{ discipline }} </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 
       <mat-form-field>
         <mat-label>Ausspielziel</mat-label>
         <mat-select [(value)]="raceLengthSelected">
-          <mat-option *ngFor="let nr of raceLengths" [value]="nr">
-            {{ nr }}
-          </mat-option>
+          @for(nr of raceLengths; track nr) {
+            <mat-option [value]="nr"> {{ nr }} </mat-option>
+          }
         </mat-select>
       </mat-form-field>
 

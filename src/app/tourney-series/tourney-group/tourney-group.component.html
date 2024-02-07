@@ -40,11 +40,13 @@
       </mat-card-actions>
 
     <div style="display: flex; flex-wrap: wrap; gap: 0.5em; ">
-      <app-match
-        *ngFor="let match of group.matches"
-        [match]="match"
-        [disabled]="!groupActive"
-        (change)="emitChange($event)"></app-match>
+      @for (match of group.matches; track match) {
+        <app-match
+          [match]="match"
+          [disabled]="!groupActive"
+          (change)="emitChange($event)">
+        </app-match>
+      }
     </div>
 
   </mat-card-content>
