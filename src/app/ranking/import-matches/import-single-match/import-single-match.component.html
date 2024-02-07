@@ -19,7 +19,10 @@
         <input matInput formControlName="selectDate" required [matDatepicker]="picker2">
         <mat-datepicker #picker2></mat-datepicker>
         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-        <div class="error-message" *ngIf="selectDate.errors?.['inTheFuture']">Das Spiel muss schon stattgefunden haben</div>
+
+        @if (selectDate.errors?.['inTheFuture']) {
+          <div class="error-message">Das Spiel muss schon stattgefunden haben</div>
+        }
       </mat-form-field>
     </div>
 
@@ -38,7 +41,10 @@
       <mat-form-field class="points">
         <mat-label>Pkt</mat-label>
         <input type="number" matInput formControlName="playerOneScore" required>
-        <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div>
+
+        @if (p1s.errors?.['min']) {
+          <div class="error-message">Der Score muss >= 0 sein</div>
+        }
       </mat-form-field>
     </div>
 
@@ -52,14 +58,21 @@
             </mat-option>
           }
         </mat-select>
-        <div class="error-message" *ngIf="matchForm.errors?.['duplicatePlayer']">Spiele gegen sich selbst zählen nicht für den ELO Score :)</div>
+        @if (matchForm.errors?.['duplicatePlayer']) {
+          <div class="error-message">Spiele gegen sich selbst zählen nicht für den ELO Score :)</div>
+        }
       </mat-form-field>
 
       <mat-form-field class="example-form-field points">
         <mat-label>Pkt</mat-label>
         <input matInput type="number" formControlName="playerTwoScore" required>
-        <div class="error-message" *ngIf="p2s.errors?.['min']">Der Score muss >= 0 sein</div>
-        <div class="error-message" *ngIf="matchForm.errors?.['noWinner']">Es muss einen Gewinner geben.</div>
+
+        @if (p2s.errors?.['min']) {
+          <div class="error-message">Der Score muss >= 0 sein</div>
+        }
+        @if (matchForm.errors?.['noWinner']) {
+          <div class="error-message">Es muss einen Gewinner geben.</div>
+        }
       </mat-form-field>
     </div>
     <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Speichern</button>

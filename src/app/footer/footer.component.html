@@ -6,13 +6,15 @@
     </a>
   </button>
 
-  <button mat-button color="primary" *ngIf="!isLoggedIn; else loggedIn" (click)="login()">
-    <div class="material-icons">login</div>
-  </button>
-
-  <ng-template #loggedIn>
+  @if (!isLoggedIn) {
+    <button mat-button color="primary" (click)="login()">
+      <div class="material-icons">login</div>
+    </button>
+  } @else {
     <button mat-button color="primary" (click)="logout()">
       {{ displayName }}
-      <div class="material-icons">logout</div></button>
-  </ng-template>
+      <div class="material-icons">logout</div>
+    </button>
+  }
+
 </footer>

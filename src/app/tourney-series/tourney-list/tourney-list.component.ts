@@ -6,7 +6,7 @@ import { AuthorizedComponent } from 'src/app/shared/authorized.component';
   styleUrls: ['./tourney-list.component.scss']
 })
 export class TourneyListComponent extends AuthorizedComponent {
-  isTourneyAuthenticated(): boolean {
+  get isTourneyAuthenticated(): boolean {
     return this.userService.canHandleTourneys();
   }
 }

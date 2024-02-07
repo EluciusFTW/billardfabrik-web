@@ -26,16 +26,13 @@
     <ng-container matColumnDef="trend">
       <th mat-header-cell class="mid-wide" *matHeaderCellDef> Trend </th>
       <td mat-cell class="mid-wide" *matCellDef="let item">
-
-        <mat-icon *ngIf="(item.trend > flatnessBarrier)" class="material-symbols-outlined" style="color: green;">
-          trending_up
-        </mat-icon>
-        <mat-icon *ngIf="(item.trend >= - flatnessBarrier && flatnessBarrier >= item.trend)" class="material-symbols-outlined">
-          trending_flat
-        </mat-icon>
-        <mat-icon *ngIf="-flatnessBarrier > item.trend" class="material-symbols-outlined" style="color: red;">
-          trending_down
-        </mat-icon>
+        @if (item.trend > flatnessBarrier) {
+          <mat-icon class="material-symbols-outlined" style="color: green;"> trending_up </mat-icon>
+        } @else if (-flatnessBarrier > item.trend) {
+          <mat-icon class="material-symbols-outlined" style="color: red;"> trending_down </mat-icon>
+        } @else {
+          <mat-icon class="material-symbols-outlined"> trending_flat </mat-icon>
+        }
       </td>
     </ng-container>
 

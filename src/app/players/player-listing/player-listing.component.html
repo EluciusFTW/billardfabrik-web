@@ -44,8 +44,11 @@
     <ng-container matColumnDef="showForElo">
       <th mat-header-cell *matHeaderCellDef> Elo </th>
       <td mat-cell *matCellDef="let player">
-        <mat-checkbox *ngIf="!player.clubPlayer" disabled></mat-checkbox>
-        <mat-checkbox *ngIf="player.clubPlayer" [(ngModel)]="player.showForElo" (change)="update(player)"></mat-checkbox>
+        @if (player.clubPlayer) {
+          <mat-checkbox [(ngModel)]="player.showForElo" (change)="update(player)"></mat-checkbox>
+        } @else {
+          <mat-checkbox disabled></mat-checkbox>
+        }
       </td>
     </ng-container>
 

@@ -24,24 +24,28 @@
       <mat-form-field class="points">
         <mat-label>Pkt</mat-label>
         <input type="number" matInput formControlName="playerTwoScore" required>
-        <div class="error-message" *ngIf="matchForm.errors?.['noWinner']">Es muss einen Gewinner geben.</div>
+        @if (matchForm.errors?.['noWinner']) {
+          <div class="error-message">Es muss einen Gewinner geben.</div>
+        }
       </mat-form-field>
     </div>
     <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Berechnen</button>
   </form>
   <hr>
-  <div *ngIf="score" style="display: grid; grid-template-columns: auto auto; padding: .5em;">
-    <span>Klassisch</span>
-    <app-score-display [score]="score.cla"></app-score-display>
 
-    <span>Gewichtet ohne Bonus</span>
-    <app-score-display [score]="score.wnb"></app-score-display>
+  @if (score) {
+    <div style="display: grid; grid-template-columns: auto auto; padding: .5em;">
+      <span>Klassisch</span>
+      <app-score-display [score]="score.cla"></app-score-display>
 
-    <span>Gewichtet mit Bonus</span>
-    <app-score-display [score]="score.wwb"></app-score-display>
+      <span>Gewichtet ohne Bonus</span>
+      <app-score-display [score]="score.wnb"></app-score-display>
 
-    <span style="background-color: beige;">Gewichtet mit Bonus und var. K-Faktor</span>
-    <app-score-display [score]="score.bvf" style="background-color: beige;"></app-score-display>
-  </div>
+      <span>Gewichtet mit Bonus</span>
+      <app-score-display [score]="score.wwb"></app-score-display>
 
+      <span style="background-color: beige;">Gewichtet mit Bonus und var. K-Faktor</span>
+      <app-score-display [score]="score.bvf" style="background-color: beige;"></app-score-display>
+    </div>
+  }
 </app-content-tile>

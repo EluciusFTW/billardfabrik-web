@@ -3,14 +3,23 @@
     <mat-tab label="Zusammenfassung">
       <app-tourney-summary [tourney]="tourney" (change)="update($event)"></app-tourney-summary>
     </mat-tab>
-    <mat-tab *ngIf="hasGroupStage()" label="Gruppenphase">
-      <app-tourney-group-stage [tourney]="tourney" (change)="update($event)"></app-tourney-group-stage>
-    </mat-tab>
-    <mat-tab *ngIf="hasDoubleEliminationStage()" label="Doppel-K.O">
-      <app-tourney-double-elimination-stages [tourney]="tourney" (change)="update($event)"></app-tourney-double-elimination-stages>
-    </mat-tab>
-    <mat-tab *ngIf="hasSingleEliminationStage()" label="Endrunde">
-      <app-tourney-elimination-stages [tourney]="tourney" (change)="update($event)"></app-tourney-elimination-stages>
-    </mat-tab>
+
+    @if (hasGroupStage) {
+      <mat-tab label="Gruppenphase">
+        <app-tourney-group-stage [tourney]="tourney" (change)="update($event)"></app-tourney-group-stage>
+      </mat-tab>
+    }
+
+    @if (hasDoubleEliminationStage) {
+      <mat-tab label="Doppel-K.O">
+        <app-tourney-double-elimination-stages [tourney]="tourney" (change)="update($event)"></app-tourney-double-elimination-stages>
+      </mat-tab>
+    }
+
+    @if (hasSingleEliminationStage) {
+      <mat-tab label="Endrunde">
+        <app-tourney-elimination-stages [tourney]="tourney" (change)="update($event)"></app-tourney-elimination-stages>
+      </mat-tab>
+    }
   </mat-tab-group>
 </app-content-tile>

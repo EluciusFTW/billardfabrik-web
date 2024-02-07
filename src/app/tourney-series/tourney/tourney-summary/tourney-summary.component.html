@@ -1,5 +1,4 @@
-<mat-card appearance="outlined" style="margin-top: 2em;" *ngIf="tourney">
-
+<mat-card appearance="outlined" style="margin-top: 2em;">
   <mat-card-content>
     <div style="display: flex; flex-direction: row;">
 
@@ -57,11 +56,15 @@
     <!-- <button mat-raised-button *ngIf="canAddPlayers()" [disabled]="someGroupFinished()" (click)="addPlayer()">
       Nachzügler einlosen
     </button> -->
-    <button mat-raised-button *ngIf="canStart() && tourney.meta.status === 0" (click)="start()">
-      Turnier Eröffnen
-    </button>
-    <button mat-raised-button *ngIf="canCompute()" (click)="calculate()">
-      Turnier Auswerten
-    </button>
+    @if (tourney.meta.status === 0 && canStart) {
+      <button mat-raised-button (click)="start()">
+        Turnier Eröffnen
+      </button>
+    }
+    @if (canCompute) {
+      <button mat-raised-button (click)="calculate()">
+        Turnier Auswerten
+      </button>
+    }
   </mat-card-actions>
 </mat-card>

@@ -30,25 +30,29 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field *ngIf="selectedPlayModus?.hasGroups">
-        <mat-label>Anzahl Gruppen</mat-label>
-        <mat-select
-          [(value)]="nrOfGroupsSelected"
-          [disabled]="nrOfGroups(selectPlayers.selectedOptions.selected.length).length === 1">
-          @for(nr of nrOfGroups(selectPlayers.selectedOptions.selected.length); track nr){
-            <mat-option [value]="nr"> {{ nr }} </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      @if (selectedPlayModus?.hasGroups) {
+        <mat-form-field>
+          <mat-label>Anzahl Gruppen</mat-label>
+          <mat-select
+            [(value)]="nrOfGroupsSelected"
+            [disabled]="nrOfGroups(selectPlayers.selectedOptions.selected.length).length === 1">
+            @for(nr of nrOfGroups(selectPlayers.selectedOptions.selected.length); track nr){
+              <mat-option [value]="nr"> {{ nr }} </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
 
-      <mat-form-field *ngIf="selectedPlayModus?.hasFirstElimination">
-        <mat-label>Einfach-K.O. ab</mat-label>
-        <mat-select [(value)]="firstEliminationSelected">
-          @for(stageType of firstElimination; track stageType) {
-            <mat-option [value]="stageType"> {{ typeName(stageType) }} </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      @if (selectedPlayModus?.hasFirstElimination) {
+        <mat-form-field>
+          <mat-label>Einfach-K.O. ab</mat-label>
+          <mat-select [(value)]="firstEliminationSelected">
+            @for(stageType of firstElimination; track stageType) {
+              <mat-option [value]="stageType"> {{ typeName(stageType) }} </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      }
 
       <mat-form-field>
         <mat-label>Disziplin</mat-label>
