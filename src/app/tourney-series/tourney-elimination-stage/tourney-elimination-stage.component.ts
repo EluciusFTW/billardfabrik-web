@@ -15,7 +15,7 @@ import { UserService } from 'src/app/authentication/user.service';
 })
 export class TourneyEliminationStageComponent {
 
-  @Input()
+  @Input({ required: true })
   stage: TourneyEliminationStage
 
   @Output()

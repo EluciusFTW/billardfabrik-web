@@ -17,7 +17,7 @@ import { UserService } from 'src/app/authentication/user.service';
 })
 export class TourneySummaryComponent {
 
-  @Input()
+  @Input({ required: true })
   tourney: Tourney;
 
   @Output()

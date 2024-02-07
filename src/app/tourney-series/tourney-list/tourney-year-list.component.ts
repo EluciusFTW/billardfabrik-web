@@ -9,7 +9,6 @@ import { TourneyStatisticsService } from "../services/evaluation/tourney-statist
 import { PlayersService } from "../services/players.service";
 import { TourneysService } from "../services/tourneys.service";
 import { ShowResultsDialogComponent } from "./show-results.dialog.component";
-import { TourneyFunctions } from "../tourney/tourney-functions";
 
 @Component({
   selector: 'app-tourney-year-list',
@@ -18,7 +17,7 @@ import { TourneyFunctions } from "../tourney/tourney-functions";
 export class TourneyYearListComponent implements OnInit {
 
   @Input()
-  year: number;
+  year: number = 0;
 
   @Input()
   startingAt: string = "20180101";
@@ -46,12 +45,11 @@ export class TourneyYearListComponent implements OnInit {
     this.tourneysSub = tourneySource
       .subscribe(
         tourneys => {
-          let ts = this.isTourneyAuthenticated()
-            ? tourneys
-            : tourneys.filter(tourney => tourney.meta.status !== TourneyStatus.new);
-          this.tourneyDataSource = new MatTableDataSource<Tourney>(ts.reverse());
-        }
-      );
+          let ts = tourneys
+            .filter(tourney => this.isTourneyAuthenticated || tourney.meta.status !== TourneyStatus.new)
+            .reverse();
+          this.tourneyDataSource = new MatTableDataSource<Tourney>(ts);
+        });
   }
 
   show(tourney: Tourney) {
@@ -71,7 +69,7 @@ export class TourneyYearListComponent implements OnInit {
     }
   }
 
-  isTourneyAuthenticated(): boolean {
+  get isTourneyAuthenticated(): boolean {
     return this.userService.canHandleTourneys();
   }
 

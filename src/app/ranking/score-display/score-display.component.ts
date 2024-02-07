@@ -18,6 +18,6 @@ import { Component, Input } from '@angular/core';
     `]
 })
 export class ScoreDisplayComponent {
-  @Input({required: true})
+  @Input({ required: true })
   score: number;
 }
