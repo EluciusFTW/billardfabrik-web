@@ -15,7 +15,9 @@ export class EloRankingService extends FirebaseService {
   private readonly playersService = inject(PlayersService);
 
   async GetRanking(): Promise<RankingPlayer[]> {
-    const playerNames = await this.GetPlayerNames();
+    const playerNames = await this.playersService
+      .getEloPlayers()
+      .then(players => players.map(PlayerFunctions.displayName));
 
     return firstValueFrom(
       this.db
@@ -34,9 +36,7 @@ export class EloRankingService extends FirebaseService {
           )));
   }
 
-  async GetEloPlayers(): Promise<EloPlayer[]> {
-    const playerNames = await this.GetPlayerNames();
-
+  async GetEloListedPlayers(): Promise<EloPlayer[]> {
     return firstValueFrom(
       this.db
         .object(DB_PLAYERS_PATH)
@@ -49,17 +49,8 @@ export class EloRankingService extends FirebaseService {
                     name: PlayerFunctions.nameFromKey(kvp[0]),
                     ... kvp[1]
                   } as EloPlayer))
-                .filter(player => player.changes.length < this.lowerBoundOnGames)
-                .filter(player => playerNames.includes(player.name))
             : []
         )));
-  }
-
-  private GetPlayerNames(): Promise<string[]> {
-    const playerNames$ = this.playersService
-      .getEloPlayers()
-      .pipe(map(players => players.map(PlayerFunctions.displayName)));
-    return firstValueFrom(playerNames$);
   }
 
   GetRankedTourneyMatches(nrOf: number): Observable<ScoredMatch[]> {

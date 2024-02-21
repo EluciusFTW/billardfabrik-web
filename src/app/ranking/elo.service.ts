@@ -17,7 +17,7 @@ export class EloService extends FirebaseService {
   private readonly rankingService = inject(EloRankingService);
 
   async UpdateEloScores(): Promise<void> {
-    let eloPlayers = await this.rankingService.GetEloPlayers();
+    let eloPlayers = await this.rankingService.GetEloListedPlayers();
     let unrankedMatches = await this.rankingService.GetUnrankedMatches();
 
     let matchData = unrankedMatches
@@ -90,9 +90,9 @@ export class EloService extends FirebaseService {
     return Promise.all(removals.concat(challenges));
   }
 
-  UpdatePlayers(rankings: EloPlayer[]): Promise<void[]> {
-    let updates = rankings
-      .map(ranking => ({ key: PlayerFunctions.keyFromName(ranking.name), c: { changes: ranking.changes } }))
+  UpdatePlayers(players: EloPlayer[]): Promise<void[]> {
+    let updates = players
+      .map(player => ({ key: PlayerFunctions.keyFromName(player.name), c: { changes: player.changes } }))
       .map(ranking => this.db
         .object(`${DB_PLAYERS_PATH}/${ranking.key}`)
         .update(ranking.c))

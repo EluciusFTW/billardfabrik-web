@@ -8,21 +8,21 @@ import { OwnConfirmService } from './services/own-confirm.service';
 import { MaterialModule } from '../material/material.module';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MaterialModule
-    ],
-    declarations: [
-        ContentTileComponent,
-        ConfirmDialogComponent
-    ],
-    exports: [
-        ContentTileComponent,
-    ],
-    providers: [
-        OwnMessageService,
-        OwnConfirmService
-    ]
+  imports: [
+    CommonModule,
+    RouterModule,
+    MaterialModule
+  ],
+  declarations: [
+    ContentTileComponent,
+    ConfirmDialogComponent
+  ],
+  exports: [
+    ContentTileComponent,
+  ],
+  providers: [
+    OwnMessageService,
+    OwnConfirmService
+  ]
 })
 export class SharedModule { }
