@@ -27,6 +27,7 @@
     "players": {
       ".write": "auth != null",
       ".indexOn": [
+        "clubPlayer",
         "showForLeaderboard",
         "showForTourney",
         "showForElo"
