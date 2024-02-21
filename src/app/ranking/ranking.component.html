@@ -1,22 +1,23 @@
 <nav mat-tab-nav-bar [tabPanel]="tabPanel">
-  <a mat-tab-link *ngFor="let tab of publicTabs"
-    (click)="activeLink = tab.link"
-    [active]="activeLink == tab.link"
-    [routerLink]="tab.link">
-    {{ tab.label }}
-  </a>
-  <a mat-tab-link *ngIf="isLoggedIn"
-    (click)="activeLink = 'import'"
-    [active]="activeLink == 'import'"
-    [routerLink]="'import'">
-    Import
-  </a>
-  <a mat-tab-link *ngIf="isLoggedIn"
-    (click)="activeLink = 'player-management'"
-    [active]="activeLink == 'player-management'"
-    [routerLink]="'player-management'">
-    Spielerverwaltung
-  </a>
+  @for (tab of publicTabs; track tab.link) {
+    <a mat-tab-link
+      (click)="activeLink = tab.link"
+      [active]="activeLink == tab.link"
+      [routerLink]="tab.link">
+      {{ tab.label }}
+    </a>
+  }
+
+  @if (isLoggedIn) {
+    @for (tab of authenticatedTabs; track tab.link) {
+      <a mat-tab-link
+        (click)="activeLink = tab.link"
+        [active]="activeLink == tab.link"
+        [routerLink]="tab.link">
+        {{ tab.label }}
+      </a>
+    }
+  }
 </nav>
 
 <mat-tab-nav-panel #tabPanel>

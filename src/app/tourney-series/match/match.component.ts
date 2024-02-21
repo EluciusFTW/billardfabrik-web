@@ -11,11 +11,11 @@ import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 })
 export class MatchComponent {
 
-  @Input()
+  @Input({ required: true })
   match: Match
 
   @Input()
-  disabled: boolean;
+  disabled: boolean = false;
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();

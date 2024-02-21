@@ -1,22 +1,32 @@
-<mat-card appearance="outlined" style="margin-top:2em;" *ngIf="!!stage">
+<mat-card appearance="outlined" style="margin-top:2em;">
   <mat-card-header style="margin-bottom:1em;">
     <mat-card-title>{{ stage.title }}</mat-card-title>
-    <mat-card-subtitle class="roundOver" *ngIf="stageCompleted">
-    </mat-card-subtitle>
+    @if (stageCompleted) {
+      <mat-card-subtitle class="roundOver">
+        Die Runde ist beendet.
+      </mat-card-subtitle>
+    }
   </mat-card-header>
 
   <div style="display: flex; flex-direction: column; gap: 0.5em; margin: 0.5em;">
-    <app-match
-      *ngFor="let match of stage.matches"
-      [match]="match"
-      [disabled]="!stageActive"
-      (change)="emitChange($event)"></app-match>
+    @for (match of stage.matches; track match) {
+      <app-match
+        [match]="match"
+        [disabled]="!stageActive"
+        (change)="emitChange($event)">
+      </app-match>
+    }
   </div>
 
-  <mat-card-actions *ngIf="this.stage.status != 2">
-    <button mat-button *ngIf="canHandleTourney()" [disabled]="!allGamesOver()" (click)="finalize()">Abschließen</button>
-    Ausspielziel: {{ this.stage.matches[0].length }}
-    <button *ngIf="canHandleTourney()" style="margin: 10px;" (click)="increaseLength()">+</button>
-    <button *ngIf="canHandleTourney()" style="margin: 10px;" (click)="decreaseLength()">-</button>
-  </mat-card-actions>
+  @if (this.stage.status != 2) {
+    <mat-card-actions>
+      <button mat-button *ngIf="canHandleTourney()" [disabled]="!allGamesOver()" (click)="finalize()">Abschließen</button>
+      Ausspielziel: {{ this.stage.matches[0].length }}
+
+      @if (canHandleTourney()) {
+        <button style="margin: 10px;" (click)="increaseLength()">+</button>
+        <button style="margin: 10px;" (click)="decreaseLength()">-</button>
+      }
+    </mat-card-actions>
+  }
 </mat-card>

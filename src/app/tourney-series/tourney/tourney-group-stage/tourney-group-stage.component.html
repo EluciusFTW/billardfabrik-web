@@ -1,7 +1,7 @@
-<div style="margin-top: 2em;">
-  <mat-tab-group mat-stretch-tabs="false" animationDuration="0ms">
-    <mat-tab *ngFor="let group of tourney?.groups" label="Gruppe {{ group.number }}">
+<mat-tab-group mat-stretch-tabs="false" animationDuration="0ms">
+  @for (group of tourney.groups; track group.number) {
+    <mat-tab label="Gruppe {{ group.number }}">
       <app-tourney-group [group]="group" (change)="emitChange($event)"></app-tourney-group>
     </mat-tab>
-  </mat-tab-group>
-</div>
+  }
+</mat-tab-group>

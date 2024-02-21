@@ -15,18 +15,29 @@
   <ng-container matColumnDef="placements">
     <th mat-header-cell *matHeaderCellDef> Platzierungen </th>
     <td mat-cell *matCellDef="let item">
-      <div class="space-right" *ngIf="item.placements.gold"
-        [matBadge]="item.placements.gold > 1 ? item.placements.gold : null" matBadgeSize="small">
-        <i class="fas fa-medal gold-medal"></i>
-      </div>
-      <div class="space-right" *ngIf="item.placements.silver"
-        [matBadge]="item.placements.silver > 1 ? item.placements.silver : null" matBadgeSize="small">
-        <i class="fas fa-medal silver-medal"></i>
-      </div>
-      <div class="space-right" *ngIf="item.placements.bronze"
-        [matBadge]="item.placements.bronze > 1 ? item.placements.bronze : null" matBadgeSize="small">
-        <i class="fas fa-medal bronze-medal"></i>
-      </div>
+      @if (item.placements.gold) {
+        <div
+          class="space-right"
+          [matBadge]="item.placements.gold > 1 ? item.placements.gold : null" matBadgeSize="small">
+          <i class="fas fa-medal gold-medal"></i>
+        </div>
+      }
+
+      @if (item.placements.silver) {
+        <div
+          class="space-right"
+          [matBadge]="item.placements.silver > 1 ? item.placements.silver : null" matBadgeSize="small">
+          <i class="fas fa-medal silver-medal"></i>
+        </div>
+      }
+
+      @if (item.placements.bronze) {
+        <div
+          class="space-right"
+          [matBadge]="item.placements.bronze > 1 ? item.placements.bronze : null" matBadgeSize="small">
+          <i class="fas fa-medal bronze-medal"></i>
+        </div>
+      }
     </td>
   </ng-container>
 

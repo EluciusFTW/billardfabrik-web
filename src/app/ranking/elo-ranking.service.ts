@@ -5,7 +5,7 @@ import { RankingPlayer } from "./models/ranking-player";
 import { PlayerFunctions } from "../players/player-functions";
 import { Observable, firstValueFrom, map } from "rxjs";
 import { EloPlayer, EloPlayerData } from "./models/elo-models";
-import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH, DB_NEW_PLAYERS_PATH } from "./elo.service";
+import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH, DB_PLAYERS_PATH } from "./elo.service";
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
 import { Db } from "../shared/firebase-utilities";
 
@@ -15,11 +15,13 @@ export class EloRankingService extends FirebaseService {
   private readonly playersService = inject(PlayersService);
 
   async GetRanking(): Promise<RankingPlayer[]> {
-    const playerNames = await this.GetPlayerNames();
+    const playerNames = await this.playersService
+      .getEloPlayers()
+      .then(players => players.map(PlayerFunctions.displayName));
 
     return firstValueFrom(
       this.db
-        .list<EloPlayerData>(DB_NEW_PLAYERS_PATH)
+        .list<EloPlayerData>(DB_PLAYERS_PATH)
         .snapshotChanges()
         .pipe(
           map(snapshots => snapshots
@@ -34,12 +36,10 @@ export class EloRankingService extends FirebaseService {
           )));
   }
 
-  async GetEloPlayers(): Promise<EloPlayer[]> {
-    const playerNames = await this.GetPlayerNames();
-
+  async GetEloListedPlayers(): Promise<EloPlayer[]> {
     return firstValueFrom(
       this.db
-        .object(DB_NEW_PLAYERS_PATH)
+        .object(DB_PLAYERS_PATH)
         .valueChanges()
         .pipe(
           map(value => value
@@ -49,17 +49,8 @@ export class EloRankingService extends FirebaseService {
                     name: PlayerFunctions.nameFromKey(kvp[0]),
                     ... kvp[1]
                   } as EloPlayer))
-                .filter(player => player.changes.length < this.lowerBoundOnGames)
-                .filter(player => playerNames.includes(player.name))
             : []
         )));
-  }
-
-  private GetPlayerNames(): Promise<string[]> {
-    const playerNames$ = this.playersService
-      .getEloPlayers()
-      .pipe(map(players => players.map(PlayerFunctions.displayName)));
-    return firstValueFrom(playerNames$);
   }
 
   GetRankedTourneyMatches(nrOf: number): Observable<ScoredMatch[]> {

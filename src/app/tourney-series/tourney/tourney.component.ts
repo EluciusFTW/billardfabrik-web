@@ -38,15 +38,15 @@ export class TourneyComponent implements OnDestroy {
       : ''
   }
 
-  hasGroupStage(): boolean {
+  get hasGroupStage(): boolean {
     return (this.tourney?.groups?.length ?? 0) > 0;
   }
 
-  hasDoubleEliminationStage(): boolean {
+  get hasDoubleEliminationStage(): boolean {
     return (this.tourney?.doubleEliminationStages?.length ?? 0) > 0
   }
 
-  hasSingleEliminationStage(): boolean {
+  get hasSingleEliminationStage(): boolean {
     return (this.tourney?.eliminationStages?.length ?? 0) > 0
   }
 

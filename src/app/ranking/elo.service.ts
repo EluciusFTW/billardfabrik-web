@@ -10,14 +10,14 @@ import { EloRankingService } from './elo-ranking.service';
 export const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
 export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
-export const DB_NEW_PLAYERS_PATH = 'elo/players';
+export const DB_PLAYERS_PATH = 'elo/players';
 
 @Injectable()
 export class EloService extends FirebaseService {
   private readonly rankingService = inject(EloRankingService);
 
   async UpdateEloScores(): Promise<void> {
-    let eloPlayers = await this.rankingService.GetEloPlayers();
+    let eloPlayers = await this.rankingService.GetEloListedPlayers();
     let unrankedMatches = await this.rankingService.GetUnrankedMatches();
 
     let matchData = unrankedMatches
@@ -90,12 +90,12 @@ export class EloService extends FirebaseService {
     return Promise.all(removals.concat(challenges));
   }
 
-  UpdatePlayers(rankings: EloPlayer[]): Promise<void[]> {
-    let updates = rankings
-      .map(r => ({ key: PlayerFunctions.keyFromName(r.name), c: { changes: r.changes } }))
-      .map(r => this.db
-        .object(`${DB_NEW_PLAYERS_PATH}/${r.key}`)
-        .update(r.c))
+  UpdatePlayers(players: EloPlayer[]): Promise<void[]> {
+    let updates = players
+      .map(player => ({ key: PlayerFunctions.keyFromName(player.name), c: { changes: player.changes } }))
+      .map(ranking => this.db
+        .object(`${DB_PLAYERS_PATH}/${ranking.key}`)
+        .update(ranking.c))
 
     return Promise.all(updates);
   }

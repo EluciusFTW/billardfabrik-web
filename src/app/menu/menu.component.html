@@ -60,8 +60,10 @@
       <button mat-menu-item [routerLink]="'ranking/players'">Rangliste</button>
       <button mat-menu-item [routerLink]="'ranking/matches'">Matches</button>
       <button mat-menu-item [routerLink]="'ranking/details'">Details</button>
-      <button *ngIf='isLoggedIn' mat-menu-item [routerLink]="'ranking/import'">Import</button>
-      <button *ngIf='isLoggedIn' mat-menu-item [routerLink]="'ranking/player-management'">Spielerverwaltung</button>
+      @if (isLoggedIn) {
+        <button mat-menu-item [routerLink]="'ranking/import'">Import</button>
+        <button mat-menu-item [routerLink]="'ranking/player-management'">Spielerverwaltung</button>
+      }
     </mat-menu>
   </div>
 

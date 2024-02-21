@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { UserService } from '../authentication/user.service';
 import { AuthorizedComponent } from '../shared/authorized.component';
 
 @Component({
@@ -8,12 +7,11 @@ import { AuthorizedComponent } from '../shared/authorized.component';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent extends AuthorizedComponent {
-
   login(): void {
     this.userService.login();
   }
 
-  displayName(): string {
+  get displayName(): string {
     return this.userService.userName;
   }
 

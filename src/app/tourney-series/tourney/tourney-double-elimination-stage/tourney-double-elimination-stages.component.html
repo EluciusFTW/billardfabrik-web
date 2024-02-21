@@ -3,9 +3,13 @@
     <app-tourney-elimination-stage [stage]="entryStage()" (change)="emitChange($event)"></app-tourney-elimination-stage>
   </mat-tab>
   <mat-tab label="Gewinner-Bracket">
-    <app-tourney-elimination-stage *ngFor="let stage of winnerStages()" [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+    @for (stage of winnerStages(); track stage) {
+      <app-tourney-elimination-stage [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+    }
   </mat-tab>
   <mat-tab label="Verlierer-Bracket">
-    <app-tourney-elimination-stage *ngFor="let stage of loserStages()" [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+    @for (stage of loserStages(); track stage) {
+      <app-tourney-elimination-stage [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+    }
   </mat-tab>
 </mat-tab-group>

@@ -1,1 +1,3 @@
-<app-tourney-elimination-stage *ngFor="let stage of tourney?.eliminationStages" [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+@for (stage of tourney.eliminationStages; track stage.type) {
+  <app-tourney-elimination-stage [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
+}

@@ -1,15 +1,12 @@
 import { Component } from '@angular/core';
-import { UserService } from 'src/app/authentication/user.service';
+import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 
 @Component({
   templateUrl: './tourney-list.component.html',
   styleUrls: ['./tourney-list.component.scss']
 })
-export class TourneyListComponent {
-
-  constructor(private userService: UserService) {  }
-
-  isTourneyAuthenticated(): boolean {
+export class TourneyListComponent extends AuthorizedComponent {
+  get isTourneyAuthenticated(): boolean {
     return this.userService.canHandleTourneys();
   }
 }

@@ -12,9 +12,9 @@
 
     <mat-checkbox name="cl" [(ngModel)]="club">BillardFabrik Leipzig?</mat-checkbox>
 
-    <div *ngIf="error" style="color:red">
-      {{ error }}
-    </div>
+    @if (error) {
+      <div style="color:red"> {{ error }} </div>
+    }
   </form>
 </div>
 

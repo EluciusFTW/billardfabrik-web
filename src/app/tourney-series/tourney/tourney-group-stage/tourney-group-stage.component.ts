@@ -8,7 +8,7 @@ import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 })
 export class TourneyGroupStageComponent {
 
-  @Input()
+  @Input({ required: true })
   tourney: Tourney;
 
   @Output()

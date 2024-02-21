@@ -17,7 +17,7 @@ import { GroupFunctions } from './group-functions';
 })
 export class TourneyGroupComponent implements OnInit {
 
-  @Input()
+  @Input({ required: true })
   group: TourneyGroup
 
   @Output()

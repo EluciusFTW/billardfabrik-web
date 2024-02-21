@@ -1,18 +1,17 @@
-<div
-  *ngIf="unrankedMatches?.length === 0; else content"
-  style="display:flex; justify-content: center; align-items:center; height: 10em;">
-  <span>
-    Hurra, es gibt zur Zeit keine unausgewerteten Spiele!
-  </span>
-</div>
-
-<ng-template #content>
-  <mat-toolbar *ngIf="isLoggedIn">
-    <button mat-raised-button (click)="Calculate()" class="demo-button">
-      Alle Auswerten
-    </button>
-  </mat-toolbar>
-
+@if (unrankedMatches?.length === 0) {
+  <div style="display:flex; justify-content: center; align-items:center; height: 10em;">
+    <span>
+      Hurra, es gibt zur Zeit keine unausgewerteten Spiele!
+    </span>
+  </div>
+} @else {
+  @if (isLoggedIn) {
+    <mat-toolbar>
+      <button mat-raised-button (click)="Calculate()" class="demo-button">
+        Alle Auswerten
+      </button>
+    </mat-toolbar>
+  }
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef> Datum </th>
@@ -39,4 +38,4 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
   </table>
-</ng-template>
+}

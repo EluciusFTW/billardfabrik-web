@@ -10,7 +10,7 @@ import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 })
 export class TourneyDoubleEliminationStagesComponent {
 
-  @Input()
+  @Input({ required: true })
   tourney: Tourney;
 
   @Output()

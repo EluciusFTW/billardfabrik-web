@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TourneyCreationService } from '../services/creation/tourney-creation.service';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
 import { POOL_DISCIPLINES, PoolDiscipline } from '../models/pool-discipline';
-import { Subscription, map, take } from 'rxjs';
 import { PlayerCreateDialogComponent } from '../../players/player-create-dialog/player-create-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
@@ -17,7 +16,11 @@ import { PlayerFunctions } from 'src/app/players/player-functions';
 @Component({
   templateUrl: './create-tourney.component.html',
 })
-export class CreateTourneyComponent {
+export class CreateTourneyComponent implements OnInit{
+  private readonly createTourneyService = inject(TourneyCreationService);
+  private readonly tourneysService = inject(TourneysService);
+  private readonly playersService = inject(PlayersService);
+  private readonly dialog = inject(MatDialog);
 
   players: TourneyPlayer[] = [];
   playModi: TourneyModeViewModel[] = [
@@ -31,7 +34,7 @@ export class CreateTourneyComponent {
       hasFirstElimination: true,
       hasGroups: false
     }];
-  selectedPlayModus: TourneyModeViewModel;
+  selectedPlayModus: TourneyModeViewModel = this.playModi[0];
 
   nrOfGroupsSelected: number;
 
@@ -51,17 +54,8 @@ export class CreateTourneyComponent {
   tourney: Tourney = <Tourney>{};
   group: TourneyGroup[];
 
-  constructor(
-    private createTourneyService: TourneyCreationService,
-    private tourneysService: TourneysService,
-    private playersService: PlayersService,
-    public dialog: MatDialog
-  ) {
-    this.selectedPlayModus = this.playModi[0];
-    this.playersService
-      .getTourneyPlayers()
-      .pipe(take(1))
-      .subscribe(players => this.players = players);
+  async ngOnInit() {
+    this.players = await this.playersService.getTourneyPlayers();
   }
 
   playerSelectionChange(event: any): void {

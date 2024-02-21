@@ -36,7 +36,7 @@ export class TourneySeriesOverviewComponent {
       payout: ['40%', '30%', '20%', '10%'],
       points: ['10', '8', '6', '5', '4', '3']
     }
-  ];
+  ] as const;
 
   displayDetails: string[] = ['nrOf', 'description', 'places', 'payout', 'points'];
   detailsDataSource = new MatTableDataSource<any>(this.details);

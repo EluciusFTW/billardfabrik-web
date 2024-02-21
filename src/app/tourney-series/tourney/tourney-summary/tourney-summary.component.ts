@@ -17,7 +17,7 @@ import { UserService } from 'src/app/authentication/user.service';
 })
 export class TourneySummaryComponent {
 
-  @Input()
+  @Input({ required: true })
   tourney: Tourney;
 
   @Output()
@@ -81,11 +81,11 @@ export class TourneySummaryComponent {
     }
   }
 
-  canStart(): boolean {
+  get canStart(): boolean {
     return this.userService.canHandleTourneys();
   }
 
-  canCompute(): boolean {
+  get canCompute(): boolean {
     // Evaluation of double elimination tourneys is still not implemented
     return this.userService.canHandleTourneys()
       && this.tourney.meta.status === TourneyStatus.completed

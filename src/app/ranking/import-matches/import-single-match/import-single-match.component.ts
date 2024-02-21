@@ -47,10 +47,9 @@ export class ImportSingleMatchComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.availablePlayers = await firstValueFrom(
-      this.eloService
-        .getEloPlayers()
-        .pipe(map(players => players.map(PlayerFunctions.displayName))));
+    this.availablePlayers = await this.eloService
+      .getEloPlayers()
+      .then(players => players.map(PlayerFunctions.displayName))
   }
 
   get p1s() {
