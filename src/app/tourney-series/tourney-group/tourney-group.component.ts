@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { GroupStanding } from '../models/group-standing';
 import { Match } from '../models/match';
-import { MatchPlayer } from "../models/match-player";
 import { TourneyGroup } from '../models/tourney-group';
 import { TourneyPhaseStatus } from "../models/tourney-phase-status";
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
@@ -76,7 +75,8 @@ export class TourneyGroupComponent implements OnInit {
       .filter(match => match.status !== MatchStatus.cancelled)
       .forEach(match => match.status = MatchStatus.done);
 
-    this.group.qualified = this.standing
+    this.group.qualified = GroupFunctions
+      .calculcateStanding(this.group)
       .slice(0, 2)
       .map(row => row.name);
 

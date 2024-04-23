@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
-import { OwnMessageService } from 'src/app/shared/services/own-message.service';
-import { first, map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { TourneyPlayerEvaluation } from '../models/evaluation/tourney-player-evaluation';
 import { PlayerMatchRecord } from '../models/evaluation/player-match-record';
 import { TourneyPlacementType } from '../models/evaluation/tourney-placement-type';
@@ -65,28 +64,27 @@ export class PlayersService extends FirebaseService {
     }
   }
 
-  AddPlayerRecord(evaluation: TourneyPlayerEvaluation): void {
-    evaluation.matches.forEach(match => this.AddMatchTo(evaluation.name, match));
-    this.db
+  async AddPlayerRecord(evaluation: TourneyPlayerEvaluation): Promise<void> {
+    await this.AddMatchesTo(evaluation);
+    await this.db
       .object(this.playerResultsKey(evaluation.name) + '/placements/' + evaluation.placement.tourney)
       .set(evaluation.placement);
   }
 
-  AddMatchTo(name: string, match: PlayerMatchRecord): void {
-    const matchesPath = this.playerResultsKey(name) + '/matches';
-    this.db
-      .list<PlayerMatchRecord>(matchesPath, ref => ref.orderByChild('tourney').equalTo(match.tourney))
-      .snapshotChanges()
-      .pipe(
-        first(),
-        map(changes => <PlayerMatchRecord[]>changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))))
-      .subscribe(
-        matches => {
-          if (!matches.find(m => m.opponent === match.opponent && m.type === match.type)) {
-            this.db
-              .list<PlayerMatchRecord>(matchesPath)
-              .push(match);
-          }});
+  private async AddMatchesTo(evaluation: TourneyPlayerEvaluation): Promise<void> {
+    const matchesPath = this.playerResultsKey(evaluation.name) + '/matches';
+    const tourney = evaluation.matches[0].tourney;
+    const existingMatches = await firstValueFrom(
+      this.db
+        .list<PlayerMatchRecord>(matchesPath, ref => ref.orderByChild('tourney').equalTo(tourney))
+        .valueChanges());
+
+    await Promise.all(
+      evaluation.matches
+        .filter(match => !existingMatches.find(m => m.opponent === match.opponent && m.type === match.type))
+        .map(match => this.db
+          .list<PlayerMatchRecord>(matchesPath)
+          .push(match)));
   }
 
   private playerResultsKey(name: string): string {

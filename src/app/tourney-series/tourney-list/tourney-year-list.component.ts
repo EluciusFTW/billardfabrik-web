@@ -57,14 +57,15 @@ export class TourneyYearListComponent implements OnInit {
     this.dialog.open(ShowResultsDialogComponent, { data: result })
   }
 
-  calculate(tourney: Tourney) {
+  async calculate(tourney: Tourney) {
     if (tourney.meta.status !== TourneyStatus.completed) {
       return;
     }
 
     const result = this.statisticsService.Evaluate(tourney);
     if (result) {
-      result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
+      let updates = result.players.map(evaluation => this.playersService.AddPlayerRecord(evaluation));
+      await Promise.all(updates);
       this.tourneysService.update(tourney, { type: 'ResultsPostProcessed' });
     }
   }

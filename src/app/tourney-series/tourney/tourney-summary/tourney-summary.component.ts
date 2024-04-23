@@ -71,13 +71,14 @@ export class TourneySummaryComponent {
     return TourneyFunctions.GetPlayerCount(this.tourney);
   }
 
-  calculate(): void {
+  async calculate(): Promise<void> {
     if (this.tourney.meta.status !== TourneyStatus.postProcessed) {
       const result = this.statisticsService.Evaluate(this.tourney);
       if (result) {
-        result.players.forEach(evaluation => this.playersService.AddPlayerRecord(evaluation));
+        let updates = result.players.map(evaluation => this.playersService.AddPlayerRecord(evaluation));
+        await Promise.all(updates);
+        this.change.emit({ type: 'ResultsPostProcessed' });
       }
-      this.change.emit({ type: 'ResultsPostProcessed' });
     }
   }
 
