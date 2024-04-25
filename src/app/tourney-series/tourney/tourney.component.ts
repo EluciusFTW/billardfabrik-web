@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
@@ -10,20 +10,15 @@ import { TourneyFunctions } from './tourney-functions';
   selector: 'app-tourney',
   templateUrl: './tourney.component.html'
 })
-export class TourneyComponent implements OnDestroy {
+export class TourneyComponent {
 
   id: string;
-  private sub: Subscription;
   tourney: Tourney;
 
   constructor(private route: ActivatedRoute, private tourneysService: TourneysService) {
-    this.sub = this.route.params
-      .subscribe(params => {
-        this.id = params['id'];
-        this.tourneysService
-          .get(this.id)
-          .subscribe(tourney => this.tourney = tourney);
-      });
+    this.tourneysService
+      .get(this.route.snapshot.paramMap.get('id'))
+      .subscribe(tourney => this.tourney = tourney);
   }
 
   get header(): string {
@@ -52,11 +47,5 @@ export class TourneyComponent implements OnDestroy {
 
   update(event: TourneyPhaseEvent): void {
     this.tourneysService.update(this.tourney, event);
-  }
-
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
   }
 }
