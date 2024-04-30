@@ -3,6 +3,7 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn,
 import { MatDialogRef } from '@angular/material/dialog';
 import { EloFunctions } from '../../elo-functions';
 import { EloDataPoint, EloScores } from '../../models/elo-models';
+import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/pool-discipline';
 
 @Component({
   selector: 'app-elo-simulation',
@@ -17,6 +18,7 @@ import { EloDataPoint, EloScores } from '../../models/elo-models';
 })
 export class EloSimulationComponent {
 
+  disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
   matchForm: FormGroup;
   score: EloScores | null;
 
@@ -27,12 +29,14 @@ export class EloSimulationComponent {
       playerTwoElo: new FormControl<number>(1500, [Validators.required, Validators.min(0)]),
       playerOneScore: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
       playerTwoScore: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
+      discipline: new FormControl<string>(this.disciplines[0], [Validators.required]),
     },
     { validators: [noWinnerValidator] });
   }
 
   calculate(): void {
     this.score = EloFunctions.calculateAll({
+      discipline: this.matchForm.value.discipline,
       p1Points: this.matchForm.value.playerOneScore,
       p2Points: this.matchForm.value.playerTwoScore,
       p1DataPoint: this.createDataPoint(this.matchForm.value.playerOneElo),

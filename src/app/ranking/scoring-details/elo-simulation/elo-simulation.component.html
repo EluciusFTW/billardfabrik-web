@@ -1,5 +1,18 @@
 <app-content-tile [header]="'Spiel eingeben'">
   <form [formGroup]="matchForm" (ngSubmit)="calculate()">
+    
+    <div class="row-1">
+      <mat-form-field class="other">
+        <mat-label>Disziplin</mat-label>
+        <mat-select formControlName="discipline">
+          @for (discipline of disciplines; track discipline) {
+            <mat-option [value]="discipline">
+              {{ discipline }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
 
     <div class="row-1">
       <mat-form-field class="points">
