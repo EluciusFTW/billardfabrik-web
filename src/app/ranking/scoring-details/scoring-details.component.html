@@ -54,6 +54,20 @@
     <li>
       Dadurch dass der Spielstand wie oben beschrieben eingeht, würden 9:8 und 8:9 ziemlich ähnlich bewertet - aber es gibt einen großen Unterschied zwischen gewinnen und verlieren, den wollen wir auch mit berücksichtigen! Daher gibt es noch einen stets positiven Korrekturterm B der den Gewinner belohnt. Dieser Term hängt nur von der Länge des Matches ab.
     </li>
+    <li>
+      Da wir Matches in <em>allen klassischen Billarddisziplinen</em> ermöglichen (wenn nicht sogar ermutigen) wollen, die Punkte sich aber deutlich unterscheiden, normalisieren wir für ein paar Disziplinen die Ergebnisse wie folgt für die ELO Berechnung:
+      <ul>
+        <li>
+          14/1: Geteilt durch 12, abgerundet (Beispiel: 100:28 wird als 8:2 gewertet)
+        </li>
+        <li>
+          One-Pocket: Mal 2 (Beispiel: Ein 3:1 wird als 6:2 gewertet)
+        </li>
+        <li>
+          Bank-Pool: Mal 1.5, abgerundet (Beispiel: Ein 5:2 wird als 7:3 gewertet)
+        </li>
+      </ul>
+    </li>
   </ul>
   Am Ende der Seite könnt ihr einen Vergleich der verschiedenen Systeme an einem Beispiel durchgerechnen sehen (letzte Tabelle), oder <button mat-raised-button (click)="simulate()">selber simulieren</button>.
   <div style="height: 20px;"></div>
