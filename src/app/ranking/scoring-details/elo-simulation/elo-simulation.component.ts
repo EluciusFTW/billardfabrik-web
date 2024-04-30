@@ -10,9 +10,9 @@ import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/
   templateUrl: './elo-simulation.component.html',
   styles: [`
     .error-message {
+      padding-left: 1em;
       color: var(--color-error);
-      font-size: .5em;
-      line-height: 1;
+      font-size: .75em;
     }
   `]
 })
@@ -31,7 +31,7 @@ export class EloSimulationComponent {
       playerTwoScore: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
       discipline: new FormControl<string>(this.disciplines[0], [Validators.required]),
     },
-    { validators: [noWinnerValidator] });
+    { validators: [noWinnerValidator, minScoreValidator] });
   }
 
   calculate(): void {
@@ -65,5 +65,22 @@ const noWinnerValidator: ValidatorFn = (control: AbstractControl): ValidationErr
 
   return s1 && s1 === s2
     ? { noWinner: true }
+    : null;
+};
+
+const minScoreValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const s1 = control.get('playerOneScore').value;
+  const s2 = control.get('playerTwoScore').value;
+
+  const minValue = () => {
+    switch (control.get('discipline').value as PoolDiscipline) {
+      case '14/1': return 50;
+      case 'One-Pocket': return 2;
+      default: return 3;
+    }
+  }
+  const mV = minValue();
+  return Math.max(s1, s2) < mV
+    ? { needed: mV }
     : null;
 };

@@ -1,6 +1,6 @@
 <app-content-tile [header]="'Spiel eingeben'">
   <form [formGroup]="matchForm" (ngSubmit)="calculate()">
-    
+
     <div class="row-1">
       <mat-form-field class="other">
         <mat-label>Disziplin</mat-label>
@@ -37,12 +37,15 @@
       <mat-form-field class="points">
         <mat-label>Pkt</mat-label>
         <input type="number" matInput formControlName="playerTwoScore" required>
-        @if (matchForm.errors?.['noWinner']) {
-          <div class="error-message">Es muss einen Gewinner geben.</div>
-        }
       </mat-form-field>
     </div>
+
     <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Berechnen</button>
+    @if (matchForm.errors?.['noWinner']) {
+      <span class="error-message">Es muss einen Gewinner geben.</span>
+    } @else if (matchForm.errors?.['needed']) {
+      <span class="error-message">Das Mindestausspielziel ist {{ matchForm.errors?.['needed'] }}.</span>
+    }
   </form>
   <hr>
 
