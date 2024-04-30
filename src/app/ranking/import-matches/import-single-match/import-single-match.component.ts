@@ -22,17 +22,10 @@ export class ImportSingleMatchComponent implements OnInit {
   disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
   availablePlayers: string[] = [];
 
-  selectDiscipline: FormControl<string>;
   selectDate: FormControl<Date>;
-  playerOneScore = new FormControl<number>(0, [Validators.required, Validators.min(0)]);
-  playerTwoScore = new FormControl<number>(0, [Validators.required, Validators.min(0)]);
-  selectPlayerOne = new FormControl<string>('', [Validators.required]);
-  selectPlayerTwo = new FormControl<string>('', [Validators.required]);
-
   matchForm: FormGroup;
 
   constructor() {
-    this.selectDiscipline = new FormControl<string>(this.disciplines[0], [Validators.required]);
     this.selectDate = new FormControl<Date>(new Date(), [Validators.required]);
 
     this.matchForm = new FormGroup({
