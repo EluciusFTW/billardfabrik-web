@@ -1,3 +1,5 @@
+import { PoolDiscipline } from "src/app/tourney-series/models/pool-discipline";
+
 export type EloScores = {
   cla: number;
   bvf: number;
@@ -24,12 +26,18 @@ export type MatchPoints = {
   p2Points: number;
 }
 
-export type EloCalculationInput = MatchPoints & {
-  p1Elo: number;
-  p2Elo: number;
+export type NormalizedPoints = {
+  p1NormalizedPoints: number;
+  p2NormalizedPoints: number;
 }
 
 export type EloMatchInput = MatchPoints & {
   p1DataPoint: EloDataPoint;
   p2DataPoint: EloDataPoint;
+  discipline: PoolDiscipline;
+}
+
+export type EloCalculationInput = NormalizedPoints & {
+  p1Elo: number;
+  p2Elo: number;
 }

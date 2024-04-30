@@ -1,4 +1,5 @@
-import { EloMatchInput, EloCalculationInput, EloMode, EloScores, EloStanding } from "./models/elo-models";
+import { PoolDiscipline } from "../tourney-series/models/pool-discipline";
+import { EloMatchInput, EloCalculationInput, EloMode, EloScores, EloStanding, NormalizedPoints } from "./models/elo-models";
 
 export class EloFunctions {
 
@@ -24,25 +25,53 @@ export class EloFunctions {
   }
 
   public static calculateAll(match: EloMatchInput): EloScores {
+    const normalizedPoints = this.getNormalizedPoints(match);
     const ld1 = match.p1DataPoint;
     const ld2 = match.p2DataPoint;
 
     return {
       cla: this.calculate(
-        { ...match, p1Elo: ld1.cla, p2Elo: ld2.cla },
+        { ...normalizedPoints, p1Elo: ld1.cla, p2Elo: ld2.cla },
         'classic'
       ),
       wnb: this.calculate(
-        { ...match, p1Elo: ld1.wnb, p2Elo: ld2.wnb },
+        { ...normalizedPoints, p1Elo: ld1.wnb, p2Elo: ld2.wnb },
         'weighted'
       ),
       wwb: this.calculate(
-        { ...match, p1Elo: ld1.wwb, p2Elo: ld2.wwb },
+        { ...normalizedPoints, p1Elo: ld1.wwb, p2Elo: ld2.wwb },
         'weightedWithBonus'
       ),
       bvf: this.calculateWithVaryingScale(
-        { ...match, p1Elo: ld1.bvf, p2Elo: ld2.bvf },
+        { ...normalizedPoints, p1Elo: ld1.bvf, p2Elo: ld2.bvf },
       ),
+    }
+  }
+
+  private static getNormalizedPoints(match: EloMatchInput): NormalizedPoints {
+    const normalizator = this.getNormalizingFunction(match.discipline);
+    const normalizedPoints = {
+      p1NormalizedPoints: normalizator(match.p1Points),
+      p2NormalizedPoints: normalizator(match.p2Points)
+    }
+
+    // make sure there is a winner even after normalization.
+    if (normalizedPoints.p1NormalizedPoints == normalizedPoints.p2NormalizedPoints) {
+      if (match.p1Points > match.p2Points) 
+        normalizedPoints.p2NormalizedPoints--
+      else 
+        normalizedPoints.p1NormalizedPoints--
+    }
+
+    return normalizedPoints;
+  }
+
+  private static getNormalizingFunction(discipline: PoolDiscipline): (score: number) => number {
+    switch (discipline) {
+      case '14/1': return (p: number) => Math.floor(p / 12);
+      case 'Bank-Pool': return (p: number) => Math.floor(p * 1.5)
+      case 'One-Pocket': return (p: number) => p * 2;
+      default: return (p: number) => p;
     }
   }
 
@@ -55,7 +84,7 @@ export class EloFunctions {
   }
 
   private static getVaryingScaleFactor(match: EloCalculationInput) : number {
-    const matchLength = Math.max(match.p1Points, match.p2Points);
+    const matchLength = Math.max(match.p1NormalizedPoints, match.p2NormalizedPoints);
     return matchLength < 5
       ? 16
       : matchLength < 7
@@ -69,13 +98,13 @@ export class EloFunctions {
 
     const expected = this.E(q1,q2);
     const actual = mode !== 'classic'
-      ? this.E(match.p1Points, match.p2Points)
-      : match.p1Points > match.p2Points
+      ? this.E(match.p1NormalizedPoints, match.p2NormalizedPoints)
+      : match.p1NormalizedPoints > match.p2NormalizedPoints
         ? 1
         : 0;
 
     const bonus = mode === 'weightedWithBonus'
-      ? this.Bonus(match.p1Points, match.p2Points)
+      ? this.Bonus(match.p1NormalizedPoints, match.p2NormalizedPoints)
       : 0;
 
     return actual + bonus - expected;

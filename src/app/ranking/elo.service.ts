@@ -6,7 +6,6 @@ import { Db } from '../shared/firebase-utilities';
 import { PlayerFunctions } from '../players/player-functions';
 import { FirebaseService } from '../shared/firebase.service';
 import { EloRankingService } from './elo-ranking.service';
-import { PoolDiscipline } from '../tourney-series/models/pool-discipline';
 
 export const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
@@ -34,10 +33,10 @@ export class EloService extends FirebaseService {
 
     matchData
       .forEach(data => {
-        const normalizator = this.getNormalizingFunction(data.match.discipline);
         const eloInput = {
-          p1Points: normalizator(data.match.playerOne.points),
-          p2Points: normalizator(data.match.playerTwo.points),
+          discipline: data.match.discipline,
+          p1Points: data.match.playerOne.points,
+          p2Points: data.match.playerTwo.points,
           p1DataPoint: data.p1.changes[data.p1.changes.length - 1],
           p2DataPoint: data.p2.changes[data.p2.changes.length - 1]
         }
@@ -58,15 +57,6 @@ export class EloService extends FirebaseService {
     await this.SaveRankedMatches(evaluatedMatches);
     await this.UpdatePlayers(eloPlayers);
     await this.RemoveIncomingMatches(evaluatedMatches);
-  }
-
-  private getNormalizingFunction(discipline: PoolDiscipline): (score: number) => number {
-    switch (discipline) {
-      case '14/1': return (p: number) => Math.floor(p / 12);
-      case 'Bank-Pool': return (p: number) => Math.floor(p *1.5)
-      case 'One-Pocket': return (p: number) => p * 2;
-      default: return (p: number) => p;
-    }
   }
 
   private createNewPlayer(name: string, existing: EloPlayer[]) {
