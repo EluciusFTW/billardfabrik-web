@@ -3,7 +3,7 @@
     <div class="row-1">
       <mat-form-field class="other">
         <mat-label>Disziplin</mat-label>
-        <mat-select formControlName="selectDiscipline">
+        <mat-select formControlName="discipline">
           @for (discipline of disciplines; track discipline) {
             <mat-option [value]="discipline">
               {{ discipline }}
@@ -58,9 +58,6 @@
             </mat-option>
           }
         </mat-select>
-        @if (matchForm.errors?.['duplicatePlayer']) {
-          <div class="error-message">Spiele gegen sich selbst zählen nicht für den ELO Score :)</div>
-        }
       </mat-form-field>
 
       <mat-form-field class="example-form-field points">
@@ -70,11 +67,23 @@
         @if (p2s.errors?.['min']) {
           <div class="error-message">Der Score muss >= 0 sein</div>
         }
-        @if (matchForm.errors?.['noWinner']) {
-          <div class="error-message">Es muss einen Gewinner geben.</div>
-        }
       </mat-form-field>
     </div>
-    <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Speichern</button>
+
+    <div style="display: flex; flex-direction: row; gap: 1em;">
+      <button mat-raised-button type="submit" [disabled]="matchForm.status === 'INVALID'">Speichern</button>
+      <div style="display: flex; flex-direction: column;">
+        @if (matchForm.errors?.['noWinner']) {
+          <span class="error-message">Es muss einen Gewinner geben.</span>
+        }
+        @if (matchForm.errors?.['needed']) {
+          <span class="error-message">Das Mindestausspielziel ist {{ matchForm.errors?.['needed'] }}.</span>
+        }
+        @if (matchForm.errors?.['duplicatePlayer']) {
+          <span class="error-message">Spiele gegen sich selbst zählen nicht für den ELO Score :)</span>
+        }
+      </div>
+    </div>
+
   </form>
 </app-content-tile>
