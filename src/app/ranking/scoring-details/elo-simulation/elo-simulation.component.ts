@@ -1,22 +1,25 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EloFunctions } from '../../elo-functions';
 import { EloDataPoint, EloScores } from '../../models/elo-models';
+import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/pool-discipline';
+import { EloMatchValidators } from '../../elo-match-validators';
 
 @Component({
   selector: 'app-elo-simulation',
   templateUrl: './elo-simulation.component.html',
   styles: [`
     .error-message {
+      padding-left: 1em;
       color: var(--color-error);
-      font-size: .5em;
-      line-height: 1;
+      font-size: .75em;
     }
   `]
 })
 export class EloSimulationComponent {
 
+  disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
   matchForm: FormGroup;
   score: EloScores | null;
 
@@ -27,12 +30,14 @@ export class EloSimulationComponent {
       playerTwoElo: new FormControl<number>(1500, [Validators.required, Validators.min(0)]),
       playerOneScore: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
       playerTwoScore: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
+      discipline: new FormControl<string>(this.disciplines[0], [Validators.required]),
     },
-    { validators: [noWinnerValidator] });
+    { validators: [EloMatchValidators.NoWinnerValidator, EloMatchValidators.MinimumLengthValidator] });
   }
 
   calculate(): void {
     this.score = EloFunctions.calculateAll({
+      discipline: this.matchForm.value.discipline,
       p1Points: this.matchForm.value.playerOneScore,
       p2Points: this.matchForm.value.playerTwoScore,
       p1DataPoint: this.createDataPoint(this.matchForm.value.playerOneElo),
@@ -54,12 +59,3 @@ export class EloSimulationComponent {
     this.dialogRef.close();
   }
 }
-
-const noWinnerValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-  const s1 = control.get('playerOneScore').value;
-  const s2 = control.get('playerTwoScore').value;
-
-  return s1 && s1 === s2
-    ? { noWinner: true }
-    : null;
-};

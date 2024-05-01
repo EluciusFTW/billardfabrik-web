@@ -27,9 +27,9 @@ export class EloDemoTableComponent implements OnInit {
     let matches = (this.EloPairs || [])
       .map(pair => ({
         matches: this.possibleOpponentScores.map(score => ({
-          p1Points: 9,
+          p1NormalizedPoints: 9,
           p1Elo: pair.elo1,
-          p2Points: score,
+          p2NormalizedPoints: score,
           p2Elo: pair.elo2
         })),
         mode: pair.mode

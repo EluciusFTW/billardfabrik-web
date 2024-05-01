@@ -34,6 +34,7 @@ export class EloService extends FirebaseService {
     matchData
       .forEach(data => {
         const eloInput = {
+          discipline: data.match.discipline,
           p1Points: data.match.playerOne.points,
           p2Points: data.match.playerTwo.points,
           p1DataPoint: data.p1.changes[data.p1.changes.length - 1],

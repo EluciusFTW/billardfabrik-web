@@ -7,19 +7,34 @@
       Jeder Spieler beginnt mit 1500 Punkten.
     </li>
     <li>
-      Damit ihr auf der Liste erschient, müsst ihr mindestens 10 gewertete Spiele absolviert haben.
+      Damit ihr auf der Rangliste erschient, müsst ihr mindestens 10 gewertete Spiele absolviert haben.
     </li>
     <li>
-      Die Elo-Rangliste wertet jedes Spiel im Donnerstagsturnier mit Mindestausspielziel 3 - auch Spiele gegen nicht-gelistete Spieler (z.B. vereinsfremden)!
+      In die Auswertung fließen:
+      <ul>
+        <li>Alle Spiele aus der Turnierserie,</li>
+        <li>alle Vereinsmeisterschaftsspiele</li>
+        <li>und alle <em>Challenge Matches</em> die ihr unter euch austragt.</li>
+      </ul>
+    </li>
+
+    <li>
+      Unterstützt werden die Disziplinen: 8-Ball, 9-Ball, 10-Ball, 14/1, One-Pocket und Bank-Pool.
     </li>
     <li>
-      Auch Vereinsmeisterschaftsspiele und Forderungen, oder auch offene Spiele unter euch, bei denen beide Spieler vor dem Spiel zustimmen, werden gewertet werden (bald!).
+      Das Mindestausspielziel ist abhängig von der Diszipin. Im One-Pocket sind es 2 Punkte, im 14/1 sind es 50 Punkte und in allen anderen Spielen 3 Punkte.
     </li>
     <li>
       Nach Auswertung des Spiels bekommt ein Spieler X Punkte, abhängig von seiner und des Gegners Spielstärke, als auch des genauen Ergebnisses. Der andere verliert die gleiche Anzahl Punkte. Mehr zu der genauen Berechnung weiter unten.
     </li>
   </ul>
-  <h4> Traditionelles ELO System </h4>
+
+  <h3> Challenge Matches</h3>
+  Challenge matches könnt ihr jederzeit spielen, kann jeder gegen jeden spielen. Hauptsache ihr einigt euch beide vor dem Match darauf, dass es eingetragen wird, auf das Ausspielziel und auf die weiteren Modalitäten (Winner- oder Wechselbreak etc.).
+
+  Danach meldet ihr as Ergebnis einfach (zeitnah, bitte) an Istvan oder Guy.
+
+  <h3 style="padding-top: 1em"> Traditionelles ELO System </h3>
   Die Elo-Punkteberechnung für Spiele mit nur drei möglichen Ausgängen
   <ul>
     <li>Spieler 1 gewinnt / Spieler 2 verliert</li>
@@ -45,7 +60,7 @@
     </li>
   </ul>
 
-  <h4> Unsere Anpassungen </h4>
+  <h3> Unsere Anpassungen </h3>
   Billard ist etwas anders als Schach oder Go: Erstens gibt es normalerweise kein Unentschieden, und zweitens gibt es einen Spielstand. Ein 9:8 ist eine ganz andere Leistung als ein 9:0 und sollte anders bewertet werden. Deshalb haben wir zwei Anpassungen an die traditionelle Elo Berechnung gemacht. Wir berechnen die Elo-Differenz eines Spiels mit &Delta; = K(S + B - E).
   <ul>
     <li>
@@ -53,6 +68,20 @@
     </li>
     <li>
       Dadurch dass der Spielstand wie oben beschrieben eingeht, würden 9:8 und 8:9 ziemlich ähnlich bewertet - aber es gibt einen großen Unterschied zwischen gewinnen und verlieren, den wollen wir auch mit berücksichtigen! Daher gibt es noch einen stets positiven Korrekturterm B der den Gewinner belohnt. Dieser Term hängt nur von der Länge des Matches ab.
+    </li>
+    <li>
+      Da wir Matches in <em>allen klassischen Billarddisziplinen</em> ermöglichen (wenn nicht sogar ermutigen) wollen, die Punkte sich aber deutlich unterscheiden, normalisieren wir für ein paar Disziplinen die Ergebnisse wie folgt für die ELO Berechnung:
+      <ul>
+        <li>
+          14/1: Geteilt durch 12, abgerundet (Beispiel: 100:28 wird als 8:2 gewertet)
+        </li>
+        <li>
+          One-Pocket: Mal 2 (Beispiel: Ein 3:1 wird als 6:2 gewertet)
+        </li>
+        <li>
+          Bank-Pool: Mal 1.5, abgerundet (Beispiel: Ein 5:2 wird als 7:3 gewertet)
+        </li>
+      </ul>
     </li>
   </ul>
   Am Ende der Seite könnt ihr einen Vergleich der verschiedenen Systeme an einem Beispiel durchgerechnen sehen (letzte Tabelle), oder <button mat-raised-button (click)="simulate()">selber simulieren</button>.
