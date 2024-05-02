@@ -12,14 +12,8 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
 
 import { MenuComponent } from './menu/menu.component';
-import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
-import { LeagueComponent } from './league/league.component';
-import { MembershipComponent } from './membership/membership.component';
-import { TrainingComponent } from './training/training.component';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
-import { MensaComponent } from './mensa/mensa.component';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { FooterComponent } from './footer/footer.component';
 
@@ -27,12 +21,6 @@ import { FooterComponent } from './footer/footer.component';
   declarations: [
     AppComponent,
     MenuComponent,
-    AboutComponent,
-    MembershipComponent,
-    LeagueComponent,
-    TrainingComponent,
-    ContactComponent,
-    MensaComponent,
     FooterComponent
   ],
   imports: [
