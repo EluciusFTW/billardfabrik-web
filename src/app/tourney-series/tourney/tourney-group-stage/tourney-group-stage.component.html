@@ -1,5 +1,5 @@
 <mat-tab-group mat-stretch-tabs="false" animationDuration="0ms">
-  @for (group of tourney.groups; track group.number) {
+  @for (group of tourney().groups; track group.number) {
     <mat-tab label="Gruppe {{ group.number }}">
       <app-tourney-group [group]="group" (change)="emitChange($event)"></app-tourney-group>
     </mat-tab>
