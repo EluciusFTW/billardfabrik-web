@@ -1,6 +1,6 @@
 <mat-card appearance="outlined" style="margin-top:2em;">
   <mat-card-header style="margin-bottom:1em;">
-    @if (groupCompleted) {
+    @if (groupCompleted()) {
       <mat-card-subtitle class="roundOver">
         Die Gruppe ist beendet.
       </mat-card-subtitle>
@@ -30,10 +30,10 @@
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumnsTotals"></tr>
-      <tr mat-row [class]="getStandingClass(row)" *matRowDef="let row; columns: displayedColumnsTotals;"></tr>
+      <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumnsTotals;" [ngClass]="{'running': i < 2 }"></tr>
     </table>
 
-    @if (groupActive && canFinalize && allGamesOver()) {
+    @if (groupActive() && canFinalize && allGamesOver()) {
       <mat-card-actions >
         <button mat-button
           color="warn"
@@ -44,10 +44,10 @@
     }
 
     <div style="display: flex; flex-wrap: wrap; gap: 0.5em; ">
-      @for (match of group.matches; track match) {
+      @for (match of group().matches; track match) {
         <app-match
           [match]="match"
-          [disabled]="!groupActive"
+          [disabled]="!groupActive()"
           (change)="emitChange($event)">
         </app-match>
       }
