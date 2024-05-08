@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, Input, EventEmitter, Output, input, inject, computed } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
@@ -16,19 +16,19 @@ import { UserService } from 'src/app/authentication/user.service';
   styleUrls: ['./tourney-summary.component.scss']
 })
 export class TourneySummaryComponent {
+  private statisticsService = inject(TourneyStatisticsService);
+  private playersService = inject(PlayersService);
+  public dialog = inject(MatDialog);
+  private userService = inject(UserService);
 
-  @Input({ required: true })
-  tourney: Tourney;
+  tourney = input.required<Tourney>();
+  getWinner = computed(() => TourneyFunctions.GetWinner(this.tourney()));
+  getSecondPlace = computed(() => TourneyFunctions.GetSecondPlace(this.tourney()));
+  getThirdPlace = computed(() => TourneyFunctions.GetThirdPlace(this.tourney()));
+  getCount = computed(() => TourneyFunctions.GetPlayerCount(this.tourney()));
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
-
-  constructor(
-    private statisticsService: TourneyStatisticsService,
-    private playersService: PlayersService,
-    public dialog: MatDialog,
-    private userService: UserService
-  ) { }
 
   addPlayer(): void {
     const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent);
@@ -38,7 +38,7 @@ export class TourneySummaryComponent {
       .subscribe(
         name => {
           if (name) {
-            ModificationFunctions.InjectPlayer(this.tourney, name);
+            ModificationFunctions.InjectPlayer(this.tourney(), name);
             this.change.emit({ type: 'ScoreChanged' });
           }
         }
@@ -47,7 +47,7 @@ export class TourneySummaryComponent {
 
   displayStatus(): string {
     return this.tourney
-      ? TourneyStatusMapper.map(this.tourney.meta.status)
+      ? TourneyStatusMapper.map(this.tourney().meta.status)
       : 'Loading ...';
   }
 
@@ -55,25 +55,9 @@ export class TourneySummaryComponent {
     return this.userService.canHandleTourneys();
   }
 
-  getWinner(): string {
-    return TourneyFunctions.GetWinner(this.tourney);
-  }
-
-  getSecondPlace(): string {
-    return TourneyFunctions.GetSecondPlace(this.tourney);
-  }
-
-  getThirdPlace(): string {
-    return TourneyFunctions.GetThirdPlace(this.tourney);
-  }
-
-  getCount(): number {
-    return TourneyFunctions.GetPlayerCount(this.tourney);
-  }
-
   async calculate(): Promise<void> {
-    if (this.tourney.meta.status !== TourneyStatus.postProcessed) {
-      const result = this.statisticsService.Evaluate(this.tourney);
+    if (this.tourney().meta.status !== TourneyStatus.postProcessed) {
+      const result = this.statisticsService.Evaluate(this.tourney());
       if (result) {
         let updates = result.players.map(evaluation => this.playersService.AddPlayerRecord(evaluation));
         await Promise.all(updates);
@@ -89,8 +73,8 @@ export class TourneySummaryComponent {
   get canCompute(): boolean {
     // Evaluation of double elimination tourneys is still not implemented
     return this.userService.canHandleTourneys()
-      && this.tourney.meta.status === TourneyStatus.completed
-      && this.tourney.meta.modus === 'Gruppe + Einfach-K.O.'
+      && this.tourney().meta.status === TourneyStatus.completed
+      && this.tourney().meta.modus === 'Gruppe + Einfach-K.O.'
   }
 
   start(): void {
