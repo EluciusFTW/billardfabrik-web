@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, input, computed, Output } from '@angular/core';
 import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import {TourneyPhaseEvent } from '../models/tourney-phase-event';
@@ -14,39 +14,27 @@ import { UserService } from 'src/app/authentication/user.service';
   styleUrls: ['../tourneys.scss']
 })
 export class TourneyEliminationStageComponent {
+  private userService = inject(UserService);
 
-  @Input({ required: true })
-  stage: TourneyEliminationStage
+  stage = input.required<TourneyEliminationStage>();
+  stageCompleted = computed(() => this.stage().status == TourneyPhaseStatus.finalized);
+  stageActive = computed(() => this.stage().status === TourneyPhaseStatus.readyOrOngoing);
+  allGamesOver = computed(() => this.stage().matches
+    .filter(match => match.status !== MatchStatus.cancelled)
+    .findIndex(match => !Match.isOver(match)) === -1 );
 
-  @Output()
-  change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
-
-  constructor(private userService: UserService) { }
+  @Output() change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   emitChange($event: TourneyPhaseEvent): void {
     this.change.emit($event);
   }
 
-  get stageCompleted() {
-    return this.stage.status == TourneyPhaseStatus.finalized;
-  }
-
-  get stageActive() {
-    return this.stage.status === TourneyPhaseStatus.readyOrOngoing;
-  }
-
   increaseLength(): void {
-    this.stage.matches.forEach(match => match.length++);
+    this.stage().matches.forEach(match => match.length++);
   }
 
   decreaseLength(): void {
-    this.stage.matches.forEach(match => match.length--);
-  }
-
-  allGamesOver(): boolean {
-    return this.stage.matches
-      .filter(match => match.status !== MatchStatus.cancelled)
-      .findIndex(match => !Match.isOver(match)) === -1;
+    this.stage().matches.forEach(match => match.length--);
   }
 
   finalize(): void {
@@ -54,19 +42,19 @@ export class TourneyEliminationStageComponent {
       return;
     }
 
-    this.stage.status = TourneyPhaseStatus.finalized;
-    this.stage.matches
+    this.stage().status = TourneyPhaseStatus.finalized;
+    this.stage().matches
       .filter(match => match.status !== MatchStatus.cancelled)
       .forEach(match => match.status = MatchStatus.done);
 
-    const event = this.stage.eliminationType == 'Single'
+    const event = this.stage().eliminationType == 'Single'
       ? ({
         type: 'SingleEliminationStageFinalized',
-        stage: this.stage.type as TourneyEliminationStageType
+        stage: this.stage().type as TourneyEliminationStageType
       })
       : ({
         type: 'DoubleEliminationStageFinalized',
-        stage: this.stage.type as TourneyDoubleEliminationStageType
+        stage: this.stage().type as TourneyDoubleEliminationStageType
       })
 
     this.change.emit(event as TourneyPhaseEvent);
