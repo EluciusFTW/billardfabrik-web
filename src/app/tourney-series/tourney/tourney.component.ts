@@ -1,5 +1,4 @@
 import { Component, Input, OnInit, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
@@ -27,7 +26,7 @@ export class TourneyComponent implements OnInit {
   ngOnInit() {
     this.tourneysService
       .get(this.id)
-      .subscribe(id => {console.log('T sub: ', id); this.tourney.set(id)});
+      .subscribe(id => this.tourney.set(id));
   }
 
   update(event: TourneyPhaseEvent): void {
