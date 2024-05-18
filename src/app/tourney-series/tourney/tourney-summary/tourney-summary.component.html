@@ -4,27 +4,31 @@
 
       <div style="width: 50%;">
         <h3>Ergebnisse</h3>
-        <table>
-          <tr>
-            <td>
-              <i class="fas fa-trophy"></i>
-            </td>
-            <td> {{ getWinner() }} </td>
-          </tr>
-          <tr>
-            <td>
-              2.
-            </td>
-            <td> {{ getSecondPlace() }} </td>
-          </tr>
-          <tr>
-            <td>
-              3.
-            </td>
-            <td> {{ getThirdPlace() }} </td>
-          </tr>
-        </table>
-      </div>
+        @if (isOver()){
+          <table>
+            <tr>
+              <td>
+                <i class="fas fa-trophy"></i>
+              </td>
+              <td> {{ getWinner() }} </td>
+            </tr>
+            <tr>
+              <td>
+                2.
+              </td>
+              <td> {{ getSecondPlace() }} </td>
+            </tr>
+            <tr>
+              <td>
+                3.
+              </td>
+              <td> {{ getThirdPlace() }} </td>
+            </tr>
+          </table>
+        } @else {
+          <p>Das Turnier ist noch nicht beendet.</p>
+        }
+    </div>
 
       <div>
         <h3>Meta</h3>
@@ -56,12 +60,12 @@
     <!-- <button mat-raised-button *ngIf="canAddPlayers()" [disabled]="someGroupFinished()" (click)="addPlayer()">
       Nachzügler einlosen
     </button> -->
-    @if (tourney().meta.status === 0 && canStart) {
+    @if (tourney().meta.status === 0 && canStart()) {
       <button mat-raised-button (click)="start()">
         Turnier Eröffnen
       </button>
     }
-    @if (canCompute) {
+    @if (canCompute()) {
       <button mat-raised-button (click)="calculate()">
         Turnier Auswerten
       </button>

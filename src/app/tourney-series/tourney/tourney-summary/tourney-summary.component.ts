@@ -22,10 +22,18 @@ export class TourneySummaryComponent {
   private userService = inject(UserService);
 
   tourney = input.required<Tourney>();
+  isOver = computed(() => this.tourney().meta.status >= TourneyStatus.completed);
   getWinner = computed(() => TourneyFunctions.GetWinner(this.tourney()));
   getSecondPlace = computed(() => TourneyFunctions.GetSecondPlace(this.tourney()));
   getThirdPlace = computed(() => TourneyFunctions.GetThirdPlace(this.tourney()));
   getCount = computed(() => TourneyFunctions.GetPlayerCount(this.tourney()));
+  displayStatus = computed(() => TourneyStatusMapper.map(this.tourney().meta.status));
+  canAddPlayers = computed(() => this.userService.canHandleTourneys());
+  canStart = computed(() => this.userService.canHandleTourneys());
+  canCompute = computed(() =>
+    this.userService.canHandleTourneys()
+    && this.tourney().meta.status === TourneyStatus.completed
+    && this.tourney().meta.modus === 'Gruppe + Einfach-K.O.');
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
@@ -45,16 +53,6 @@ export class TourneySummaryComponent {
       )
   }
 
-  displayStatus(): string {
-    return this.tourney
-      ? TourneyStatusMapper.map(this.tourney().meta.status)
-      : 'Loading ...';
-  }
-
-  canAddPlayers(): boolean {
-    return this.userService.canHandleTourneys();
-  }
-
   async calculate(): Promise<void> {
     if (this.tourney().meta.status !== TourneyStatus.postProcessed) {
       const result = this.statisticsService.Evaluate(this.tourney());
@@ -64,17 +62,6 @@ export class TourneySummaryComponent {
         this.change.emit({ type: 'ResultsPostProcessed' });
       }
     }
-  }
-
-  get canStart(): boolean {
-    return this.userService.canHandleTourneys();
-  }
-
-  get canCompute(): boolean {
-    // Evaluation of double elimination tourneys is still not implemented
-    return this.userService.canHandleTourneys()
-      && this.tourney().meta.status === TourneyStatus.completed
-      && this.tourney().meta.modus === 'Gruppe + Einfach-K.O.'
   }
 
   start(): void {
