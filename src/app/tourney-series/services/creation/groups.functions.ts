@@ -1,19 +1,17 @@
-import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
 import { MatchPlayer } from '../../models/match-player';
 import { TourneyGroup } from '../../models/tourney-group';
 import { GroupsThenSingleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 
-@Injectable()
-export class GroupsCreationService {
+export class GroupsFunctions {
 
-  create(info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
+  static create(info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
     let randomOrderedPlayers = this.reOrderRandomly([... info.players]);
     return this.buildGroups(randomOrderedPlayers, info);
   }
 
-  private reOrderRandomly(players: string[]): string[] {
+  private static reOrderRandomly(players: string[]): string[] {
     let randomOrderedPlayers: string[] = [];
     while (players.length > 0) {
       let randomIndex = Math.floor(Math.random() * players.length);
@@ -23,7 +21,7 @@ export class GroupsCreationService {
     return randomOrderedPlayers;
   }
 
-  private buildGroups(players: string[], info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
+  private static buildGroups(players: string[], info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
     let groups: TourneyGroup[] = [];
     let groupSize = Math.ceil(players.length / info.nrOfGroups);
     let groupNumber = 1
@@ -44,13 +42,13 @@ export class GroupsCreationService {
     return groups;
   }
 
-  private buildMatches(players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match[] {
+  private static buildMatches(players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match[] {
     return this
       .listings(players.length)
       .map(listing => this.ToMatch(listing, players, info));
   }
 
-  private listings(nrOfPlayers: number): number[][] {
+  private static listings(nrOfPlayers: number): number[][] {
     switch (nrOfPlayers) {
       case 2: return [
         [1, 2]
@@ -83,7 +81,7 @@ export class GroupsCreationService {
     }
   }
 
-  private ToMatch(listing: number[], players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match {
+  private static ToMatch(listing: number[], players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match {
     return Match.create(
       MatchPlayer.From(players[listing[0] - 1]),
       MatchPlayer.From(players[listing[1] - 1]),

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   DoubleEliminationTourneyInfo,
   GroupsThenSingleEliminationTourneyInfo,
@@ -7,35 +7,31 @@ import {
 } from '../../models/tourney-info';
 import { TourneyMeta } from '../../models/tourney-meta';
 import { TourneyStatus } from '../../models/tourney-status';
-import { GroupsThenSingleEliminationCreationService } from './groups-then-single-elimination-creation.service';
-import { DoubleEliminationCreationService } from './double-elimination-creation.service';
+import { DoubleEliminationFunctions } from './double-elimination.functions';
 import { TourneyFunctions } from '../../tourney/tourney-functions';
-import { SingleEliminationCreationService } from './single-elimination-creation.service';
+import { SingleEliminationFunctions } from './single-elimination.functions';
+import { GroupsThenSingleEliminationFunctions } from './groups-then-single-elimination.functions';
 
 @Injectable()
 export class TourneyCreationService {
 
-  single = inject(SingleEliminationCreationService);
-  groupsThenSingle = inject(GroupsThenSingleEliminationCreationService);
-  double = inject(DoubleEliminationCreationService);
-
   createSingle(info: SingleEliminationTourneyInfo) {
     return {
-      eliminationStages: this.single.create(info),
+      eliminationStages: SingleEliminationFunctions.create(info),
       meta: this.buildMeta(info)
     }
   }
 
   createSingleWithGroups(info: GroupsThenSingleEliminationTourneyInfo) {
     return {
-      ... this.groupsThenSingle.create(info),
+      ... GroupsThenSingleEliminationFunctions.create(info),
       meta: this.buildMeta(info),
     }
   }
 
   createDouble(info: DoubleEliminationTourneyInfo) {
     return {
-      ... this.double.create(info),
+      ... DoubleEliminationFunctions.create(info),
       meta: this.buildMeta(info)
     }
   }

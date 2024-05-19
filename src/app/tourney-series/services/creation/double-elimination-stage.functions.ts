@@ -1,17 +1,13 @@
-import { Injectable } from '@angular/core';
 import { MatchPlayer } from '../../models/match-player';
 import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
 import { DoubleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
 import { DoubleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
-import { EliminationMatchesCreationService } from './elimination-matches-creation.service';
+import { EliminationMatchesFunctions as EliminationMatchesFunctions } from './elimination-matches.functions';
 
-@Injectable()
-export class DoubleEliminationStageCreationService {
+export class DoubleEliminationStageFunctions {
 
-  constructor(private eliminationCreationService: EliminationMatchesCreationService) {  }
-
-  create(info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
+  static create(info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
 
     let entryStage = TourneyDoubleEliminationStageType.startingStage(info.players.length);
     return [
@@ -21,17 +17,17 @@ export class DoubleEliminationStageCreationService {
     ]
   }
 
-  private getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): DoubleEliminationEliminationStage {
+  private static getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): DoubleEliminationEliminationStage {
     return {
       type: entryStage,
       eliminationType: "Double",
       title: TourneyDoubleEliminationStageType.map(entryStage),
-      matches: this.eliminationCreationService.getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
+      matches: EliminationMatchesFunctions.getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
       status: TourneyPhaseStatus.waitingForApproval
     }
   }
 
-  private getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
+  private static getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
     return this.fillStages(
       TourneyDoubleEliminationStageType
         .getWinnerStages()
@@ -40,7 +36,7 @@ export class DoubleEliminationStageCreationService {
       info);
   }
 
-  private getLoserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
+  private static getLoserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
     return this.fillStages(
       TourneyDoubleEliminationStageType
         .getLoserStages()
@@ -49,7 +45,7 @@ export class DoubleEliminationStageCreationService {
       info);
   }
 
-  private fillStages(stages: TourneyDoubleEliminationStageType[], info: DoubleEliminationTourneyInfo) : DoubleEliminationEliminationStage[] {
+  private static fillStages(stages: TourneyDoubleEliminationStageType[], info: DoubleEliminationTourneyInfo) : DoubleEliminationEliminationStage[] {
     return stages
       .map(stage => ({
         stage,
@@ -59,12 +55,12 @@ export class DoubleEliminationStageCreationService {
         type: stageWithPlayers.stage,
         eliminationType: "Double",
         title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
-        matches: this.eliminationCreationService.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
+        matches: EliminationMatchesFunctions.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
         status: TourneyPhaseStatus.waitingForApproval
       }));
   }
 
-  private getUnknownPlayers(numberOfPlayers: number): string[] {
+  private static getUnknownPlayers(numberOfPlayers: number): string[] {
     return Array(numberOfPlayers).fill(MatchPlayer.Unknown().name);
   }
 }
