@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { Match } from '../../models/match';
 import { SingleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
 import { TourneyInfo } from '../../models/tourney-info';

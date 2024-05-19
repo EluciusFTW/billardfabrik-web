@@ -3,6 +3,7 @@ import { Match } from '../../models/match';
 import { Tourney } from '../../models/tourney';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { GroupFunctions } from '../../tourney-group/group-functions';
+import { CreationFunctions } from '../creation/creation.functions';
 
 @Injectable()
 export class GroupStageFinalizedService {
@@ -28,7 +29,7 @@ export class GroupStageFinalizedService {
       .map(standings => standings.map(s => s.name));
 
     do {
-      reorderedChunked = this.chunk(this.reOrderRandomly(winnersPerGroup.reduce((a, b) => a.concat(b))), 2);
+      reorderedChunked = CreationFunctions.chunk(CreationFunctions.reOrderRandomly(winnersPerGroup.reduce((a, b) => a.concat(b))), 2);
     } while (reorderedChunked.some(chunk => this.fromSameGroup(chunk, winnersPerGroup)))
 
     return reorderedChunked;
@@ -41,23 +42,5 @@ export class GroupStageFinalizedService {
 
   private fromSameGroup(chunk: string[], winnersPerGroup: string[][]): boolean {
     return winnersPerGroup.some(winnerChunk => chunk.includes(winnerChunk[0]) && chunk.includes(winnerChunk[1]));
-  }
-
-  private reOrderRandomly(players: string[]): string[] {
-    let randomOrderedPlayers: string[] = [];
-    while (players.length > 0) {
-      let randomIndex = Math.floor(Math.random() * players.length);
-      randomOrderedPlayers.push(players[randomIndex]);
-      players.splice(randomIndex, 1);
-    }
-    return randomOrderedPlayers;
-  }
-
-  private chunk(array: any[], size: number): any[][] {
-    let result: any[][] = [];
-    while (array.length > 0) {
-      result.push(array.splice(0, size));
-    }
-    return result;
   }
 }

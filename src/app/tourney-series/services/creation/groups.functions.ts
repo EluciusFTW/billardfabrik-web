@@ -3,22 +3,13 @@ import { MatchPlayer } from '../../models/match-player';
 import { TourneyGroup } from '../../models/tourney-group';
 import { GroupsThenSingleEliminationTourneyInfo } from '../../models/tourney-info';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
+import { CreationFunctions } from './creation.functions';
 
 export class GroupsFunctions {
 
   static create(info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
-    let randomOrderedPlayers = this.reOrderRandomly([... info.players]);
+    let randomOrderedPlayers = CreationFunctions.reOrderRandomly([... info.players]);
     return this.buildGroups(randomOrderedPlayers, info);
-  }
-
-  private static reOrderRandomly(players: string[]): string[] {
-    let randomOrderedPlayers: string[] = [];
-    while (players.length > 0) {
-      let randomIndex = Math.floor(Math.random() * players.length);
-      randomOrderedPlayers.push(players[randomIndex]);
-      players.splice(randomIndex, 1);
-    }
-    return randomOrderedPlayers;
   }
 
   private static buildGroups(players: string[], info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {

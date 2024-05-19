@@ -1,19 +1,18 @@
-
 export class CreationFunctions {
-  static reOrderRandomly<T>(players: T[]): T[] {
-    let randomOrderedPlayers: T[] = [];
-    while (players.length > 0) {
-      let randomIndex = Math.floor(Math.random() * players.length);
-      randomOrderedPlayers.push(players[randomIndex]);
-      players.splice(randomIndex, 1);
+  static reOrderRandomly<T>(items: T[]): T[] {
+    const result = [];
+    while (items.length > 0) {
+      let randomIndex = Math.floor(Math.random() * items.length);
+      result.push(items[randomIndex]);
+      items.splice(randomIndex, 1);
     }
-    return randomOrderedPlayers;
+    return result;
   }
 
-  static chunk<T>(array: T[], size: number): T[][] {
-    let result: T[][] = [];
-    while (array.length > 0) {
-      result.push(array.splice(0, size));
+  static chunk<T>(items: T[], chunkSize: number): T[][] {
+    const result = [];
+    while (items.length > 0) {
+      result.push(items.splice(0, chunkSize));
     }
     return result;
   }
