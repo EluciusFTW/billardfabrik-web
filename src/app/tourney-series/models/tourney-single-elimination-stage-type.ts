@@ -22,20 +22,22 @@ export namespace TourneyEliminationStageType {
     'Letzte 64',
     'Letzte 128',
     'Letzte 256',
-  ];
+  ] as const;
+
+  const _all = [
+    TourneyEliminationStageType.last256,
+    TourneyEliminationStageType.last128,
+    TourneyEliminationStageType.last64,
+    TourneyEliminationStageType.last32,
+    TourneyEliminationStageType.last16,
+    TourneyEliminationStageType.quarterFinal,
+    TourneyEliminationStageType.semiFinal,
+    TourneyEliminationStageType.thirdPlace,
+    TourneyEliminationStageType.final
+  ] as const;
 
   export function all(): TourneyEliminationStageType[] {
-    return [
-      TourneyEliminationStageType.last256,
-      TourneyEliminationStageType.last128,
-      TourneyEliminationStageType.last64,
-      TourneyEliminationStageType.last32,
-      TourneyEliminationStageType.last16,
-      TourneyEliminationStageType.quarterFinal,
-      TourneyEliminationStageType.semiFinal,
-      TourneyEliminationStageType.thirdPlace,
-      TourneyEliminationStageType.final
-    ]
+    return [ ... _all]
   }
 
   export function after(value: TourneyEliminationStageType): TourneyEliminationStageType {
@@ -46,12 +48,18 @@ export namespace TourneyEliminationStageType {
     return _stageStrings[stage]
   }
 
-  export function numberOfPlayers(value: TourneyEliminationStageType) {
-    if (value === TourneyEliminationStageType.final || value === TourneyEliminationStageType.thirdPlace) {
+  export function numberOfPlayers(stage: TourneyEliminationStageType) {
+    if (stage === TourneyEliminationStageType.final || stage === TourneyEliminationStageType.thirdPlace) {
       return 2;
     }
 
-    return Math.pow(2, value);
+    return Math.pow(2, stage);
+  }
+
+  export function startingStage(numberOfPlayers: number) {
+    let i = 1
+    while (Math.pow(2, i) < numberOfPlayers) i++
+    return _all[_all.length - i - 1];
   }
 
   export function numberOfMatches(value: TourneyEliminationStageType) {

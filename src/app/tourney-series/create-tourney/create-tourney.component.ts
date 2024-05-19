@@ -4,7 +4,7 @@ import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
 import { POOL_DISCIPLINES, PoolDiscipline } from '../models/pool-discipline';
 import { PlayerCreateDialogComponent } from '../../players/player-create-dialog/player-create-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
 import { TourneysService } from '../services/tourneys.service';
 import { TourneyInfo } from '../models/tourney-info';
@@ -12,6 +12,9 @@ import { TourneyEliminationStageType } from '../models/tourney-single-eliminatio
 import { TourneyModeViewModel } from './tourney-mode-view-model';
 import { PlayersService } from 'src/app/players/players.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
+import { OrderPlayersDialogComponent } from './order-players/order-players-dialog.component';
+import { firstValueFrom } from 'rxjs';
+import { Player } from 'src/app/players/player';
 
 @Component({
   templateUrl: './create-tourney.component.html',
@@ -30,6 +33,11 @@ export class CreateTourneyComponent implements OnInit{
       hasGroups: true
     },
     {
+      mode: 'Einfach-K.O.',
+      hasFirstElimination: false,
+      hasGroups: false
+    },
+    {
       mode: 'Doppel-K.O.',
       hasFirstElimination: true,
       hasGroups: false
@@ -37,7 +45,6 @@ export class CreateTourneyComponent implements OnInit{
   selectedPlayModus: TourneyModeViewModel = this.playModi[0];
 
   nrOfGroupsSelected: number;
-
   raceLengths = [3, 4, 5, 6];
   raceLengthSelected: number = 4;
 
@@ -75,48 +82,66 @@ export class CreateTourneyComponent implements OnInit{
             : [4,8]
   }
 
-  addPlayer(): void {
-    this.dialog
-      .open(PlayerCreateDialogComponent, { data: {} })
-      .afterClosed()
-      .subscribe(
-        result => {
-          if (result) {
-            const player = result as TourneyPlayer;
-            this.playersService
-              .createPlayer(player)
-              .then(_ => this.players.push(player));
-          }
-        }
-      )
+  async addPlayer() {
+    const dialog: MatDialogRef<PlayerCreateDialogComponent, Player> = this.dialog.open(PlayerCreateDialogComponent);
+    var newPlayer = await firstValueFrom(dialog.afterClosed());
+
+    if (newPlayer) {
+      this.playersService
+        .createPlayer(newPlayer)
+        .then(_ => this.players.push(newPlayer));
+    }
   }
 
   submitSelected(selectedItems: any[]): void {
-    let selectedPlayerNames = selectedItems
+    let players = selectedItems
       .map(item => item.value)
-      .map(player => PlayerFunctions.displayName(player));
+      .map(PlayerFunctions.displayName);
 
+    this.submit(players, false);
+  }
+
+  async seedSelected(selectedItems: any[]) {
+    let players = selectedItems
+      .map(item => item.value)
+      .map(PlayerFunctions.displayName);
+
+    const dialog: MatDialogRef<OrderPlayersDialogComponent, string[]> = this.dialog.open(
+      OrderPlayersDialogComponent,
+      { data: { players: players} }
+    );
+
+    var sortedPlayers = await firstValueFrom(dialog.afterClosed());
+    if (sortedPlayers) {
+      this.submit(sortedPlayers, true);
+    }
+  }
+
+  private submit(players: string[], respectOrdering: boolean): void {
     let info = {
-      players: selectedPlayerNames,
+      players: players,
       raceLength: this.raceLengthSelected,
       discipline: this.disciplineSelected,
       name: 'Donnerstags-Turnier',
-      mode: this.selectedPlayModus.mode
+      mode: this.selectedPlayModus.mode,
+      seeded: respectOrdering
     };
 
-    this.tourney = this.selectedPlayModus.mode === 'Gruppe + Einfach-K.O.'
-      ? this.createSingle(info)
-      : this.createDouble(info)
+    this.tourney = this.selectedPlayModus.mode === 'Einfach-K.O.'
+      ? this.createTourneyService.createSingle(info)
+      : this.selectedPlayModus.mode === 'Gruppe + Einfach-K.O.'
+        ? this.createSingleWithGroups(info)
+        : this.createDouble(info)
 
     this.tourneysService.update(this.tourney, { type: 'Created' });
   }
 
-  createSingle(info: TourneyInfo): Tourney {
+  createSingleWithGroups(info: TourneyInfo): Tourney {
     let enrichedInfo = {
       ...info,
       nrOfGroups: this.nrOfGroupsSelected
     }
-    return this.createTourneyService.createSingle(enrichedInfo);
+    return this.createTourneyService.createSingleWithGroups(enrichedInfo);
   }
 
   createDouble(info: TourneyInfo): Tourney {

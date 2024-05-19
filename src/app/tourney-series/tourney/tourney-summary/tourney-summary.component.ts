@@ -28,7 +28,7 @@ export class TourneySummaryComponent {
   getThirdPlace = computed(() => TourneyFunctions.GetThirdPlace(this.tourney()));
   getCount = computed(() => TourneyFunctions.GetPlayerCount(this.tourney()));
   displayStatus = computed(() => TourneyStatusMapper.map(this.tourney().meta.status));
-  canAddPlayers = computed(() => this.userService.canHandleTourneys());
+  canAddPlayers = computed(() => this.userService.canHandleTourneys() && this.tourney().meta.modus === 'Gruppe + Einfach-K.O.');
   canStart = computed(() => this.userService.canHandleTourneys());
   canCompute = computed(() =>
     this.userService.canHandleTourneys()
@@ -39,6 +39,7 @@ export class TourneySummaryComponent {
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   addPlayer(): void {
+    if(this.canAddPlayers()) {
     const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent);
 
     dialogRef
@@ -51,6 +52,7 @@ export class TourneySummaryComponent {
           }
         }
       )
+    }
   }
 
   async calculate(): Promise<void> {

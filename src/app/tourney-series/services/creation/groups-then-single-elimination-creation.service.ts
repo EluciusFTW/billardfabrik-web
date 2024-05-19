@@ -12,8 +12,7 @@ export class GroupsThenSingleEliminationCreationService {
     private groupStageCreationService: GroupsCreationService,
     private eliminationStageCreationService: SingleEliminationCreationService) { }
 
-  create(info: GroupsThenSingleEliminationTourneyInfo): Tourney {
-
+  create(info: GroupsThenSingleEliminationTourneyInfo) {
     return {
       groups: this.groupStageCreationService.create(info),
       eliminationStages: this.eliminationStageCreationService.createAllEmpty(info, this.determineStartingStage(info))

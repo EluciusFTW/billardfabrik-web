@@ -19,9 +19,9 @@ export class TourneyComponent implements OnInit {
   subheader = computed(() => this.tourney()
     ? `vom ${TourneyFunctions.NameFragmentToDate(this.tourney().meta.date).toLocaleDateString()}`
     : '');
-  hasGroupStage = computed(() => (this.tourney()?.groups?.length ?? 0) > 0);
+  hasGroupStage = computed(() => this.tourney()?.meta.modus === 'Gruppe + Einfach-K.O.');
   hasSingleEliminationStage = computed(() => (this.tourney()?.eliminationStages?.length ?? 0) > 0);
-  hasDoubleEliminationStage = computed(() => (this.tourney()?.doubleEliminationStages?.length ?? 0) > 0);
+  hasDoubleEliminationStage = computed(() => this.tourney()?.meta.modus === 'Doppel-K.O.');
 
   ngOnInit() {
     this.tourneysService

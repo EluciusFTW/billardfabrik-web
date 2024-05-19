@@ -51,6 +51,8 @@ import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-l
 import { MatchComponent } from './match/match.component';
 import { DateKeyPipe } from './date-key.pipe';
 import { PlayersModule } from '../players/players.module';
+import { CdkDrag, CdkDropList } from '@angular/cdk/drag-drop';
+import { OrderPlayersDialogComponent } from './create-tourney/order-players/order-players-dialog.component';
 
 @NgModule({
     imports: [
@@ -58,6 +60,8 @@ import { PlayersModule } from '../players/players.module';
         RouterModule,
         CommonModule,
         MaterialModule,
+        CdkDropList,
+        CdkDrag,
         FormsModule,
         PlayersModule,
         SharedModule
@@ -70,6 +74,7 @@ import { PlayersModule } from '../players/players.module';
         TourneyGroupComponent,
         ShowResultsDialogComponent,
         CreateTourneyComponent,
+        OrderPlayersDialogComponent,
         TourneyGroupStageComponent,
         TourneyGroupStageAddPlayerDialogComponent,
         TourneyEliminationStagesComponent,

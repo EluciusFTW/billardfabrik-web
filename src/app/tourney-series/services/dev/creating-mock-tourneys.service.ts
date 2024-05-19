@@ -17,7 +17,7 @@ export class CreatingMockTourneysService {
   get(id: any): Observable<Tourney> {
     let tourney = id % 2 == 0
       ? this.tcs.createDouble(this.getDoubleEliminationTourneyInfo(id))
-      : this.tcs.createSingle(this.getTourneyInfo(id));
+      : this.tcs.createSingleWithGroups(this.getTourneyInfo(id));
 
     return of(tourney);
   }
