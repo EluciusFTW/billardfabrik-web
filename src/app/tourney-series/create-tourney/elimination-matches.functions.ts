@@ -1,6 +1,6 @@
-import { Match } from '../../models/match';
-import { MatchPlayer } from '../../models/match-player';
-import { PoolDiscipline } from '../../models/pool-discipline';
+import { Match } from '../models/match';
+import { MatchPlayer } from '../models/match-player';
+import { PoolDiscipline } from '../models/pool-discipline';
 
 export class EliminationMatchesFunctions {
 

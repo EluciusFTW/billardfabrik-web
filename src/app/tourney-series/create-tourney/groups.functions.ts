@@ -1,8 +1,8 @@
-import { Match } from '../../models/match';
-import { MatchPlayer } from '../../models/match-player';
-import { TourneyGroup } from '../../models/tourney-group';
-import { GroupsThenSingleEliminationTourneyInfo } from '../../models/tourney-info';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
+import { Match } from '../models/match';
+import { MatchPlayer } from '../models/match-player';
+import { TourneyGroup } from '../models/tourney-group';
+import { GroupsThenSingleEliminationTourneyInfo } from '../models/tourney-info';
+import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { CreationFunctions } from './creation.functions';
 
 export class GroupsFunctions {

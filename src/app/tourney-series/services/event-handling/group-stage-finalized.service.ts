@@ -3,7 +3,7 @@ import { Match } from '../../models/match';
 import { Tourney } from '../../models/tourney';
 import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
 import { GroupFunctions } from '../../tourney-group/group-functions';
-import { CreationFunctions } from '../creation/creation.functions';
+import { CreationFunctions } from '../../create-tourney/creation.functions';
 
 @Injectable()
 export class GroupStageFinalizedService {

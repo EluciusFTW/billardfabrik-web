@@ -7,7 +7,6 @@ import { SingleEliminationStageFinalizedService } from './single-elimination-sta
 import { GroupStageFinalizedService } from './group-stage-finalized.service';
 import { DoubleEliminationStageFinalizedService } from './double-elimination-stage-finalized.service';
 import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
-import { TourneyMode } from '../../models/tourney-mode';
 
 @Injectable()
 export class TourneyEventService {

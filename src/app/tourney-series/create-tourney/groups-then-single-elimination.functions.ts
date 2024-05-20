@@ -1,5 +1,5 @@
-import { GroupsThenSingleEliminationTourneyInfo } from '../../models/tourney-info';
-import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
+import { GroupsThenSingleEliminationTourneyInfo } from '../models/tourney-info';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { GroupsFunctions } from './groups.functions';
 import { SingleEliminationFunctions } from './single-elimination.functions';
 

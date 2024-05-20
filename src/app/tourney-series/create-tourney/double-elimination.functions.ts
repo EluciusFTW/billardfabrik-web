@@ -1,6 +1,6 @@
-import { Tourney } from '../../models/tourney';
-import { DoubleEliminationTourneyInfo } from '../../models/tourney-info';
-import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
+import { Tourney } from '../models/tourney';
+import { DoubleEliminationTourneyInfo } from '../models/tourney-info';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { SingleEliminationFunctions } from './single-elimination.functions';
 import { DoubleEliminationStageFunctions } from './double-elimination-stage.functions';
 

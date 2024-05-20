@@ -1,9 +1,9 @@
-import { Match } from '../../models/match';
-import { SingleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
-import { TourneyInfo } from '../../models/tourney-info';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
-import { TourneyEliminationStageType } from '../../models/tourney-single-elimination-stage-type';
-import { MatchPlayer } from '../../models/match-player';
+import { Match } from '../models/match';
+import { SingleEliminationEliminationStage } from '../models/tourney-elimination-stage';
+import { TourneyInfo } from '../models/tourney-info';
+import { TourneyPhaseStatus } from '../models/tourney-phase-status';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
+import { MatchPlayer } from '../models/match-player';
 import { CreationFunctions } from './creation.functions';
 
 export class SingleEliminationFunctions {

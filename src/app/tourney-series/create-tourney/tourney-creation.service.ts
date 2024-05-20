@@ -4,11 +4,11 @@ import {
   GroupsThenSingleEliminationTourneyInfo,
   SingleEliminationTourneyInfo,
   TourneyInfo
-} from '../../models/tourney-info';
-import { TourneyMeta } from '../../models/tourney-meta';
-import { TourneyStatus } from '../../models/tourney-status';
+} from '../models/tourney-info';
+import { TourneyMeta } from '../models/tourney-meta';
+import { TourneyStatus } from '../models/tourney-status';
 import { DoubleEliminationFunctions } from './double-elimination.functions';
-import { TourneyFunctions } from '../../tourney/tourney-functions';
+import { TourneyFunctions } from '../tourney/tourney-functions';
 import { SingleEliminationFunctions } from './single-elimination.functions';
 import { GroupsThenSingleEliminationFunctions } from './groups-then-single-elimination.functions';
 

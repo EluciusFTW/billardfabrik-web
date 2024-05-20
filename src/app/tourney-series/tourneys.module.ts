@@ -8,7 +8,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { PlayersService } from './services/players.service';
 import { CreateTourneyComponent } from './create-tourney/create-tourney.component';
-import { TourneyCreationService } from './services/creation/tourney-creation.service';
+import { TourneyCreationService } from './create-tourney/tourney-creation.service';
 
 import { TourneyComponent } from './tourney/tourney.component';
 import { TourneySummaryComponent } from './tourney/tourney-summary/tourney-summary.component';

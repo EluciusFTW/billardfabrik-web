@@ -1,8 +1,8 @@
-import { MatchPlayer } from '../../models/match-player';
-import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
-import { DoubleEliminationEliminationStage } from '../../models/tourney-elimination-stage';
-import { DoubleEliminationTourneyInfo } from '../../models/tourney-info';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
+import { MatchPlayer } from '../models/match-player';
+import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage-type';
+import { DoubleEliminationEliminationStage } from '../models/tourney-elimination-stage';
+import { DoubleEliminationTourneyInfo } from '../models/tourney-info';
+import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { EliminationMatchesFunctions as EliminationMatchesFunctions } from './elimination-matches.functions';
 
 export class DoubleEliminationStageFunctions {
