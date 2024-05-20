@@ -30,22 +30,25 @@ export class CreateTourneyComponent implements OnInit{
     {
       mode: 'Gruppe + Einfach-K.O.',
       hasFirstElimination: false,
-      hasGroups: true
+      hasGroups: true,
+      canBeSeeded: false,
     },
     {
       mode: 'Einfach-K.O.',
       hasFirstElimination: false,
-      hasGroups: false
+      hasGroups: false,
+      canBeSeeded: true,
     },
     {
       mode: 'Doppel-K.O.',
       hasFirstElimination: true,
-      hasGroups: false
+      hasGroups: false,
+      canBeSeeded: false,
     }];
   selectedPlayModus: TourneyModeViewModel = this.playModi[0];
 
   nrOfGroupsSelected: number;
-  raceLengths = [3, 4, 5, 6];
+  raceLengths = [3, 4, 5, 6, 7, 8, 9];
   raceLengthSelected: number = 4;
 
   disciplines: PoolDiscipline[] = [ ... POOL_DISCIPLINES ];
