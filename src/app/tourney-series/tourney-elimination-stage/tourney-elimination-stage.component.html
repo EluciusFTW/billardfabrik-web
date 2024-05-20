@@ -12,7 +12,7 @@
     @for (match of stage().matches; track match) {
       <app-match
         [match]="match"
-        [disabled]="!stageActive"
+        [disabled]="!stageActive()"
         (change)="emitChange($event)">
       </app-match>
     }
@@ -20,7 +20,7 @@
 
   @if (this.stage().status != 2) {
     <mat-card-actions>
-      <button mat-button *ngIf="canHandleTourney()" [disabled]="!allGamesOver()" (click)="finalize()">Abschließen</button>
+      <button mat-button *ngIf="canHandleTourney()" [disabled]="!allGamesOver() && !stageActive()" (click)="finalize()">Abschließen</button>
       Ausspielziel: {{ this.stage().matches[0].length }}
 
       @if (canHandleTourney()) {
