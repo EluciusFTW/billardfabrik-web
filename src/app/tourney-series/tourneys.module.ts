@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
 
-import { PlayersService } from './services/players.service';
+import { TourneyPlayersService } from './services/tourney-players.service';
 import { CreateTourneyComponent } from './create-tourney/create-tourney.component';
 import { TourneyCreationService } from './create-tourney/tourney-creation.service';
 
@@ -24,18 +24,11 @@ import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 
 import { TourneyStatisticsService } from './services/evaluation/tourney-statistics.service';
-import { TourneyPointsService } from './services/evaluation/tourney-points.service';
 
 import { TourneysLandingPageComponent } from './tourneys-landing-page.component';
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
 import { TourneySeriesRoutingModule } from './tourneys-routing.module';
 import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
-import { TourneyMatchesService } from './services/evaluation/tourney-matches.service';
-import { TourneyPlacementsService } from './services/evaluation/tourney-placements.service';
-import { DoubleEliminationStagePlacementsService } from './services/evaluation/stages/double-elimination-stage-placements.service';
-import { SingleEliminationStagePlacementsService } from './services/evaluation/stages/single-elimination-stage-placements.service';
-import { GroupStagePlacementsService } from './services/evaluation/stages/group-stage-placements.service';
-import { PlacementRecordBuilder } from './services/evaluation/placement-record.builder';
 import { TourneyYearListComponent } from './tourney-list/tourney-year-list.component';
 import { ShowResultsDialogComponent } from './tourney-list/show-results.dialog.component';
 import { TourneysLeaderBoardsComponent } from './tourneys-leader-board/tourney-leader-boards.component';
@@ -84,14 +77,7 @@ import { OrderPlayersDialogComponent } from './create-tourney/order-players/orde
         TourneysService,
         TourneyEventService,
         TourneyStatisticsService,
-        TourneyPlacementsService,
-        DoubleEliminationStagePlacementsService,
-        SingleEliminationStagePlacementsService,
-        GroupStagePlacementsService,
-        PlacementRecordBuilder,
-        TourneyMatchesService,
-        TourneyPointsService,
-        PlayersService,
+        TourneyPlayersService,
     ]
 })
 export class TourneysModule { }
