@@ -5,7 +5,7 @@ import { TourneyPhaseStatus } from "src/app/tourney-series/models/tourney-phase-
 import { PlacementRecord } from "../../../models/evaluation/placement-record";
 import { Tourney } from "../../../models/tourney";
 import { PlacementRecordBuilder } from "../placement-record.builder";
-import { EvaluationFunctions } from "../evaluation-functions";
+import { getLosers } from "../evaluation.functions";
 
 @Injectable()
 export class DoubleEliminationStagePlacementsService {
@@ -18,9 +18,7 @@ export class DoubleEliminationStagePlacementsService {
       .filter(stage => TourneyDoubleEliminationStageType.isLoserStage(stage.type))
       .forEach(stage => {
           const placement = this.getPlacementRecord(tourney, stage.type);
-          EvaluationFunctions
-            .getLosers(stage)
-            .forEach(loser => results.set(loser, placement));
+          getLosers(stage).forEach(loser => results.set(loser, placement));
       })
   }
 
@@ -49,4 +47,3 @@ export class DoubleEliminationStagePlacementsService {
     }
   }
 }
-

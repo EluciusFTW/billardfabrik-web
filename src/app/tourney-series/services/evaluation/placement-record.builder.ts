@@ -3,8 +3,8 @@ import { PlacementRecord } from "../../models/evaluation/placement-record";
 import { TourneyPlacementType } from "../../models/evaluation/tourney-placement-type";
 import { Tourney } from "../../models/tourney";
 import { TourneyFunctions } from "../../tourney/tourney-functions";
-import { EvaluationFunctions } from "./evaluation-functions";
 import { TourneyPointsService } from "./tourney-points.service";
+import { tourneyEvaluationName } from "./evaluation.functions";
 
 @Injectable()
 export class PlacementRecordBuilder {
@@ -15,7 +15,7 @@ export class PlacementRecordBuilder {
     return {
       discipline: tourney.meta.discipline,
       placement: placement,
-      tourney: EvaluationFunctions.getTourneyName(tourney.meta),
+      tourney: tourneyEvaluationName(tourney.meta),
       points: this.pointsService.calculate(TourneyFunctions.GetPlayerCount(tourney), placement)
     }
   }

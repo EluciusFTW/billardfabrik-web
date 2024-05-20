@@ -8,7 +8,7 @@ import { Tourney } from "../../models/tourney";
 import { TourneyEliminationStage } from "../../models/tourney-elimination-stage";
 import { TourneyGroup } from "../../models/tourney-group";
 import { TourneyMeta } from "../../models/tourney-meta";
-import { EvaluationFunctions } from "./evaluation-functions";
+import { tourneyEvaluationName } from "./evaluation.functions";
 
 Injectable()
 export class TourneyMatchesService {
@@ -82,7 +82,7 @@ export class TourneyMatchesService {
       // This is bs, should not be the time of evaluation, but at least a time stamp from the day of the tourney.
       when: new Date().valueOf(),
       type: type,
-      tourney: EvaluationFunctions.getTourneyName(meta)
+      tourney: tourneyEvaluationName(meta)
     }
   }
 }
