@@ -6,7 +6,7 @@ import { UserService } from "src/app/authentication/user.service";
 import { Tourney } from "../models/tourney";
 import { TourneyStatus, TourneyStatusMapper } from "../models/tourney-status";
 import { TourneyStatisticsService } from "../services/evaluation/tourney-statistics.service";
-import { PlayersService } from "../services/players.service";
+import { TourneyPlayersService } from "../services/tourney-players.service";
 import { TourneysService } from "../services/tourneys.service";
 import { ShowResultsDialogComponent } from "./show-results.dialog.component";
 
@@ -26,7 +26,7 @@ export class TourneyYearListComponent {
   constructor(
     private tourneysService: TourneysService,
     private statisticsService: TourneyStatisticsService,
-    private playersService: PlayersService,
+    private playersService: TourneyPlayersService,
     private userService: UserService,
     private dialog: MatDialog) { }
 

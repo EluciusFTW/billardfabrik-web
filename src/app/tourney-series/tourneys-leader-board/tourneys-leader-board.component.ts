@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
-import { PlayersService } from '../services/players.service';
+import { TourneyPlayersService } from '../services/tourney-players.service';
 
 @Component({
   selector: 'app-tourney-leader-board',
@@ -9,7 +9,7 @@ import { PlayersService } from '../services/players.service';
   styleUrls: ['./tourneys-leader-board.component.scss']
 })
 export class TourneysLeaderBoardComponent implements OnInit {
-  playersService = inject(PlayersService);
+  playersService = inject(TourneyPlayersService);
   startingAt = input<string>("20180101");
   endingAt = input<string>("20501231");
 

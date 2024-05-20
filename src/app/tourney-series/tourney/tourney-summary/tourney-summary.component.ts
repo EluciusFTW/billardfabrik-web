@@ -4,7 +4,7 @@ import { TourneyStatus, TourneyStatusMapper } from '../../models/tourney-status'
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 import { TourneyFunctions } from '../tourney-functions';
 import { TourneyStatisticsService } from '../../services/evaluation/tourney-statistics.service';
-import { PlayersService } from '../../services/players.service';
+import { TourneyPlayersService } from '../../services/tourney-players.service';
 import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
 import { ModificationFunctions } from './modification-functions';
@@ -17,7 +17,7 @@ import { UserService } from 'src/app/authentication/user.service';
 })
 export class TourneySummaryComponent {
   private statisticsService = inject(TourneyStatisticsService);
-  private playersService = inject(PlayersService);
+  private playersService = inject(TourneyPlayersService);
   public dialog = inject(MatDialog);
   private userService = inject(UserService);
 
