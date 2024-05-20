@@ -26,6 +26,8 @@ export class MatchComponent {
     || this.cancelled()
     || this.match().status === MatchStatus.done);
 
+  isWalk = computed(() => MatchPlayer.isWalk(this.match().playerTwo) || MatchPlayer.isWalk(this.match().playerOne));
+
   matchClass = computed(() => {
       if (this.disabled()) {
         return '';

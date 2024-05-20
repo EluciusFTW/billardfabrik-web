@@ -3,35 +3,31 @@
     <div class="match">
       <div class="player">
         <div class="name"> {{ match().playerOne.name}} </div>
-        <div class="score"> {{ match().playerOne.points }} </div>
-        <div class="buttons" [style.visibility]="getVisibility(scoreEditDisabled())">
-          <mat-icon
-            [style.visibility]="getVisibility(plusDisabledP1())"
-            (click)="plus(match().playerOne)">
-            add_box
-          </mat-icon>
-          <mat-icon
-            [style.visibility]="getVisibility(minusDisabledP1())"
-            (click)="minus(match().playerOne)">
-            indeterminate_check_box
-          </mat-icon>
-        </div>
+        @if (!isWalk()) {
+          <div class="score"> {{ match().playerOne.points }} </div>
+          <div class="buttons" [style.visibility]="getVisibility(scoreEditDisabled())">
+            <mat-icon [style.visibility]="getVisibility(plusDisabledP1())" (click)="plus(match().playerOne)">
+              add_box
+            </mat-icon>
+            <mat-icon [style.visibility]="getVisibility(minusDisabledP1())" (click)="minus(match().playerOne)">
+              indeterminate_check_box
+            </mat-icon>
+          </div>
+        }
       </div>
       <div class="player">
         <div class="name"> {{ match().playerTwo.name }} </div>
-        <div class="score"> {{ match().playerTwo.points }} </div>
-        <div class="buttons" [style.visibility]="getVisibility(scoreEditDisabled())">
-          <mat-icon
-            [style.visibility]="getVisibility(plusDisabledP2())"
-            (click)="plus(match().playerTwo)">
-            add_box
-          </mat-icon>
-          <mat-icon
-            [style.visibility]="getVisibility(minusDisabledP2())"
-            (click)="minus(match().playerTwo)">
-            indeterminate_check_box
-          </mat-icon>
-        </div>
+        @if (!isWalk()){
+          <div class="score"> {{ match().playerTwo.points }} </div>
+          <div class="buttons" [style.visibility]="getVisibility(scoreEditDisabled())">
+            <mat-icon [style.visibility]="getVisibility(plusDisabledP2())" (click)="plus(match().playerTwo)">
+              add_box
+            </mat-icon>
+            <mat-icon [style.visibility]="getVisibility(minusDisabledP2())" (click)="minus(match().playerTwo)">
+              indeterminate_check_box
+            </mat-icon>
+          </div>
+        }
       </div>
     </div>
   </mat-card-content>
