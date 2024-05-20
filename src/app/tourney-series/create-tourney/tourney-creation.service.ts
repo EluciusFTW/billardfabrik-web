@@ -7,31 +7,36 @@ import {
 } from '../models/tourney-info';
 import { TourneyMeta } from '../models/tourney-meta';
 import { TourneyStatus } from '../models/tourney-status';
-import { DoubleEliminationFunctions } from './double-elimination.functions';
 import { TourneyFunctions } from '../tourney/tourney-functions';
-import { SingleEliminationFunctions } from './single-elimination.functions';
-import { GroupsThenSingleEliminationFunctions } from './groups-then-single-elimination.functions';
+import { createEmptySingleEliminationStages, createSingleEliminationStages } from './single-elimination.functions';
+import { createGroups, determineStartingStageAfterGroups } from './groups.functions';
+import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
+import { createDoubleEliminationStages } from './double-elimination-stage.functions';
 
 @Injectable()
 export class TourneyCreationService {
 
   createSingle(info: SingleEliminationTourneyInfo) {
     return {
-      eliminationStages: SingleEliminationFunctions.create(info),
+      eliminationStages: createSingleEliminationStages(info),
       meta: this.buildMeta(info)
     }
   }
 
   createSingleWithGroups(info: GroupsThenSingleEliminationTourneyInfo) {
+    const eliminationStartsAtStage = determineStartingStageAfterGroups(info);
     return {
-      ... GroupsThenSingleEliminationFunctions.create(info),
+      groups: createGroups(info),
+      eliminationStages: createEmptySingleEliminationStages(info, eliminationStartsAtStage),
       meta: this.buildMeta(info),
     }
   }
 
   createDouble(info: DoubleEliminationTourneyInfo) {
+    let doubleEliminationDownTo = TourneyEliminationStageType.numberOfPlayers(info.firstEliminationStage);
     return {
-      ... DoubleEliminationFunctions.create(info),
+      doubleEliminationStages: createDoubleEliminationStages(info, doubleEliminationDownTo),
+      eliminationStages: createEmptySingleEliminationStages(info, info.firstEliminationStage),
       meta: this.buildMeta(info)
     }
   }

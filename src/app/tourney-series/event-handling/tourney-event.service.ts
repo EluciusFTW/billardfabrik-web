@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Tourney } from '../models/tourney';
-import { DoubleEliminationStageFinalizedEvent, SingleEliminationStageFinalizedEvent, TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyStatus } from '../models/tourney-status';
 import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage-type';
-import { SingleEliminationStageFinalizedFunctions } from './single-elimination-stage-finalized.functions';
-import { DoubleEliminationStageFinalizedFunctions } from './double-elimination-stage-finalized.functions';
-import { GroupStageFinalizedFunctions } from './group-stage-finalized.Functions';
+import { handleSingleEliminationStageFinalized } from './single-elimination-stage-finalized.functions';
+import { handleDoubleEliminationStageFinalized } from './double-elimination-stage-finalized.functions';
+import { handleGroupStageFinalized } from './group-stage-finalized.functions';
 
 @Injectable()
 export class TourneyEventService {
@@ -18,17 +18,15 @@ export class TourneyEventService {
         return;
       }
       case 'GroupFinalized': {
-        GroupStageFinalizedFunctions.handle(tourney);
+        handleGroupStageFinalized(tourney);
         return;
       }
       case 'SingleEliminationStageFinalized': {
-        const finalizedStage = (event as SingleEliminationStageFinalizedEvent).stage;
-        SingleEliminationStageFinalizedFunctions.handle(tourney, finalizedStage);
+        handleSingleEliminationStageFinalized(tourney, event.stage);
         return;
       }
       case 'DoubleEliminationStageFinalized': {
-        const finalizedStage = (event as DoubleEliminationStageFinalizedEvent).stage;
-        DoubleEliminationStageFinalizedFunctions.handle(tourney, finalizedStage);
+        handleDoubleEliminationStageFinalized(tourney, event.stage);
         return;
       }
       case 'ResultsPostProcessed': {

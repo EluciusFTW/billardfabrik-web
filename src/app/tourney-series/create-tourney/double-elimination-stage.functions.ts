@@ -3,64 +3,60 @@ import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elim
 import { DoubleEliminationEliminationStage } from '../models/tourney-elimination-stage';
 import { DoubleEliminationTourneyInfo } from '../models/tourney-info';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
-import { EliminationMatchesFunctions as EliminationMatchesFunctions } from './elimination-matches.functions';
+import { getMatches, getMatchesFilledUpWithWalks } from './elimination-matches.functions';
 
-export class DoubleEliminationStageFunctions {
+export function createDoubleEliminationStages(info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
+  const entryStage = TourneyDoubleEliminationStageType.startingStage(info.players.length);
+  return [
+    getEntryStage(entryStage, info),
+    ...getWinnerStages(entryStage, info, playersRemaining),
+    ...getLoserStages(entryStage, info, playersRemaining)
+  ]
+}
 
-  static create(info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
-
-    let entryStage = TourneyDoubleEliminationStageType.startingStage(info.players.length);
-    return [
-      this.getEntryStage(entryStage, info),
-      ... this.getWinnerStages(entryStage, info, playersRemaining),
-      ... this.getLoserStages(entryStage, info, playersRemaining)
-    ]
+function getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): DoubleEliminationEliminationStage {
+  return {
+    type: entryStage,
+    eliminationType: "Double",
+    title: TourneyDoubleEliminationStageType.map(entryStage),
+    matches: getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
+    status: TourneyPhaseStatus.waitingForApproval
   }
+}
 
-  private static getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo): DoubleEliminationEliminationStage {
-    return {
-      type: entryStage,
+function getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
+  return fillStages(
+    TourneyDoubleEliminationStageType
+      .getWinnerStages()
+      .filter(stage => stage > entryStage)
+      .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining),
+    info);
+}
+
+function getLoserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
+  return fillStages(
+    TourneyDoubleEliminationStageType
+      .getLoserStages()
+      .filter(stage => stage > entryStage)
+      .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining),
+    info);
+}
+
+function fillStages(stages: TourneyDoubleEliminationStageType[], info: DoubleEliminationTourneyInfo): DoubleEliminationEliminationStage[] {
+  return stages
+    .map(stage => ({
+      stage,
+      players: getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))
+    }))
+    .map(stageWithPlayers => ({
+      type: stageWithPlayers.stage,
       eliminationType: "Double",
-      title: TourneyDoubleEliminationStageType.map(entryStage),
-      matches: EliminationMatchesFunctions.getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
+      title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
+      matches: getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
       status: TourneyPhaseStatus.waitingForApproval
-    }
-  }
+    }));
+}
 
-  private static getWinnerStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
-    return this.fillStages(
-      TourneyDoubleEliminationStageType
-        .getWinnerStages()
-        .filter(stage => stage > entryStage)
-        .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining),
-      info);
-  }
-
-  private static getLoserStages(entryStage: TourneyDoubleEliminationStageType, info: DoubleEliminationTourneyInfo, playersRemaining: number): DoubleEliminationEliminationStage[] {
-    return this.fillStages(
-      TourneyDoubleEliminationStageType
-        .getLoserStages()
-        .filter(stage => stage > entryStage)
-        .filter(stage => TourneyDoubleEliminationStageType.playersInStage(stage) >= playersRemaining),
-      info);
-  }
-
-  private static fillStages(stages: TourneyDoubleEliminationStageType[], info: DoubleEliminationTourneyInfo) : DoubleEliminationEliminationStage[] {
-    return stages
-      .map(stage => ({
-        stage,
-        players: this.getUnknownPlayers(TourneyDoubleEliminationStageType.playersInStage(stage))
-      }))
-      .map(stageWithPlayers => ({
-        type: stageWithPlayers.stage,
-        eliminationType: "Double",
-        title: TourneyDoubleEliminationStageType.map(stageWithPlayers.stage),
-        matches: EliminationMatchesFunctions.getMatches(stageWithPlayers.players, info.raceLength, info.discipline),
-        status: TourneyPhaseStatus.waitingForApproval
-      }));
-  }
-
-  private static getUnknownPlayers(numberOfPlayers: number): string[] {
-    return Array(numberOfPlayers).fill(MatchPlayer.Unknown().name);
-  }
+function getUnknownPlayers(numberOfPlayers: number): string[] {
+  return Array(numberOfPlayers).fill(MatchPlayer.Unknown().name);
 }

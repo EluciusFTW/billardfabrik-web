@@ -2,69 +2,63 @@ import { Match } from '../models/match';
 import { MatchPlayer } from '../models/match-player';
 import { PoolDiscipline } from '../models/pool-discipline';
 
-export class EliminationMatchesFunctions {
+export function getMatchesFilledUpWithWalks(playerNames: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
+  const randomizedPlayers = [
+    ...getRandomizedPlayers(playerNames),
+    ...getWalks(nextPowerOfTwo(playerNames.length) - playerNames.length)
+  ];
 
-  static getMatchesFilledUpWithWalks(players: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
-    const randomizedPlayers = [
-      ... this
-        .reOrderRandomly(players)
-        .map(name => MatchPlayer.From(name)),
-      ... this.getWalks(this.nextPowerOfTwo(players.length) - players.length)
-    ];
+  return getMatchesInternal(randomizedPlayers, raceTo, discipline);
+}
 
-    return this.getMatchesInternal(randomizedPlayers, raceTo, discipline);
-  }
+export function getMatches(playerNames: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
+  if (playerNames.length % 2 === 1) throw new Error('Number of players has to be even');
+  return getMatchesInternal(getRandomizedPlayers(playerNames), raceTo, discipline);
+}
 
-  static getMatches(players: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
-    if (players.length % 2 === 1) throw new Error('Number of players has to be even');
+function getRandomizedPlayers(playerNames: string[]): MatchPlayer[] {
+  return reOrderRandomly(playerNames).map(name => MatchPlayer.From(name));
+}
 
-    const randomizedPlayers = this
-      .reOrderRandomly(players)
-      .map(name => MatchPlayer.From(name));
+function getMatchesInternal(players: MatchPlayer[], raceTo: number, discipline: PoolDiscipline): Match[] {
+  const numberOfMatches = players.length / 2;
+  let firstPlayers = players.slice(0, numberOfMatches)
+  let lastPlayers = players.slice(numberOfMatches)
 
-    return this.getMatchesInternal(randomizedPlayers, raceTo, discipline);
-  }
-
-  private static getMatchesInternal(players: MatchPlayer[], raceTo: number, discipline: PoolDiscipline): Match[] {
-    const numberOfMatches = players.length / 2;
-    let firstPlayers = players.slice(0, numberOfMatches)
-    let lastPlayers = players.slice(numberOfMatches)
-
-    return firstPlayers
-      .map((player, index) =>
+  return firstPlayers
+    .map((player, index) =>
       [
         player,
         index % 2 === 0
           ? lastPlayers[index]
           : lastPlayers[numberOfMatches - index]
       ])
-      .map(pair => Match.create(pair[0], pair[1], discipline, raceTo));
-  }
+    .map(pair => Match.create(pair[0], pair[1], discipline, raceTo));
+}
 
-  private static getWalks(numberOfWalks: number): MatchPlayer[] {
-    return Array(numberOfWalks).fill(MatchPlayer.Walk());
-  }
+function getWalks(numberOfWalks: number): MatchPlayer[] {
+  return Array(numberOfWalks).fill(MatchPlayer.Walk());
+}
 
-  private static reOrderRandomly(players: string[]): string[] {
-    let clonedPlayers = [... players];
-    let randomOrderedPlayers: string[] = [];
-    while (clonedPlayers.length > 0) {
-      let randomIndex = Math.floor(Math.random() * clonedPlayers.length);
-      randomOrderedPlayers.push(clonedPlayers[randomIndex]);
-      clonedPlayers.splice(randomIndex, 1);
-    }
-    return randomOrderedPlayers;
+function reOrderRandomly(players: string[]): string[] {
+  let clonedPlayers = [...players];
+  let randomOrderedPlayers: string[] = [];
+  while (clonedPlayers.length > 0) {
+    let randomIndex = Math.floor(Math.random() * clonedPlayers.length);
+    randomOrderedPlayers.push(clonedPlayers[randomIndex]);
+    clonedPlayers.splice(randomIndex, 1);
   }
+  return randomOrderedPlayers;
+}
 
-  private static nextPowerOfTwo(number: number): number {
-    if (number < 0) throw new Error('Parameter has to be positive.');
-    if (number === 0) return 0;
+function nextPowerOfTwo(number: number): number {
+  if (number < 0) throw new Error('Parameter has to be positive.');
+  if (number === 0) return 0;
 
-    let counter = 0;
-    do {
-      number = number / 2;
-      counter++;
-    } while (number > 1)
-    return Math.pow(2, counter);
-  }
+  let counter = 0;
+  do {
+    number = number / 2;
+    counter++;
+  } while (number > 1)
+  return Math.pow(2, counter);
 }
