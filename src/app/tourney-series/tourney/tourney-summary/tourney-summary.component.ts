@@ -30,10 +30,6 @@ export class TourneySummaryComponent {
   displayStatus = computed(() => TourneyStatusMapper.map(this.tourney().meta.status));
   canAddPlayers = computed(() => this.userService.canHandleTourneys() && this.tourney().meta.modus === 'Gruppe + Einfach-K.O.');
   canStart = computed(() => this.userService.canHandleTourneys());
-  canCompute = computed(() =>
-    this.userService.canHandleTourneys()
-    && this.tourney().meta.status === TourneyStatus.completed
-    && this.tourney().meta.modus === 'Gruppe + Einfach-K.O.');
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
@@ -52,17 +48,6 @@ export class TourneySummaryComponent {
           }
         }
       )
-    }
-  }
-
-  async calculate(): Promise<void> {
-    if (this.tourney().meta.status !== TourneyStatus.postProcessed) {
-      const result = this.statisticsService.Evaluate(this.tourney());
-      if (result) {
-        let updates = result.players.map(evaluation => this.playersService.AddPlayerRecord(evaluation));
-        await Promise.all(updates);
-        this.change.emit({ type: 'ResultsPostProcessed' });
-      }
     }
   }
 
