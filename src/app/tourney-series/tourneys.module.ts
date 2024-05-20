@@ -19,7 +19,7 @@ import { TourneysService } from './services/tourneys.service';
 
 import { TourneyEliminationStagesComponent } from './tourney/tourney-elimination-stage/tourney-elimination-stages.component';
 import { TourneyEliminationStageComponent } from './tourney-elimination-stage/tourney-elimination-stage.component';
-import { TourneyEventService } from './services/event-handling/tourney-event.service';
+import { TourneyEventService } from './event-handling/tourney-event.service';
 import { TourneyListComponent } from './tourney-list/tourney-list.component';
 import { TourneysLeaderBoardComponent } from './tourneys-leader-board/tourneys-leader-board.component';
 
@@ -30,9 +30,6 @@ import { TourneysLandingPageComponent } from './tourneys-landing-page.component'
 import { TourneySeriesOverviewComponent } from './tourney-series-overview/tourney-series-overview.component';
 import { TourneySeriesRoutingModule } from './tourneys-routing.module';
 import { TourneyDoubleEliminationStagesComponent } from './tourney/tourney-double-elimination-stage/tourney-double-elimination-stages.component';
-import { GroupStageFinalizedService } from './services/event-handling/group-stage-finalized.service';
-import { SingleEliminationStageFinalizedService } from './services/event-handling/single-elimination-stage-finalized.service';
-import { DoubleEliminationStageFinalizedService } from './services/event-handling/double-elimination-stage-finalized.service';
 import { TourneyMatchesService } from './services/evaluation/tourney-matches.service';
 import { TourneyPlacementsService } from './services/evaluation/tourney-placements.service';
 import { DoubleEliminationStagePlacementsService } from './services/evaluation/stages/double-elimination-stage-placements.service';
@@ -86,9 +83,6 @@ import { OrderPlayersDialogComponent } from './create-tourney/order-players/orde
         TourneyCreationService,
         TourneysService,
         TourneyEventService,
-        GroupStageFinalizedService,
-        SingleEliminationStageFinalizedService,
-        DoubleEliminationStageFinalizedService,
         TourneyStatisticsService,
         TourneyPlacementsService,
         DoubleEliminationStagePlacementsService,

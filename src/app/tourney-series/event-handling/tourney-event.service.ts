@@ -1,20 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Tourney } from '../../models/tourney';
-import { DoubleEliminationStageFinalizedEvent, SingleEliminationStageFinalizedEvent, TourneyPhaseEvent } from '../../models/tourney-phase-event';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
-import { TourneyStatus } from '../../models/tourney-status';
-import { SingleEliminationStageFinalizedService } from './single-elimination-stage-finalized.service';
-import { GroupStageFinalizedService } from './group-stage-finalized.service';
-import { DoubleEliminationStageFinalizedService } from './double-elimination-stage-finalized.service';
-import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
+import { Tourney } from '../models/tourney';
+import { DoubleEliminationStageFinalizedEvent, SingleEliminationStageFinalizedEvent, TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { TourneyPhaseStatus } from '../models/tourney-phase-status';
+import { TourneyStatus } from '../models/tourney-status';
+import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage-type';
+import { SingleEliminationStageFinalizedFunctions } from './single-elimination-stage-finalized.functions';
+import { DoubleEliminationStageFinalizedFunctions } from './double-elimination-stage-finalized.functions';
+import { GroupStageFinalizedFunctions } from './group-stage-finalized.Functions';
 
 @Injectable()
 export class TourneyEventService {
-
-  constructor(
-    private groupStageFinalizedService: GroupStageFinalizedService,
-    private eliminationStageFinalizedService: SingleEliminationStageFinalizedService,
-    private doubleEliminationStageFinalizedService: DoubleEliminationStageFinalizedService) { }
 
   apply(tourney: Tourney, event: TourneyPhaseEvent): void {
     switch (event.type) {
@@ -23,17 +18,17 @@ export class TourneyEventService {
         return;
       }
       case 'GroupFinalized': {
-        this.groupStageFinalizedService.handle(tourney);
+        GroupStageFinalizedFunctions.handle(tourney);
         return;
       }
       case 'SingleEliminationStageFinalized': {
         const finalizedStage = (event as SingleEliminationStageFinalizedEvent).stage;
-        this.eliminationStageFinalizedService.handle(tourney, finalizedStage);
+        SingleEliminationStageFinalizedFunctions.handle(tourney, finalizedStage);
         return;
       }
       case 'DoubleEliminationStageFinalized': {
         const finalizedStage = (event as DoubleEliminationStageFinalizedEvent).stage;
-        this.doubleEliminationStageFinalizedService.handle(tourney, finalizedStage);
+        DoubleEliminationStageFinalizedFunctions.handle(tourney, finalizedStage);
         return;
       }
       case 'ResultsPostProcessed': {

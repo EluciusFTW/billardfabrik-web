@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Match } from '../../models/match';
-import { Tourney } from '../../models/tourney';
-import { TourneyPhaseStatus } from '../../models/tourney-phase-status';
-import { GroupFunctions } from '../../tourney-group/group-functions';
-import { CreationFunctions } from '../../create-tourney/creation.functions';
+import { Match } from '../models/match';
+import { Tourney } from '../models/tourney';
+import { TourneyPhaseStatus } from '../models/tourney-phase-status';
+import { GroupFunctions } from '../tourney-group/group-functions';
+import { CreationFunctions } from '../create-tourney/creation.functions';
 
-@Injectable()
-export class GroupStageFinalizedService {
+export class GroupStageFinalizedFunctions {
 
-  handle(tourney: Tourney): void {
+  static handle(tourney: Tourney): void {
     const ongoingGroups = tourney.groups.filter(group => group.status !== TourneyPhaseStatus.finalized);
     if (ongoingGroups.length === 0) {
       tourney.eliminationStages[0].status = TourneyPhaseStatus.readyOrOngoing;
@@ -21,9 +19,9 @@ export class GroupStageFinalizedService {
     }
   }
 
-  private extractWinnersToRandomChunks(tourney: Tourney): string[][] {
+  private static extractWinnersToRandomChunks(tourney: Tourney): string[][] {
     let reorderedChunked: string[][] = [];
-    let winnersPerGroup = tourney.groups
+    const winnersPerGroup = tourney.groups
       .map(group => GroupFunctions.calculcateStanding(group))
       .map(standings => standings.slice(0, 2))
       .map(standings => standings.map(s => s.name));
@@ -35,12 +33,12 @@ export class GroupStageFinalizedService {
     return reorderedChunked;
   }
 
-  private populatePlayers(match: Match, pairOfPlayers: string[]): void {
+  private static populatePlayers(match: Match, pairOfPlayers: string[]): void {
     match.playerOne.name = pairOfPlayers[0];
     match.playerTwo.name = pairOfPlayers[1];
   }
 
-  private fromSameGroup(chunk: string[], winnersPerGroup: string[][]): boolean {
+  private static fromSameGroup(chunk: string[], winnersPerGroup: string[][]): boolean {
     return winnersPerGroup.some(winnerChunk => chunk.includes(winnerChunk[0]) && chunk.includes(winnerChunk[1]));
   }
 }

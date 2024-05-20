@@ -1,16 +1,14 @@
-import { Injectable } from "@angular/core";
-import { Match } from "../../models/match";
-import { MatchPlayer } from "../../models/match-player";
-import { Tourney } from "../../models/tourney";
-import { TourneyDoubleEliminationStageKind, TourneyDoubleEliminationStageType } from "../../models/tourney-double-elimination-stage-type";
-import { DoubleEliminationEliminationStage, TourneyEliminationStage } from "../../models/tourney-elimination-stage";
-import { TourneyPhaseStatus } from "../../models/tourney-phase-status";
-import { TourneyEliminationStageType } from "../../models/tourney-single-elimination-stage-type";
+import { Match } from "../models/match";
+import { MatchPlayer } from "../models/match-player";
+import { Tourney } from "../models/tourney";
+import { TourneyDoubleEliminationStageKind, TourneyDoubleEliminationStageType } from "../models/tourney-double-elimination-stage-type";
+import { DoubleEliminationEliminationStage, TourneyEliminationStage } from "../models/tourney-elimination-stage";
+import { TourneyPhaseStatus } from "../models/tourney-phase-status";
+import { TourneyEliminationStageType } from "../models/tourney-single-elimination-stage-type";
 
-@Injectable()
-export class DoubleEliminationStageFinalizedService {
+export class DoubleEliminationStageFinalizedFunctions {
 
-  handle(tourney: Tourney, finalizedStageType: TourneyDoubleEliminationStageType): void {
+  static handle(tourney: Tourney, finalizedStageType: TourneyDoubleEliminationStageType): void {
     const stage = this.getStage(tourney, finalizedStageType);
     const stageKind = TourneyDoubleEliminationStageType.toStageKind(finalizedStageType);
 
@@ -73,7 +71,7 @@ export class DoubleEliminationStageFinalizedService {
     }
   }
 
-  private populateSingleEliminationStage(tourney: Tourney, stageKind: TourneyDoubleEliminationStageKind, finalizedStageType: TourneyDoubleEliminationStageType, winners: MatchPlayer[], losers: MatchPlayer[]) {
+  private static populateSingleEliminationStage(tourney: Tourney, stageKind: TourneyDoubleEliminationStageKind, finalizedStageType: TourneyDoubleEliminationStageType, winners: MatchPlayer[], losers: MatchPlayer[]) {
     if (finalizedStageType === TourneyDoubleEliminationStageType.WinnerFinal || finalizedStageType === TourneyDoubleEliminationStageType.LoserFinal) {
       const final = tourney.eliminationStages.find(stage => stage.type === TourneyEliminationStageType.final)
       const thirdPlace = tourney.eliminationStages.find(stage => stage.type === TourneyEliminationStageType.thirdPlace)
@@ -97,20 +95,20 @@ export class DoubleEliminationStageFinalizedService {
     }
   }
 
-  private setStatus(nextStage: TourneyEliminationStage) {
+  private static setStatus(nextStage: TourneyEliminationStage) {
     if (this.stageFullySeeded(nextStage)) {
       nextStage.status = TourneyPhaseStatus.readyOrOngoing;
     }
   }
 
-  private stageFullySeeded(stage: TourneyEliminationStage): Boolean {
+  private static stageFullySeeded(stage: TourneyEliminationStage): Boolean {
     return !stage.matches
       .flatMap(match => [match.playerOne, match.playerTwo])
       .map(player => !MatchPlayer.isDetermined(player))
       .some(value => value);
   }
 
-  private getStage(tourney: Tourney, stageType: TourneyDoubleEliminationStageType): DoubleEliminationEliminationStage {
+  private static getStage(tourney: Tourney, stageType: TourneyDoubleEliminationStageType): DoubleEliminationEliminationStage {
     const stage = this.tryGetStage(tourney, stageType);
 
     if (!stage) {
@@ -122,7 +120,7 @@ export class DoubleEliminationStageFinalizedService {
     return stage;
   }
 
-  private tryGetStage(tourney: Tourney, stageType: TourneyDoubleEliminationStageType): DoubleEliminationEliminationStage {
+  private static tryGetStage(tourney: Tourney, stageType: TourneyDoubleEliminationStageType): DoubleEliminationEliminationStage {
     return tourney.doubleEliminationStages.find(stage => stage.type === stageType);
   }
 }

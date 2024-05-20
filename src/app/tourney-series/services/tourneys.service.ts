@@ -5,7 +5,7 @@ import { map, take } from 'rxjs/operators';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
-import { TourneyEventService } from './event-handling/tourney-event.service';
+import { TourneyEventService } from '../event-handling/tourney-event.service';
 import { Db, unpackSnapshotWithKey, unpackSnapshotsWithKey } from 'src/app/shared/firebase-utilities';
 import { TourneyFunctions } from '../tourney/tourney-functions';
 
