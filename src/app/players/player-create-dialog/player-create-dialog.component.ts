@@ -13,22 +13,22 @@ export class PlayerCreateDialogComponent {
   club: boolean = false;
   error: string = '';
 
-  constructor(public dialogRef: MatDialogRef<PlayerCreateDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<PlayerCreateDialogComponent, Player>) { }
 
   submit(): void {
-    const firstNameError = this.validate(this.firstName)
-    if(firstNameError){
-      this.error = "Unerlaubtes Zeichen im Vornamen: " + firstNameError;
+    const invalidCharsInFirstName = this.invalidChars(this.firstName)
+    if(invalidCharsInFirstName){
+      this.error = "Unerlaubte(s) Zeichen im Vornamen: " + invalidCharsInFirstName;
       return;
     }
 
-    const lastNameError = this.validate(this.lastName)
-    if(lastNameError){
-      this.error = "Unerlaubtes Zeichen im Nachnamen: " + lastNameError;
+    const invalidCharsInLastName = this.invalidChars(this.lastName)
+    if(invalidCharsInLastName){
+      this.error = "Unerlaubte(s) Zeichen im Nachnamen: " + invalidCharsInLastName;
       return;
     }
 
-    const player: Player = {
+    this.dialogRef.close({
       firstName: this.firstName,
       lastName: this.lastName,
       clubPlayer: this.club,
@@ -36,22 +36,14 @@ export class PlayerCreateDialogComponent {
       showForElo: true,
       showForTourneys: true,
       showForLeaderboard: true
-    }
-
-    this.dialogRef.close(player);
+    });
   }
 
-  private validate(name: string) : string {
-    const letters = /^[a-zA-Z0-9]+$/;
-
-    for (let i = 0; i < name.length; i++) {
-      if (!name[i].match(letters) ) {
-        this.error = 'Invalid character: ' + name[i];
-        return name[i];
-      }
-    }
-
-    return '';
+  private invalidChars(name: string) : string {
+    const letters = /^[a-zA-Z0-9öäüß-]+$/;
+    return [...name]
+      .filter(c => !c.match(letters))
+      .join('')
   }
 
   abort(): void {

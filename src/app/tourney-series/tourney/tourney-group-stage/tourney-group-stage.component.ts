@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output, input } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 
@@ -8,8 +8,7 @@ import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 })
 export class TourneyGroupStageComponent {
 
-  @Input({ required: true })
-  tourney: Tourney;
+  tourney = input.required<Tourney>();
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();

@@ -66,6 +66,15 @@ export module Match {
   }
 
   export function winner(match: Match): MatchPlayer {
+    // This also handles the case that both are walks!
+    if (MatchPlayer.isWalk(match.playerTwo)){
+      return match.playerOne
+    }
+
+    if (MatchPlayer.isWalk(match.playerOne)){
+      return match.playerTwo
+    }
+
     return match.playerOne.points === match.length
       ? match.playerOne
       : match.playerTwo.points === match.length

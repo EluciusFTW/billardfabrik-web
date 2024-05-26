@@ -1,3 +1,3 @@
-@for (stage of tourney.eliminationStages; track stage.type) {
+@for (stage of tourney().eliminationStages; track stage.type) {
   <app-tourney-elimination-stage [stage]="stage" (change)="emitChange($event)"></app-tourney-elimination-stage>
 }

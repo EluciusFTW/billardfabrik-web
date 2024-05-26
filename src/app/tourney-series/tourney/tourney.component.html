@@ -1,24 +1,26 @@
-<app-content-tile [header]="header" [subheader]="subheader">
+<app-content-tile [header]="header()" [subheader]="subheader()">
   <mat-tab-group mat-stretch-tabs="false">
-    <mat-tab label="Zusammenfassung">
-      <app-tourney-summary [tourney]="tourney" (change)="update($event)"></app-tourney-summary>
-    </mat-tab>
+    @if (tourney()) {
+      <mat-tab label="Zusammenfassung">
+        <app-tourney-summary [tourney]="tourney()" (change)="update($event)"></app-tourney-summary>
+      </mat-tab>
+    }
 
-    @if (hasGroupStage) {
+    @if (hasGroupStage()) {
       <mat-tab label="Gruppenphase">
-        <app-tourney-group-stage [tourney]="tourney" (change)="update($event)"></app-tourney-group-stage>
+        <app-tourney-group-stage [tourney]="tourney()" (change)="update($event)"></app-tourney-group-stage>
       </mat-tab>
     }
 
-    @if (hasDoubleEliminationStage) {
+    @if (hasDoubleEliminationStage()) {
       <mat-tab label="Doppel-K.O">
-        <app-tourney-double-elimination-stages [tourney]="tourney" (change)="update($event)"></app-tourney-double-elimination-stages>
+        <app-tourney-double-elimination-stages [tourney]="tourney()" (change)="update($event)"></app-tourney-double-elimination-stages>
       </mat-tab>
     }
 
-    @if (hasSingleEliminationStage) {
+    @if (hasSingleEliminationStage()) {
       <mat-tab label="Endrunde">
-        <app-tourney-elimination-stages [tourney]="tourney" (change)="update($event)"></app-tourney-elimination-stages>
+        <app-tourney-elimination-stages [tourney]="tourney()" (change)="update($event)"></app-tourney-elimination-stages>
       </mat-tab>
     }
   </mat-tab-group>

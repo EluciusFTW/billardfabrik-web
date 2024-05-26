@@ -1,8 +1,6 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit, computed, inject, signal } from '@angular/core';
 import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
-import { Subscription } from 'rxjs';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyFunctions } from './tourney-functions';
 
@@ -10,53 +8,28 @@ import { TourneyFunctions } from './tourney-functions';
   selector: 'app-tourney',
   templateUrl: './tourney.component.html'
 })
-export class TourneyComponent implements OnDestroy {
+export class TourneyComponent implements OnInit {
+  private tourneysService = inject(TourneysService);
+  @Input() id: string;
 
-  id: string;
-  private sub: Subscription;
-  tourney: Tourney;
+  tourney = signal<Tourney | null>(null);
+  header = computed(() => this.tourney()
+    ? `${this.tourney().meta.name} Nr. ${this.tourney().meta.occurrence}`
+    : 'Loading ... ');
+  subheader = computed(() => this.tourney()
+    ? `vom ${TourneyFunctions.NameFragmentToDate(this.tourney().meta.date).toLocaleDateString()}`
+    : '');
+  hasGroupStage = computed(() => this.tourney()?.meta.modus === 'Gruppe + Einfach-K.O.');
+  hasSingleEliminationStage = computed(() => (this.tourney()?.eliminationStages?.length ?? 0) > 0);
+  hasDoubleEliminationStage = computed(() => this.tourney()?.meta.modus === 'Doppel-K.O.');
 
-  constructor(private route: ActivatedRoute, private tourneysService: TourneysService) {
-    this.sub = this.route.params
-      .subscribe(params => {
-        this.id = params['id'];
-        this.tourneysService
-          .get(this.id)
-          .subscribe(tourney => this.tourney = tourney);
-      });
-  }
-
-  get header(): string {
-    return this.tourney
-      ? `${this.tourney.meta.name} Nr. ${this.tourney.meta.occurrence}`
-      : 'Loading ...'
-  }
-
-  get subheader(): string {
-    return this.tourney
-      ? `vom ${TourneyFunctions.NameFragmentToDate(this.tourney.meta.date).toLocaleDateString()}`
-      : ''
-  }
-
-  get hasGroupStage(): boolean {
-    return (this.tourney?.groups?.length ?? 0) > 0;
-  }
-
-  get hasDoubleEliminationStage(): boolean {
-    return (this.tourney?.doubleEliminationStages?.length ?? 0) > 0
-  }
-
-  get hasSingleEliminationStage(): boolean {
-    return (this.tourney?.eliminationStages?.length ?? 0) > 0
+  ngOnInit() {
+    this.tourneysService
+      .get(this.id)
+      .subscribe(id => this.tourney.set(id));
   }
 
   update(event: TourneyPhaseEvent): void {
-    this.tourneysService.update(this.tourney, event);
-  }
-
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
+    this.tourneysService.update(this.tourney(), event);
   }
 }

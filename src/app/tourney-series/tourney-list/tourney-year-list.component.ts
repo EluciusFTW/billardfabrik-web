@@ -1,12 +1,12 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, input } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
-import { Subscription } from "rxjs";
+import { firstValueFrom, map } from "rxjs";
 import { UserService } from "src/app/authentication/user.service";
 import { Tourney } from "../models/tourney";
 import { TourneyStatus, TourneyStatusMapper } from "../models/tourney-status";
 import { TourneyStatisticsService } from "../services/evaluation/tourney-statistics.service";
-import { PlayersService } from "../services/players.service";
+import { TourneyPlayersService } from "../services/tourney-players.service";
 import { TourneysService } from "../services/tourneys.service";
 import { ShowResultsDialogComponent } from "./show-results.dialog.component";
 
@@ -14,18 +14,11 @@ import { ShowResultsDialogComponent } from "./show-results.dialog.component";
   selector: 'app-tourney-year-list',
   templateUrl: './tourney-year-list.component.html'
 })
-export class TourneyYearListComponent implements OnInit {
+export class TourneyYearListComponent {
 
-  @Input()
-  year: number = 0;
-
-  @Input()
-  startingAt: string = "20180101";
-
-  @Input()
-  endingAt: string = "20501231";
-
-  private tourneysSub: Subscription;
+  year = input<number>(0);
+  startingAt = input<string>("20180101");
+  endingAt = input<string>("20501231");
 
   tourneyDataSource: MatTableDataSource<Tourney>;
   displayedColumns = ['name', 'date', 'status', 'actions'];
@@ -33,23 +26,23 @@ export class TourneyYearListComponent implements OnInit {
   constructor(
     private tourneysService: TourneysService,
     private statisticsService: TourneyStatisticsService,
-    private playersService: PlayersService,
+    private playersService: TourneyPlayersService,
     private userService: UserService,
     private dialog: MatDialog) { }
 
-  ngOnInit(): void {
-    const tourneySource = this.year > 0
-      ? this.tourneysService.getFromYear(this.year)
-      : this.tourneysService.getBetween(this.startingAt, this.endingAt);
+  async ngOnInit() {
+    const tourneySource = this.year() > 0
+      ? this.tourneysService.getFromYear(this.year())
+      : this.tourneysService.getBetween(this.startingAt(), this.endingAt());
 
-    this.tourneysSub = tourneySource
-      .subscribe(
-        tourneys => {
-          let ts = tourneys
+    const tourneys = await firstValueFrom(
+      tourneySource
+        .pipe(
+          map(tourneys =>
+          tourneys
             .filter(tourney => this.isTourneyAuthenticated || tourney.meta.status !== TourneyStatus.new)
-            .reverse();
-          this.tourneyDataSource = new MatTableDataSource<Tourney>(ts);
-        });
+            .reverse())));
+    this.tourneyDataSource = new MatTableDataSource<Tourney>(tourneys);
   }
 
   show(tourney: Tourney) {
@@ -81,9 +74,5 @@ export class TourneyYearListComponent implements OnInit {
 
   mapTourneyState(status: TourneyStatus) {
     return TourneyStatusMapper.map(status);
-  }
-
-  ngOnDestroy() {
-    this.tourneysSub.unsubscribe();
   }
 }

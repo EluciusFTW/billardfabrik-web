@@ -8,7 +8,10 @@ export interface TourneyInfo {
   discipline: PoolDiscipline;
   mode: TourneyMode;
   name: string;
+  seeded: boolean;
 }
+
+export interface SingleEliminationTourneyInfo extends TourneyInfo {}
 
 export interface GroupsThenSingleEliminationTourneyInfo extends TourneyInfo {
   nrOfGroups: number;

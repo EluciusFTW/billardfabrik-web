@@ -72,9 +72,17 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button (click)="submitSelected(selectPlayers.selectedOptions.selected)">
-        Turnier Erstellen
-      </button>
+      <div style="display: flex; flex-direction: column; gap: 1em;">
+        <button mat-raised-button color="primary" (click)="submitSelected(selectPlayers.selectedOptions.selected)">
+          Turnier Erstellen
+        </button>
+
+        @if (selectedPlayModus.canBeSeeded) {
+          <button mat-raised-button color="primary" (click)="seedSelected(selectPlayers.selectedOptions.selected)">
+            Gesetztes Turnier Erstellen
+          </button>
+        }
+      </div>
     </div>
   </div>
 </app-content-tile>

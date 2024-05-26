@@ -14,7 +14,7 @@ import { PlayersService as PS } from 'src/app/players/players.service';
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
 
 @Injectable()
-export class PlayersService extends FirebaseService {
+export class TourneyPlayersService extends FirebaseService {
   private readonly playersService = inject(PS);
 
   async getAllLeaderboardPlayers(start: string, end: string): Promise<LeaderBoardPlayer[]> {

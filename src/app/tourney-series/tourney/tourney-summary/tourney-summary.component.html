@@ -4,27 +4,31 @@
 
       <div style="width: 50%;">
         <h3>Ergebnisse</h3>
-        <table>
-          <tr>
-            <td>
-              <i class="fas fa-trophy"></i>
-            </td>
-            <td> {{ getWinner() }} </td>
-          </tr>
-          <tr>
-            <td>
-              2.
-            </td>
-            <td> {{ getSecondPlace() }} </td>
-          </tr>
-          <tr>
-            <td>
-              3.
-            </td>
-            <td> {{ getThirdPlace() }} </td>
-          </tr>
-        </table>
-      </div>
+        @if (isOver()){
+          <table>
+            <tr>
+              <td>
+                <i class="fas fa-trophy"></i>
+              </td>
+              <td> {{ getWinner() }} </td>
+            </tr>
+            <tr>
+              <td>
+                2.
+              </td>
+              <td> {{ getSecondPlace() }} </td>
+            </tr>
+            <tr>
+              <td>
+                3.
+              </td>
+              <td> {{ getThirdPlace() }} </td>
+            </tr>
+          </table>
+        } @else {
+          <p>Das Turnier ist noch nicht beendet.</p>
+        }
+    </div>
 
       <div>
         <h3>Meta</h3>
@@ -39,13 +43,13 @@
             <td>
               <i class="fas fa-gamepad"></i>
             </td>
-            <td> {{ tourney.meta.discipline }}</td>
+            <td> {{ tourney().meta.discipline }}</td>
           </tr>
           <tr>
             <td>
               <i class="far fa-hand-pointer"></i>
             </td>
-            <td> {{ tourney.meta.modus }}</td>
+            <td> {{ tourney().meta.modus }}</td>
           </tr>
         </table>
       </div>
@@ -56,15 +60,11 @@
     <!-- <button mat-raised-button *ngIf="canAddPlayers()" [disabled]="someGroupFinished()" (click)="addPlayer()">
       Nachzügler einlosen
     </button> -->
-    @if (tourney.meta.status === 0 && canStart) {
+    @if (tourney().meta.status === 0 && canStart()) {
       <button mat-raised-button (click)="start()">
         Turnier Eröffnen
       </button>
     }
-    @if (canCompute) {
-      <button mat-raised-button (click)="calculate()">
-        Turnier Auswerten
-      </button>
-    }
+
   </mat-card-actions>
 </mat-card>

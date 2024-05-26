@@ -1,0 +1,13 @@
+<h1 mat-dialog-title> Spieler sortieren </h1>
+<div mat-dialog-content>
+  <div cdkDropList (cdkDropListDropped)="drop($event)">
+    @for (player of players; track player; let idx = $index) {
+      <div cdkDrag>{{idx + 1}} -- {{ player }}</div>
+    }
+  </div>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="submit()">Speichern </button>
+  <button mat-button (click)="abort()">Abbrechen</button>
+</div>

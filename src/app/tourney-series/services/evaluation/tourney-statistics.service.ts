@@ -2,13 +2,11 @@ import { Injectable } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyEvaluation } from '../../models/evaluation/tourney-evaluation';
 import { TourneyStatus } from '../../models/tourney-status';
-import { TourneyPlacementsService } from './tourney-placements.service';
-import { TourneyMatchesService } from './tourney-matches.service';
+import { getMatchRecords } from './tourney-matches.functions';
+import { getPlacements } from './placements/placement.functions';
 
 @Injectable()
 export class TourneyStatisticsService {
-
-  constructor(private placementsService: TourneyPlacementsService, private matchesService: TourneyMatchesService) { }
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {
     if (tourney.meta.status < TourneyStatus.completed) {
@@ -18,8 +16,8 @@ export class TourneyStatisticsService {
       };
     }
 
-    const matchesByPlayer = this.matchesService.Evaluate(tourney);
-    const placementsByPlayer = this.placementsService.Evaluate(tourney);
+    const matchesByPlayer = getMatchRecords(tourney);
+    const placementsByPlayer = getPlacements(tourney);
 
     return {
       mode: tourney.meta.modus,

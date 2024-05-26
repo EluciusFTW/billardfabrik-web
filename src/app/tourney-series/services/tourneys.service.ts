@@ -5,7 +5,7 @@ import { map, take } from 'rxjs/operators';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
-import { TourneyEventService } from './event-handling/tourney-event.service';
+import { TourneyEventService } from '../event-handling/tourney-event.service';
 import { Db, unpackSnapshotWithKey, unpackSnapshotsWithKey } from 'src/app/shared/firebase-utilities';
 import { TourneyFunctions } from '../tourney/tourney-functions';
 
@@ -19,7 +19,7 @@ export class TourneysService {
 
   get(id: string): Observable<Db<Tourney>> {
     return this.db
-      .object<Tourney>(DB_TOURNEYS_LPATH + '/' + id)
+      .object<Tourney>(`${DB_TOURNEYS_LPATH}/${id}`)
       .snapshotChanges()
       .pipe(map(unpackSnapshotWithKey));
   }
@@ -71,7 +71,7 @@ export class TourneysService {
   }
 
   getAfter(start: string): Observable<Tourney[]> {
-    const actualStart = start || "0";
+    const actualStart = start || '0';
     return this.getBetween(`${+actualStart + 1}`, 'X');
   }
 
