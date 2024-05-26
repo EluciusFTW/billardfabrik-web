@@ -4,7 +4,7 @@ import { TourneyInfo } from '../models/tourney-info';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { MatchPlayer } from '../models/match-player';
-import { chunk, reOrderRandomly } from 'src/app/shared/utility.functions';
+import { reOrderRandomly } from 'src/app/shared/utility.functions';
 
 export function createSingleEliminationStages(info: TourneyInfo): SingleEliminationEliminationStage[] {
   return getStages(TourneyEliminationStageType.startingStage(info.players.length))
@@ -32,26 +32,20 @@ export function createEmptySingleEliminationStages(info: TourneyInfo, startingSt
 }
 
 function getMatches(stageType: TourneyEliminationStageType, info: TourneyInfo): Match[] {
-  const matchPlayers = [
-    ...info.players.map(p => MatchPlayer.From(p)),
-    ...missingPlayers(stageType, info.players.length)
+  const players = getPlayers(stageType, info);
+  return getSeededPairs(players)
+    .map(pair => Match.create(pair[0], pair[1], info.discipline, info.raceLength));
+}
+
+function getPlayers(stageType: TourneyEliminationStageType, info: TourneyInfo): MatchPlayer[] {
+  const players = info.players.map(p => MatchPlayer.From(p));
+  return [
+    ... (info.seeded
+      ? players
+      : reOrderRandomly(players)),
+    ... Array(TourneyEliminationStageType.numberOfPlayers(stageType) - info.players.length)
+      .fill(MatchPlayer.Walk())
   ];
-
-  const playerPairs = info.seeded
-    ? getSeededPairs(matchPlayers)
-    : getRandomPairs(matchPlayers);
-
-  return playerPairs.map(pair => Match.create(pair[0], pair[1], info.discipline, info.raceLength));
-}
-
-function missingPlayers(stageType: TourneyEliminationStageType, nrOfPlayers: number): MatchPlayer[] {
-  return Array(TourneyEliminationStageType.numberOfPlayers(stageType) - nrOfPlayers)
-    .fill(MatchPlayer.Walk())
-}
-
-function getRandomPairs(players: MatchPlayer[]): MatchPlayer[][] {
-  const playerCopy = [...players];
-  return chunk(reOrderRandomly(playerCopy), 2);
 }
 
 function getSeededPairs(players: MatchPlayer[]) {
@@ -72,6 +66,5 @@ function getStages(startingStage: TourneyEliminationStageType): TourneyEliminati
 
 function getPlaceholderMatches(stageType: TourneyEliminationStageType, info: TourneyInfo): Match[] {
   return Array(TourneyEliminationStageType.numberOfMatches(stageType))
-    .fill(false)
-    .map(_ => Match.placeHolder(info.discipline, info.raceLength));
+    .fill(Match.placeHolder(info.discipline, info.raceLength));
 }
