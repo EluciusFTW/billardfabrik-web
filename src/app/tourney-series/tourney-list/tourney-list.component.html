@@ -9,6 +9,10 @@
 
   <mat-tab-group>
     <mat-tab label="Aktuelle Serie">
+      <app-tourney-year-list [startingAt]="'20240910'" [endingAt]="'20250701'"></app-tourney-year-list>
+    </mat-tab>
+
+    <mat-tab label="Serie 23/24">
       <app-tourney-year-list [startingAt]="'20231101'" [endingAt]="'20240701'"></app-tourney-year-list>
     </mat-tab>
 
