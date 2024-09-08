@@ -1,4 +1,3 @@
-.mat-column-date,
 .mat-column-p1,
 .mat-column-p2 {
   max-width: 300px;
@@ -15,6 +14,7 @@
   padding:0
 }
 
-.mat-column-date {
+.mat-column-date,
+.mat-column-discipline {
   max-width: 8em;
 }

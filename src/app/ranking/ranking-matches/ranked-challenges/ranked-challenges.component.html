@@ -4,6 +4,11 @@
       <td mat-cell *matCellDef="let item"> {{ item.date | dateKey }} </td>
     </ng-container>
 
+    <ng-container matColumnDef="discipline">
+      <th mat-header-cell *matHeaderCellDef> Disziplin </th>
+      <td mat-cell *matCellDef="let item"> {{ item.discipline }} </td>
+    </ng-container>
+
     <ng-container matColumnDef="p1">
       <th mat-header-cell *matHeaderCellDef> Spieler 1 </th>
       <td mat-cell *matCellDef="let item"> {{ item.playerOne.name }} </td>
