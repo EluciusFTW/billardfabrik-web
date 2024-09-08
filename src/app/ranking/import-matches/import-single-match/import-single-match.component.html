@@ -86,4 +86,12 @@
     </div>
 
   </form>
+
+  @if (addedMatches.length != 0) {
+    <h3> Bisher eingegebene Spiele </h3>
+    @for (item of addedMatches; track item) {
+      <div>{{ item.playerOne.name }} vs. {{ item.playerTwo.name }} - {{item.playerOne.points}}:{{item.playerTwo.points}} ({{item.discipline}})</div>
+    }
+  }
+
 </app-content-tile>

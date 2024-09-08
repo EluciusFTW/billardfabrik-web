@@ -25,6 +25,8 @@ export class ImportSingleMatchComponent implements OnInit {
   selectDate: FormControl<Date>;
   matchForm: FormGroup;
 
+  addedMatches: IncomingChallengeMatch[] = [];
+
   constructor() {
     this.selectDate = new FormControl<Date>(new Date(), [Validators.required]);
 
@@ -75,5 +77,6 @@ export class ImportSingleMatchComponent implements OnInit {
     }
 
     await this.importService.Import(match);
+    this.addedMatches.push(match);
   }
 }
