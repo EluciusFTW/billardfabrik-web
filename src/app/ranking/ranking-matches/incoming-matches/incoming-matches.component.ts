@@ -16,7 +16,7 @@ export class IncomingMatchesComponent extends AuthorizedComponent {
 
   unrankedMatches: IncomingMatch[];
   dataSource = new MatTableDataSource<IncomingMatch>();
-  displayedColumns = ['date', 'p1', 'p2', 'score'];
+  displayedColumns = ['date', 'discipline', 'p1', 'p2', 'score'];
 
   ngOnInit(): void {
     this.SetDataSource();
