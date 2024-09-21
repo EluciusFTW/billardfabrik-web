@@ -20,7 +20,10 @@
 
   @if (this.stage().status != 2) {
     <mat-card-actions>
-      <button mat-button *ngIf="canHandleTourney()" [disabled]="!allGamesOver() && !stageActive()" (click)="finalize()">Abschließen</button>
+      @if (canHandleTourney()) {
+        <button mat-button [disabled]="!allGamesOver() && !stageActive()" (click)="finalize()">Abschließen</button>
+      }
+
       Ausspielziel: {{ this.stage().matches[0].length }}
 
       @if (canHandleTourney()) {
