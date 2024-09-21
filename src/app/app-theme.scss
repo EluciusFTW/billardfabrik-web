@@ -10,49 +10,49 @@
 // h3: subtitle-1
 // h4: body-1
 // h5, h6: Get class .mat-h*
-$typo-large: mat.define-typography-config(
-  $headline-1: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
-  $headline-2: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
-  $headline-3: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
-  $headline-4: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
-  $headline-5: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
-  $headline-6: mat.define-typography-level(28px, 34px, 500, 'Jost, sans-serif'),
-  $subtitle-1: mat.define-typography-level(22px, 34px, 500, 'Jost, sans-serif'),
-  $subtitle-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
-  $body-1: mat.define-typography-level(18px, 28px, 500, 'Jost, sans-serif'),
-  $body-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
-  $caption: mat.define-typography-level(15px, 28px, 500, 'Jost, sans-serif'),
-  $button: mat.define-typography-level(15px, 28px, 500, 'Jost, sans-serif')
+$typo-large: mat.m2-define-typography-config(
+  $headline-1: mat.m2-define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-2: mat.m2-define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-3: mat.m2-define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-4: mat.m2-define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-5: mat.m2-define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
+  $headline-6: mat.m2-define-typography-level(28px, 34px, 500, 'Jost, sans-serif'),
+  $subtitle-1: mat.m2-define-typography-level(22px, 34px, 500, 'Jost, sans-serif'),
+  $subtitle-2: mat.m2-define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
+  $body-1: mat.m2-define-typography-level(18px, 28px, 500, 'Jost, sans-serif'),
+  $body-2: mat.m2-define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
+  $caption: mat.m2-define-typography-level(15px, 28px, 500, 'Jost, sans-serif'),
+  $button: mat.m2-define-typography-level(15px, 28px, 500, 'Jost, sans-serif')
 );
 
-$typo-regular: mat.define-typography-config(
-  $headline-1: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
-  $headline-2: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
-  $headline-3: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
-  $headline-4: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
-  $headline-5: mat.define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
-  $headline-6: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
-  $subtitle-1: mat.define-typography-level(20px, 30px, 500, 'Jost, sans-serif'),
-  $subtitle-2: mat.define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
-  $body-1: mat.define-typography-level(16px, 24px, 500, 'Jost, sans-serif'),
-  $body-2: mat.define-typography-level(14px, 20px, 400, 'Jost, sans-serif'),
-  $caption: mat.define-typography-level(14px, 20px, 500, 'Jost, sans-serif'),
-  $button: mat.define-typography-level(14px, 20px, 500, 'Jost, sans-serif')
+$typo-regular: mat.m2-define-typography-config(
+  $headline-1: mat.m2-define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-2: mat.m2-define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-3: mat.m2-define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-4: mat.m2-define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-5: mat.m2-define-typography-level(28px, 36px, 500, 'Jost, sans-serif'),
+  $headline-6: mat.m2-define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $subtitle-1: mat.m2-define-typography-level(20px, 30px, 500, 'Jost, sans-serif'),
+  $subtitle-2: mat.m2-define-typography-level(16px, 24px, 400, 'Jost, sans-serif'),
+  $body-1: mat.m2-define-typography-level(16px, 24px, 500, 'Jost, sans-serif'),
+  $body-2: mat.m2-define-typography-level(14px, 20px, 400, 'Jost, sans-serif'),
+  $caption: mat.m2-define-typography-level(14px, 20px, 500, 'Jost, sans-serif'),
+  $button: mat.m2-define-typography-level(14px, 20px, 500, 'Jost, sans-serif')
 );
 
-$typo-small: mat.define-typography-config(
-  $headline-1: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
-  $headline-2: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
-  $headline-3: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
-  $headline-4: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
-  $headline-5: mat.define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
-  $headline-6: mat.define-typography-level(20px, 24px, 500, 'Jost, sans-serif'),
-  $subtitle-1: mat.define-typography-level(18px, 22px, 500, 'Jost, sans-serif'),
-  $subtitle-2: mat.define-typography-level(14px, 20px, 400, 'Jost, sans-serif'),
-  $body-1: mat.define-typography-level(14px, 24px, 500, 'Jost, sans-serif'),
-  $body-2: mat.define-typography-level(12px, 18px, 400, 'Jost, sans-serif'),
-  $caption: mat.define-typography-level(12px, 18px, 500, 'Jost, sans-serif'),
-  $button: mat.define-typography-level(12px, 18px, 500, 'Jost, sans-serif')
+$typo-small: mat.m2-define-typography-config(
+  $headline-1: mat.m2-define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-2: mat.m2-define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-3: mat.m2-define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-4: mat.m2-define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-5: mat.m2-define-typography-level(24px, 32px, 500, 'Jost, sans-serif'),
+  $headline-6: mat.m2-define-typography-level(20px, 24px, 500, 'Jost, sans-serif'),
+  $subtitle-1: mat.m2-define-typography-level(18px, 22px, 500, 'Jost, sans-serif'),
+  $subtitle-2: mat.m2-define-typography-level(14px, 20px, 400, 'Jost, sans-serif'),
+  $body-1: mat.m2-define-typography-level(14px, 24px, 500, 'Jost, sans-serif'),
+  $body-2: mat.m2-define-typography-level(12px, 18px, 400, 'Jost, sans-serif'),
+  $caption: mat.m2-define-typography-level(12px, 18px, 500, 'Jost, sans-serif'),
+  $button: mat.m2-define-typography-level(12px, 18px, 500, 'Jost, sans-serif')
 );
 
 $typography: null;
@@ -71,11 +71,11 @@ $typography: null;
   @include mat.typography-hierarchy($typo-large);
 }
 
-$theme: mat.define-light-theme((
+$theme: mat.m2-define-light-theme((
   color: (
-    primary: mat.define-palette(mat.$blue-grey-palette, 200, 100, 400),
-    accent: mat.define-palette(mat.$orange-palette, 300, 200, 600),
-    warn: mat.define-palette(mat.$red-palette),
+    primary: mat.m2-define-palette(mat.$m2-blue-grey-palette, 200, 100, 400),
+    accent: mat.m2-define-palette(mat.$m2-orange-palette, 300, 200, 600),
+    warn: mat.m2-define-palette(mat.$m2-red-palette),
   ),
   typography: $typo-regular,
   density: 0,
