@@ -4,7 +4,7 @@ import { EloService } from '../elo.service';
 import { take, pipe } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerProgressionDialogComponent } from './player-progression-dialog.component';
-import { ComputedRankingPlayer } from '../models/ranking-player';
+import { ComputedRankingPlayer, RankingPlayer } from '../models/ranking-player';
 import { EloRankingService } from '../elo-ranking.service';
 
 @Component({
@@ -20,19 +20,10 @@ export class PlayerRankingsComponent implements OnInit {
   constructor(private eloRankingService: EloRankingService, private dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
-    const players = await this.eloRankingService.GetRanking();
+    const players = await this.eloRankingService.GetCachedRanking();
+    let sorted = players.sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
 
-    let sorted = players
-      .map(player => ({
-        ... player,
-        ranking: player.allScores[player.allScores.length - 1],
-        matches: player.allScores.length - 1, // -1 bc the initial seed is a score
-        max: Math.max(... player.allScores),
-        trend: player.allScores[player.allScores.length - 1] - player.allScores[player.allScores.length - 6]
-      }))
-      .sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
-
-      this.dataSource = new MatTableDataSource(sorted);
+    this.dataSource = new MatTableDataSource(sorted);
   }
 
   showDetailsOf(player: ComputedRankingPlayer) {
@@ -42,4 +33,17 @@ export class PlayerRankingsComponent implements OnInit {
       hasBackdrop: true,
     })
   }
+
+  async UpdateRanking(): Promise<void> {
+    this.eloRankingService.UpdateRanking();
+  }
+
+  // Once the leaderboard is cached.
+  // async showDetailsOf(player: ComputedRankingPlayer) {
+  //   this.dialog.open(PlayerProgressionDialogComponent, {
+  //     data: this.toComputedPlayer(await this.eloRankingService.GetRankingOf('Guy_Buss')),
+  //     width: '80%',
+  //     hasBackdrop: true,
+  //   })
+  // }
 }

@@ -7,6 +7,8 @@
     Ihr könnt auf die Spielernamen klicken um den gesamten Elo-Verlauf grafisch dargestellt zu sehen.
   </p>
 
+  <button (click)="UpdateRanking()">Update Ranking</button>
+
   <table mat-table [dataSource]="dataSource">
     <ng-container matColumnDef="place">
       <th mat-header-cell *matHeaderCellDef> </th>

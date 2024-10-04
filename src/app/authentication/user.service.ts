@@ -11,7 +11,7 @@ import { OwnMessageService } from '../shared/services/own-message.service';
 export class UserService {
 
   private uid: string;
-  userName: string;
+  userName = 'debug'; //: string;
 
   constructor(
     public authenticationService: AngularFireAuth,

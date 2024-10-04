@@ -57,6 +57,7 @@ export class EloService extends FirebaseService {
     await this.SaveRankedMatches(evaluatedMatches);
     await this.UpdatePlayers(eloPlayers);
     await this.RemoveIncomingMatches(evaluatedMatches);
+    await this.rankingService.UpdateRanking();
   }
 
   private createNewPlayer(name: string, existing: EloPlayer[]) {

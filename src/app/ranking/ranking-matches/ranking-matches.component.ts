@@ -5,4 +5,3 @@ import { Component } from '@angular/core';
   templateUrl: './ranking-matches.component.html',
 })
 export class RankingMatchesComponent { }
-
