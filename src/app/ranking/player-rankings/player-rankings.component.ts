@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { EloService } from '../elo.service';
-import { take, pipe } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerProgressionDialogComponent } from './player-progression-dialog.component';
 import { ComputedRankingPlayer } from '../models/ranking-player';
@@ -12,12 +10,12 @@ import { EloRankingService } from '../elo-ranking.service';
   styleUrls: ['./player-rankings.component.scss']
 })
 export class PlayerRankingsComponent implements OnInit {
+  private readonly eloRankingService = inject(EloRankingService);
+  private readonly dialog = inject(MatDialog);
 
   flatnessBarrier = 6;
   dataSource = new MatTableDataSource<ComputedRankingPlayer>();
   displayedColumns = ['place', 'name', 'matches', 'trend', 'max', 'ranking'];
-
-  constructor(private eloRankingService: EloRankingService, private dialog: MatDialog) { }
 
   async ngOnInit(): Promise<void> {
     const players = await this.eloRankingService.GetRanking();

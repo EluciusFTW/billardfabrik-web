@@ -1,11 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-score-display',
   template:`
-      <span [ngClass]="{ 'neg': score < 0, 'pos': score > 0 }"> {{ score }} </span>
+      <span [ngClass]="{ 'neg': score() < 0, 'pos': score() > 0 }"> {{ score() }} </span>
       /
-      <span [ngClass]="{ 'neg': -score < 0, 'pos': -score > 0 }"> {{ -score }} </span>
+      <span [ngClass]="{ 'neg': -score() < 0, 'pos': -score() > 0 }"> {{ -score() }} </span>
     `,
   styles: [`
       .neg {
@@ -18,6 +18,5 @@ import { Component, Input } from '@angular/core';
     `]
 })
 export class ScoreDisplayComponent {
-  @Input({ required: true })
-  score: number;
+  public score = input.required<number>();
 }
