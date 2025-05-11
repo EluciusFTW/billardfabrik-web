@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 
 @Component({
   selector: 'app-content-tile',
@@ -6,19 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./content-tile.component.scss']
 })
 export class ContentTileComponent {
-
-  @Input()
-  header: string;
-
-  @Input()
-  subheader: string;
-
-  @Input()
-  content: string;
-
-  @Input()
-  link: string;
-
-  @Input()
-  type: '';
+  public header = input<string>();
+  public subheader = input<string>();
 }

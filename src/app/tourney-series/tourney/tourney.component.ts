@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
 import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
@@ -9,8 +9,9 @@ import { TourneyFunctions } from './tourney-functions';
   templateUrl: './tourney.component.html'
 })
 export class TourneyComponent implements OnInit {
+
   private tourneysService = inject(TourneysService);
-  @Input() id: string;
+  public id = input.required<string>();
 
   tourney = signal<Tourney | null>(null);
   header = computed(() => this.tourney()
@@ -25,7 +26,7 @@ export class TourneyComponent implements OnInit {
 
   ngOnInit() {
     this.tourneysService
-      .get(this.id)
+      .get(this.id())
       .subscribe(id => this.tourney.set(id));
   }
 
