@@ -3,14 +3,6 @@
 @import '../assets/scss/breakpoints';
 @include mat.core();
 
-// https://material.angular.io/guide/typography
-// by mat-typography, the following things are automatically applied
-// body: body-2
-// h1: headline-5
-// h2: headline-6
-// h3: subtitle-1
-// h4: body-1
-// h5, h6: Get class .mat-h*
 $typo-large: mat.define-typography-config(
   $headline-1: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
   $headline-2: mat.define-typography-level(32px, 42px, 500, 'Jost, sans-serif'),
