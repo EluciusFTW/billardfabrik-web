@@ -1,0 +1,20 @@
+<app-content-tile header="Turniere">
+  <p>
+    Auf dieser Seite findet ihr alles über Turniere der Billardfabrik in der Mensa.
+  </p>
+</app-content-tile>
+
+<nav mat-tab-nav-bar [tabPanel]="tabPanel">
+  @for (tab of tabs; track tab.link){
+    <a mat-tab-link
+      (click)="activeLink = tab.link"
+      [active]="activeLink == tab.link"
+      [routerLink]="tab.link">
+      {{ tab.label }}
+    </a>
+  }
+</nav>
+
+<mat-tab-nav-panel #tabPanel>
+  <router-outlet></router-outlet>
+</mat-tab-nav-panel>

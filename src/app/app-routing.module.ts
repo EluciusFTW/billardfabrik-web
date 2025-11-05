@@ -6,6 +6,7 @@ import { LeagueComponent } from './league/league.component';
 import { MembershipComponent } from './membership/membership.component';
 import { TrainingComponent } from './training/training.component';
 import { MensaComponent } from './mensa/mensa.component';
+import { AllTourneysComponent } from './tourneys/all-tourneys.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
@@ -15,8 +16,10 @@ const routes: Routes = [
   { path: 'membership', component: MembershipComponent },
   { path: 'training', component: TrainingComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'tourneys', component: AllTourneysComponent },
   { path: 'tourney-series', loadChildren: () => import('./tourney-series/tourneys.module').then(m => m.TourneysModule) },
-  { path: 'ranking', loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingModule) }
+  { path: 'tourneys', loadChildren: () => import('./tourneys/all-tourneys.module').then(m => m.AllTourneysModule) },
+  { path: '', loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingModule) }
 ];
 
 @NgModule({
