@@ -1,8 +1,7 @@
 @use '@angular/material' as mat;
 
-@import '@angular/material/theming';
-@import 'app/app-theme.scss';
-@import 'assets/scss/breakpoints';
+@use 'app/app-theme';
+@use 'assets/scss/breakpoints' as bps;
 
 html, body {
   width: 100%;
@@ -40,7 +39,7 @@ a {
 
 // make badge smaller after breakpoint as well.
 
-@media (width < $breakpoint2) {
+@media (width < bps.$breakpoint2) {
   :root {
     --mat-table-header-container-height: 18px;
     --mat-table-row-item-container-height: 26px;
@@ -67,7 +66,7 @@ a {
   }
 }
 
-@media ($breakpoint2 <= width) and (width < $breakpoint1) {
+@media (bps.$breakpoint2 <= width) and (width < bps.$breakpoint1) {
   :root {
     --mat-table-header-container-height: 28px;
     --mat-table-row-item-container-height: 36px;

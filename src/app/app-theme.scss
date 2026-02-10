@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 
-@import '../assets/scss/breakpoints';
+@use '../assets/scss/breakpoints' as bps;
 @include mat.core();
 
 $typo-large: mat.define-typography-config(
@@ -49,17 +49,17 @@ $typo-small: mat.define-typography-config(
 );
 
 $typography: null;
-@media (width < $breakpoint2) {
+@media (width < bps.$breakpoint2) {
   $typography: $typo-regular;
   @include mat.typography-hierarchy($typo-small);
 }
 
-@media ($breakpoint2 <= width) and (width < $breakpoint1) {
+@media (bps.$breakpoint2 <= width) and (width < bps.$breakpoint1) {
   $typography: $typo-small;
   @include mat.typography-hierarchy($typo-regular);
 }
 
-@media ($breakpoint1 <= width) {
+@media (bps.$breakpoint1 <= width) {
   $typography: $typo-regular;
   @include mat.typography-hierarchy($typo-large);
 }
