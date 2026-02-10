@@ -6,12 +6,17 @@ import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerCreateDialogComponent } from '../player-create-dialog/player-create-dialog.component';
 import { PlayerFunctions } from '../player-functions';
+import { MaterialModule } from 'src/app/material/material.module';
+import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { PlayerNamePipe } from '../player-name.pipe';
 
 @Component({
-    selector: 'app-player-listing',
-    templateUrl: './player-listing.component.html',
-    styleUrls: ['./player-listing.component.scss'],
-    standalone: false
+  selector: 'app-player-listing',
+  templateUrl: './player-listing.component.html',
+  styleUrls: ['./player-listing.component.scss'],
+  imports: [MaterialModule, CommonModule, FormsModule, ContentTileComponent, PlayerNamePipe]
 })
 export class PlayerListingComponent {
 
@@ -57,7 +62,8 @@ export class PlayerListingComponent {
             this.players.push(player);
             this.players.sort(PlayerFunctions.sortPlayers);
             this.setDataSource();
-          }});
+          }
+        });
   }
 
   async update(player: Player): Promise<void> {

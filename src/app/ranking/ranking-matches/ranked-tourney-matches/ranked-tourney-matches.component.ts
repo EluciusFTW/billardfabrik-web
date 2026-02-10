@@ -3,12 +3,15 @@ import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { firstValueFrom } from 'rxjs';
 import { EloRankingService } from '../../elo-ranking.service';
+import { DateKeyPipe } from 'src/app/tourney-series/date-key.pipe';
+import { ScoreDisplayComponent } from '../../score-display/score-display.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    selector: 'app-ranked-tourney-matches',
-    templateUrl: './ranked-tourney-matches.component.html',
-    styleUrls: ['./ranked-tourney-matches.component.scss'],
-    standalone: false
+  selector: 'app-ranked-tourney-matches',
+  templateUrl: './ranked-tourney-matches.component.html',
+  styleUrls: ['./ranked-tourney-matches.component.scss'],
+  imports: [DateKeyPipe, ScoreDisplayComponent, MaterialModule]
 })
 export class RankedMatchesComponent implements OnInit {
   private readonly eloRankingService = inject(EloRankingService);

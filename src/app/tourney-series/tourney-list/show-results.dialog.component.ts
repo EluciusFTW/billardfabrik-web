@@ -5,14 +5,15 @@ import { TourneyEvaluation } from "../models/evaluation/tourney-evaluation";
 import { TourneyPlacementType } from "../models/evaluation/tourney-placement-type";
 import { TourneyPlayerEvaluation } from "../models/evaluation/tourney-player-evaluation";
 import { TourneyMode } from "../models/tourney-mode";
+import { MaterialModule } from "src/app/material/material.module";
 
 @Component({
-    templateUrl: './show-results.dialog.component.html',
-    styleUrls: ['./show-results.dialog.component.scss'],
-    standalone: false
+  templateUrl: './show-results.dialog.component.html',
+  styleUrls: ['./show-results.dialog.component.scss'],
+  imports: [MaterialModule]
 })
 export class ShowResultsDialogComponent {
-  playerResults: MatTableDataSource<any>;// = new MatTableDataSource<TourneyPlayerEvaluation>([]);
+  playerResults: MatTableDataSource<any>;
   displayedColumns = ['name', 'points', 'placement']
   mode: TourneyMode;
 
@@ -20,7 +21,7 @@ export class ShowResultsDialogComponent {
     public dialogRef: MatDialogRef<ShowResultsDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public result: TourneyEvaluation) {
 
-    this.playerResults = new MatTableDataSource<TourneyPlayerEvaluation>(result.players.sort((a,b) => a.placement.placement - b.placement.placement));
+    this.playerResults = new MatTableDataSource<TourneyPlayerEvaluation>(result.players.sort((a, b) => a.placement.placement - b.placement.placement));
     this.mode = result.mode;
   }
 

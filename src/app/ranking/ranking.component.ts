@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { AuthorizedComponent } from '../shared/authorized.component';
+import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../material/material.module';
 
 @Component({
-    selector: 'app-ranking',
-    templateUrl: './ranking.component.html',
-    styleUrls: ['./ranking.component.scss'],
-    standalone: false
+  selector: 'app-ranking',
+  templateUrl: './ranking.component.html',
+  styleUrls: ['./ranking.component.scss'],
+  imports: [RouterModule, MaterialModule]
 })
 export class RankingComponent extends AuthorizedComponent {
 

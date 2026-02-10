@@ -2,11 +2,13 @@ import { Component, EventEmitter, Output, computed, input } from '@angular/core'
 import { Tourney } from '../../models/tourney';
 import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
+import { MaterialModule } from 'src/app/material/material.module';
+import { TourneyEliminationStageComponent } from '../../tourney-elimination-stage/tourney-elimination-stage.component';
 
 @Component({
-    selector: 'app-tourney-double-elimination-stages',
-    templateUrl: './tourney-double-elimination-stages.component.html',
-    standalone: false
+  selector: 'app-tourney-double-elimination-stages',
+  templateUrl: './tourney-double-elimination-stages.component.html',
+  imports: [MaterialModule, TourneyEliminationStageComponent]
 })
 export class TourneyDoubleEliminationStagesComponent {
 

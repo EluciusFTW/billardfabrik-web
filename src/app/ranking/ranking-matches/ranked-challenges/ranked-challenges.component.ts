@@ -3,12 +3,15 @@ import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { firstValueFrom, take } from 'rxjs';
 import { EloRankingService } from '../../elo-ranking.service';
+import { DateKeyPipe } from 'src/app/tourney-series/date-key.pipe';
+import { ScoreDisplayComponent } from '../../score-display/score-display.component';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    selector: 'app-ranked-challenges',
-    templateUrl: './ranked-challenges.component.html',
-    styleUrls: ['./ranked-challenges.component.scss'],
-    standalone: false
+  selector: 'app-ranked-challenges',
+  templateUrl: './ranked-challenges.component.html',
+  styleUrls: ['./ranked-challenges.component.scss'],
+  imports: [DateKeyPipe, ScoreDisplayComponent, MaterialModule]
 })
 export class RankedChallengesComponent implements OnInit {
   private readonly eloRankingService = inject(EloRankingService);
@@ -18,7 +21,6 @@ export class RankedChallengesComponent implements OnInit {
 
   async ngOnInit() {
     const matches = await firstValueFrom(this.eloRankingService.GetRankedChallenges(50));
-    console.log(matches[0]);
     this.dataSource = new MatTableDataSource(matches.reverse());
   }
 }

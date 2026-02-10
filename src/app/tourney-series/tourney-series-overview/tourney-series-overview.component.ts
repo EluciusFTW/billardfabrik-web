@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { MaterialModule } from 'src/app/material/material.module';
+import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
 
 @Component({
-    templateUrl: './tourney-series-overview.component.html',
-    styleUrls: ['./tourney-series-overview.component.scss'],
-    standalone: false
+  templateUrl: './tourney-series-overview.component.html',
+  styleUrls: ['./tourney-series-overview.component.scss'],
+  imports: [MaterialModule, ContentTileComponent]
 })
 export class TourneySeriesOverviewComponent {
 

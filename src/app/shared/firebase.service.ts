@@ -1,6 +1,7 @@
 import { Injectable, inject } from "@angular/core";
-import { AngularFireDatabase } from "@angular/fire/compat/database";
+import { Database } from "@angular/fire/database";
 
+@Injectable()
 export abstract class FirebaseService {
-  protected readonly db = inject(AngularFireDatabase);
+  protected readonly db = inject(Database);
 }

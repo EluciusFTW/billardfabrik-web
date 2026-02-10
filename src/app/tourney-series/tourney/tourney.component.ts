@@ -3,11 +3,17 @@ import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyFunctions } from './tourney-functions';
+import { MaterialModule } from 'src/app/material/material.module';
+import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
+import { TourneyGroupStageComponent } from './tourney-group-stage/tourney-group-stage.component';
+import { TourneyDoubleEliminationStagesComponent } from './tourney-double-elimination-stage/tourney-double-elimination-stages.component';
+import { TourneySummaryComponent } from './tourney-summary/tourney-summary.component';
+import { TourneyEliminationStagesComponent } from "./tourney-elimination-stage/tourney-elimination-stages.component";
 
 @Component({
-    selector: 'app-tourney',
-    templateUrl: './tourney.component.html',
-    standalone: false
+  selector: 'app-tourney',
+  templateUrl: './tourney.component.html',
+  imports: [MaterialModule, ContentTileComponent, TourneyGroupStageComponent, TourneyDoubleEliminationStagesComponent, TourneySummaryComponent, TourneyEliminationStagesComponent]
 })
 export class TourneyComponent implements OnInit {
 

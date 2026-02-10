@@ -2,12 +2,13 @@ import { Component, computed, effect, input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EloFunctions } from 'src/app/ranking/elo-functions';
 import { EloMode } from '../../models/elo-models';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    selector: 'app-elo-demo-table',
-    templateUrl: './elo-demo-table.component.html',
-    styleUrls: ['./elo-demo-table.component.scss'],
-    standalone: false
+  selector: 'app-elo-demo-table',
+  templateUrl: './elo-demo-table.component.html',
+  styleUrls: ['./elo-demo-table.component.scss'],
+  imports: [MaterialModule]
 })
 export class EloDemoTableComponent {
   dataSource = new MatTableDataSource<EloScoreDemo>();

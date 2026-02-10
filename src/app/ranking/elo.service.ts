@@ -6,6 +6,7 @@ import { Db } from '../shared/firebase-utilities';
 import { PlayerFunctions } from '../players/player-functions';
 import { FirebaseService } from '../shared/firebase.service';
 import { EloRankingService } from './elo-ranking.service';
+import { child, ref, remove, update } from '@angular/fire/database';
 
 export const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
@@ -22,7 +23,7 @@ export class EloService extends FirebaseService {
 
     let matchData = unrankedMatches
       .map(match => ({
-        match: { ... match, scores: {} } as Db<ScoredMatch>,
+        match: { ...match, scores: {} } as Db<ScoredMatch>,
         p1: eloPlayers.find(player => player.name === match.playerOne.name)
           ?? this.createNewPlayer(match.playerOne.name, eloPlayers),
         p2: eloPlayers.find(player => player.name === match.playerTwo.name)
@@ -44,11 +45,11 @@ export class EloService extends FirebaseService {
         const scores = EloFunctions.calculateAll(eloInput);
         data.p1.changes.push({
           match: data.match.key,
-          ... EloFunctions.Add(eloInput.p1DataPoint, scores, 'P1')
+          ...EloFunctions.Add(eloInput.p1DataPoint, scores, 'P1')
         })
         data.p2.changes.push({
           match: data.match.key,
-          ... EloFunctions.Add(eloInput.p2DataPoint, scores, 'P2')
+          ...EloFunctions.Add(eloInput.p2DataPoint, scores, 'P2')
         })
         data.match.scores = scores;
       });
@@ -76,17 +77,15 @@ export class EloService extends FirebaseService {
   }
 
   private async RemoveIncomingMatches(matches: Db<IncomingMatch>[]): Promise<void[]> {
+    const tourneyMatchesRef = ref(this.db, DB_INCOMING_TOURNEY_MATCHES_LPATH);
     let removals = matches
       .filter(match => match.source === 'Tourney')
-      .map(match => this.db
-        .list(DB_INCOMING_TOURNEY_MATCHES_LPATH)
-        .remove(match.key));
+      .map(match => remove(child(tourneyMatchesRef, match.key)));
 
+    const challengeMatchesRef = ref(this.db, DB_INCOMING_CHALLENGE_MATCHES_LPATH);
     let challenges = matches
       .filter(match => match.source === 'Challenge')
-      .map(match => this.db
-        .list(DB_INCOMING_CHALLENGE_MATCHES_LPATH)
-        .remove(match.key));
+      .map(match => remove(child(challengeMatchesRef, match.key)));
 
     return Promise.all(removals.concat(challenges));
   }
@@ -94,18 +93,14 @@ export class EloService extends FirebaseService {
   UpdatePlayers(players: EloPlayer[]): Promise<void[]> {
     let updates = players
       .map(player => ({ key: PlayerFunctions.keyFromName(player.name), c: { changes: player.changes } }))
-      .map(ranking => this.db
-        .object(`${DB_PLAYERS_PATH}/${ranking.key}`)
-        .update(ranking.c))
+      .map(ranking => update(ref(this.db, `${DB_PLAYERS_PATH}/${ranking.key}`), ranking.c))
 
     return Promise.all(updates);
   }
 
   SaveRankedMatches(matches: Db<ScoredMatch>[]): Promise<void[]> {
     let updates = matches
-      .map(match => this.db
-        .object(`${DB_MATCHES_LPATH}/${match.key}`)
-        .update(match))
+      .map(match => update(ref(this.db, `${DB_MATCHES_LPATH}/${match.key}`), match));
 
     return Promise.all(updates);
   }

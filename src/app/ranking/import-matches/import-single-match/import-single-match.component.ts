@@ -1,6 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, ContentChildren, OnInit, inject } from '@angular/core';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IncomingChallengeMatch } from '../../models/ranking-match';
 import { EloChallengeImportService } from '../../elo-challenge-import.service';
 import { TourneyFunctions } from 'src/app/tourney-series/tourney/tourney-functions';
@@ -8,19 +8,21 @@ import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/
 import { PlayersService } from 'src/app/players/players.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { EloMatchValidators } from '../../elo-match-validators';
+import { MaterialModule } from 'src/app/material/material.module';
+import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
 
 @Component({
-    selector: 'app-import-single-match',
-    templateUrl: './import-single-match.component.html',
-    styleUrls: ['./import-single-match.component.scss'],
-    standalone: false
+  selector: 'app-import-single-match',
+  templateUrl: './import-single-match.component.html',
+  styleUrls: ['./import-single-match.component.scss'],
+  imports: [ReactiveFormsModule, MaterialModule, ContentTileComponent]
 })
 export class ImportSingleMatchComponent implements OnInit {
 
   private readonly eloService = inject(PlayersService);
   private readonly importService = inject(EloChallengeImportService);
 
-  disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
+  disciplines: PoolDiscipline[] = [...POOL_DISCIPLINES];
   availablePlayers: string[] = [];
 
   selectDate: FormControl<Date>;
@@ -32,16 +34,20 @@ export class ImportSingleMatchComponent implements OnInit {
     this.selectDate = new FormControl<Date>(new Date(), [Validators.required]);
 
     this.matchForm = new FormGroup(
-      { discipline: new FormControl<string>(this.disciplines[0], [Validators.required]),
+      {
+        discipline: new FormControl<string>(this.disciplines[0], [Validators.required]),
         selectDate: this.selectDate = new FormControl<Date>(new Date(), [Validators.required, EloMatchValidators.NotInTheFutureValidator]),
         playerOneScore: new FormControl<number>(null, [Validators.required, Validators.min(0)]),
         playerTwoScore: new FormControl<number>(null, [Validators.required, Validators.min(0)]),
         selectPlayerOne: new FormControl<string>('', [Validators.required]),
-        selectPlayerTwo:  new FormControl<string>('', [Validators.required])},
-      { validators: [
-        EloMatchValidators.DuplicatePlayerValidator,
-        EloMatchValidators.NoWinnerValidator,
-        EloMatchValidators.MinimumLengthValidator]});
+        selectPlayerTwo: new FormControl<string>('', [Validators.required])
+      },
+      {
+        validators: [
+          EloMatchValidators.DuplicatePlayerValidator,
+          EloMatchValidators.NoWinnerValidator,
+          EloMatchValidators.MinimumLengthValidator]
+      });
   }
 
   async ngOnInit() {
@@ -64,11 +70,11 @@ export class ImportSingleMatchComponent implements OnInit {
 
     const match: IncomingChallengeMatch = {
       playerOne: {
-        ... MatchPlayer.From(this.matchForm.value.selectPlayerOne),
+        ...MatchPlayer.From(this.matchForm.value.selectPlayerOne),
         points: p1s
       },
       playerTwo: {
-        ... MatchPlayer.From(this.matchForm.value.selectPlayerTwo),
+        ...MatchPlayer.From(this.matchForm.value.selectPlayerTwo),
         points: p2s
       },
       discipline: this.matchForm.value.discipline,

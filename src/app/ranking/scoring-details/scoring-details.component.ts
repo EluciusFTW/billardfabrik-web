@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { EloDemoInput } from './elo-demo-table/elo-demo-table.component';
+import { EloDemoInput, EloDemoTableComponent } from './elo-demo-table/elo-demo-table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EloSimulationComponent } from './elo-simulation/elo-simulation.component';
+import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
 
 @Component({
-    selector: 'app-scoring-details',
-    templateUrl: './scoring-details.component.html',
-    standalone: false
+  selector: 'app-scoring-details',
+  templateUrl: './scoring-details.component.html',
+  imports: [ContentTileComponent, EloDemoTableComponent]
 })
 export class ScoringDetailsComponent {
   private readonly dialog = inject(MatDialog);

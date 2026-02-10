@@ -1,11 +1,12 @@
-import { Component, inject } from '@angular/core';
-import { UserService } from '../authentication/user.service';
+import { Component } from '@angular/core';
 import { AuthorizedComponent } from '../shared/authorized.component';
+import { MaterialModule } from '../material/material.module';
+import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'app-menu',
-    templateUrl: './menu.component.html',
-    styleUrls: ['./menu.component.scss'],
-    standalone: false
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
+  imports: [MaterialModule, RouterModule]
 })
 export class MenuComponent extends AuthorizedComponent { }

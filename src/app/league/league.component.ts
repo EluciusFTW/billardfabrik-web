@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { ContentTileComponent } from '../shared/content-tile/content-tile.component';
 
 @Component({
-    templateUrl: 'league.component.html',
-    imports: [SharedModule]
+  templateUrl: 'league.component.html',
+  imports: [ContentTileComponent]
 })
 export class LeagueComponent { }

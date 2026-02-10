@@ -1,24 +1,22 @@
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
+import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { inject, Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { LoginData } from './models/login-data';
 import { OwnMessageService } from '../shared/services/own-message.service';
+import { Database, object, objectVal, ref } from '@angular/fire/database';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
+  private readonly auth = inject(Auth);
+  private readonly messager = inject(OwnMessageService);
+  private readonly dialog = inject(MatDialog);
+  private readonly db = inject(Database);
 
   private uid: string;
   userName: string;
-
-  constructor(
-    public authenticationService: AngularFireAuth,
-    private messageService: OwnMessageService,
-    public dialog: MatDialog,
-    private db: AngularFireDatabase,
-  ) { }
 
   isLoggedIn(): boolean {
     return !!this.userName;
@@ -40,36 +38,28 @@ export class UserService {
       });
   }
 
-  private signIn(loginData: LoginData): void {
-    this.authenticationService
-      .signInWithEmailAndPassword(loginData.email, loginData.password)
+  logout(): Promise<void> {
+    return signOut(this.auth)
+      .then(() => this.resetUserData());
+  }
+
+  private signIn(loginData: LoginData): Promise<void> {
+    return signInWithEmailAndPassword(this.auth, loginData.email, loginData.password)
       .then(user => this.getUserInformation(user))
       .catch(_ => {
         this.resetUserData();
-        this.messageService.failure('SignIn failed: Wrong Credentials.')
+        this.messager.failure('SignIn failed: Wrong Credentials.')
       });
   }
 
-  private getUserInformation(user: any): void {
+  private async getUserInformation(user: any): Promise<void> {
     this.uid = user.user.uid;
-    this.db
-      .object('users/' + this.uid)
-      .valueChanges()
-      .pipe(take(1))
-      .subscribe({
-        next: userData => {
-          this.setUserName(userData);
-        },
-      });
+    const userData = await firstValueFrom(objectVal(ref(this.db, `users/${this.uid}`)));
+    this.setUserName(userData);
   };
 
   private setUserName(userData: any): void {
     this.userName = userData?.displayName || 'No displayName set';
-  }
-
-  logout() {
-    this.authenticationService.signOut()
-    this.resetUserData();
   }
 
   private resetUserData(): void {

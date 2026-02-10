@@ -1,13 +1,30 @@
 import { enableProdMode } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { bootstrapApplication } from '@angular/platform-browser';
+import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
-import { AppModule } from './app/app.module';
+import { AppComponent } from './app/app.component';
+import { APP_ROUTES } from './app/app.routes';
 import { environment } from './environments/environment';
+
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideDatabase, getDatabase } from '@angular/fire/database';
+
+import { MaterialModule } from './app/material/material.module';
+import { firebaseConfig } from './secrets/firebase';
 
 if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(APP_ROUTES),
+    provideAnimations(),
+
+    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideDatabase(() => getDatabase()),
+
+    MaterialModule
+  ]
+}).catch(err => console.error(err));

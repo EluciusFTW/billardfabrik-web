@@ -1,26 +1,29 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EloFunctions } from '../../elo-functions';
 import { EloDataPoint, EloScores } from '../../models/elo-models';
 import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/pool-discipline';
 import { EloMatchValidators } from '../../elo-match-validators';
+import { MaterialModule } from 'src/app/material/material.module';
+import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
+import { ScoreDisplayComponent } from '../../score-display/score-display.component';
 
 @Component({
-    selector: 'app-elo-simulation',
-    templateUrl: './elo-simulation.component.html',
-    styles: [`
+  selector: 'app-elo-simulation',
+  templateUrl: './elo-simulation.component.html',
+  styles: [`
     .error-message {
       padding-left: 1em;
       color: var(--color-error);
       font-size: .75em;
     }
   `],
-    standalone: false
+  imports: [MaterialModule, FormsModule, ReactiveFormsModule, ScoreDisplayComponent, ContentTileComponent]
 })
 export class EloSimulationComponent {
 
-  disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
+  disciplines: PoolDiscipline[] = [...POOL_DISCIPLINES];
   matchForm: FormGroup;
   score: EloScores | null;
 
@@ -33,7 +36,7 @@ export class EloSimulationComponent {
       playerTwoScore: new FormControl<number>(0, [Validators.required, Validators.min(0)]),
       discipline: new FormControl<string>(this.disciplines[0], [Validators.required]),
     },
-    { validators: [EloMatchValidators.NoWinnerValidator, EloMatchValidators.MinimumLengthValidator] });
+      { validators: [EloMatchValidators.NoWinnerValidator, EloMatchValidators.MinimumLengthValidator] });
   }
 
   calculate(): void {
@@ -50,7 +53,7 @@ export class EloSimulationComponent {
     return {
       match: '',
       cla: value,
-      wwb:value,
+      wwb: value,
       wnb: value,
       bvf: value
     }

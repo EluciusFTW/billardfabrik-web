@@ -4,12 +4,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EloService } from '../../elo.service';
 import { EloRankingService } from '../../elo-ranking.service';
 import { AuthorizedComponent } from 'src/app/shared/authorized.component';
+import { DateKeyPipe } from 'src/app/tourney-series/date-key.pipe';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    selector: 'app-incoming-matches',
-    templateUrl: './incoming-matches.component.html',
-    styleUrls: ['../ranked-tourney-matches/ranked-tourney-matches.component.scss'],
-    standalone: false
+  selector: 'app-incoming-matches',
+  templateUrl: './incoming-matches.component.html',
+  styleUrls: ['../ranked-tourney-matches/ranked-tourney-matches.component.scss'],
+  imports: [DateKeyPipe, MaterialModule]
 })
 export class IncomingMatchesComponent extends AuthorizedComponent {
   private readonly eloService = inject(EloService);

@@ -7,96 +7,82 @@ import { Observable, firstValueFrom, map } from "rxjs";
 import { EloPlayer, EloPlayerData } from "./models/elo-models";
 import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH, DB_PLAYERS_PATH } from "./elo.service";
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
-import { Db } from "../shared/firebase-utilities";
+import { compareByKey, Db, listValWithKey } from "../shared/firebase-utilities";
+import { equalTo, limitToLast, listVal, objectVal, orderByChild, query, ref } from "@angular/fire/database";
 
 @Injectable()
 export class EloRankingService extends FirebaseService {
   private readonly lowerBoundOnGames = 10;
   private readonly playersService = inject(PlayersService);
 
+  private readonly playersRef = ref(this.db, DB_PLAYERS_PATH);
+
   async GetRanking(): Promise<RankingPlayer[]> {
-    const playerNames = await this.playersService
-      .getEloPlayers()
-      .then(players => players.map(PlayerFunctions.displayName));
+    const playerNames = new Set(
+      (await this.playersService.getEloPlayers())
+        .map(PlayerFunctions.displayName)
+    );
 
     return firstValueFrom(
-      this.db
-        .list<EloPlayerData>(DB_PLAYERS_PATH)
-        .snapshotChanges()
+      listValWithKey<EloPlayerData>(this.playersRef)
         .pipe(
-          map(snapshots => snapshots
-            .filter(item => item.payload.val().changes?.length > this.lowerBoundOnGames)
-            .map(playerSnapshot => ({
-              name: PlayerFunctions.nameFromKey(playerSnapshot.key),
-              allScores: playerSnapshot.payload
-                .val().changes
-                .map(match => match.bvf),
+          map(players =>
+            players
+              .filter(p => p.changes?.length > this.lowerBoundOnGames)
+              .map(p => ({
+                name: PlayerFunctions.nameFromKey(p.key),
+                allScores: p.changes.map(match => match.bvf),
               }))
-            .filter(player => playerNames.includes(player.name))
-          )));
+              .filter(player => playerNames.has(player.name))
+          )
+        )
+    );
   }
 
   async GetEloListedPlayers(): Promise<EloPlayer[]> {
     return firstValueFrom(
-      this.db
-        .object(DB_PLAYERS_PATH)
-        .valueChanges()
-        .pipe(
-          map(value => value
-            ? Object
-                .entries(value)
-                .map(kvp => ({
-                    name: PlayerFunctions.nameFromKey(kvp[0]),
-                    ... kvp[1]
-                  } as EloPlayer))
+      objectVal<Record<string, EloPlayer>>(ref(this.db, DB_PLAYERS_PATH)).pipe(
+        map(dictionary =>
+          dictionary
+            ? Object.entries(dictionary).map(([key, player]) => ({
+              name: PlayerFunctions.nameFromKey(key),
+              ...player
+            }))
             : []
-        )));
+        )
+      )
+    );
   }
 
   GetRankedTourneyMatches(nrOf: number): Observable<ScoredMatch[]> {
-    return this.db
-      .list<ScoredMatch>(
-        DB_MATCHES_LPATH,
-        ref => ref
-          .orderByChild('source').equalTo(`Tourney`)
-          .limitToLast(nrOf))
-      .valueChanges();
+    const q = query(
+      ref(this.db, DB_MATCHES_LPATH),
+      orderByChild('source'),
+      equalTo('Tourney'),
+      limitToLast(nrOf));
+
+    return listVal<ScoredMatch>(q);
   }
 
   GetRankedChallenges(nrOf: number): Observable<ScoredMatch[]> {
-    return this.db
-      .list<ScoredMatch>(
-        DB_MATCHES_LPATH,
-        ref => ref
-          .orderByChild('source').equalTo(`Challenge`)
-          .limitToLast(nrOf))
-      .valueChanges();
+    const q = query(
+      ref(this.db, DB_MATCHES_LPATH),
+      orderByChild('source'),
+      equalTo('Challenge'),
+      limitToLast(nrOf));
+
+    return listVal<ScoredMatch>(q);
   }
 
   async GetUnrankedMatches(): Promise<Db<IncomingMatch>[]> {
-    const tourneySnapshots = await firstValueFrom(this.db
-      .list<IncomingMatch>(DB_INCOMING_TOURNEY_MATCHES_LPATH)
-      .snapshotChanges());
+    const fromTourneys = await firstValueFrom(
+      listValWithKey<IncomingMatch>(ref(this.db, DB_INCOMING_TOURNEY_MATCHES_LPATH))
+    );
 
-    const challengeSnapshots = await firstValueFrom(this.db
-      .list<IncomingMatch>(DB_INCOMING_CHALLENGE_MATCHES_LPATH)
-      .snapshotChanges())
+    const fromChallenges = await firstValueFrom(
+      listValWithKey<IncomingMatch>(ref(this.db, DB_INCOMING_CHALLENGE_MATCHES_LPATH))
+    );
 
-    const allMatches = tourneySnapshots
-      .concat(challengeSnapshots)
-      .map(item => item.payload)
-      .map(match => ({ key: match.key, ...match.val()}));
-
-    return allMatches.sort(this.compare)
-  }
-
-  private compare(a, b) {
-    if ( a.key < b.key ){
-      return -1;
-    }
-    if ( a.key > b.key ){
-      return 1;
-    }
-    return 0;
+    return fromTourneys.concat(fromChallenges).sort(compareByKey);
   }
 }

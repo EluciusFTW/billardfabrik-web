@@ -2,10 +2,12 @@ import { Component, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { ChartConfiguration, ChartOptions } from "chart.js";
 import { ComputedRankingPlayer } from "../models/ranking-player";
+import { MaterialModule } from "src/app/material/material.module";
+import { NgChartsModule } from "ng2-charts";
 
 @Component({
-    templateUrl: './player-progression-dialog.component.html',
-    standalone: false
+  templateUrl: './player-progression-dialog.component.html',
+  imports: [MaterialModule, NgChartsModule]
 })
 export class PlayerProgressionDialogComponent {
 

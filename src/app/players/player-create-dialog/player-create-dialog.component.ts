@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Player } from '../player';
+import { FormsModule } from '@angular/forms';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    templateUrl: './player-create-dialog.component.html',
-    styleUrls: ['player-create-dialog.component.scss'],
-    standalone: false
+  templateUrl: './player-create-dialog.component.html',
+  styleUrls: ['player-create-dialog.component.scss'],
+  imports: [MaterialModule, FormsModule]
 })
 export class PlayerCreateDialogComponent {
 
@@ -18,13 +20,13 @@ export class PlayerCreateDialogComponent {
 
   submit(): void {
     const invalidCharsInFirstName = this.invalidChars(this.firstName)
-    if(invalidCharsInFirstName){
+    if (invalidCharsInFirstName) {
       this.error = "Unerlaubte(s) Zeichen im Vornamen: " + invalidCharsInFirstName;
       return;
     }
 
     const invalidCharsInLastName = this.invalidChars(this.lastName)
-    if(invalidCharsInLastName){
+    if (invalidCharsInLastName) {
       this.error = "Unerlaubte(s) Zeichen im Nachnamen: " + invalidCharsInLastName;
       return;
     }
@@ -40,7 +42,7 @@ export class PlayerCreateDialogComponent {
     });
   }
 
-  private invalidChars(name: string) : string {
+  private invalidChars(name: string): string {
     const letters = /^[a-zA-Z0-9öäüß-]+$/;
     return [...name]
       .filter(c => !c.match(letters))

@@ -85,6 +85,6 @@ import { MatBadgeModule } from '@angular/material/badge';
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { width: '400px', hasBackdrop: true } },
     { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
     { provide: MAT_DATE_LOCALE, useValue: 'de-DE' }
-  ]
+  ],
 })
 export class MaterialModule { }

@@ -3,8 +3,7 @@ import { Player } from "./player";
 import { PlayerFunctions } from "./player-functions";
 
 @Pipe({
-    name: 'name',
-    standalone: false
+  name: 'name',
 })
 export class PlayerNamePipe implements PipeTransform {
   transform(value: Player): string {

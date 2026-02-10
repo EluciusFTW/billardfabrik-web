@@ -3,12 +3,13 @@ import { Match } from '../models/match';
 import { MatchStatus } from '../models/match-status';
 import { MatchPlayer } from '../models/match-player';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    selector: 'app-match',
-    templateUrl: './match.component.html',
-    styleUrls: ['./match.component.scss', '../tourneys.scss'],
-    standalone: false
+  selector: 'app-match',
+  templateUrl: './match.component.html',
+  styleUrls: ['./match.component.scss', '../tourneys.scss'],
+  imports: [MaterialModule]
 })
 export class MatchComponent {
 
@@ -30,17 +31,17 @@ export class MatchComponent {
   isWalk = computed(() => MatchPlayer.isWalk(this.match().playerTwo) || MatchPlayer.isWalk(this.match().playerOne));
 
   matchClass = computed(() => {
-      if (this.disabled()) {
-        return '';
-      } else if (this.cancelled()) {
-        return 'cancelled';
-      } else if (Match.hasStarted(this.match())) {
-        return 'notStarted';
-      } else if (Match.isOver(this.match())) {
-        return 'running';
-      }
-      return 'gameOver';
-    })
+    if (this.disabled()) {
+      return '';
+    } else if (this.cancelled()) {
+      return 'cancelled';
+    } else if (Match.hasStarted(this.match())) {
+      return 'notStarted';
+    } else if (Match.isOver(this.match())) {
+      return 'running';
+    }
+    return 'gameOver';
+  })
 
   plusDisabledP1 = computed(() =>
     this.match().playerOne.points >= this.match().length
@@ -49,8 +50,8 @@ export class MatchComponent {
     this.match().playerTwo.points >= this.match().length
     || (this.match().playerOne.points === this.match().length && this.match().playerTwo.points === this.match().length - 1));
 
-  minusDisabledP1 = computed (() => this.match().playerOne.points === 0);
-  minusDisabledP2 = computed (() => this.match().playerTwo.points === 0);
+  minusDisabledP1 = computed(() => this.match().playerOne.points === 0);
+  minusDisabledP2 = computed(() => this.match().playerTwo.points === 0);
 
   @Output()
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();

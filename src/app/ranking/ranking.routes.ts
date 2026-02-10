@@ -8,7 +8,7 @@ import { ImportMatchesComponent } from './import-matches/import-matches.componen
 import { UserGuard } from '../authentication/guards/user.guard';
 import { PlayerListingComponent } from '../players/player-listing/player-listing.component';
 
-const routes: Routes = [{
+export const RANKING_ROUTES: Routes = [{
   path: '',
   component: RankingComponent,
   children: [
@@ -20,13 +20,3 @@ const routes: Routes = [{
     { path: 'player-management', component: PlayerListingComponent, canActivate: [UserGuard] }
   ]
 }];
-
-@NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [
-    RouterModule
-  ]
-})
-export class RankingRoutingModule { }

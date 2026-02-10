@@ -8,12 +8,15 @@ import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { MatchStatus } from '../models/match-status';
 import { UserService } from 'src/app/authentication/user.service';
 import { GroupFunctions } from './group-functions';
+import { MaterialModule } from 'src/app/material/material.module';
+import { MatchComponent } from '../match/match.component';
+import { NgClass } from '@angular/common';
 
 @Component({
-    selector: 'app-tourney-group',
-    templateUrl: './tourney-group.component.html',
-    styleUrls: ['../tourneys.scss', './tourney-group.component.scss'],
-    standalone: false
+  selector: 'app-tourney-group',
+  templateUrl: './tourney-group.component.html',
+  styleUrls: ['../tourneys.scss', './tourney-group.component.scss'],
+  imports: [MaterialModule, MatchComponent, NgClass]
 })
 export class TourneyGroupComponent {
   private userService = inject(UserService);

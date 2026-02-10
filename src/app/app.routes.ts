@@ -7,7 +7,7 @@ import { MembershipComponent } from './membership/membership.component';
 import { TrainingComponent } from './training/training.component';
 import { MensaComponent } from './mensa/mensa.component';
 
-const routes: Routes = [
+export const APP_ROUTES: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
   { path: 'mensa', component: MensaComponent },
@@ -15,12 +15,6 @@ const routes: Routes = [
   { path: 'membership', component: MembershipComponent },
   { path: 'training', component: TrainingComponent },
   { path: 'contact', component: ContactComponent },
-  { path: 'tourney-series', loadChildren: () => import('./tourney-series/tourneys.module').then(m => m.TourneysModule) },
-  { path: 'ranking', loadChildren: () => import('./ranking/ranking.module').then(m => m.RankingModule) }
+  { path: 'tourney-series', loadChildren: () => import('./tourney-series/tourneys.routes').then(m => m.TOURNEY_ROUTES) },
+  { path: 'ranking', loadChildren: () => import('./ranking/ranking.routes').then(m => m.RANKING_ROUTES) }
 ];
-
-@NgModule({
-  providers: [provideRouter(routes, withComponentInputBinding())],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }

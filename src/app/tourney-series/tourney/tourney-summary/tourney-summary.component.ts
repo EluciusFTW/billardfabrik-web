@@ -9,12 +9,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
 import { ModificationFunctions } from './modification-functions';
 import { UserService } from 'src/app/authentication/user.service';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    selector: 'app-tourney-summary',
-    templateUrl: './tourney-summary.component.html',
-    styleUrls: ['./tourney-summary.component.scss'],
-    standalone: false
+  selector: 'app-tourney-summary',
+  templateUrl: './tourney-summary.component.html',
+  styleUrls: ['./tourney-summary.component.scss'],
+  imports: [MaterialModule]
 })
 export class TourneySummaryComponent {
   private statisticsService = inject(TourneyStatisticsService);
@@ -36,19 +37,19 @@ export class TourneySummaryComponent {
   change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
   addPlayer(): void {
-    if(this.canAddPlayers()) {
-    const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent);
+    if (this.canAddPlayers()) {
+      const dialogRef = this.dialog.open(TourneyGroupStageAddPlayerDialogComponent);
 
-    dialogRef
-      .afterClosed()
-      .subscribe(
-        name => {
-          if (name) {
-            ModificationFunctions.InjectPlayer(this.tourney(), name);
-            this.change.emit({ type: 'ScoreChanged' });
+      dialogRef
+        .afterClosed()
+        .subscribe(
+          name => {
+            if (name) {
+              ModificationFunctions.InjectPlayer(this.tourney(), name);
+              this.change.emit({ type: 'ScoreChanged' });
+            }
           }
-        }
-      )
+        )
     }
   }
 

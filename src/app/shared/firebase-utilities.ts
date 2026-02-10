@@ -1,21 +1,28 @@
-import { SnapshotAction } from '@angular/fire/compat/database';
+import { DatabaseReference, DataSnapshot, listVal, Query } from '@angular/fire/database';
+import { Observable } from 'rxjs';
 
-export type Db<T> = T & { key: string }
+export type Db<T> = T & { key: string };
 
-export function unpackSnapshotsWithKey<T>(snapshots: SnapshotAction<T>[]): Db<T>[] {
-    return snapshots.map(c => ({ key: c.key!, ...c.payload.val()!}));
+export function unpackSnapshotWithKeyModular<T>(change: { snapshot: DataSnapshot }): Db<T> {
+  return { key: change.snapshot.key!, ...(change.snapshot.val() as T) };
 }
 
-export function unpackSnapshots<T>(snapshots: SnapshotAction<T>[]): T[] {
-    return snapshots.map(c => c.payload.val()!);
+export function unpackSnapshotsWithKeyModular<T>(changes: { snapshot: DataSnapshot }[]): Db<T>[] {
+  return changes.map(c => unpackSnapshotWithKeyModular<T>(c));
 }
 
-export function unpackSnapshotWithKey<T>(snapshot: SnapshotAction<T>): Db<T> {
-  return { key: snapshot.key!, ...snapshot.payload.val()! };
+export function listValWithKey<T>(query: Query) {
+  return listVal<Db<T>>(query, { keyField: 'key' });
 }
 
-export function unpackSnapshot<T>(snapshot: SnapshotAction<T>): T {
-  return snapshot.payload.val()!;
+export function compareByKey<T>(a: Db<T>, b: Db<T>) {
+  if (a.key < b.key) {
+    return -1;
+  }
+  if (a.key > b.key) {
+    return 1;
+  }
+  return 0;
 }
 
 export function withoutKey<T>(item: Db<T>): T {

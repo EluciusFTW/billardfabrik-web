@@ -15,12 +15,16 @@ import { PlayerFunctions } from 'src/app/players/player-functions';
 import { OrderPlayersDialogComponent } from './order-players/order-players-dialog.component';
 import { firstValueFrom } from 'rxjs';
 import { Player } from 'src/app/players/player';
+import { MaterialModule } from 'src/app/material/material.module';
+import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
+import { PlayerNamePipe } from 'src/app/players/player-name.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-    templateUrl: './create-tourney.component.html',
-    standalone: false
+  templateUrl: './create-tourney.component.html',
+  imports: [FormsModule, MaterialModule, ContentTileComponent, PlayerNamePipe]
 })
-export class CreateTourneyComponent implements OnInit{
+export class CreateTourneyComponent implements OnInit {
   private readonly createTourneyService = inject(TourneyCreationService);
   private readonly tourneysService = inject(TourneysService);
   private readonly playersService = inject(PlayersService);
@@ -52,7 +56,7 @@ export class CreateTourneyComponent implements OnInit{
   raceLengths = [3, 4, 5, 6, 7, 8, 9];
   raceLengthSelected: number = 4;
 
-  disciplines: PoolDiscipline[] = [ ... POOL_DISCIPLINES ];
+  disciplines: PoolDiscipline[] = [...POOL_DISCIPLINES];
   disciplineSelected: PoolDiscipline = '9-Ball';
 
   firstElimination = [
@@ -81,9 +85,9 @@ export class CreateTourneyComponent implements OnInit{
         ? [1, 2]
         : nrOfPlayers < 12
           ? [2]
-          :  nrOfPlayers < 24
+          : nrOfPlayers < 24
             ? [4]
-            : [4,8]
+            : [4, 8]
   }
 
   async addPlayer() {
@@ -112,7 +116,7 @@ export class CreateTourneyComponent implements OnInit{
 
     const dialog: MatDialogRef<OrderPlayersDialogComponent, string[]> = this.dialog.open(
       OrderPlayersDialogComponent,
-      { data: { players: players} }
+      { data: { players: players } }
     );
 
     var sortedPlayers = await firstValueFrom(dialog.afterClosed());

@@ -2,12 +2,14 @@ import { Component, OnInit, inject, input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { TourneyPlayersService } from '../services/tourney-players.service';
+import { MaterialModule } from 'src/app/material/material.module';
+import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-tourney-leader-board',
-    templateUrl: './tourneys-leader-board.component.html',
-    styleUrls: ['./tourneys-leader-board.component.scss'],
-    standalone: false
+  selector: 'app-tourney-leader-board',
+  templateUrl: './tourneys-leader-board.component.html',
+  styleUrls: ['./tourneys-leader-board.component.scss'],
+  imports: [CommonModule, MaterialModule]
 })
 export class TourneysLeaderBoardComponent implements OnInit {
   playersService = inject(TourneyPlayersService);

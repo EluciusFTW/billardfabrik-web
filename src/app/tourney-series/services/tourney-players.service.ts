@@ -10,29 +10,28 @@ import { TourneyFunctions } from '../tourney/tourney-functions';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { PlayersService as PS } from 'src/app/players/players.service';
-
-const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
+import { child, equalTo, list, listVal, orderByChild, push, query, ref, set } from '@angular/fire/database';
 
 @Injectable()
 export class TourneyPlayersService extends FirebaseService {
   private readonly playersService = inject(PS);
+  private readonly resultsRef = ref(this.db, 'tourneySeries/playerResults');
 
   async getAllLeaderboardPlayers(start: string, end: string): Promise<LeaderBoardPlayer[]> {
     const leaderBoardParticipants = await firstValueFrom(
       this.playersService
         .getLeaderBoardPlayers()
         .pipe(map(players => players.map(player => PlayerFunctions.keyFromPlayer(player))))
-      );
+    );
 
-    return firstValueFrom(this.db
-      .list<PlayerResultsRecord>(DB_PLAYERRESULTS_LPATH)
-      .snapshotChanges()
-      .pipe(
-        map(snapshots => snapshots
-          .filter(snapshot => leaderBoardParticipants.includes(snapshot.payload.key))
-          .map(snapshot => this.toLeaderBoardPlayer(snapshot.payload.key, snapshot.payload.val(), start, end))
-          .filter(player => player.participations > 0))
-      ));
+    return firstValueFrom(
+      list(this.resultsRef)
+        .pipe(
+          map(snapshots => snapshots
+            .filter(snapshot => leaderBoardParticipants.includes(snapshot.snapshot.key))
+            .map(snapshot => this.toLeaderBoardPlayer(snapshot.snapshot.key, snapshot.snapshot.val(), start, end))
+            .filter(player => player.participations > 0))
+        ));
   }
 
   private toLeaderBoardPlayer(nameKey: string, player: PlayerResultsRecord, start: string, end: string): LeaderBoardPlayer {
@@ -64,30 +63,26 @@ export class TourneyPlayersService extends FirebaseService {
     }
   }
 
-  async AddPlayerRecord(evaluation: TourneyPlayerEvaluation): Promise<void> {
-    await this.AddMatchesTo(evaluation);
-    await this.db
-      .object(this.playerResultsKey(evaluation.name) + '/placements/' + evaluation.placement.tourney)
-      .set(evaluation.placement);
+  async addPlayerRecord(evaluation: TourneyPlayerEvaluation): Promise<void> {
+    await this.addMatchesTo(evaluation);
+    await set(child(this.playerResultsRef(evaluation), `/placements/${evaluation.placement.tourney}`), evaluation.placement);
   }
 
-  private async AddMatchesTo(evaluation: TourneyPlayerEvaluation): Promise<void> {
-    const matchesPath = this.playerResultsKey(evaluation.name) + '/matches';
-    const tourney = evaluation.matches[0].tourney;
-    const existingMatches = await firstValueFrom(
-      this.db
-        .list<PlayerMatchRecord>(matchesPath, ref => ref.orderByChild('tourney').equalTo(tourney))
-        .valueChanges());
+  private async addMatchesTo(evaluation: TourneyPlayerEvaluation): Promise<void> {
+    const matchRecordsRef = child(this.playerResultsRef(evaluation), '/matches');
+    const tourneyName = evaluation.matches[0].tourney;
+
+    const q = query(matchRecordsRef, orderByChild('tourney'), equalTo(tourneyName));
+    const existingMatches = await firstValueFrom(listVal<PlayerMatchRecord>(q));
 
     await Promise.all(
       evaluation.matches
         .filter(match => !existingMatches.find(m => m.opponent === match.opponent && m.type === match.type))
-        .map(match => this.db
-          .list<PlayerMatchRecord>(matchesPath)
-          .push(match)));
+        .map(match => push(matchRecordsRef, match))
+    );
   }
 
-  private playerResultsKey(name: string): string {
-    return DB_PLAYERRESULTS_LPATH + '/' + PlayerFunctions.keyFromName(name);
+  private playerResultsRef(evaluation: TourneyPlayerEvaluation) {
+    return child(this.resultsRef, PlayerFunctions.keyFromName(evaluation.name));
   }
 }

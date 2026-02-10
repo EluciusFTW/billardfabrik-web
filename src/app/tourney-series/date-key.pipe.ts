@@ -2,8 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TourneyFunctions } from './tourney/tourney-functions';
 
 @Pipe({
-    name: 'dateKey',
-    standalone: false
+  name: 'dateKey',
 })
 export class DateKeyPipe implements PipeTransform {
   transform(value: string): string {

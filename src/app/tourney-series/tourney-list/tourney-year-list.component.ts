@@ -9,11 +9,14 @@ import { TourneyStatisticsService } from '../services/evaluation/tourney-statist
 import { TourneyPlayersService } from '../services/tourney-players.service';
 import { TourneysService } from '../services/tourneys.service';
 import { ShowResultsDialogComponent } from './show-results.dialog.component';
+import { MaterialModule } from 'src/app/material/material.module';
+import { DateKeyPipe } from '../date-key.pipe';
+import { RouterModule } from '@angular/router';
 
 @Component({
-    selector: 'app-tourney-year-list',
-    templateUrl: './tourney-year-list.component.html',
-    standalone: false
+  selector: 'app-tourney-year-list',
+  templateUrl: './tourney-year-list.component.html',
+  imports: [MaterialModule, DateKeyPipe, RouterModule]
 })
 export class TourneyYearListComponent {
 
@@ -58,7 +61,7 @@ export class TourneyYearListComponent {
 
     const result = this.statisticsService.Evaluate(tourney);
     if (result) {
-      let updates = result.players.map(evaluation => this.playersService.AddPlayerRecord(evaluation));
+      let updates = result.players.map(evaluation => this.playersService.addPlayerRecord(evaluation));
       await Promise.all(updates);
       this.tourneysService.update(tourney, { type: 'ResultsPostProcessed' });
     }

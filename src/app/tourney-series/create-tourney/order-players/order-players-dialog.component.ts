@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    templateUrl: './order-players-dialog.component.html',
-    standalone: false
+  templateUrl: './order-players-dialog.component.html',
+  imports: [MaterialModule, CdkDrag, CdkDropList]
 })
 export class OrderPlayersDialogComponent {
   players: string[];

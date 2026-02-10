@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MaterialModule } from 'src/app/material/material.module';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login-dialog.component.html',
-    standalone: false
+  selector: 'app-login',
+  templateUrl: './login-dialog.component.html',
+  imports: [FormsModule, MaterialModule]
 })
 export class LoginDialogComponent {
 
