@@ -4,7 +4,8 @@ import { ChartConfiguration, ChartOptions } from "chart.js";
 import { ComputedRankingPlayer } from "../models/ranking-player";
 
 @Component({
-  templateUrl: './player-progression-dialog.component.html',
+    templateUrl: './player-progression-dialog.component.html',
+    standalone: false
 })
 export class PlayerProgressionDialogComponent {
 

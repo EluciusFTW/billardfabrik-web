@@ -7,15 +7,16 @@ import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/
 import { EloMatchValidators } from '../../elo-match-validators';
 
 @Component({
-  selector: 'app-elo-simulation',
-  templateUrl: './elo-simulation.component.html',
-  styles: [`
+    selector: 'app-elo-simulation',
+    templateUrl: './elo-simulation.component.html',
+    styles: [`
     .error-message {
       padding-left: 1em;
       color: var(--color-error);
       font-size: .75em;
     }
-  `]
+  `],
+    standalone: false
 })
 export class EloSimulationComponent {
 

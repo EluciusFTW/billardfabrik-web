@@ -3,8 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
-  templateUrl: './order-players-dialog.component.html',
-  // styleUrls: ['player-create-dialog.component.scss']
+    templateUrl: './order-players-dialog.component.html',
+    standalone: false
 })
 export class OrderPlayersDialogComponent {
   players: string[];

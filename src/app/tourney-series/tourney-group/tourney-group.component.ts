@@ -10,9 +10,10 @@ import { UserService } from 'src/app/authentication/user.service';
 import { GroupFunctions } from './group-functions';
 
 @Component({
-  selector: 'app-tourney-group',
-  templateUrl: './tourney-group.component.html',
-  styleUrls: ['../tourneys.scss', './tourney-group.component.scss']
+    selector: 'app-tourney-group',
+    templateUrl: './tourney-group.component.html',
+    styleUrls: ['../tourneys.scss', './tourney-group.component.scss'],
+    standalone: false
 })
 export class TourneyGroupComponent {
   private userService = inject(UserService);

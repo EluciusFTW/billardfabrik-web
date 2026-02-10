@@ -5,9 +5,10 @@ import { MatchPlayer } from '../models/match-player';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 
 @Component({
-  selector: 'app-match',
-  templateUrl: './match.component.html',
-  styleUrls: ['./match.component.scss', '../tourneys.scss']
+    selector: 'app-match',
+    templateUrl: './match.component.html',
+    styleUrls: ['./match.component.scss', '../tourneys.scss'],
+    standalone: false
 })
 export class MatchComponent {
 

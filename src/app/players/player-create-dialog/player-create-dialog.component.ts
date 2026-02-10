@@ -3,8 +3,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Player } from '../player';
 
 @Component({
-  templateUrl: './player-create-dialog.component.html',
-  styleUrls: ['player-create-dialog.component.scss']
+    templateUrl: './player-create-dialog.component.html',
+    styleUrls: ['player-create-dialog.component.scss'],
+    standalone: false
 })
 export class PlayerCreateDialogComponent {
 

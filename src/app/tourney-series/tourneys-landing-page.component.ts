@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-tourneys-landing-page',
-  templateUrl: './tourneys-landing-page.component.html'
+    selector: 'app-tourneys-landing-page',
+    templateUrl: './tourneys-landing-page.component.html',
+    standalone: false
 })
 export class TourneysLandingPageComponent {
   tabs = [

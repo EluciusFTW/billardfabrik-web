@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
-  templateUrl: './tourney-series-overview.component.html',
-  styleUrls: ['./tourney-series-overview.component.scss']
+    templateUrl: './tourney-series-overview.component.html',
+    styleUrls: ['./tourney-series-overview.component.scss'],
+    standalone: false
 })
 export class TourneySeriesOverviewComponent {
 

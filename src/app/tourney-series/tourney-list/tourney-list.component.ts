@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 
 @Component({
-  templateUrl: './tourney-list.component.html',
-  styleUrls: ['./tourney-list.component.scss']
+    templateUrl: './tourney-list.component.html',
+    styleUrls: ['./tourney-list.component.scss'],
+    standalone: false
 })
 export class TourneyListComponent extends AuthorizedComponent {
   get isTourneyAuthenticated(): boolean {

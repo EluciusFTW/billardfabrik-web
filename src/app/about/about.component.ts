@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 
 @Component({
-  templateUrl: './about.component.html',
-  imports: [SharedModule],
-  standalone: true
+    templateUrl: './about.component.html',
+    imports: [SharedModule]
 })
 export class AboutComponent { }

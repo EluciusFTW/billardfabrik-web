@@ -4,9 +4,10 @@ import { EloFunctions } from 'src/app/ranking/elo-functions';
 import { EloMode } from '../../models/elo-models';
 
 @Component({
-  selector: 'app-elo-demo-table',
-  templateUrl: './elo-demo-table.component.html',
-  styleUrls: ['./elo-demo-table.component.scss']
+    selector: 'app-elo-demo-table',
+    templateUrl: './elo-demo-table.component.html',
+    styleUrls: ['./elo-demo-table.component.scss'],
+    standalone: false
 })
 export class EloDemoTableComponent {
   dataSource = new MatTableDataSource<EloScoreDemo>();

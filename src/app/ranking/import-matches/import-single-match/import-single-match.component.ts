@@ -10,9 +10,10 @@ import { PlayerFunctions } from 'src/app/players/player-functions';
 import { EloMatchValidators } from '../../elo-match-validators';
 
 @Component({
-  selector: 'app-import-single-match',
-  templateUrl: './import-single-match.component.html',
-  styleUrls: ['./import-single-match.component.scss']
+    selector: 'app-import-single-match',
+    templateUrl: './import-single-match.component.html',
+    styleUrls: ['./import-single-match.component.scss'],
+    standalone: false
 })
 export class ImportSingleMatchComponent implements OnInit {
 

@@ -17,7 +17,8 @@ import { firstValueFrom } from 'rxjs';
 import { Player } from 'src/app/players/player';
 
 @Component({
-  templateUrl: './create-tourney.component.html',
+    templateUrl: './create-tourney.component.html',
+    standalone: false
 })
 export class CreateTourneyComponent implements OnInit{
   private readonly createTourneyService = inject(TourneyCreationService);

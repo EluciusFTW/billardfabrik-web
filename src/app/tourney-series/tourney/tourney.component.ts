@@ -5,8 +5,9 @@ import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyFunctions } from './tourney-functions';
 
 @Component({
-  selector: 'app-tourney',
-  templateUrl: './tourney.component.html'
+    selector: 'app-tourney',
+    templateUrl: './tourney.component.html',
+    standalone: false
 })
 export class TourneyComponent implements OnInit {
 

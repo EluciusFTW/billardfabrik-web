@@ -7,8 +7,9 @@ import { TourneyPlayerEvaluation } from "../models/evaluation/tourney-player-eva
 import { TourneyMode } from "../models/tourney-mode";
 
 @Component({
-  templateUrl: './show-results.dialog.component.html',
-  styleUrls: ['./show-results.dialog.component.scss']
+    templateUrl: './show-results.dialog.component.html',
+    styleUrls: ['./show-results.dialog.component.scss'],
+    standalone: false
 })
 export class ShowResultsDialogComponent {
   playerResults: MatTableDataSource<any>;// = new MatTableDataSource<TourneyPlayerEvaluation>([]);
