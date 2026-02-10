@@ -1,14 +1,14 @@
-import { Component, input } from "@angular/core";
-import { MatDialog } from "@angular/material/dialog";
-import { MatTableDataSource } from "@angular/material/table";
-import { firstValueFrom, map } from "rxjs";
-import { UserService } from "src/app/authentication/user.service";
-import { Tourney } from "../models/tourney";
-import { TourneyStatus, TourneyStatusMapper } from "../models/tourney-status";
-import { TourneyStatisticsService } from "../services/evaluation/tourney-statistics.service";
-import { TourneyPlayersService } from "../services/tourney-players.service";
-import { TourneysService } from "../services/tourneys.service";
-import { ShowResultsDialogComponent } from "./show-results.dialog.component";
+import { Component, input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
+import { firstValueFrom, map } from 'rxjs';
+import { UserService } from 'src/app/authentication/user.service';
+import { Tourney } from '../models/tourney';
+import { TourneyStatus, TourneyStatusMapper } from '../models/tourney-status';
+import { TourneyStatisticsService } from '../services/evaluation/tourney-statistics.service';
+import { TourneyPlayersService } from '../services/tourney-players.service';
+import { TourneysService } from '../services/tourneys.service';
+import { ShowResultsDialogComponent } from './show-results.dialog.component';
 
 @Component({
   selector: 'app-tourney-year-list',
@@ -17,8 +17,8 @@ import { ShowResultsDialogComponent } from "./show-results.dialog.component";
 export class TourneyYearListComponent {
 
   year = input<number>(0);
-  startingAt = input<string>("20180101");
-  endingAt = input<string>("20501231");
+  startingAt = input<string>('20180101');
+  endingAt = input<string>('20501231');
 
   tourneyDataSource: MatTableDataSource<Tourney>;
   displayedColumns = ['name', 'date', 'status', 'actions'];
@@ -39,9 +39,9 @@ export class TourneyYearListComponent {
       tourneySource
         .pipe(
           map(tourneys =>
-          tourneys
-            .filter(tourney => this.isTourneyAuthenticated || tourney.meta.status !== TourneyStatus.new)
-            .reverse())));
+            tourneys
+              .filter(tourney => this.isTourneyAuthenticated || tourney.meta.status !== TourneyStatus.new)
+              .reverse())));
     this.tourneyDataSource = new MatTableDataSource<Tourney>(tourneys);
   }
 

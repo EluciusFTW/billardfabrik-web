@@ -1,23 +1,23 @@
-<app-content-tile [header]="'Turnierübersicht'">
+<app-content-tile header="Turnierübersicht">
   <p>
     Hier findest Du Ergebnisse zu den vergangenen Turnieren.
     @if (isTourneyAuthenticated) {
-      Oder möchtest Du etwa ein neues <button mat-flat-button [routerLink]="'../create'">neues Turnier</button>
+      Oder möchtest Du etwa ein neues <button mat-flat-button routerLink="../create">neues Turnier</button>
       erstellen?
     }
   </p>
 
   <mat-tab-group>
-    <mat-tab label="Sommerturniere 25">
-      <app-tourney-year-list [startingAt]="'20250702'" [endingAt]="'20251031'"></app-tourney-year-list>
+    <mat-tab label="Aktuelle Turniere">
+      <app-tourney-year-list startingAt="20250702" endingAt="20270101"></app-tourney-year-list>
     </mat-tab>
 
     <mat-tab label="Serie 24/25">
-      <app-tourney-year-list [startingAt]="'20240910'" [endingAt]="'20250701'"></app-tourney-year-list>
+      <app-tourney-year-list startingAt="20240910" endingAt="20250701"></app-tourney-year-list>
     </mat-tab>
 
     <mat-tab label="Serie 23/24">
-      <app-tourney-year-list [startingAt]="'20231101'" [endingAt]="'20240701'"></app-tourney-year-list>
+      <app-tourney-year-list startingAt="20231101" endingAt="20240701"></app-tourney-year-list>
     </mat-tab>
 
     <mat-tab label="2023">
