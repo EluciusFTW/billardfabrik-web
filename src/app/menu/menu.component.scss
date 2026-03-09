@@ -1,4 +1,4 @@
-@import '../../assets/scss/_breakpoints';
+@use '../../assets/scss/_breakpoints' as bps;
 
 #toolbar {
   display: flex;
@@ -47,7 +47,7 @@
     }
   }
 
-  @media only screen and (max-width: $breakpoint1) {
+  @media only screen and (max-width: bps.$breakpoint1) {
     .menu-item-text {
         display: none;
     }
@@ -57,7 +57,7 @@
     }
   }
 
-  @media only screen and (max-width: $breakpoint2) {
+  @media only screen and (max-width: bps.$breakpoint2) {
     #menu-horizontal {
       display: none;
     }
