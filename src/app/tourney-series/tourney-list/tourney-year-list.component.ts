@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { firstValueFrom, map } from 'rxjs';
@@ -12,6 +12,7 @@ import { ShowResultsDialogComponent } from './show-results.dialog.component';
 import { MaterialModule } from 'src/app/material/material.module';
 import { DateKeyPipe } from '../date-key.pipe';
 import { RouterModule } from '@angular/router';
+import { Db } from 'src/app/shared/firebase-utilities';
 
 @Component({
   selector: 'app-tourney-year-list',
@@ -19,20 +20,18 @@ import { RouterModule } from '@angular/router';
   imports: [MaterialModule, DateKeyPipe, RouterModule]
 })
 export class TourneyYearListComponent {
+  private tourneysService = inject(TourneysService);
+  private statisticsService = inject(TourneyStatisticsService);
+  private playersService = inject(TourneyPlayersService);
+  private userService = inject(UserService);
+  private dialog = inject(MatDialog);
 
-  year = input<number>(0);
-  startingAt = input<string>('20180101');
-  endingAt = input<string>('20501231');
+  public year = input<number>(0);
+  public startingAt = input<string>('20180101');
+  public endingAt = input<string>('20501231');
 
-  tourneyDataSource: MatTableDataSource<Tourney>;
-  displayedColumns = ['name', 'date', 'status', 'actions'];
-
-  constructor(
-    private tourneysService: TourneysService,
-    private statisticsService: TourneyStatisticsService,
-    private playersService: TourneyPlayersService,
-    private userService: UserService,
-    private dialog: MatDialog) { }
+  protected tourneyDataSource: MatTableDataSource<Tourney>;
+  protected displayedColumns = ['name', 'date', 'status', 'actions'];
 
   async ngOnInit() {
     const tourneySource = this.year() > 0
@@ -46,7 +45,7 @@ export class TourneyYearListComponent {
             tourneys
               .filter(tourney => this.isTourneyAuthenticated || tourney.meta.status !== TourneyStatus.new)
               .reverse())));
-    this.tourneyDataSource = new MatTableDataSource<Tourney>(tourneys);
+    this.tourneyDataSource = new MatTableDataSource<Db<Tourney>>(tourneys);
   }
 
   show(tourney: Tourney) {

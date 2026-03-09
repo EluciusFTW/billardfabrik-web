@@ -7,10 +7,6 @@ export function unpackSnapshotWithKeyModular<T>(change: { snapshot: DataSnapshot
   return { key: change.snapshot.key!, ...(change.snapshot.val() as T) };
 }
 
-export function unpackSnapshotsWithKeyModular<T>(changes: { snapshot: DataSnapshot }[]): Db<T>[] {
-  return changes.map(c => unpackSnapshotWithKeyModular<T>(c));
-}
-
 export function listValWithKey<T>(query: Query) {
   return listVal<Db<T>>(query, { keyField: 'key' });
 }

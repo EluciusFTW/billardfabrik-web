@@ -6,7 +6,7 @@ import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyEventService } from '../event-handling/tourney-event.service';
-import { Db, unpackSnapshotWithKeyModular, unpackSnapshotsWithKeyModular } from 'src/app/shared/firebase-utilities';
+import { Db, listValWithKey, unpackSnapshotWithKeyModular } from 'src/app/shared/firebase-utilities';
 import { TourneyFunctions } from '../tourney/tourney-functions';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 
@@ -23,9 +23,8 @@ export class TourneysService extends FirebaseService {
       .pipe(map(snapshot => unpackSnapshotWithKeyModular<Tourney>(snapshot)));
   }
 
-  getAll(): Observable<Tourney[]> {
-    return list(this.tourneysRef)
-      .pipe(map(snapshots => unpackSnapshotsWithKeyModular<Tourney>(snapshots)));
+  getAll(): Observable<Db<Tourney>[]> {
+    return listValWithKey<Tourney>(this.tourneysRef);
   }
 
   async getLastOccurrence(): Promise<number> {
@@ -35,19 +34,17 @@ export class TourneysService extends FirebaseService {
     return lastTourney?.meta.occurrence ?? 0;
   }
 
-  getFromYear(year: number): Observable<Tourney[]> {
+  getFromYear(year: number): Observable<Db<Tourney>[]> {
     const q = query(this.tourneysRef, orderByKey(), startAt(`${year}0000`), endAt(`${year}9999`));
-    return list(q)
-      .pipe(map(snapshots => unpackSnapshotsWithKeyModular<Tourney>(snapshots)));
+    return listValWithKey<Tourney>(q);
   }
 
-  getBetween(start: string, end: string): Observable<Tourney[]> {
+  getBetween(start: string, end: string): Observable<Db<Tourney>[]> {
     const q = query(this.tourneysRef, orderByKey(), startAt(start), endAt(end));
-    return list(q)
-      .pipe(map(snapshots => unpackSnapshotsWithKeyModular<Tourney>(snapshots)));
+    return listValWithKey<Tourney>(q);
   }
 
-  getAfter(start: string): Observable<Tourney[]> {
+  getAfter(start: string): Observable<Db<Tourney>[]> {
     const actualStart = start || '0';
     return this.getBetween(`${+actualStart + 1}`, 'X');
   }
