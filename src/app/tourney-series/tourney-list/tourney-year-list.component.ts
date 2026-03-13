@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { firstValueFrom, map } from 'rxjs';
@@ -30,6 +30,8 @@ export class TourneyYearListComponent {
   public startingAt = input<string>('20180101');
   public endingAt = input<string>('20501231');
 
+  protected isTourneyAuthenticated = computed(() => this.userService.canHandleTourneys());
+
   protected tourneyDataSource: MatTableDataSource<Tourney>;
   protected displayedColumns = ['name', 'date', 'status', 'actions'];
 
@@ -43,7 +45,7 @@ export class TourneyYearListComponent {
         .pipe(
           map(tourneys =>
             tourneys
-              .filter(tourney => this.isTourneyAuthenticated || tourney.meta.status !== TourneyStatus.new)
+              .filter(tourney => this.isTourneyAuthenticated() || tourney.meta.status !== TourneyStatus.new)
               .reverse())));
     this.tourneyDataSource = new MatTableDataSource<Db<Tourney>>(tourneys);
   }
@@ -66,9 +68,6 @@ export class TourneyYearListComponent {
     }
   }
 
-  get isTourneyAuthenticated(): boolean {
-    return this.userService.canHandleTourneys();
-  }
 
   canComplete(status: TourneyStatus): boolean {
     return this.userService.canHandleTourneys()

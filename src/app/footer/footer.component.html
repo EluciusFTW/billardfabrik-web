@@ -6,13 +6,13 @@
     </a>
   </button>
 
-  @if (!isLoggedIn) {
+  @if (!isLoggedIn()) {
     <button mat-button color="primary" (click)="login()">
       <div class="material-icons">login</div>
     </button>
   } @else {
     <button mat-button color="primary" (click)="logout()">
-      {{ displayName }}
+      {{ displayName() }}
       <div class="material-icons">logout</div>
     </button>
   }

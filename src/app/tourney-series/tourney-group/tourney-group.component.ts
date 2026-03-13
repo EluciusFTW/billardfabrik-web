@@ -29,6 +29,8 @@ export class TourneyGroupComponent {
     this.group().matches
       .filter(match => match.status !== MatchStatus.cancelled)
       .findIndex(match => !Match.isOver(match)) === -1);
+  canFinalize = computed(() => this.userService.canHandleTourneys());
+
   calcTotals = effect(() => this.totals = new MatTableDataSource<GroupStanding>(this.standing()));
 
   @Output() change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
@@ -39,10 +41,6 @@ export class TourneyGroupComponent {
 
   emitChange($event: TourneyPhaseEvent): void {
     this.change.emit($event);
-  }
-
-  get canFinalize(): boolean {
-    return this.userService.canHandleTourneys();
   }
 
   finalize(): void {

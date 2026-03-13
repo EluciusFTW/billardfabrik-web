@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AuthorizedComponent } from '../shared/authorized.component';
 import { MaterialModule } from '../material/material.module';
 
@@ -9,12 +9,10 @@ import { MaterialModule } from '../material/material.module';
   imports: [MaterialModule]
 })
 export class FooterComponent extends AuthorizedComponent {
+  displayName = computed(() => this.userService.userName());
+
   login(): void {
     this.userService.login();
-  }
-
-  get displayName(): string {
-    return this.userService.userName;
   }
 
   logout(): void {

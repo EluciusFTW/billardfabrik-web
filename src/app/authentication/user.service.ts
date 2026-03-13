@@ -1,5 +1,5 @@
 import { Auth, signInWithEmailAndPassword, signOut } from '@angular/fire/auth';
-import { inject, Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from './login-dialog/login-dialog.component';
@@ -16,15 +16,9 @@ export class UserService {
   private readonly db = inject(Database);
 
   private uid: string;
-  userName: string;
-
-  isLoggedIn(): boolean {
-    return !!this.userName;
-  }
-
-  canHandleTourneys(): boolean {
-    return this.isLoggedIn();
-  }
+  public userName = signal<string | null>(null);
+  public isLoggedIn = computed(() => !!this.userName());
+  public canHandleTourneys = computed(() => this.isLoggedIn());
 
   login(): void {
     this.dialog
@@ -59,10 +53,10 @@ export class UserService {
   };
 
   private setUserName(userData: any): void {
-    this.userName = userData?.displayName || 'No displayName set';
+    this.userName.set(userData?.displayName || 'No displayName set');
   }
 
   private resetUserData(): void {
-    this.userName = null;
+    this.userName.set(null);
   }
 }

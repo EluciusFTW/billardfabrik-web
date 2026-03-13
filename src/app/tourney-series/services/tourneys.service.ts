@@ -18,8 +18,8 @@ export class TourneysService extends FirebaseService {
   private readonly messageService = inject(OwnMessageService);
   private readonly tourneysRef = ref(this.db, DB_TOURNEYS_LPATH);
 
-  get(id: string): Observable<Db<Tourney>> {
-    return object(ref(this.db, `${DB_TOURNEYS_LPATH}/${id}`))
+  get(key: string): Observable<Db<Tourney>> {
+    return object(ref(this.db, `${DB_TOURNEYS_LPATH}/${key}`))
       .pipe(map(snapshot => unpackSnapshotWithKeyModular<Tourney>(snapshot)));
   }
 

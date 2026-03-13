@@ -60,7 +60,7 @@
       <button mat-menu-item [routerLink]="'ranking/players'">Rangliste</button>
       <button mat-menu-item [routerLink]="'ranking/matches'">Matches</button>
       <button mat-menu-item [routerLink]="'ranking/details'">Details</button>
-      @if (isLoggedIn) {
+      @if (isLoggedIn()) {
         <button mat-menu-item [routerLink]="'ranking/import'">Import</button>
         <button mat-menu-item [routerLink]="'ranking/player-management'">Spielerverwaltung</button>
       }

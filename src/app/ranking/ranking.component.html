@@ -8,7 +8,7 @@
     </a>
   }
 
-  @if (isLoggedIn) {
+  @if (isLoggedIn()) {
     @for (tab of authenticatedTabs; track tab.link) {
       <a mat-tab-link
         (click)="activeLink = tab.link"
