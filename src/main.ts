@@ -12,6 +12,7 @@ import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 import { MaterialModule } from './app/material/material.module';
 import { firebaseConfig } from './secrets/firebase';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 if (environment.production) {
   enableProdMode();
@@ -19,12 +20,12 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),provideRouter(APP_ROUTES),
+    provideZoneChangeDetection(),
+    provideRouter(APP_ROUTES),
     provideAnimations(),
-
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
-
     MaterialModule
   ]
 }).catch(err => console.error(err));

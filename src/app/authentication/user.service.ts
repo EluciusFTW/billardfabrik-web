@@ -8,7 +8,7 @@ import { OwnMessageService } from '../shared/services/own-message.service';
 import { Database, object, objectVal, ref } from '@angular/fire/database';
 import { firstValueFrom } from 'rxjs';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserService {
   private readonly auth = inject(Auth);
   private readonly messager = inject(OwnMessageService);
