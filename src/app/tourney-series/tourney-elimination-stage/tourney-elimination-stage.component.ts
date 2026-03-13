@@ -9,13 +9,13 @@ import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elim
 import { UserService } from 'src/app/authentication/user.service';
 import { MaterialModule } from 'src/app/material/material.module';
 import { MatchComponent } from '../match/match.component';
-import { NgIf } from '@angular/common';
+
 
 @Component({
   selector: 'app-tourney-elimination-stage',
   templateUrl: './tourney-elimination-stage.component.html',
   styleUrls: ['../tourneys.scss'],
-  imports: [MaterialModule, MatchComponent, NgIf]
+  imports: [MaterialModule, MatchComponent]
 })
 export class TourneyEliminationStageComponent {
   private userService = inject(UserService);

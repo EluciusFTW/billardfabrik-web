@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, input, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -10,10 +10,9 @@ import { OwnConfirmService } from '../services/own-confirm.service';
   templateUrl: './content-tile.component.html',
   styleUrls: ['./content-tile.component.scss'],
   imports: [
-    CommonModule,
     RouterModule,
     MaterialModule
-  ],
+],
   providers: [
     OwnMessageService,
     OwnConfirmService

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RouterModule } from '@angular/router';
@@ -11,9 +11,8 @@ import { OwnConfirmService } from '../services/own-confirm.service';
   templateUrl: './confirm-dialog.component.html',
   standalone: true,
   imports: [
-    CommonModule,
     MaterialModule
-  ]
+]
 })
 export class ConfirmDialogComponent {
 

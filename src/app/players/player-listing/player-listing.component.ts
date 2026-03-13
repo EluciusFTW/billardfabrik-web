@@ -8,7 +8,7 @@ import { PlayerCreateDialogComponent } from '../player-create-dialog/player-crea
 import { PlayerFunctions } from '../player-functions';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ContentTileComponent } from 'src/app/shared/content-tile/content-tile.component';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { PlayerNamePipe } from '../player-name.pipe';
 
@@ -16,7 +16,7 @@ import { PlayerNamePipe } from '../player-name.pipe';
   selector: 'app-player-listing',
   templateUrl: './player-listing.component.html',
   styleUrls: ['./player-listing.component.scss'],
-  imports: [MaterialModule, CommonModule, FormsModule, ContentTileComponent, PlayerNamePipe]
+  imports: [MaterialModule, FormsModule, ContentTileComponent, PlayerNamePipe]
 })
 export class PlayerListingComponent {
 
