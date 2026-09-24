@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { MatButton } from '@angular/material/button';
@@ -11,7 +11,8 @@ import { MatButton } from '@angular/material/button';
 })
 export class ConfirmDialogComponent {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<ConfirmDialogComponent>) { }
+  data = inject<any>(MAT_DIALOG_DATA);
+  dialogRef = inject<MatDialogRef<ConfirmDialogComponent>>(MatDialogRef);
 
   confirm(): void {
     this.dialogRef.close(true);

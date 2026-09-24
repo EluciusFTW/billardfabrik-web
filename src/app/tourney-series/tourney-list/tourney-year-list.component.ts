@@ -1,4 +1,4 @@
-import { Component, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { firstValueFrom, map } from 'rxjs';
@@ -19,6 +19,11 @@ import { DateKeyPipe } from '../date-key.pipe';
   imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, RouterLink, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DateKeyPipe]
 })
 export class TourneyYearListComponent {
+  private tourneysService = inject(TourneysService);
+  private statisticsService = inject(TourneyStatisticsService);
+  private playersService = inject(TourneyPlayersService);
+  private userService = inject(UserService);
+  private dialog = inject(MatDialog);
 
   year = input<number>(0);
   startingAt = input<string>('20180101');
@@ -26,13 +31,6 @@ export class TourneyYearListComponent {
 
   tourneyDataSource: MatTableDataSource<Tourney>;
   displayedColumns = ['name', 'date', 'status', 'actions'];
-
-  constructor(
-    private tourneysService: TourneysService,
-    private statisticsService: TourneyStatisticsService,
-    private playersService: TourneyPlayersService,
-    private userService: UserService,
-    private dialog: MatDialog) { }
 
   async ngOnInit() {
     const tourneySource = this.year() > 0
