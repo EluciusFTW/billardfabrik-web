@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EloFunctions } from '../../elo-functions';
@@ -16,6 +16,7 @@ import { EloMatchValidators } from '../../elo-match-validators';
       font-size: .75em;
     }
   `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class EloSimulationComponent {

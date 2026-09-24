@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Player } from '../player';
 import { PlayersService } from '../players.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +11,7 @@ import { PlayerFunctions } from '../player-functions';
   selector: 'app-player-listing',
   templateUrl: './player-listing.component.html',
   styleUrls: ['./player-listing.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class PlayerListingComponent {

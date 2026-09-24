@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { EloDemoInput } from './elo-demo-table/elo-demo-table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EloSimulationComponent } from './elo-simulation/elo-simulation.component';
@@ -6,6 +6,7 @@ import { EloSimulationComponent } from './elo-simulation/elo-simulation.componen
 @Component({
   selector: 'app-scoring-details',
   templateUrl: './scoring-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ScoringDetailsComponent {

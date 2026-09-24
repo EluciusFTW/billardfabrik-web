@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
 import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
@@ -7,6 +7,7 @@ import { TourneyFunctions } from './tourney-functions';
 @Component({
   selector: 'app-tourney',
   templateUrl: './tourney.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneyComponent implements OnInit {

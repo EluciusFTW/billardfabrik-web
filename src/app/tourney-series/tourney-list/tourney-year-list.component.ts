@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { firstValueFrom, map } from 'rxjs';
@@ -13,6 +13,7 @@ import { ShowResultsDialogComponent } from './show-results.dialog.component';
 @Component({
   selector: 'app-tourney-year-list',
   templateUrl: './tourney-year-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneyYearListComponent {

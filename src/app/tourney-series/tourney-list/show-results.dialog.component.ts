@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { TourneyEvaluation } from "../models/evaluation/tourney-evaluation";
@@ -9,6 +9,7 @@ import { TourneyMode } from "../models/tourney-mode";
 @Component({
   templateUrl: './show-results.dialog.component.html',
   styleUrls: ['./show-results.dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ShowResultsDialogComponent {

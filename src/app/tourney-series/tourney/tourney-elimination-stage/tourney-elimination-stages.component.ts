@@ -1,10 +1,11 @@
-import { Component, Output, EventEmitter, input } from '@angular/core';
+import { Component, Output, EventEmitter, input, ChangeDetectionStrategy } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 
 @Component({
   selector: 'app-tourney-elimination-stages',
   templateUrl: './tourney-elimination-stages.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneyEliminationStagesComponent {

@@ -1,4 +1,4 @@
-import { Component, input, Input } from '@angular/core';
+import { Component, input, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-score-display',
@@ -16,6 +16,7 @@ import { Component, input, Input } from '@angular/core';
         color: green;
       }
     `],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ScoreDisplayComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 
 @Component({
@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
       float: right;
       padding: 1em;
     }`],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [SharedModule]
 })
 export class MensaComponent { }

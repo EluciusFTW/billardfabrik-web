@@ -15,7 +15,7 @@ export class MatchPlayer {
   }
 }
 
-export module MatchPlayer {
+export namespace MatchPlayer {
 
   const _toBeDeterminedName = 't.b.d.';
   const _walkName = 'Freilos';
