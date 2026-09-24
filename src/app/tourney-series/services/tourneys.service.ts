@@ -11,7 +11,7 @@ import { TourneyFunctions } from '../tourney/tourney-functions';
 
 const DB_TOURNEYS_LPATH = 'tourneySeries/tourneys';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TourneysService {
   private readonly db = inject(AngularFireDatabase);
   private readonly eventService = inject(TourneyEventService);

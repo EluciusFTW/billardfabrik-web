@@ -12,7 +12,7 @@ export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourn
 export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
 export const DB_PLAYERS_PATH = 'elo/players';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EloService extends FirebaseService {
   private readonly rankingService = inject(EloRankingService);
 

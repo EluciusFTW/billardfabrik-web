@@ -1,8 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { ImportSingleMatchComponent } from './import-single-match/import-single-match.component';
+import { ImportTourneyComponent } from './import-tourney/import-tourney.component';
 
 @Component({
   templateUrl: './import-matches.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [ContentTileComponent, MatTabGroup, MatTab, ImportSingleMatchComponent, ImportTourneyComponent]
 })
 export class ImportMatchesComponent { }

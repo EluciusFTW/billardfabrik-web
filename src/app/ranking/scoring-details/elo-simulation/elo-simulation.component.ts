@@ -1,10 +1,15 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EloFunctions } from '../../elo-functions';
 import { EloDataPoint, EloScores } from '../../models/elo-models';
 import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/pool-discipline';
 import { EloMatchValidators } from '../../elo-match-validators';
+import { ContentTileComponent } from '../../../shared/content-tile/content-tile.component';
+import { MatFormField, MatLabel, MatInput } from '@angular/material/input';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { MatButton } from '@angular/material/button';
+import { ScoreDisplayComponent } from '../../score-display/score-display.component';
 
 @Component({
   selector: 'app-elo-simulation',
@@ -17,7 +22,7 @@ import { EloMatchValidators } from '../../elo-match-validators';
     }
   `],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [ContentTileComponent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatInput, MatButton, ScoreDisplayComponent]
 })
 export class EloSimulationComponent {
 

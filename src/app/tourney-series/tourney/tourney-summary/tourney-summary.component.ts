@@ -9,13 +9,15 @@ import { MatDialog } from '@angular/material/dialog';
 import { TourneyGroupStageAddPlayerDialogComponent } from '../tourney-group-stage/tourney-group-stage-add-player-dialog.component';
 import { ModificationFunctions } from './modification-functions';
 import { UserService } from 'src/app/authentication/user.service';
+import { MatCard, MatCardContent, MatCardActions } from '@angular/material/card';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-tourney-summary',
   templateUrl: './tourney-summary.component.html',
   styleUrls: ['./tourney-summary.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatCard, MatCardContent, MatCardActions, MatButton]
 })
 export class TourneySummaryComponent {
   private statisticsService = inject(TourneyStatisticsService);

@@ -1,13 +1,15 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { EloDemoInput } from './elo-demo-table/elo-demo-table.component';
+import { EloDemoInput, EloDemoTableComponent } from './elo-demo-table/elo-demo-table.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EloSimulationComponent } from './elo-simulation/elo-simulation.component';
+import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-scoring-details',
   templateUrl: './scoring-details.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [ContentTileComponent, MatButton, EloDemoTableComponent]
 })
 export class ScoringDetailsComponent {
   private readonly dialog = inject(MatDialog);

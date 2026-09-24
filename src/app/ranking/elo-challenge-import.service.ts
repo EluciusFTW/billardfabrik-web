@@ -7,7 +7,7 @@ import { OwnMessageService } from '../shared/services/own-message.service';
 
 const CHALLENGES_PATH = 'challenges';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EloChallengeImportService extends FirebaseService {
 
   private readonly messager = inject(OwnMessageService);

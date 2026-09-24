@@ -15,11 +15,17 @@ import { PlayerFunctions } from 'src/app/players/player-functions';
 import { OrderPlayersDialogComponent } from './order-players/order-players-dialog.component';
 import { firstValueFrom } from 'rxjs';
 import { Player } from 'src/app/players/player';
+import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { MatButton } from '@angular/material/button';
+import { MatFormField, MatLabel } from '@angular/material/input';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { PlayerNamePipe } from '../../players/player-name.pipe';
 
 @Component({
   templateUrl: './create-tourney.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [ContentTileComponent, MatSelectionList, MatListOption, MatButton, MatFormField, MatLabel, MatSelect, MatOption, PlayerNamePipe]
 })
 export class CreateTourneyComponent implements OnInit{
   private readonly createTourneyService = inject(TourneyCreationService);

@@ -8,7 +8,7 @@ import { handleSingleEliminationStageFinalized } from './single-elimination-stag
 import { handleDoubleEliminationStageFinalized } from './double-elimination-stage-finalized.functions';
 import { handleGroupStageFinalized } from './group-stage-finalized.functions';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TourneyEventService {
 
   apply(tourney: Tourney, event: TourneyPhaseEvent): void {

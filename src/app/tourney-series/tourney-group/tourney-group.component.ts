@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, computed, effect, inject, input, ChangeDetectionStrategy } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { GroupStanding } from '../models/group-standing';
 import { Match } from '../models/match';
 import { TourneyGroup } from '../models/tourney-group';
@@ -8,13 +8,17 @@ import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { MatchStatus } from '../models/match-status';
 import { UserService } from 'src/app/authentication/user.service';
 import { GroupFunctions } from './group-functions';
+import { MatCard, MatCardHeader, MatCardSubtitle, MatCardContent, MatCardActions } from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { MatchComponent } from '../match/match.component';
 
 @Component({
   selector: 'app-tourney-group',
   templateUrl: './tourney-group.component.html',
   styleUrls: ['../tourneys.scss', './tourney-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatCard, MatCardHeader, MatCardSubtitle, MatCardContent, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, NgClass, MatCardActions, MatButton, MatchComponent]
 })
 export class TourneyGroupComponent {
   private userService = inject(UserService);

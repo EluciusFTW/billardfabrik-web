@@ -9,7 +9,7 @@ import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH,
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
 import { Db } from "../shared/firebase-utilities";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EloRankingService extends FirebaseService {
   private readonly lowerBoundOnGames = 10;
   private readonly playersService = inject(PlayersService);

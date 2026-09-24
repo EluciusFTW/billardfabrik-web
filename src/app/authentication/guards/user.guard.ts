@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import { OwnMessageService } from '../../shared/services/own-message.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserGuard  {
 
   constructor(private userService: UserService, private messageService: OwnMessageService) { }

@@ -1,10 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { ContentTileComponent } from '../shared/content-tile/content-tile.component';
 
 @Component({
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SharedModule]
+  imports: [ContentTileComponent]
 })
 export class ContactComponent { }

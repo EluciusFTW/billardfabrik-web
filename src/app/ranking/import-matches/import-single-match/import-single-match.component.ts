@@ -1,6 +1,6 @@
 import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IncomingChallengeMatch } from '../../models/ranking-match';
 import { EloChallengeImportService } from '../../elo-challenge-import.service';
 import { TourneyFunctions } from 'src/app/tourney-series/tourney/tourney-functions';
@@ -8,13 +8,18 @@ import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/
 import { PlayersService } from 'src/app/players/players.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { EloMatchValidators } from '../../elo-match-validators';
+import { ContentTileComponent } from '../../../shared/content-tile/content-tile.component';
+import { MatFormField, MatLabel, MatInput, MatSuffix } from '@angular/material/input';
+import { MatSelect, MatOption } from '@angular/material/select';
+import { MatDatepickerInput, MatDatepicker, MatDatepickerToggle } from '@angular/material/datepicker';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-import-single-match',
   templateUrl: './import-single-match.component.html',
   styleUrls: ['./import-single-match.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [ContentTileComponent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatInput, MatDatepickerInput, MatDatepicker, MatDatepickerToggle, MatSuffix, MatButton]
 })
 export class ImportSingleMatchComponent implements OnInit {
 

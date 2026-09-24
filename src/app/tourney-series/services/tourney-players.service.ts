@@ -13,7 +13,7 @@ import { PlayersService as PS } from 'src/app/players/players.service';
 
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TourneyPlayersService extends FirebaseService {
   private readonly playersService = inject(PS);
 

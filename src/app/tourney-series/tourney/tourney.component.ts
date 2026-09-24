@@ -3,12 +3,18 @@ import { TourneysService } from '../services/tourneys.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyFunctions } from './tourney-functions';
+import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { TourneySummaryComponent } from './tourney-summary/tourney-summary.component';
+import { TourneyGroupStageComponent } from './tourney-group-stage/tourney-group-stage.component';
+import { TourneyDoubleEliminationStagesComponent } from './tourney-double-elimination-stage/tourney-double-elimination-stages.component';
+import { TourneyEliminationStagesComponent } from './tourney-elimination-stage/tourney-elimination-stages.component';
 
 @Component({
   selector: 'app-tourney',
   templateUrl: './tourney.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [ContentTileComponent, MatTabGroup, MatTab, TourneySummaryComponent, TourneyGroupStageComponent, TourneyDoubleEliminationStagesComponent, TourneyEliminationStagesComponent]
 })
 export class TourneyComponent implements OnInit {
 

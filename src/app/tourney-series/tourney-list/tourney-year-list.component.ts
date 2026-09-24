@@ -1,6 +1,6 @@
 import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { firstValueFrom, map } from 'rxjs';
 import { UserService } from 'src/app/authentication/user.service';
 import { Tourney } from '../models/tourney';
@@ -9,12 +9,14 @@ import { TourneyStatisticsService } from '../services/evaluation/tourney-statist
 import { TourneyPlayersService } from '../services/tourney-players.service';
 import { TourneysService } from '../services/tourneys.service';
 import { ShowResultsDialogComponent } from './show-results.dialog.component';
+import { RouterLink } from '@angular/router';
+import { DateKeyPipe } from '../date-key.pipe';
 
 @Component({
   selector: 'app-tourney-year-list',
   templateUrl: './tourney-year-list.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, RouterLink, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DateKeyPipe]
 })
 export class TourneyYearListComponent {
 
