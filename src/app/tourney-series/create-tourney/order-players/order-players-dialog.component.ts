@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 import { CdkScrollable } from '@angular/cdk/scrolling';
@@ -11,12 +11,16 @@ import { MatButton } from '@angular/material/button';
   imports: [MatDialogTitle, CdkScrollable, MatDialogContent, CdkDropList, CdkDrag, MatDialogActions, MatButton]
 })
 export class OrderPlayersDialogComponent {
+  dialogRef = inject<MatDialogRef<OrderPlayersDialogComponent, string[]>>(MatDialogRef);
+  data = inject<{
+    players: string[];
+}>(MAT_DIALOG_DATA);
+
   players: string[];
 
-  constructor(
-    public dialogRef: MatDialogRef<OrderPlayersDialogComponent, string[]>,
-    @Inject(MAT_DIALOG_DATA) public data: { players: string[] }
-  ) {
+  constructor() {
+    const data = this.data;
+
     this.players = data.players;
   }
 

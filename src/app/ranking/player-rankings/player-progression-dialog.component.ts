@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent } from "@angular/material/dialog";
 import { ChartConfiguration, ChartOptions } from "chart.js";
 import { ComputedRankingPlayer } from "../models/ranking-player";
@@ -12,11 +12,8 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from "ng2
   providers: [provideCharts(withDefaultRegisterables())]
 })
 export class PlayerProgressionDialogComponent {
-
-  constructor(
-    public dialogRef: MatDialogRef<PlayerProgressionDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public player: ComputedRankingPlayer) {
-  }
+  dialogRef = inject<MatDialogRef<PlayerProgressionDialogComponent>>(MatDialogRef);
+  player = inject<ComputedRankingPlayer>(MAT_DIALOG_DATA);
 
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: this.player.allScores.map((_, index) => index + 1),

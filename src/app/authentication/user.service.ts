@@ -1,5 +1,5 @@
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,16 +9,13 @@ import { OwnMessageService } from '../shared/services/own-message.service';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  authenticationService = inject(AngularFireAuth);
+  private messageService = inject(OwnMessageService);
+  dialog = inject(MatDialog);
+  private db = inject(AngularFireDatabase);
 
   private uid: string;
   userName: string;
-
-  constructor(
-    public authenticationService: AngularFireAuth,
-    private messageService: OwnMessageService,
-    public dialog: MatDialog,
-    private db: AngularFireDatabase,
-  ) { }
 
   isLoggedIn(): boolean {
     return !!this.userName;

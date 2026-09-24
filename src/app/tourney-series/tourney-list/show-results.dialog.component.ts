@@ -1,4 +1,4 @@
-import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from "@angular/material/dialog";
 import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from "@angular/material/table";
 import { TourneyEvaluation } from "../models/evaluation/tourney-evaluation";
@@ -15,13 +15,15 @@ import { MatButton } from "@angular/material/button";
   imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatDialogActions, MatButton]
 })
 export class ShowResultsDialogComponent {
+  dialogRef = inject<MatDialogRef<ShowResultsDialogComponent>>(MatDialogRef);
+  result = inject<TourneyEvaluation>(MAT_DIALOG_DATA);
+
   playerResults: MatTableDataSource<any>;// = new MatTableDataSource<TourneyPlayerEvaluation>([]);
   displayedColumns = ['name', 'points', 'placement']
   mode: TourneyMode;
 
-  constructor(
-    public dialogRef: MatDialogRef<ShowResultsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public result: TourneyEvaluation) {
+  constructor() {
+    const result = this.result;
 
     this.playerResults = new MatTableDataSource<TourneyPlayerEvaluation>(result.players.sort((a,b) => a.placement.placement - b.placement.placement));
     this.mode = result.mode;

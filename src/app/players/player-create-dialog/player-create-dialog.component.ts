@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Player } from '../player';
 import { CdkScrollable } from '@angular/cdk/scrolling';
@@ -14,13 +14,12 @@ import { MatButton } from '@angular/material/button';
   imports: [MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule, MatFormField, MatInput, MatCheckbox, MatDialogActions, MatButton]
 })
 export class PlayerCreateDialogComponent {
+  dialogRef = inject<MatDialogRef<PlayerCreateDialogComponent, Player>>(MatDialogRef);
 
   firstName: string;
   lastName: string;
   club: boolean = false;
   error: string = '';
-
-  constructor(public dialogRef: MatDialogRef<PlayerCreateDialogComponent, Player>) { }
 
   submit(): void {
     const invalidCharsInFirstName = this.invalidChars(this.firstName)

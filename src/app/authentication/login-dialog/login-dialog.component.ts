@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { CdkScrollable } from '@angular/cdk/scrolling';
 import { FormsModule } from '@angular/forms';
@@ -12,11 +12,10 @@ import { MatButton } from '@angular/material/button';
   imports: [MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule, MatFormField, MatInput, MatDialogActions, MatButton]
 })
 export class LoginDialogComponent {
+  dialogRef = inject<MatDialogRef<LoginDialogComponent>>(MatDialogRef);
 
   email: string;
   pwd: string;
-
-  constructor(public dialogRef: MatDialogRef<LoginDialogComponent>) { }
 
   abort(): void {
     this.dialogRef.close();

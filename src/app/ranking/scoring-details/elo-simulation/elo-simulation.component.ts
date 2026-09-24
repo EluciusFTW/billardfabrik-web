@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EloFunctions } from '../../elo-functions';
@@ -25,12 +25,13 @@ import { ScoreDisplayComponent } from '../../score-display/score-display.compone
   imports: [ContentTileComponent, FormsModule, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatInput, MatButton, ScoreDisplayComponent]
 })
 export class EloSimulationComponent {
+  dialogRef = inject<MatDialogRef<EloSimulationComponent>>(MatDialogRef);
 
   disciplines: PoolDiscipline[] =  [ ...POOL_DISCIPLINES ];
   matchForm: FormGroup;
   score: EloScores | null;
 
-  constructor(public dialogRef: MatDialogRef<EloSimulationComponent>) {
+  constructor() {
 
     this.matchForm = new FormGroup({
       playerOneElo: new FormControl<number>(1500, [Validators.required, Validators.min(0)]),
