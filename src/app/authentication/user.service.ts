@@ -1,5 +1,5 @@
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { take } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,7 +7,7 @@ import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { LoginData } from './models/login-data';
 import { OwnMessageService } from '../shared/services/own-message.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class UserService {
   authenticationService = inject(AngularFireAuth);
   private messageService = inject(OwnMessageService);

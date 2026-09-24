@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TourneyPlayerEvaluation } from '../models/evaluation/tourney-player-evaluation';
@@ -13,7 +13,7 @@ import { PlayersService as PS } from 'src/app/players/players.service';
 
 const DB_PLAYERRESULTS_LPATH = 'tourneySeries/playerResults';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class TourneyPlayersService extends FirebaseService {
   private readonly playersService = inject(PS);
 

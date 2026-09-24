@@ -1,4 +1,4 @@
-import { Injectable, inject } from "@angular/core";
+import { Service, inject } from "@angular/core";
 import { FirebaseService } from "../shared/firebase.service";
 import { PlayersService } from "../players/players.service";
 import { RankingPlayer } from "./models/ranking-player";
@@ -9,7 +9,7 @@ import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH,
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
 import { Db } from "../shared/firebase-utilities";
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class EloRankingService extends FirebaseService {
   private readonly lowerBoundOnGames = 10;
   private readonly playersService = inject(PlayersService);

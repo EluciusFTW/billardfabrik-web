@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { Player } from 'src/app/players/player';
@@ -7,7 +7,7 @@ import { FirebaseService } from '../shared/firebase.service';
 
 const DB_PLAYERS_LPATH = 'players';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class PlayersService extends FirebaseService {
   private readonly messageService = inject(OwnMessageService);
 

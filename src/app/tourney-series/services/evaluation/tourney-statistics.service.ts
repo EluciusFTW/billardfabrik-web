@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyEvaluation } from '../../models/evaluation/tourney-evaluation';
 import { TourneyStatus } from '../../models/tourney-status';
 import { getMatchRecords } from './tourney-matches.functions';
 import { getPlacements } from './placements/placement.functions';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class TourneyStatisticsService {
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {

@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { EloFunctions } from './elo-functions';
 import { IncomingMatch, ScoredMatch } from './models/ranking-match';
 import { EloPlayer } from './models/elo-models';
@@ -12,7 +12,7 @@ export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourn
 export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
 export const DB_PLAYERS_PATH = 'elo/players';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class EloService extends FirebaseService {
   private readonly rankingService = inject(EloRankingService);
 
