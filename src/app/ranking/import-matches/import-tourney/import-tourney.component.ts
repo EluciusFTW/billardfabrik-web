@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { EloService } from '../../elo.service';
 import { TourneysService } from 'src/app/tourney-series/services/tourneys.service';
 import { Tourney } from 'src/app/tourney-series/models/tourney';
@@ -11,6 +11,7 @@ import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 @Component({
   selector: 'app-import-tourney',
   templateUrl: './import-tourney.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ImportTourneyComponent implements OnInit {

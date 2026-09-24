@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   templateUrl: './tourney-series-overview.component.html',
   styleUrls: ['./tourney-series-overview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneySeriesOverviewComponent {

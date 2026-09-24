@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, input, computed, Output } from '@angular/core';
+import { Component, EventEmitter, inject, input, computed, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Match } from '../models/match';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import {TourneyPhaseEvent } from '../models/tourney-phase-event';
@@ -12,6 +12,7 @@ import { UserService } from 'src/app/authentication/user.service';
   selector: 'app-tourney-elimination-stage',
   templateUrl: './tourney-elimination-stage.component.html',
   styleUrls: ['../tourneys.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneyEliminationStageComponent {

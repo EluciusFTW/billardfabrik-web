@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerProgressionDialogComponent } from './player-progression-dialog.component';
@@ -8,6 +8,7 @@ import { EloRankingService } from '../elo-ranking.service';
 @Component({
   templateUrl: './player-rankings.component.html',
   styleUrls: ['./player-rankings.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class PlayerRankingsComponent implements OnInit {

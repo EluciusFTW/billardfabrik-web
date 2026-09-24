@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, computed, input } from '@angular/core';
+import { Component, EventEmitter, Output, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { Tourney } from '../../models/tourney';
 import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
@@ -6,6 +6,7 @@ import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 @Component({
   selector: 'app-tourney-double-elimination-stages',
   templateUrl: './tourney-double-elimination-stages.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneyDoubleEliminationStagesComponent {

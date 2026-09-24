@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { firstValueFrom, take } from 'rxjs';
@@ -8,6 +8,7 @@ import { EloRankingService } from '../../elo-ranking.service';
   selector: 'app-ranked-challenges',
   templateUrl: './ranked-challenges.component.html',
   styleUrls: ['./ranked-challenges.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class RankedChallengesComponent implements OnInit {

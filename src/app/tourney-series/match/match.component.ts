@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, computed, input } from '@angular/core';
+import { Component, EventEmitter, Output, computed, input, ChangeDetectionStrategy } from '@angular/core';
 import { Match } from '../models/match';
 import { MatchStatus } from '../models/match-status';
 import { MatchPlayer } from '../models/match-player';
@@ -8,6 +8,7 @@ import { TourneyPhaseEvent } from '../models/tourney-phase-event';
   selector: 'app-match',
   templateUrl: './match.component.html',
   styleUrls: ['./match.component.scss', '../tourneys.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class MatchComponent {

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IncomingChallengeMatch } from '../../models/ranking-match';
@@ -13,6 +13,7 @@ import { EloMatchValidators } from '../../elo-match-validators';
   selector: 'app-import-single-match',
   templateUrl: './import-single-match.component.html',
   styleUrls: ['./import-single-match.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class ImportSingleMatchComponent implements OnInit {

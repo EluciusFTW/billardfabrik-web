@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, computed, effect, inject, input } from '@angular/core';
+import { Component, EventEmitter, Output, computed, effect, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { GroupStanding } from '../models/group-standing';
 import { Match } from '../models/match';
@@ -13,6 +13,7 @@ import { GroupFunctions } from './group-functions';
   selector: 'app-tourney-group',
   templateUrl: './tourney-group.component.html',
   styleUrls: ['../tourneys.scss', './tourney-group.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneyGroupComponent {

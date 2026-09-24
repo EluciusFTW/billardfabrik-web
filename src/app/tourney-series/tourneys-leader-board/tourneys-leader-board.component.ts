@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, input } from '@angular/core';
+import { Component, OnInit, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { TourneyPlayersService } from '../services/tourney-players.service';
@@ -7,6 +7,7 @@ import { TourneyPlayersService } from '../services/tourney-players.service';
   selector: 'app-tourney-leader-board',
   templateUrl: './tourneys-leader-board.component.html',
   styleUrls: ['./tourneys-leader-board.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneysLeaderBoardComponent implements OnInit {

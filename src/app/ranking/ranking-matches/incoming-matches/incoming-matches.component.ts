@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { IncomingMatch } from '../../models/ranking-match';
 import { MatTableDataSource } from '@angular/material/table';
 import { EloService } from '../../elo.service';
@@ -9,6 +9,7 @@ import { AuthorizedComponent } from 'src/app/shared/authorized.component';
   selector: 'app-incoming-matches',
   templateUrl: './incoming-matches.component.html',
   styleUrls: ['../ranked-tourney-matches/ranked-tourney-matches.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class IncomingMatchesComponent extends AuthorizedComponent {

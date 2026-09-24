@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 
 @Component({
   templateUrl: './tourney-list.component.html',
   styleUrls: ['./tourney-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class TourneyListComponent extends AuthorizedComponent {

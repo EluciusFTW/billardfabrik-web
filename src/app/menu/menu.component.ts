@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { UserService } from '../authentication/user.service';
 import { AuthorizedComponent } from '../shared/authorized.component';
 
@@ -6,6 +6,7 @@ import { AuthorizedComponent } from '../shared/authorized.component';
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class MenuComponent extends AuthorizedComponent { }

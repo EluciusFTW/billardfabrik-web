@@ -1,4 +1,4 @@
-import { Component, computed, effect, input } from '@angular/core';
+import { Component, computed, effect, input, ChangeDetectionStrategy } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { EloFunctions } from 'src/app/ranking/elo-functions';
 import { EloMode } from '../../models/elo-models';
@@ -7,6 +7,7 @@ import { EloMode } from '../../models/elo-models';
   selector: 'app-elo-demo-table',
   templateUrl: './elo-demo-table.component.html',
   styleUrls: ['./elo-demo-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class EloDemoTableComponent {

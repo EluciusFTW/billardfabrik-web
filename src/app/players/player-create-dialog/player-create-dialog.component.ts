@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Player } from '../player';
 
 @Component({
   templateUrl: './player-create-dialog.component.html',
   styleUrls: ['player-create-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class PlayerCreateDialogComponent {

@@ -10,7 +10,7 @@ export interface Match {
   status: MatchStatus;
 }
 
-export module Match {
+export namespace Match {
 
   export function create(playerOne: MatchPlayer, playerTwo: MatchPlayer, discipline: PoolDiscipline, length: number): Match {
     const walkName = MatchPlayer.Walk().name;

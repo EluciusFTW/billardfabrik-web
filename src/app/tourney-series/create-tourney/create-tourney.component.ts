@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { TourneyCreationService } from './tourney-creation.service';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
@@ -18,6 +18,7 @@ import { Player } from 'src/app/players/player';
 
 @Component({
   templateUrl: './create-tourney.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class CreateTourneyComponent implements OnInit{
