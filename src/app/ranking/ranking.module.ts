@@ -10,7 +10,7 @@ import { PlayerRankingsComponent } from './player-rankings/player-rankings.compo
 import { EloService } from './elo.service';
 import { RankingMatchesComponent } from './ranking-matches/ranking-matches.component';
 import { PlayerProgressionDialogComponent } from './player-rankings/player-progression-dialog.component';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 import { EloDemoTableComponent } from './scoring-details/elo-demo-table/elo-demo-table.component';
 import { ImportMatchesComponent } from './import-matches/import-matches.component';
@@ -49,12 +49,13 @@ import { ScoreDisplayComponent } from './score-display/score-display.component';
     RouterModule,
     CommonModule,
     MaterialModule,
-    NgChartsModule,
+    BaseChartDirective,
     FormsModule,
     ReactiveFormsModule,
     SharedModule
   ],
   providers: [
+    provideCharts(withDefaultRegisterables()),
     EloService,
     EloTourneyImportService,
     EloChallengeImportService,
