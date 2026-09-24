@@ -3,7 +3,8 @@ import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   templateUrl: './tourney-series-overview.component.html',
-  styleUrls: ['./tourney-series-overview.component.scss']
+  styleUrls: ['./tourney-series-overview.component.scss'],
+  standalone: false
 })
 export class TourneySeriesOverviewComponent {
 

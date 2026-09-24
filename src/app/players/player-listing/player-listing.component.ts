@@ -10,7 +10,8 @@ import { PlayerFunctions } from '../player-functions';
 @Component({
   selector: 'app-player-listing',
   templateUrl: './player-listing.component.html',
-  styleUrls: ['./player-listing.component.scss']
+  styleUrls: ['./player-listing.component.scss'],
+  standalone: false
 })
 export class PlayerListingComponent {
 

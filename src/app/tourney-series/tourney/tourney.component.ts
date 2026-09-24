@@ -6,7 +6,8 @@ import { TourneyFunctions } from './tourney-functions';
 
 @Component({
   selector: 'app-tourney',
-  templateUrl: './tourney.component.html'
+  templateUrl: './tourney.component.html',
+  standalone: false
 })
 export class TourneyComponent implements OnInit {
 

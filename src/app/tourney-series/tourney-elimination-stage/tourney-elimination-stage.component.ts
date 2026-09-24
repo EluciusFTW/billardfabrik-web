@@ -11,7 +11,8 @@ import { UserService } from 'src/app/authentication/user.service';
 @Component({
   selector: 'app-tourney-elimination-stage',
   templateUrl: './tourney-elimination-stage.component.html',
-  styleUrls: ['../tourneys.scss']
+  styleUrls: ['../tourneys.scss'],
+  standalone: false
 })
 export class TourneyEliminationStageComponent {
   private userService = inject(UserService);

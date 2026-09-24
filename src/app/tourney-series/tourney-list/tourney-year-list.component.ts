@@ -12,7 +12,8 @@ import { ShowResultsDialogComponent } from './show-results.dialog.component';
 
 @Component({
   selector: 'app-tourney-year-list',
-  templateUrl: './tourney-year-list.component.html'
+  templateUrl: './tourney-year-list.component.html',
+  standalone: false
 })
 export class TourneyYearListComponent {
 

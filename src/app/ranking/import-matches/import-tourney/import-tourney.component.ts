@@ -10,7 +10,8 @@ import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 
 @Component({
   selector: 'app-import-tourney',
-  templateUrl: './import-tourney.component.html'
+  templateUrl: './import-tourney.component.html',
+  standalone: false
 })
 export class ImportTourneyComponent implements OnInit {
   private readonly tourneyImportService = inject(EloTourneyImportService);
