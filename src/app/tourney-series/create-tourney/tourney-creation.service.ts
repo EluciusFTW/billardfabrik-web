@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import {
   DoubleEliminationTourneyInfo,
   GroupsThenSingleEliminationTourneyInfo,
@@ -13,7 +13,7 @@ import { createGroups, determineStartingStageAfterGroups } from './groups.functi
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { createDoubleEliminationStages } from './double-elimination-stage.functions';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class TourneyCreationService {
 
   createSingle(info: SingleEliminationTourneyInfo) {

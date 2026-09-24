@@ -1,10 +1,10 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import { OwnMessageService } from '../../shared/services/own-message.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class UserGuard  {
   private userService = inject(UserService);
   private messageService = inject(OwnMessageService);

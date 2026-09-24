@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { Tourney } from '../tourney-series/models/tourney';
 import { MatchStatus } from '../tourney-series/models/match-status';
 import { IncomingMatch, IncomingTourneyMatch, ScoredMatch } from './models/ranking-match';
@@ -9,7 +9,7 @@ import { FirebaseService } from '../shared/firebase.service';
 import { firstValueFrom, map } from 'rxjs';
 import { OwnMessageService } from '../shared/services/own-message.service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class EloTourneyImportService extends FirebaseService {
   private readonly messager = inject(OwnMessageService);
 

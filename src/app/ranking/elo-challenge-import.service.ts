@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { IncomingChallengeMatch } from './models/ranking-match';
 import { DB_INCOMING_CHALLENGE_MATCHES_LPATH } from './elo.service';
 import { FirebaseService } from '../shared/firebase.service';
@@ -7,7 +7,7 @@ import { OwnMessageService } from '../shared/services/own-message.service';
 
 const CHALLENGES_PATH = 'challenges';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class EloChallengeImportService extends FirebaseService {
 
   private readonly messager = inject(OwnMessageService);

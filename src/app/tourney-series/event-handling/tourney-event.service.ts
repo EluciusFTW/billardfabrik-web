@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyPhaseStatus } from '../models/tourney-phase-status';
@@ -8,7 +8,7 @@ import { handleSingleEliminationStageFinalized } from './single-elimination-stag
 import { handleDoubleEliminationStageFinalized } from './double-elimination-stage-finalized.functions';
 import { handleGroupStageFinalized } from './group-stage-finalized.functions';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class TourneyEventService {
 
   apply(tourney: Tourney, event: TourneyPhaseEvent): void {

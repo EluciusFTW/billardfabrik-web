@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -11,7 +11,7 @@ import { TourneyFunctions } from '../tourney/tourney-functions';
 
 const DB_TOURNEYS_LPATH = 'tourneySeries/tourneys';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class TourneysService {
   private readonly db = inject(AngularFireDatabase);
   private readonly eventService = inject(TourneyEventService);
