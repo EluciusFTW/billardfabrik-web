@@ -13,7 +13,8 @@ import { UserService } from 'src/app/authentication/user.service';
 @Component({
   selector: 'app-tourney-summary',
   templateUrl: './tourney-summary.component.html',
-  styleUrls: ['./tourney-summary.component.scss']
+  styleUrls: ['./tourney-summary.component.scss'],
+  standalone: false
 })
 export class TourneySummaryComponent {
   private statisticsService = inject(TourneyStatisticsService);

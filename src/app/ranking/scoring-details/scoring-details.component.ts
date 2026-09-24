@@ -6,6 +6,7 @@ import { EloSimulationComponent } from './elo-simulation/elo-simulation.componen
 @Component({
   selector: 'app-scoring-details',
   templateUrl: './scoring-details.component.html',
+  standalone: false
 })
 export class ScoringDetailsComponent {
   private readonly dialog = inject(MatDialog);

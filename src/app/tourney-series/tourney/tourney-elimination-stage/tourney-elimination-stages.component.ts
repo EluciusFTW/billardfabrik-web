@@ -4,7 +4,8 @@ import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
 
 @Component({
   selector: 'app-tourney-elimination-stages',
-  templateUrl: './tourney-elimination-stages.component.html'
+  templateUrl: './tourney-elimination-stages.component.html',
+  standalone: false
 })
 export class TourneyEliminationStagesComponent {
 

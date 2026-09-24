@@ -4,7 +4,8 @@ import { Player } from '../player';
 
 @Component({
   templateUrl: './player-create-dialog.component.html',
-  styleUrls: ['player-create-dialog.component.scss']
+  styleUrls: ['player-create-dialog.component.scss'],
+  standalone: false
 })
 export class PlayerCreateDialogComponent {
 

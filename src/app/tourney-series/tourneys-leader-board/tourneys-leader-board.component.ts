@@ -6,7 +6,8 @@ import { TourneyPlayersService } from '../services/tourney-players.service';
 @Component({
   selector: 'app-tourney-leader-board',
   templateUrl: './tourneys-leader-board.component.html',
-  styleUrls: ['./tourneys-leader-board.component.scss']
+  styleUrls: ['./tourneys-leader-board.component.scss'],
+  standalone: false
 })
 export class TourneysLeaderBoardComponent implements OnInit {
   playersService = inject(TourneyPlayersService);

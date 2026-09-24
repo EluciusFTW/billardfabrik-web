@@ -15,7 +15,8 @@ import { Component, input, Input } from '@angular/core';
       .pos {
         color: green;
       }
-    `]
+    `],
+  standalone: false
 })
 export class ScoreDisplayComponent {
   public score = input.required<number>();

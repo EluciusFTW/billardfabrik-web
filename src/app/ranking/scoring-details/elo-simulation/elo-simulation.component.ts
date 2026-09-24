@@ -15,7 +15,8 @@ import { EloMatchValidators } from '../../elo-match-validators';
       color: var(--color-error);
       font-size: .75em;
     }
-  `]
+  `],
+  standalone: false
 })
 export class EloSimulationComponent {
 

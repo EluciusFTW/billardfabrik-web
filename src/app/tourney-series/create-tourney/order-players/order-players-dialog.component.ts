@@ -4,7 +4,8 @@ import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/d
 
 @Component({
   templateUrl: './order-players-dialog.component.html',
-  // styleUrls: ['player-create-dialog.component.scss']
+  // styleUrls: ['player-create-dialog.component.scss'],
+  standalone: false
 })
 export class OrderPlayersDialogComponent {
   players: string[];

@@ -7,7 +7,8 @@ import { EloRankingService } from '../../elo-ranking.service';
 @Component({
   selector: 'app-ranked-challenges',
   templateUrl: './ranked-challenges.component.html',
-  styleUrls: ['./ranked-challenges.component.scss']
+  styleUrls: ['./ranked-challenges.component.scss'],
+  standalone: false
 })
 export class RankedChallengesComponent implements OnInit {
   private readonly eloRankingService = inject(EloRankingService);

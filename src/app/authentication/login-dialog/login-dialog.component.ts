@@ -3,7 +3,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login-dialog.component.html'
+  templateUrl: './login-dialog.component.html',
+  standalone: false
 })
 export class LoginDialogComponent {
 

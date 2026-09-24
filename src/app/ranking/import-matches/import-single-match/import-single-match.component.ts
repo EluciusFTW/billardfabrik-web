@@ -12,7 +12,8 @@ import { EloMatchValidators } from '../../elo-match-validators';
 @Component({
   selector: 'app-import-single-match',
   templateUrl: './import-single-match.component.html',
-  styleUrls: ['./import-single-match.component.scss']
+  styleUrls: ['./import-single-match.component.scss'],
+  standalone: false
 })
 export class ImportSingleMatchComponent implements OnInit {
 

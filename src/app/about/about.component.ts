@@ -3,7 +3,6 @@ import { SharedModule } from '../shared/shared.module';
 
 @Component({
   templateUrl: './about.component.html',
-  imports: [SharedModule],
-  standalone: true
+  imports: [SharedModule]
 })
 export class AboutComponent { }

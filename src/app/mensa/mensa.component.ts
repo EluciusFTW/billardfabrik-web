@@ -9,7 +9,6 @@ import { SharedModule } from '../shared/shared.module';
       float: right;
       padding: 1em;
     }`],
-    imports: [SharedModule],
-    standalone: true
+    imports: [SharedModule]
 })
 export class MensaComponent { }
