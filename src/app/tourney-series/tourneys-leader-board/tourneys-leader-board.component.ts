@@ -1,14 +1,16 @@
 import { Component, OnInit, inject, input, ChangeDetectionStrategy } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell } from '@angular/material/table';
 import { LeaderBoardPlayer } from '../models/leaderboard-player';
 import { TourneyPlayersService } from '../services/tourney-players.service';
+import { MatBadge } from '@angular/material/badge';
+import { PercentPipe } from '@angular/common';
 
 @Component({
   selector: 'app-tourney-leader-board',
   templateUrl: './tourneys-leader-board.component.html',
   styleUrls: ['./tourneys-leader-board.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatTable, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatBadge, PercentPipe]
 })
 export class TourneysLeaderBoardComponent implements OnInit {
   playersService = inject(TourneyPlayersService);

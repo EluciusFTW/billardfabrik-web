@@ -1,12 +1,14 @@
 import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   templateUrl: './order-players-dialog.component.html',
   // styleUrls: ['player-create-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, CdkDropList, CdkDrag, MatDialogActions, MatButton]
 })
 export class OrderPlayersDialogComponent {
   players: string[];

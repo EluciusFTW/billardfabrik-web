@@ -1,5 +1,5 @@
 import { Component, computed, effect, input, ChangeDetectionStrategy } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatFooterCellDef, MatFooterCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFooterRowDef, MatFooterRow } from '@angular/material/table';
 import { EloFunctions } from 'src/app/ranking/elo-functions';
 import { EloMode } from '../../models/elo-models';
 
@@ -8,7 +8,7 @@ import { EloMode } from '../../models/elo-models';
   templateUrl: './elo-demo-table.component.html',
   styleUrls: ['./elo-demo-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatFooterCellDef, MatFooterCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFooterRowDef, MatFooterRow]
 })
 export class EloDemoTableComponent {
   dataSource = new MatTableDataSource<EloScoreDemo>();

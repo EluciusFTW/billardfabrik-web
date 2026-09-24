@@ -1,8 +1,9 @@
 import { Component, input, Input, ChangeDetectionStrategy } from '@angular/core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-score-display',
-  template:`
+  template: `
       <span [ngClass]="{ 'neg': score() < 0, 'pos': score() > 0 }"> {{ score() }} </span>
       /
       <span [ngClass]="{ 'neg': -score() < 0, 'pos': -score() > 0 }"> {{ -score() }} </span>
@@ -17,7 +18,7 @@ import { Component, input, Input, ChangeDetectionStrategy } from '@angular/core'
       }
     `],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [NgClass]
 })
 export class ScoreDisplayComponent {
   public score = input.required<number>();

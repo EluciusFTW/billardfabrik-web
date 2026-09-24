@@ -5,7 +5,7 @@ import { TourneyStatus } from '../../models/tourney-status';
 import { getMatchRecords } from './tourney-matches.functions';
 import { getPlacements } from './placements/placement.functions';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TourneyStatisticsService {
 
   public Evaluate(tourney: Tourney): TourneyEvaluation {

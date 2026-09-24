@@ -7,7 +7,7 @@ import { FirebaseService } from '../shared/firebase.service';
 
 const DB_PLAYERS_LPATH = 'players';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class PlayersService extends FirebaseService {
   private readonly messageService = inject(OwnMessageService);
 

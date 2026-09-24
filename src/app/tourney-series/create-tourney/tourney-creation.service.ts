@@ -13,7 +13,7 @@ import { createGroups, determineStartingStageAfterGroups } from './groups.functi
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { createDoubleEliminationStages } from './double-elimination-stage.functions';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TourneyCreationService {
 
   createSingle(info: SingleEliminationTourneyInfo) {

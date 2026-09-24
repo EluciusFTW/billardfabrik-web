@@ -1,16 +1,18 @@
 import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from "@angular/material/dialog";
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from "@angular/material/table";
 import { TourneyEvaluation } from "../models/evaluation/tourney-evaluation";
 import { TourneyPlacementType } from "../models/evaluation/tourney-placement-type";
 import { TourneyPlayerEvaluation } from "../models/evaluation/tourney-player-evaluation";
 import { TourneyMode } from "../models/tourney-mode";
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { MatButton } from "@angular/material/button";
 
 @Component({
   templateUrl: './show-results.dialog.component.html',
   styleUrls: ['./show-results.dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatDialogActions, MatButton]
 })
 export class ShowResultsDialogComponent {
   playerResults: MatTableDataSource<any>;// = new MatTableDataSource<TourneyPlayerEvaluation>([]);

@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { ContentTileComponent } from '../shared/content-tile/content-tile.component';
 
 @Component({
   templateUrl: './mensa.component.html',
@@ -10,6 +10,6 @@ import { SharedModule } from '../shared/shared.module';
       padding: 1em;
     }`],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [SharedModule]
+    imports: [ContentTileComponent]
 })
 export class MensaComponent { }

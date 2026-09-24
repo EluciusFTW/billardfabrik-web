@@ -1,12 +1,17 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Player } from '../player';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FormsModule } from '@angular/forms';
+import { MatFormField, MatInput } from '@angular/material/input';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   templateUrl: './player-create-dialog.component.html',
   styleUrls: ['player-create-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, FormsModule, MatFormField, MatInput, MatCheckbox, MatDialogActions, MatButton]
 })
 export class PlayerCreateDialogComponent {
 

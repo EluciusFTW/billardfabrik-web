@@ -7,7 +7,7 @@ import { LoginDialogComponent } from './login-dialog/login-dialog.component';
 import { LoginData } from './models/login-data';
 import { OwnMessageService } from '../shared/services/own-message.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class UserService {
 
   private uid: string;

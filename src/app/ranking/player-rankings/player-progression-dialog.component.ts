@@ -1,12 +1,15 @@
 import { Component, Inject, ChangeDetectionStrategy } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent } from "@angular/material/dialog";
 import { ChartConfiguration, ChartOptions } from "chart.js";
 import { ComputedRankingPlayer } from "../models/ranking-player";
+import { CdkScrollable } from "@angular/cdk/scrolling";
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from "ng2-charts";
 
 @Component({
   templateUrl: './player-progression-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatDialogTitle, CdkScrollable, MatDialogContent, BaseChartDirective],
+  providers: [provideCharts(withDefaultRegisterables())]
 })
 export class PlayerProgressionDialogComponent {
 

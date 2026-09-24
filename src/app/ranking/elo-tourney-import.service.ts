@@ -9,7 +9,7 @@ import { FirebaseService } from '../shared/firebase.service';
 import { firstValueFrom, map } from 'rxjs';
 import { OwnMessageService } from '../shared/services/own-message.service';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class EloTourneyImportService extends FirebaseService {
   private readonly messager = inject(OwnMessageService);
 

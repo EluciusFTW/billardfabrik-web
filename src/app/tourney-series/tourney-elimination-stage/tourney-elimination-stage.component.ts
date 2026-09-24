@@ -7,13 +7,16 @@ import { TourneyEliminationStage } from '../models/tourney-elimination-stage';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { TourneyDoubleEliminationStageType } from '../models/tourney-double-elimination-stage-type';
 import { UserService } from 'src/app/authentication/user.service';
+import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardActions } from '@angular/material/card';
+import { MatchComponent } from '../match/match.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
   templateUrl: './tourney-elimination-stage.component.html',
   styleUrls: ['../tourneys.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatchComponent, MatCardActions, MatButton]
 })
 export class TourneyEliminationStageComponent {
   private userService = inject(UserService);

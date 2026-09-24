@@ -1,18 +1,24 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { Player } from '../player';
 import { PlayersService } from '../players.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { take } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerCreateDialogComponent } from '../player-create-dialog/player-create-dialog.component';
 import { PlayerFunctions } from '../player-functions';
+import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { PlayerNamePipe } from '../player-name.pipe';
 
 @Component({
   selector: 'app-player-listing',
   templateUrl: './player-listing.component.html',
   styleUrls: ['./player-listing.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [ContentTileComponent, MatToolbar, MatCheckbox, FormsModule, MatButton, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, PlayerNamePipe]
 })
 export class PlayerListingComponent {
 

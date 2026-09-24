@@ -2,12 +2,14 @@ import { Component, EventEmitter, Output, computed, input, ChangeDetectionStrate
 import { Tourney } from '../../models/tourney';
 import { TourneyDoubleEliminationStageType } from '../../models/tourney-double-elimination-stage-type';
 import { TourneyPhaseEvent } from '../../models/tourney-phase-event';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { TourneyEliminationStageComponent } from '../../tourney-elimination-stage/tourney-elimination-stage.component';
 
 @Component({
   selector: 'app-tourney-double-elimination-stages',
   templateUrl: './tourney-double-elimination-stages.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatTabGroup, MatTab, TourneyEliminationStageComponent]
 })
 export class TourneyDoubleEliminationStagesComponent {
 

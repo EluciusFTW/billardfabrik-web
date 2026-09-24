@@ -3,16 +3,19 @@ import { EloService } from '../../elo.service';
 import { TourneysService } from 'src/app/tourney-series/services/tourneys.service';
 import { Tourney } from 'src/app/tourney-series/models/tourney';
 import { take } from 'rxjs';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { TourneyStatus, TourneyStatusMapper } from 'src/app/tourney-series/models/tourney-status';
 import { EloTourneyImportService } from '../../elo-tourney-import.service';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MatButton } from '@angular/material/button';
+import { DateKeyPipe } from '../../../tourney-series/date-key.pipe';
 
 @Component({
   selector: 'app-import-tourney',
   templateUrl: './import-tourney.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  imports: [MatToolbar, MatButton, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DateKeyPipe]
 })
 export class ImportTourneyComponent implements OnInit {
   private readonly tourneyImportService = inject(EloTourneyImportService);

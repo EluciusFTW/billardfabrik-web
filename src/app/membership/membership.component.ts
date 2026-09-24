@@ -1,9 +1,9 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { ContentTileComponent } from '../shared/content-tile/content-tile.component';
 
 @Component({
   templateUrl: 'membership.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [SharedModule],
+  imports: [ContentTileComponent],
 })
 export class MembershipComponent { }
