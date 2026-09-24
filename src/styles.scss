@@ -15,7 +15,7 @@ html, body {
   --color-fourth: #EAE2D6;
   --color-error: red;
 
-  --mat-prim: #{map.get(mat.$blue-grey-palette, 200)};
+  --mat-prim: #{map.get(mat.$m2-blue-grey-palette, 200)};
 }
 
 p::first-letter {
