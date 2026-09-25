@@ -1,8 +1,8 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@import 'app/app-theme.scss';
-@import 'assets/scss/breakpoints';
+@use 'app/app-theme';
+@use 'assets/scss/breakpoints' as *;
 
 html, body {
   width: 100%;
