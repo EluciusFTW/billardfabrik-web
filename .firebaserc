@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "bf-web-dev"
-  }
+    "default": "bf-web-dev",
+    "local": "bf-local-dev",
+    "web": "bf-web-dev"
+  },
+  "targets": {},
+  "etags": {}
 }

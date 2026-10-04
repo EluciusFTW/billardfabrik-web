@@ -42,6 +42,7 @@
     "@angular/cli": "^22.2.0",
     "@angular/compiler-cli": "^22.2.0",
     "@types/node": "^12.11.1",
+    "firebase-tools": "^15.32.1",
     "typescript": "^6.0.3"
   },
   "overrides": {
