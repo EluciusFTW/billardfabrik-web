@@ -17,6 +17,12 @@
       flex-grow: 2;
     }
 
+    .score-input {
+      width: 4.5em;
+      margin: .25em;
+      text-align: right;
+    }
+
     .buttons {
       display: inline-flex;
       flex-direction: row;

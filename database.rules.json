@@ -32,7 +32,7 @@
       ".indexOn": [
         "clubPlayer",
         "showForLeaderboard",
-        "showForTourney",
+        "showForTourneys",
         "showForElo"
       ]
     }

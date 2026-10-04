@@ -10,6 +10,7 @@ import { UserService } from 'src/app/authentication/user.service';
 import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardActions } from '@angular/material/card';
 import { MatchComponent } from '../match/match.component';
 import { MatButton } from '@angular/material/button';
+import { StraightPool } from '../models/straight-pool';
 
 @Component({
   selector: 'app-tourney-elimination-stage',
@@ -35,11 +36,15 @@ export class TourneyEliminationStageComponent {
   }
 
   increaseLength(): void {
-    this.stage().matches.forEach(match => match.length++);
+    this.stage().matches.forEach(match => match.length = StraightPool.is(match.discipline)
+      ? StraightPool.nextLength(match.length)
+      : match.length + 1);
   }
 
   decreaseLength(): void {
-    this.stage().matches.forEach(match => match.length--);
+    this.stage().matches.forEach(match => match.length = StraightPool.is(match.discipline)
+      ? StraightPool.previousLength(match.length)
+      : match.length - 1);
   }
 
   finalize(): void {

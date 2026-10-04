@@ -63,7 +63,7 @@
 
       <mat-form-field>
         <mat-label>Disziplin</mat-label>
-        <mat-select [(value)]="disciplineSelected">
+        <mat-select [(value)]="disciplineSelected" (valueChange)="disciplineChange($event)">
           @for(discipline of disciplines; track discipline) {
             <mat-option [value]="discipline"> {{ discipline }} </mat-option>
           }

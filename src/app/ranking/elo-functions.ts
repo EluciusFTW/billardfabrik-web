@@ -68,7 +68,8 @@ export class EloFunctions {
 
   private static getNormalizingFunction(discipline: PoolDiscipline): (score: number) => number {
     switch (discipline) {
-      case '14/1': return (p: number) => Math.floor(p / 12);
+      // 14/1 scores can be negative due to fouls.
+      case '14/1': return (p: number) => Math.max(0, Math.floor(p / 12));
       case 'Bank-Pool': return (p: number) => Math.floor(p * 1.5)
       case 'One-Pocket': return (p: number) => p * 2;
       default: return (p: number) => p;

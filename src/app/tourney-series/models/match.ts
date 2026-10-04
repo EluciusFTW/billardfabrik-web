@@ -1,6 +1,7 @@
 import { MatchPlayer } from './match-player';
 import { MatchStatus } from './match-status';
 import { PoolDiscipline } from './pool-discipline';
+import { StraightPool } from './straight-pool';
 
 export interface Match {
   playerOne: MatchPlayer;
@@ -83,12 +84,21 @@ export namespace Match {
   }
 
   export function hasStarted(match: Match): boolean {
-    return match.playerOne.points + match.playerTwo.points > 0;
+    return match.playerOne.points !== 0 || match.playerTwo.points !== 0;
   }
 
   export function isOver(match: Match): boolean {
-    return match.status === MatchStatus.done
-      || match.playerOne.points >= match.length
+    if (match.status === MatchStatus.done) {
+      return true;
+    }
+
+    if (StraightPool.is(match.discipline)) {
+      const p1Won = match.playerOne.points === match.length && match.playerTwo.points < match.length;
+      const p2Won = match.playerTwo.points === match.length && match.playerOne.points < match.length;
+      return p1Won || p2Won;
+    }
+
+    return match.playerOne.points >= match.length
       || match.playerTwo.points >= match.length;
   }
 }

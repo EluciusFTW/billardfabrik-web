@@ -3,6 +3,7 @@ import { TourneyCreationService } from './tourney-creation.service';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
 import { POOL_DISCIPLINES, PoolDiscipline } from '../models/pool-discipline';
+import { StraightPool } from '../models/straight-pool';
 import { PlayerCreateDialogComponent } from '../../players/player-create-dialog/player-create-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TourneyPlayer } from '../models/evaluation/tourney-player';
@@ -60,11 +61,27 @@ export class CreateTourneyComponent implements OnInit{
   selectedPlayModus: TourneyModeViewModel = this.playModi[0];
 
   nrOfGroupsSelected: number;
-  raceLengths = [3, 4, 5, 6, 7, 8, 9];
-  raceLengthSelected: number = 4;
+  private readonly rackRaceLengths = [3, 4, 5, 6, 7, 8, 9];
+  private readonly defaultRackRaceLength = 4;
+  raceLengthSelected: number = this.defaultRackRaceLength;
 
-  disciplines: PoolDiscipline[] = [ ... POOL_DISCIPLINES ];
   disciplineSelected: PoolDiscipline = '9-Ball';
+
+  get disciplines(): PoolDiscipline[] {
+    return POOL_DISCIPLINES.filter(discipline => this.unique() || !StraightPool.is(discipline));
+  }
+
+  get raceLengths(): number[] {
+    return StraightPool.is(this.disciplineSelected)
+      ? StraightPool.lengths
+      : this.rackRaceLengths;
+  }
+
+  disciplineChange(discipline: PoolDiscipline): void {
+    this.raceLengthSelected = StraightPool.is(discipline)
+      ? StraightPool.defaultLength
+      : this.defaultRackRaceLength;
+  }
 
   firstElimination = [
     TourneyEliminationStageType.final,
