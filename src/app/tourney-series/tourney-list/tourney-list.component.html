@@ -1,7 +1,7 @@
 <app-content-tile header="Turnierübersicht">
   <p>
     Hier findest Du Ergebnisse zu den vergangenen Turnieren.
-    @if (isTourneyAuthenticated) {
+    @if (isTourneyAuthenticated()) {
       Oder möchtest Du etwa ein neues <button mat-flat-button routerLink="../create">neues Turnier</button>
       erstellen?
     }

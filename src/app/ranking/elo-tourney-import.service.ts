@@ -8,6 +8,8 @@ import { DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH } from './elo.servi
 import { FirebaseService } from '../shared/firebase.service';
 import { firstValueFrom, map } from 'rxjs';
 import { OwnMessageService } from '../shared/services/own-message.service';
+import { DatabaseReference, equalTo, limitToLast, orderByChild, query, ref, update } from '@angular/fire/database';
+import { listValWithKey } from '../shared/firebase-utilities';
 
 @Service()
 export class EloTourneyImportService extends FirebaseService {
@@ -30,9 +32,7 @@ export class EloTourneyImportService extends FirebaseService {
 
     allMatches
       .forEach(async (match, index) => {
-        await this.db
-          .object(this.tourneyMatchPath(match, index))
-          .update(match)
+        await update(this.tourneyMatchRef(match, index), match)
           .then(
             _ => {},
             error => this.messager.failure(`Fehler beim importieren: ${error}.`)
@@ -42,8 +42,8 @@ export class EloTourneyImportService extends FirebaseService {
     return allMatches;
   }
 
-  private tourneyMatchPath(match: IncomingTourneyMatch, index: number): string {
-    return `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${match.date}-T-${index.toString().padStart(4, '0')}`;
+  private tourneyMatchRef(match: IncomingTourneyMatch, index: number): DatabaseReference {
+    return ref(this.db, `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${match.date}-T-${index.toString().padStart(4, '0')}`);
   }
 
   private toIncomingTourneyMatch(match: Match, date: string): IncomingTourneyMatch {
@@ -57,26 +57,21 @@ export class EloTourneyImportService extends FirebaseService {
 
   async GetLastTourneyDate(): Promise<string> {
     const lastRanked = await firstValueFrom(
-      this.db
-        .list<ScoredMatch>(DB_MATCHES_LPATH, this.LastTourneyMatch())
-        .snapshotChanges()
-        .pipe(map(snapshots => snapshots.map(item => item.key.substring(0,8))[0]))
-    )
+      listValWithKey<ScoredMatch>(this.LastTourneyMatch(DB_MATCHES_LPATH))
+        .pipe(map(matches => matches.map(item => item.key.substring(0,8))[0])));
 
-    const lastImported = firstValueFrom(
-      this.db
-        .list<IncomingMatch>(DB_INCOMING_TOURNEY_MATCHES_LPATH, this.LastTourneyMatch())
-        .snapshotChanges()
-        .pipe(map(snapshots => snapshots.map(item => item.key.substring(0,8))[0]))
-    )
+    const lastImported = await firstValueFrom(
+      listValWithKey<IncomingMatch>(this.LastTourneyMatch(DB_INCOMING_TOURNEY_MATCHES_LPATH))
+        .pipe(map(matches => matches.map(item => item.key.substring(0,8))[0])));
 
     return [lastImported, lastRanked].sort()[0];
   }
 
-  private LastTourneyMatch() {
-    return ref => ref
-      .orderByChild('source')
-      .equalTo('Tourney')
-      .limitToLast(1);
+  private LastTourneyMatch(path: string) {
+    return query(
+      ref(this.db, path),
+      orderByChild('source'),
+      equalTo('Tourney'),
+      limitToLast(1));
   }
 }

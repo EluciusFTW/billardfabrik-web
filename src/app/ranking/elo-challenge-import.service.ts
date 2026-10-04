@@ -4,6 +4,7 @@ import { DB_INCOMING_CHALLENGE_MATCHES_LPATH } from './elo.service';
 import { FirebaseService } from '../shared/firebase.service';
 import { MatchPlayer } from '../tourney-series/models/match-player';
 import { OwnMessageService } from '../shared/services/own-message.service';
+import { ref, set } from '@angular/fire/database';
 
 const CHALLENGES_PATH = 'challenges';
 
@@ -34,13 +35,8 @@ export class EloChallengeImportService extends FirebaseService {
 
   async Import(match: IncomingChallengeMatch): Promise<void> {
     const newKey = await this.challengeMatchPath(match);
-    await this.db
-      .object(`${CHALLENGES_PATH}/${newKey}`)
-      .set(match)
-      .then(
-        _ => this.db
-          .object(`${DB_INCOMING_CHALLENGE_MATCHES_LPATH}/${newKey}`)
-          .set(match))
+    await set(ref(this.db, `${CHALLENGES_PATH}/${newKey}`), match)
+      .then(_ => set(ref(this.db, `${DB_INCOMING_CHALLENGE_MATCHES_LPATH}/${newKey}`), match))
       .then(
         _ => this.messager.success('Spiel erfolgreich importiert!'),
         _ => this.messager.failure('Etwas hat nicht funktioniert :(')

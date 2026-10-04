@@ -7,12 +7,14 @@ import { Observable, firstValueFrom, map } from "rxjs";
 import { EloPlayer, EloPlayerData } from "./models/elo-models";
 import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH, DB_PLAYERS_PATH } from "./elo.service";
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
-import { Db } from "../shared/firebase-utilities";
+import { compareByKey, Db, listValWithKey } from "../shared/firebase-utilities";
+import { equalTo, limitToLast, listVal, objectVal, orderByChild, query, ref } from "@angular/fire/database";
 
 @Service()
 export class EloRankingService extends FirebaseService {
   private readonly lowerBoundOnGames = 10;
   private readonly playersService = inject(PlayersService);
+  private readonly playersRef = ref(this.db, DB_PLAYERS_PATH);
 
   async GetRanking(): Promise<RankingPlayer[]> {
     const playerNames = await this.playersService
@@ -20,27 +22,21 @@ export class EloRankingService extends FirebaseService {
       .then(players => players.map(PlayerFunctions.displayName));
 
     return firstValueFrom(
-      this.db
-        .list<EloPlayerData>(DB_PLAYERS_PATH)
-        .snapshotChanges()
+      listValWithKey<EloPlayerData>(this.playersRef)
         .pipe(
-          map(snapshots => snapshots
-            .filter(item => item.payload.val().changes?.length > this.lowerBoundOnGames)
-            .map(playerSnapshot => ({
-              name: PlayerFunctions.nameFromKey(playerSnapshot.key),
-              allScores: playerSnapshot.payload
-                .val().changes
-                .map(match => match.bvf),
-              }))
+          map(players => players
+            .filter(player => player.changes?.length > this.lowerBoundOnGames)
+            .map(player => ({
+              name: PlayerFunctions.nameFromKey(player.key),
+              allScores: player.changes.map(match => match.bvf),
+            }))
             .filter(player => playerNames.includes(player.name))
           )));
   }
 
   async GetEloListedPlayers(): Promise<EloPlayer[]> {
     return firstValueFrom(
-      this.db
-        .object(DB_PLAYERS_PATH)
-        .valueChanges()
+      objectVal<Record<string, EloPlayerData>>(this.playersRef)
         .pipe(
           map(value => value
             ? Object
@@ -54,49 +50,32 @@ export class EloRankingService extends FirebaseService {
   }
 
   GetRankedTourneyMatches(nrOf: number): Observable<ScoredMatch[]> {
-    return this.db
-      .list<ScoredMatch>(
-        DB_MATCHES_LPATH,
-        ref => ref
-          .orderByChild('source').equalTo(`Tourney`)
-          .limitToLast(nrOf))
-      .valueChanges();
+    return this.GetRankedMatches('Tourney', nrOf);
   }
 
   GetRankedChallenges(nrOf: number): Observable<ScoredMatch[]> {
-    return this.db
-      .list<ScoredMatch>(
-        DB_MATCHES_LPATH,
-        ref => ref
-          .orderByChild('source').equalTo(`Challenge`)
-          .limitToLast(nrOf))
-      .valueChanges();
+    return this.GetRankedMatches('Challenge', nrOf);
+  }
+
+  private GetRankedMatches(source: IncomingMatch['source'], nrOf: number): Observable<ScoredMatch[]> {
+    const q = query(
+      ref(this.db, DB_MATCHES_LPATH),
+      orderByChild('source'),
+      equalTo(source),
+      limitToLast(nrOf));
+
+    return listVal<ScoredMatch>(q);
   }
 
   async GetUnrankedMatches(): Promise<Db<IncomingMatch>[]> {
-    const tourneySnapshots = await firstValueFrom(this.db
-      .list<IncomingMatch>(DB_INCOMING_TOURNEY_MATCHES_LPATH)
-      .snapshotChanges());
+    const fromTourneys = await firstValueFrom(
+      listValWithKey<IncomingMatch>(ref(this.db, DB_INCOMING_TOURNEY_MATCHES_LPATH)));
 
-    const challengeSnapshots = await firstValueFrom(this.db
-      .list<IncomingMatch>(DB_INCOMING_CHALLENGE_MATCHES_LPATH)
-      .snapshotChanges())
+    const fromChallenges = await firstValueFrom(
+      listValWithKey<IncomingMatch>(ref(this.db, DB_INCOMING_CHALLENGE_MATCHES_LPATH)));
 
-    const allMatches = tourneySnapshots
-      .concat(challengeSnapshots)
-      .map(item => item.payload)
-      .map(match => ({ key: match.key, ...match.val()}));
-
-    return allMatches.sort(this.compare)
-  }
-
-  private compare(a, b) {
-    if ( a.key < b.key ){
-      return -1;
-    }
-    if ( a.key > b.key ){
-      return 1;
-    }
-    return 0;
+    return fromTourneys
+      .concat(fromChallenges)
+      .sort(compareByKey);
   }
 }

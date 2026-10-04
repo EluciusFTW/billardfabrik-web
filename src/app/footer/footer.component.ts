@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, ChangeDetectionStrategy } from '@angular/core';
 import { AuthorizedComponent } from '../shared/authorized.component';
 import { MatButton } from '@angular/material/button';
 
@@ -10,12 +10,10 @@ import { MatButton } from '@angular/material/button';
   imports: [MatButton]
 })
 export class FooterComponent extends AuthorizedComponent {
+  displayName = computed(() => this.userService.userName());
+
   login(): void {
     this.userService.login();
-  }
-
-  get displayName(): string {
-    return this.userService.userName;
   }
 
   logout(): void {

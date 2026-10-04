@@ -1,76 +1,50 @@
 import { Service, inject } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { ref, query, object, listVal, limitToLast, orderByKey, startAt, endAt, update, set } from '@angular/fire/database';
+import { Observable, firstValueFrom } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OwnMessageService } from 'src/app/shared/services/own-message.service';
 import { Tourney } from '../models/tourney';
 import { TourneyPhaseEvent } from '../models/tourney-phase-event';
 import { TourneyEventService } from '../event-handling/tourney-event.service';
-import { Db, unpackSnapshotWithKey, unpackSnapshotsWithKey } from 'src/app/shared/firebase-utilities';
+import { Db, listValWithKey, unpackSnapshotWithKey } from 'src/app/shared/firebase-utilities';
+import { FirebaseService } from 'src/app/shared/firebase.service';
 import { TourneyFunctions } from '../tourney/tourney-functions';
 
 const DB_TOURNEYS_LPATH = 'tourneySeries/tourneys';
 
 @Service()
-export class TourneysService {
-  private readonly db = inject(AngularFireDatabase);
+export class TourneysService extends FirebaseService {
   private readonly eventService = inject(TourneyEventService);
   private readonly messageService = inject(OwnMessageService);
+  private readonly tourneysRef = ref(this.db, DB_TOURNEYS_LPATH);
 
   get(id: string): Observable<Db<Tourney>> {
-    return this.db
-      .object<Tourney>(`${DB_TOURNEYS_LPATH}/${id}`)
-      .snapshotChanges()
-      .pipe(map(unpackSnapshotWithKey));
+    return object(ref(this.db, `${DB_TOURNEYS_LPATH}/${id}`))
+      .pipe(map(change => unpackSnapshotWithKey<Tourney>(change)));
   }
 
-  getAll(): Observable<Tourney[]> {
-    return this.db
-      .list<Tourney>(DB_TOURNEYS_LPATH)
-      .snapshotChanges()
-      .pipe(map(unpackSnapshotsWithKey));
+  getAll(): Observable<Db<Tourney>[]> {
+    return listValWithKey<Tourney>(this.tourneysRef);
   }
 
-  addNumber(): void {
-    const tourneys = this.db
-      .list<Tourney>(DB_TOURNEYS_LPATH)
-      .snapshotChanges()
-      .pipe(map(unpackSnapshotsWithKey));
+  async getLastOccurrence(): Promise<number> {
+    const q = query(this.tourneysRef, limitToLast(1));
+    const lastTourney = (await firstValueFrom(listVal<Tourney>(q)))[0];
 
-    tourneys
-      .pipe(take(1))
-      .subscribe(ts => ts.forEach((tourney, index) => {
-        tourney.meta.occurrence = index + 1;
-        this.db
-          .list(DB_TOURNEYS_LPATH)
-          .update(this.tryGetKey(tourney), tourney);
-      }));
+    return lastTourney?.meta.occurrence ?? 0;
   }
 
-  getLastOccurrence(): Observable<number> {
-    return this.db
-      .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.limitToLast(1))
-      .valueChanges()
-      .pipe(
-        take(1),
-        map(ts => ts[0]?.meta.occurrence ?? 0));
+  getFromYear(year: number): Observable<Db<Tourney>[]> {
+    const q = query(this.tourneysRef, orderByKey(), startAt(`${year}0000`), endAt(`${year}9999`));
+    return listValWithKey<Tourney>(q);
   }
 
-  getFromYear(year: number): Observable<Tourney[]> {
-    return this.db
-      .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.orderByKey().startAt(`${year}0000`).endAt(`${year}9999`))
-      .snapshotChanges()
-      .pipe(map(unpackSnapshotsWithKey));
+  getBetween(start: string, end: string): Observable<Db<Tourney>[]> {
+    const q = query(this.tourneysRef, orderByKey(), startAt(start), endAt(end));
+    return listValWithKey<Tourney>(q);
   }
 
-  getBetween(start: string, end: string): Observable<Tourney[]> {
-    return this.db
-      .list<Tourney>(DB_TOURNEYS_LPATH, ref => ref.orderByKey().startAt(start).endAt(end))
-      .snapshotChanges()
-      .pipe(map(unpackSnapshotsWithKey));
-  }
-
-  getAfter(start: string): Observable<Tourney[]> {
+  getAfter(start: string): Observable<Db<Tourney>[]> {
     const actualStart = start || '0';
     return this.getBetween(`${+actualStart + 1}`, 'X');
   }
@@ -79,26 +53,19 @@ export class TourneysService {
     this.eventService.apply(tourney, event);
     const key = this.tryGetKey(tourney);
     if (!!key) {
-      this.db
-        .list(DB_TOURNEYS_LPATH)
-        .update(key, tourney);
+      update(ref(this.db, `${DB_TOURNEYS_LPATH}/${key}`), tourney);
     } else {
       this.save(tourney);
     }
   }
 
-  save(tourney: Tourney): void {
-    this
-      .getLastOccurrence()
-      .subscribe(last => {
-        tourney.meta.occurrence = last + 1;
-        this.db
-          .object(this.tourneyPath(tourney))
-          .set(tourney)
-          .then(
-            () => this.messageService.success('Neues Turnier erfolgreich gespeichert.'),
-            () => this.messageService.failure('Fehler beim Speichern des neuen Turniers.'));
-      })
+  async save(tourney: Tourney): Promise<void> {
+    tourney.meta.occurrence = await this.getLastOccurrence() + 1;
+
+    return set(ref(this.db, this.tourneyPath(tourney)), tourney)
+      .then(
+        () => this.messageService.success('Neues Turnier erfolgreich gespeichert.'),
+        () => this.messageService.failure('Fehler beim Speichern des neuen Turniers.'));
   }
 
   private tourneyPath(tourney: Tourney): string {

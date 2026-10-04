@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed } from '@angular/core';
 import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { MatButton } from '@angular/material/button';
@@ -13,7 +13,5 @@ import { TourneyYearListComponent } from './tourney-year-list.component';
   imports: [ContentTileComponent, MatButton, RouterLink, MatTabGroup, MatTab, TourneyYearListComponent]
 })
 export class TourneyListComponent extends AuthorizedComponent {
-  get isTourneyAuthenticated(): boolean {
-    return this.userService.canHandleTourneys();
-  }
+  protected isTourneyAuthenticated = computed(() => this.userService.canHandleTourneys());
 }

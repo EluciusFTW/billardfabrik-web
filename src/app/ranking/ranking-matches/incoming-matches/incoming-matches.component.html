@@ -5,7 +5,7 @@
     </span>
   </div>
 } @else {
-  @if (isLoggedIn) {
+  @if (isLoggedIn()) {
     <mat-toolbar>
       <button mat-raised-button (click)="Calculate()" class="demo-button">
         Alle Auswerten

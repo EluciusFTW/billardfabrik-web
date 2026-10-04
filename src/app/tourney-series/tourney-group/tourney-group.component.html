@@ -33,7 +33,7 @@
       <tr mat-row *matRowDef="let row; let i = index; columns: displayedColumnsTotals;" [ngClass]="{'running': i < 2 }"></tr>
     </table>
 
-    @if (groupActive() && canFinalize && allGamesOver()) {
+    @if (groupActive() && canFinalize() && allGamesOver()) {
       <mat-card-actions >
         <button mat-button
           color="warn"
