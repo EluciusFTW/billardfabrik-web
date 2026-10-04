@@ -10,4 +10,5 @@ export interface TourneyMeta {
     discipline: PoolDiscipline;
     modus: TourneyMode;
     occurrence?: number;
+    adHoc?: boolean;
 }

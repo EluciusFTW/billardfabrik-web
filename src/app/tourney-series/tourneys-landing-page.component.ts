@@ -12,7 +12,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 export class TourneysLandingPageComponent {
   tabs = [
     { link: 'overview', label: 'Details' },
-    { link: 'list', label: 'Turniere' },
+    { link: 'list', label: 'Turnierserie' },
+    { link: 'ad-hoc', label: 'Ad-hoc-Turniere' },
     { link: 'leaderboard', label: 'Leaderboards' }
   ]
 

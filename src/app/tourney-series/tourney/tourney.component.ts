@@ -20,10 +20,13 @@ export class TourneyComponent implements OnInit {
 
   private tourneysService = inject(TourneysService);
   public id = input.required<string>();
+  public adHoc = input(false);
 
   tourney = signal<Tourney | null>(null);
   header = computed(() => this.tourney()
-    ? `${this.tourney().meta.name} Nr. ${this.tourney().meta.occurrence}`
+    ? this.tourney().meta.occurrence
+      ? `${this.tourney().meta.name} Nr. ${this.tourney().meta.occurrence}`
+      : this.tourney().meta.name
     : 'Loading ... ');
   subheader = computed(() => this.tourney()
     ? `vom ${TourneyFunctions.NameFragmentToDate(this.tourney().meta.date).toLocaleDateString()}`
@@ -34,7 +37,7 @@ export class TourneyComponent implements OnInit {
 
   ngOnInit() {
     this.tourneysService
-      .get(this.id())
+      .get(this.id(), this.adHoc())
       .subscribe(id => this.tourney.set(id));
   }
 

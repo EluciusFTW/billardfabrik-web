@@ -13,6 +13,9 @@
         ".write": "auth != null"
       }
     },
+    "adHocTourneys": {
+      ".write": true
+    },
     "challenges": {
       ".write": "auth != null"
     },

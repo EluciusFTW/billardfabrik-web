@@ -90,6 +90,8 @@ export class TourneyFunctions {
   }
 
   public static Key(tourney: Tourney): string {
-    return tourney.meta.date;
+    return tourney.meta.adHoc
+      ? `${tourney.meta.date}-${Date.now()}`
+      : tourney.meta.date;
   }
 }

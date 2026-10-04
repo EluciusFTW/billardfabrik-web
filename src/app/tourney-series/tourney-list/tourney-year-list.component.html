@@ -1,7 +1,7 @@
 <table mat-table #tourneys [dataSource]="tourneyDataSource">
   <ng-container matColumnDef="name" >
     <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let item" style="cursor: pointer;" [routerLink]="'../' + item.key + '/tourney'"> {{item.meta.name}} </td>
+    <td mat-cell *matCellDef="let item" style="cursor: pointer;" [routerLink]="tourneyLink(item)"> {{item.meta.name}} </td>
   </ng-container>
 
   <ng-container matColumnDef="date">

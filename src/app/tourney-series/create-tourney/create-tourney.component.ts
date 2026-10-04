@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, input, ChangeDetectionStrategy } from '@angular/core';
 import { TourneyCreationService } from './tourney-creation.service';
 import { Tourney } from '../models/tourney';
 import { TourneyGroup } from '../models/tourney-group';
@@ -18,20 +18,24 @@ import { Player } from 'src/app/players/player';
 import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { MatSelectionList, MatListOption } from '@angular/material/list';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel } from '@angular/material/input';
+import { MatFormField, MatLabel, MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 import { MatSelect, MatOption } from '@angular/material/select';
 import { PlayerNamePipe } from '../../players/player-name.pipe';
 
 @Component({
   templateUrl: './create-tourney.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ContentTileComponent, MatSelectionList, MatListOption, MatButton, MatFormField, MatLabel, MatSelect, MatOption, PlayerNamePipe]
+  imports: [ContentTileComponent, MatSelectionList, MatListOption, MatButton, MatFormField, MatLabel, MatInput, FormsModule, MatSelect, MatOption, PlayerNamePipe]
 })
 export class CreateTourneyComponent implements OnInit{
   private readonly createTourneyService = inject(TourneyCreationService);
   private readonly tourneysService = inject(TourneysService);
   private readonly playersService = inject(PlayersService);
   private readonly dialog = inject(MatDialog);
+
+  adHoc = input(false);
+  adHocName = '';
 
   players: TourneyPlayer[] = [];
   playModi: TourneyModeViewModel[] = [
@@ -128,14 +132,23 @@ export class CreateTourneyComponent implements OnInit{
     }
   }
 
+  get canSubmit(): boolean {
+    return !this.adHoc() || this.adHocName.trim().length > 0;
+  }
+
   private submit(players: string[], respectOrdering: boolean): void {
+    if (!this.canSubmit) {
+      return;
+    }
+
     let info = {
       players: players,
       raceLength: this.raceLengthSelected,
       discipline: this.disciplineSelected,
-      name: 'Donnerstags-Turnier',
+      name: this.adHoc() ? this.adHocName.trim() : 'Donnerstags-Turnier',
       mode: this.selectedPlayModus.mode,
-      seeded: respectOrdering
+      seeded: respectOrdering,
+      adHoc: this.adHoc()
     };
 
     this.tourney = this.selectedPlayModus.mode === 'Einfach-K.O.'

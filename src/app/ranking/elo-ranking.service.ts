@@ -3,12 +3,12 @@ import { FirebaseService } from "../shared/firebase.service";
 import { PlayersService } from "../players/players.service";
 import { RankingPlayer } from "./models/ranking-player";
 import { PlayerFunctions } from "../players/player-functions";
-import { Observable, firstValueFrom, map } from "rxjs";
+import { Observable, combineLatest, firstValueFrom, map } from "rxjs";
 import { EloPlayer, EloPlayerData } from "./models/elo-models";
 import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH, DB_PLAYERS_PATH } from "./elo.service";
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
-import { compareByKey, Db, listValWithKey } from "../shared/firebase-utilities";
-import { equalTo, limitToLast, listVal, objectVal, orderByChild, query, ref } from "@angular/fire/database";
+import { compareByKey, Db, listValWithKey, withoutKey } from "../shared/firebase-utilities";
+import { equalTo, limitToLast, objectVal, orderByChild, query, ref } from "@angular/fire/database";
 
 @Service()
 export class EloRankingService extends FirebaseService {
@@ -50,21 +50,29 @@ export class EloRankingService extends FirebaseService {
   }
 
   GetRankedTourneyMatches(nrOf: number): Observable<ScoredMatch[]> {
-    return this.GetRankedMatches('Tourney', nrOf);
+    return combineLatest([
+      this.GetRankedMatches('Tourney', nrOf),
+      this.GetRankedMatches('AdHocTourney', nrOf)
+    ]).pipe(
+      map(([series, adHoc]) => series
+        .concat(adHoc)
+        .sort(compareByKey)
+        .slice(-nrOf)
+        .map(match => withoutKey(match))));
   }
 
   GetRankedChallenges(nrOf: number): Observable<ScoredMatch[]> {
     return this.GetRankedMatches('Challenge', nrOf);
   }
 
-  private GetRankedMatches(source: IncomingMatch['source'], nrOf: number): Observable<ScoredMatch[]> {
+  private GetRankedMatches(source: IncomingMatch['source'], nrOf: number): Observable<Db<ScoredMatch>[]> {
     const q = query(
       ref(this.db, DB_MATCHES_LPATH),
       orderByChild('source'),
       equalTo(source),
       limitToLast(nrOf));
 
-    return listVal<ScoredMatch>(q);
+    return listValWithKey<ScoredMatch>(q);
   }
 
   async GetUnrankedMatches(): Promise<Db<IncomingMatch>[]> {

@@ -79,7 +79,7 @@ export class EloService extends FirebaseService {
   private async RemoveIncomingMatches(matches: Db<IncomingMatch>[]): Promise<void[]> {
     const tourneyMatchesRef = ref(this.db, DB_INCOMING_TOURNEY_MATCHES_LPATH);
     let removals = matches
-      .filter(match => match.source === 'Tourney')
+      .filter(match => match.source === 'Tourney' || match.source === 'AdHocTourney')
       .map(match => remove(child(tourneyMatchesRef, match.key)));
 
     const challengeMatchesRef = ref(this.db, DB_INCOMING_CHALLENGE_MATCHES_LPATH);

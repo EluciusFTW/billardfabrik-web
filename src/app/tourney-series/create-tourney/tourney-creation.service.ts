@@ -48,7 +48,8 @@ export class TourneyCreationService {
       numberOfPlayers: info.players.length,
       discipline: info.discipline,
       modus: info.mode,
-      status: TourneyStatus.new
+      status: TourneyStatus.new,
+      ...(info.adHoc ? { adHoc: true } : {})
     }
   }
 }

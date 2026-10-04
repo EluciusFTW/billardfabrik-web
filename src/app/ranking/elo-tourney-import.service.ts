@@ -28,29 +28,32 @@ export class EloTourneyImportService extends FirebaseService {
       .filter(match => match.length >= 3)
       .filter(match => MatchPlayer.isReal(match.playerOne))
       .filter(match => MatchPlayer.isReal(match.playerTwo))
-      .map(match => this.toIncomingTourneyMatch(match, tourney.meta.date!));
+      .map(match => this.toIncomingTourneyMatch(match, tourney));
 
-    allMatches
-      .forEach(async (match, index) => {
-        await update(this.tourneyMatchRef(match, index), match)
-          .then(
-            _ => {},
-            error => this.messager.failure(`Fehler beim importieren: ${error}.`)
-          );
-      });
+    await Promise.all(allMatches
+      .map((match, index) => update(this.tourneyMatchRef(tourney, match, index), match)
+        .then(
+          _ => {},
+          error => this.messager.failure(`Fehler beim importieren: ${error}.`)
+        )));
 
     return allMatches;
   }
 
-  private tourneyMatchRef(match: IncomingTourneyMatch, index: number): DatabaseReference {
-    return ref(this.db, `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${match.date}-T-${index.toString().padStart(4, '0')}`);
+  // Ad-hoc tourneys can share a date with a series tourney (or with each other),
+  // so their match keys are based on the tourney's own key instead.
+  private tourneyMatchRef(tourney: Tourney, match: IncomingTourneyMatch, index: number): DatabaseReference {
+    const nr = index.toString().padStart(4, '0');
+    return tourney.meta.adHoc
+      ? ref(this.db, `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${(<any>tourney).key}-A-${nr}`)
+      : ref(this.db, `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${match.date}-T-${nr}`);
   }
 
-  private toIncomingTourneyMatch(match: Match, date: string): IncomingTourneyMatch {
+  private toIncomingTourneyMatch(match: Match, tourney: Tourney): IncomingTourneyMatch {
     const { status, ...rest } = match;
     return {
-      date: date,
-      source: 'Tourney',
+      date: tourney.meta.date!,
+      source: tourney.meta.adHoc ? 'AdHocTourney' : 'Tourney',
       ... rest
     }
   }
