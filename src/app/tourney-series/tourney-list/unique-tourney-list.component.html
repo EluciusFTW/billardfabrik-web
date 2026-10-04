@@ -1,11 +1,11 @@
-<app-content-tile header="Ad-hoc-Turniere">
+<app-content-tile header="Einzelne Turniere">
   <p>
     Hier findest Du Turniere außerhalb der Donnerstags-Serie. Sie zählen nicht für das Leaderboard, die einzelnen Spiele fließen aber in die Rangliste ein.
     @if (isTourneyAuthenticated) {
-      Oder möchtest Du etwa ein neues <button mat-flat-button routerLink="create">Ad-hoc-Turnier</button>
+      Oder möchtest Du etwa ein neues <button mat-flat-button routerLink="create">einzelnes Turnier</button>
       erstellen?
     }
   </p>
 
-  <app-tourney-year-list [adHoc]="true"></app-tourney-year-list>
+  <app-tourney-year-list [unique]="true"></app-tourney-year-list>
 </app-content-tile>

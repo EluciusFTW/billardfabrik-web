@@ -52,10 +52,10 @@ export class EloRankingService extends FirebaseService {
   GetRankedTourneyMatches(nrOf: number): Observable<ScoredMatch[]> {
     return combineLatest([
       this.GetRankedMatches('Tourney', nrOf),
-      this.GetRankedMatches('AdHocTourney', nrOf)
+      this.GetRankedMatches('UniqueTourney', nrOf)
     ]).pipe(
-      map(([series, adHoc]) => series
-        .concat(adHoc)
+      map(([series, unique]) => series
+        .concat(unique)
         .sort(compareByKey)
         .slice(-nrOf)
         .map(match => withoutKey(match))));

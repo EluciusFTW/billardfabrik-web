@@ -49,7 +49,7 @@ export class TourneyCreationService {
       discipline: info.discipline,
       modus: info.mode,
       status: TourneyStatus.new,
-      ...(info.adHoc ? { adHoc: true } : {})
+      ...(info.unique ? { unique: true } : {})
     }
   }
 }

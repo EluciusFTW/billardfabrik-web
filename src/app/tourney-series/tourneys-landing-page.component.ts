@@ -13,7 +13,7 @@ export class TourneysLandingPageComponent {
   tabs = [
     { link: 'overview', label: 'Details' },
     { link: 'list', label: 'Turnierserie' },
-    { link: 'ad-hoc', label: 'Ad-hoc-Turniere' },
+    { link: 'unique', label: 'Einzelne Turniere' },
     { link: 'leaderboard', label: 'Leaderboards' }
   ]
 

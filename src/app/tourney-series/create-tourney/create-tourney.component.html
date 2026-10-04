@@ -1,4 +1,4 @@
-<app-content-tile [header]="adHoc() ? 'Neues Ad-hoc-Turnier' : 'Neues Turnier'">
+<app-content-tile [header]="unique() ? 'Neues einzelnes Turnier' : 'Neues Turnier'">
 
   <div style="display: flex; flex-direction: row; justify-content: space-between;">
     <div style="display:flex; flex-direction: column; width: 60%">
@@ -21,10 +21,10 @@
         <span>{{selectPlayers.selectedOptions.selected.length}}</span>
       </div>
 
-      @if (adHoc()) {
+      @if (unique()) {
         <mat-form-field>
           <mat-label>Turniername</mat-label>
-          <input matInput name="adHocName" [(ngModel)]="adHocName" required>
+          <input matInput name="tourneyName" [(ngModel)]="tourneyName" required>
         </mat-form-field>
       }
 

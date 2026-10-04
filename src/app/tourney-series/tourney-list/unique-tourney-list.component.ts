@@ -6,11 +6,11 @@ import { RouterLink } from '@angular/router';
 import { TourneyYearListComponent } from './tourney-year-list.component';
 
 @Component({
-  templateUrl: './ad-hoc-tourney-list.component.html',
+  templateUrl: './unique-tourney-list.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [ContentTileComponent, MatButton, RouterLink, TourneyYearListComponent]
 })
-export class AdHocTourneyListComponent extends AuthorizedComponent {
+export class UniqueTourneyListComponent extends AuthorizedComponent {
   get isTourneyAuthenticated(): boolean {
     return this.userService.canHandleTourneys();
   }

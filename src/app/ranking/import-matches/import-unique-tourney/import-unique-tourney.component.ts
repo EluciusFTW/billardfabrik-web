@@ -11,12 +11,12 @@ import { MatButton } from '@angular/material/button';
 import { DateKeyPipe } from '../../../tourney-series/date-key.pipe';
 
 @Component({
-  selector: 'app-import-ad-hoc-tourney',
-  templateUrl: './import-ad-hoc-tourney.component.html',
+  selector: 'app-import-unique-tourney',
+  templateUrl: './import-unique-tourney.component.html',
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatToolbar, MatButton, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DateKeyPipe]
 })
-export class ImportAdHocTourneyComponent implements OnInit {
+export class ImportUniqueTourneyComponent implements OnInit {
   private readonly tourneyImportService = inject(EloTourneyImportService);
   private readonly tourneysService = inject(TourneysService);
   private readonly messager = inject(OwnMessageService);
@@ -29,11 +29,11 @@ export class ImportAdHocTourneyComponent implements OnInit {
     await this.loadData();
   }
 
-  // Completed ad-hoc tourneys are marked as post-processed once their matches are imported.
+  // Completed unique tourneys are marked as post-processed once their matches are imported.
   private async loadData(): Promise<void> {
     const tourneys = await firstValueFrom(
       this.tourneysService
-        .getAdHoc()
+        .getUnique()
         .pipe(map(tourneys => tourneys.filter(tourney => tourney.meta.status === TourneyStatus.completed))));
 
     this.noTourneys = tourneys.length === 0;
@@ -46,7 +46,7 @@ export class ImportAdHocTourneyComponent implements OnInit {
 
     await Promise
       .all(imports)
-      .then(_ => this.messager.success(`${tourneys.length} Ad-hoc-Turniere erfolgreich importiert!`));
+      .then(_ => this.messager.success(`${tourneys.length} einzelne Turniere erfolgreich importiert!`));
 
     await this.loadData();
   }

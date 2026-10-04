@@ -9,7 +9,7 @@ export interface TourneyInfo {
   mode: TourneyMode;
   name: string;
   seeded: boolean;
-  adHoc?: boolean;
+  unique?: boolean;
 }
 
 export interface SingleEliminationTourneyInfo extends TourneyInfo {}

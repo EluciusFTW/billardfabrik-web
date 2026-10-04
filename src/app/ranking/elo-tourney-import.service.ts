@@ -40,12 +40,12 @@ export class EloTourneyImportService extends FirebaseService {
     return allMatches;
   }
 
-  // Ad-hoc tourneys can share a date with a series tourney (or with each other),
+  // Unique tourneys can share a date with a series tourney (or with each other),
   // so their match keys are based on the tourney's own key instead.
   private tourneyMatchRef(tourney: Tourney, match: IncomingTourneyMatch, index: number): DatabaseReference {
     const nr = index.toString().padStart(4, '0');
-    return tourney.meta.adHoc
-      ? ref(this.db, `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${(<any>tourney).key}-A-${nr}`)
+    return tourney.meta.unique
+      ? ref(this.db, `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${(<any>tourney).key}-U-${nr}`)
       : ref(this.db, `${DB_INCOMING_TOURNEY_MATCHES_LPATH}/${match.date}-T-${nr}`);
   }
 
@@ -53,7 +53,7 @@ export class EloTourneyImportService extends FirebaseService {
     const { status, ...rest } = match;
     return {
       date: tourney.meta.date!,
-      source: tourney.meta.adHoc ? 'AdHocTourney' : 'Tourney',
+      source: tourney.meta.unique ? 'UniqueTourney' : 'Tourney',
       ... rest
     }
   }

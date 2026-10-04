@@ -34,8 +34,8 @@ export class CreateTourneyComponent implements OnInit{
   private readonly playersService = inject(PlayersService);
   private readonly dialog = inject(MatDialog);
 
-  adHoc = input(false);
-  adHocName = '';
+  unique = input(false);
+  tourneyName = '';
 
   players: TourneyPlayer[] = [];
   playModi: TourneyModeViewModel[] = [
@@ -133,7 +133,7 @@ export class CreateTourneyComponent implements OnInit{
   }
 
   get canSubmit(): boolean {
-    return !this.adHoc() || this.adHocName.trim().length > 0;
+    return !this.unique() || this.tourneyName.trim().length > 0;
   }
 
   private submit(players: string[], respectOrdering: boolean): void {
@@ -145,10 +145,10 @@ export class CreateTourneyComponent implements OnInit{
       players: players,
       raceLength: this.raceLengthSelected,
       discipline: this.disciplineSelected,
-      name: this.adHoc() ? this.adHocName.trim() : 'Donnerstags-Turnier',
+      name: this.unique() ? this.tourneyName.trim() : 'Donnerstags-Turnier',
       mode: this.selectedPlayModus.mode,
       seeded: respectOrdering,
-      adHoc: this.adHoc()
+      unique: this.unique()
     };
 
     this.tourney = this.selectedPlayModus.mode === 'Einfach-K.O.'

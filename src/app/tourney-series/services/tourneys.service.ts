@@ -11,7 +11,7 @@ import { FirebaseService } from 'src/app/shared/firebase.service';
 import { TourneyFunctions } from '../tourney/tourney-functions';
 
 const DB_TOURNEYS_LPATH = 'tourneySeries/tourneys';
-const DB_ADHOC_TOURNEYS_LPATH = 'adHocTourneys';
+const DB_UNIQUE_TOURNEYS_LPATH = 'uniqueTourneys';
 
 @Service()
 export class TourneysService extends FirebaseService {
@@ -19,8 +19,8 @@ export class TourneysService extends FirebaseService {
   private readonly messageService = inject(OwnMessageService);
   private readonly tourneysRef = ref(this.db, DB_TOURNEYS_LPATH);
 
-  get(id: string, adHoc = false): Observable<Db<Tourney>> {
-    return object(ref(this.db, `${this.basePath(adHoc)}/${id}`))
+  get(id: string, unique = false): Observable<Db<Tourney>> {
+    return object(ref(this.db, `${this.basePath(unique)}/${id}`))
       .pipe(map(change => unpackSnapshotWithKey<Tourney>(change)));
   }
 
@@ -28,8 +28,8 @@ export class TourneysService extends FirebaseService {
     return listValWithKey<Tourney>(this.tourneysRef);
   }
 
-  getAdHoc(): Observable<Db<Tourney>[]> {
-    return listValWithKey<Tourney>(ref(this.db, DB_ADHOC_TOURNEYS_LPATH));
+  getUnique(): Observable<Db<Tourney>[]> {
+    return listValWithKey<Tourney>(ref(this.db, DB_UNIQUE_TOURNEYS_LPATH));
   }
 
   async getLastOccurrence(): Promise<number> {
@@ -58,14 +58,14 @@ export class TourneysService extends FirebaseService {
     this.eventService.apply(tourney, event);
     const key = this.tryGetKey(tourney);
     if (!!key) {
-      update(ref(this.db, `${this.basePath(tourney.meta.adHoc)}/${key}`), tourney);
+      update(ref(this.db, `${this.basePath(tourney.meta.unique)}/${key}`), tourney);
     } else {
       this.save(tourney);
     }
   }
 
   async save(tourney: Tourney): Promise<void> {
-    if (!tourney.meta.adHoc) {
+    if (!tourney.meta.unique) {
       tourney.meta.occurrence = await this.getLastOccurrence() + 1;
     }
 
@@ -76,11 +76,11 @@ export class TourneysService extends FirebaseService {
   }
 
   private tourneyPath(tourney: Tourney): string {
-    return `${this.basePath(tourney.meta.adHoc)}/${TourneyFunctions.Key(tourney)}`;
+    return `${this.basePath(tourney.meta.unique)}/${TourneyFunctions.Key(tourney)}`;
   }
 
-  private basePath(adHoc: boolean | undefined): string {
-    return adHoc ? DB_ADHOC_TOURNEYS_LPATH : DB_TOURNEYS_LPATH;
+  private basePath(unique: boolean | undefined): string {
+    return unique ? DB_UNIQUE_TOURNEYS_LPATH : DB_TOURNEYS_LPATH;
   }
 
   private tryGetKey(tourney: Tourney): string | undefined {

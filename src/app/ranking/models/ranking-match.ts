@@ -3,7 +3,7 @@ import { EloScores } from './elo-models';
 
 type DatedMatch = Omit<Match & { date: string }, 'status'>
 
-export type IncomingTourneyMatch = DatedMatch & { source: 'Tourney' | 'AdHocTourney' }
+export type IncomingTourneyMatch = DatedMatch & { source: 'Tourney' | 'UniqueTourney' }
 export type IncomingChallengeMatch = DatedMatch & { source: 'Challenge' }
 export type IncomingMatch = IncomingChallengeMatch | IncomingTourneyMatch;
 

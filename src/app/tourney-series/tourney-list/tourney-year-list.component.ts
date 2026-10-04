@@ -28,7 +28,7 @@ export class TourneyYearListComponent {
   year = input<number>(0);
   startingAt = input<string>('20180101');
   endingAt = input<string>('20501231');
-  adHoc = input(false);
+  unique = input(false);
 
   isTourneyAuthenticated = computed(() => this.userService.canHandleTourneys());
 
@@ -36,8 +36,8 @@ export class TourneyYearListComponent {
   displayedColumns = ['name', 'date', 'status', 'actions'];
 
   async ngOnInit() {
-    const tourneySource = this.adHoc()
-      ? this.tourneysService.getAdHoc()
+    const tourneySource = this.unique()
+      ? this.tourneysService.getUnique()
       : this.year() > 0
         ? this.tourneysService.getFromYear(this.year())
         : this.tourneysService.getBetween(this.startingAt(), this.endingAt());
@@ -72,11 +72,11 @@ export class TourneyYearListComponent {
 
   tourneyLink(tourney: Tourney): string {
     const key = (<any>tourney).key;
-    return this.adHoc() ? `${key}/tourney` : `../${key}/tourney`;
+    return this.unique() ? `${key}/tourney` : `../${key}/tourney`;
   }
 
   canComplete(status: TourneyStatus): boolean {
-    return !this.adHoc()
+    return !this.unique()
       && this.userService.canHandleTourneys()
       && status === TourneyStatus.completed;
   }

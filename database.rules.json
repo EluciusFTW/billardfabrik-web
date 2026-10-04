@@ -13,7 +13,7 @@
         ".write": "auth != null"
       }
     },
-    "adHocTourneys": {
+    "uniqueTourneys": {
       ".write": true
     },
     "challenges": {

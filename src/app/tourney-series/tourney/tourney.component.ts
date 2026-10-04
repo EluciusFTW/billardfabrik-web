@@ -20,7 +20,7 @@ export class TourneyComponent implements OnInit {
 
   private tourneysService = inject(TourneysService);
   public id = input.required<string>();
-  public adHoc = input(false);
+  public unique = input(false);
 
   tourney = signal<Tourney | null>(null);
   header = computed(() => this.tourney()
@@ -37,7 +37,7 @@ export class TourneyComponent implements OnInit {
 
   ngOnInit() {
     this.tourneysService
-      .get(this.id(), this.adHoc())
+      .get(this.id(), this.unique())
       .subscribe(id => this.tourney.set(id));
   }
 
