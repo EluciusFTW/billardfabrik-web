@@ -13,7 +13,7 @@ export function createGroups(info: GroupsThenSingleEliminationTourneyInfo): Tour
 
 export function determineStartingStageAfterGroups(info: GroupsThenSingleEliminationTourneyInfo): TourneyEliminationStageType {
   return info.nrOfGroups === 8
-    ? TourneyEliminationStageType.last32
+    ? TourneyEliminationStageType.last16
     : info.nrOfGroups >= 4
       ? TourneyEliminationStageType.quarterFinal
       : info.nrOfGroups >= 2
