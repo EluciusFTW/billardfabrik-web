@@ -19,6 +19,9 @@
     "challenges": {
       ".write": "auth != null"
     },
+    "liveChallenges": {
+      ".write": "auth != null"
+    },
     "elo": {
       ".write": "auth != null",
       "rankedmatches": {

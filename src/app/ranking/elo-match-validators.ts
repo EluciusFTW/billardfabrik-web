@@ -22,18 +22,26 @@ export class EloMatchValidators {
     const s1 = control.get('playerOneScore').value;
     const s2 = control.get('playerTwoScore').value;
 
-    const minValue = () => {
-      switch (control.get('discipline').value as PoolDiscipline) {
-        case '14/1': return 50;
-        case 'One-Pocket': return 2;
-        default: return 3;
-      }
-    }
-    const mV = minValue();
+    const mV = EloMatchValidators.minimumLength(control.get('discipline').value);
     return Math.max(s1, s2) < mV
       ? { needed: mV }
       : null;
   };
+
+  public static MinimumRaceLengthValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const mV = EloMatchValidators.minimumLength(control.get('discipline').value);
+    return control.get('length').value < mV
+      ? { needed: mV }
+      : null;
+  };
+
+  public static minimumLength(discipline: PoolDiscipline): number {
+    switch (discipline) {
+      case '14/1': return 50;
+      case 'One-Pocket': return 2;
+      default: return 3;
+    }
+  }
 
   public static DuplicatePlayerValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const p1 = control.get('selectPlayerOne').value;

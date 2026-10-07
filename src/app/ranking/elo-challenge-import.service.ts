@@ -33,13 +33,13 @@ export class EloChallengeImportService extends FirebaseService {
     return (parts[0][0] + parts[1][0] + player.points).slice(0, 3);
   }
 
-  async Import(match: IncomingChallengeMatch): Promise<void> {
+  async Import(match: IncomingChallengeMatch): Promise<boolean> {
     const newKey = await this.challengeMatchPath(match);
-    await set(ref(this.db, `${CHALLENGES_PATH}/${newKey}`), match)
+    return set(ref(this.db, `${CHALLENGES_PATH}/${newKey}`), match)
       .then(_ => set(ref(this.db, `${DB_INCOMING_CHALLENGE_MATCHES_LPATH}/${newKey}`), match))
       .then(
-        _ => this.messager.success('Spiel erfolgreich importiert!'),
-        _ => this.messager.failure('Etwas hat nicht funktioniert :(')
+        _ => { this.messager.success('Spiel erfolgreich importiert!'); return true; },
+        _ => { this.messager.failure('Etwas hat nicht funktioniert :('); return false; }
       );
   }
 }

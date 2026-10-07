@@ -25,7 +25,7 @@ export class UserService {
       .open(LoginDialogComponent)
       .afterClosed()
       .pipe(take(1))
-      .subscribe(loginData => {
+      .subscribe((loginData) => {
         if (loginData) {
           this.signIn(loginData as LoginData);
         }
@@ -33,22 +33,27 @@ export class UserService {
   }
 
   logout(): Promise<void> {
-    return signOut(this.auth)
-      .then(() => this.resetUserData());
+    return signOut(this.auth).then(() => this.resetUserData());
   }
 
   private signIn(loginData: LoginData): Promise<void> {
-    return signInWithEmailAndPassword(this.auth, loginData.email, loginData.password)
-      .then(user => this.getUserInformation(user))
-      .catch(_ => {
+    return signInWithEmailAndPassword(
+      this.auth,
+      loginData.email,
+      loginData.password,
+    )
+      .then((user) => this.getUserInformation(user))
+      .catch((_) => {
         this.resetUserData();
-        this.messageService.failure('SignIn failed: Wrong Credentials.')
+        this.messageService.failure('SignIn failed: Wrong Credentials.');
       });
   }
 
   private async getUserInformation(user: any): Promise<void> {
     this.uid = user.user.uid;
-    const userData = await firstValueFrom(objectVal(ref(this.db, `users/${this.uid}`)));
+    const userData = await firstValueFrom(
+      objectVal(ref(this.db, `users/${this.uid}`)),
+    );
     this.setUserName(userData);
   }
 
