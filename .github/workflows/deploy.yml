@@ -1,0 +1,56 @@
+# Reusable build + deploy, called by deploy-dev.yml and deploy-prod.yml.
+# Everything project specific comes from the GitHub environment passed in:
+#   variable FIREBASE_PROJECT_ID       - the Firebase project to deploy to
+#   secret   FIREBASE_CONFIG           - the web app config object as JSON
+#   secret   FIREBASE_SERVICE_ACCOUNT  - service account key (JSON) used for the deploy
+name: Build and deploy
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: GitHub environment holding the project id and secrets
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    concurrency:
+      group: deploy-${{ inputs.environment }}
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      # src/secrets is gitignored. The production build replaces firebase.ts with
+      # firebase.prod.ts, so both get the config of the environment being deployed.
+      - name: Write Firebase config
+        env:
+          FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+        run: |
+          mkdir -p src/secrets
+          printf 'export const firebaseConfig = %s;\n' "$FIREBASE_CONFIG" > src/secrets/firebase.ts
+          cp src/secrets/firebase.ts src/secrets/firebase.prod.ts
+
+      - run: npx ng build -c production
+
+      - run: cp sitemap.xml dist/billardfabrik-web/browser/
+
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      - name: Deploy hosting and database rules
+        run: npx firebase deploy --only hosting,database --project "${{ vars.FIREBASE_PROJECT_ID }}" --non-interactive
