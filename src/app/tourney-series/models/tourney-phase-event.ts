@@ -5,6 +5,7 @@ type EventType =
   | 'Created'
   | 'Started'
   | 'ScoreChanged'
+  | 'LengthChanged'
   | 'GroupFinalized'
   | 'SingleEliminationStageFinalized'
   | 'DoubleEliminationStageFinalized'
@@ -20,6 +21,10 @@ export type StartEvent = {
 
 export type ScoreChangedEvent = {
   type: 'ScoreChanged';
+}
+
+export type LengthChangedEvent = {
+  type: 'LengthChanged';
 }
 
 export type GroupFinalizedEvent = {
@@ -44,6 +49,7 @@ export type TourneyPhaseEvent =
   | CreationEvent
   | StartEvent
   | ScoreChangedEvent
+  | LengthChangedEvent
   | GroupFinalizedEvent
   | DoubleEliminationStageFinalizedEvent
   | SingleEliminationStageFinalizedEvent

@@ -25,9 +25,7 @@ export class TourneyEliminationStageComponent {
   stage = input.required<TourneyEliminationStage>();
   stageCompleted = computed(() => this.stage().status == TourneyPhaseStatus.finalized);
   stageActive = computed(() => this.stage().status === TourneyPhaseStatus.readyOrOngoing);
-  allGamesOver = computed(() => this.stage().matches
-    .filter(match => match.status !== MatchStatus.cancelled)
-    .findIndex(match => !Match.isOver(match)) === -1 );
+  allGamesOver = computed(() => this.allMatchesOver(this.stage()));
 
   @Output() change: EventEmitter<TourneyPhaseEvent> = new EventEmitter();
 
@@ -39,16 +37,19 @@ export class TourneyEliminationStageComponent {
     this.stage().matches.forEach(match => match.length = StraightPool.is(match.discipline)
       ? StraightPool.nextLength(match.length)
       : match.length + 1);
+    this.change.emit({ type: 'LengthChanged' });
   }
 
   decreaseLength(): void {
     this.stage().matches.forEach(match => match.length = StraightPool.is(match.discipline)
       ? StraightPool.previousLength(match.length)
       : match.length - 1);
+    this.change.emit({ type: 'LengthChanged' });
   }
 
   finalize(): void {
-    if (!this.allGamesOver()) {
+    // The stage is mutated in place, so check the current matches rather than the memoized signal.
+    if (!this.allMatchesOver(this.stage())) {
       return;
     }
 
@@ -68,6 +69,12 @@ export class TourneyEliminationStageComponent {
       })
 
     this.change.emit(event as TourneyPhaseEvent);
+  }
+
+  private allMatchesOver(stage: TourneyEliminationStage): boolean {
+    return stage.matches
+      .filter(match => match.status !== MatchStatus.cancelled)
+      .every(match => Match.isOver(match));
   }
 
   canHandleTourney(): boolean {
