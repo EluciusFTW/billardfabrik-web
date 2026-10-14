@@ -1,8 +1,8 @@
 {
   "projects": {
-    "default": "bf-web-dev",
-    "local": "bf-local-dev",
-    "web": "bf-web-dev"
+    "default": "bf-local-dev",
+    "dev": "bf-local-dev",
+    "prod": "bf-web-dev"
   },
   "targets": {},
   "etags": {}
