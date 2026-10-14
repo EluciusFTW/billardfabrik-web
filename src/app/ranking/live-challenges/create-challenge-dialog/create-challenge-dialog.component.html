@@ -1,0 +1,56 @@
+<h1 mat-dialog-title>Neue Challenge</h1>
+<form [formGroup]="challengeForm" (ngSubmit)="submit()">
+  <div mat-dialog-content class="fields">
+    <mat-form-field>
+      <mat-label>Disziplin</mat-label>
+      <mat-select formControlName="discipline">
+        @for (discipline of disciplines; track discipline) {
+          <mat-option [value]="discipline">{{ discipline }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Ausspielziel</mat-label>
+      @if (isStraightPool()) {
+        <mat-select formControlName="length">
+          @for (length of straightPoolLengths; track length) {
+            <mat-option [value]="length">{{ length }}</mat-option>
+          }
+        </mat-select>
+      } @else {
+        <input type="number" matInput formControlName="length" required>
+      }
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Spieler 1</mat-label>
+      <mat-select formControlName="selectPlayerOne">
+        @for (player of availablePlayers(); track player) {
+          <mat-option [value]="player">{{ player }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Spieler 2</mat-label>
+      <mat-select formControlName="selectPlayerTwo">
+        @for (player of availablePlayers(); track player) {
+          <mat-option [value]="player">{{ player }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (challengeForm.errors?.['needed']) {
+      <span class="error-message">Das Mindestausspielziel ist {{ challengeForm.errors?.['needed'] }}.</span>
+    }
+    @if (challengeForm.errors?.['duplicatePlayer']) {
+      <span class="error-message">Spiele gegen sich selbst zählen nicht für den ELO Score :)</span>
+    }
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button type="submit" [disabled]="challengeForm.invalid">Starten</button>
+    <button mat-button type="button" (click)="abort()">Abbrechen</button>
+  </div>
+</form>

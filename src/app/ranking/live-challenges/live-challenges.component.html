@@ -4,64 +4,7 @@
   </p>
 
   @if (isLoggedIn()) {
-    <h3>Neue Challenge</h3>
-    <form [formGroup]="challengeForm" (ngSubmit)="start()">
-      <div class="row-1">
-        <mat-form-field class="other">
-          <mat-label>Disziplin</mat-label>
-          <mat-select formControlName="discipline">
-            @for (discipline of disciplines; track discipline) {
-              <mat-option [value]="discipline">{{ discipline }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field class="points">
-          <mat-label>Ausspielziel</mat-label>
-          @if (isStraightPool()) {
-            <mat-select formControlName="length">
-              @for (length of straightPoolLengths; track length) {
-                <mat-option [value]="length">{{ length }}</mat-option>
-              }
-            </mat-select>
-          } @else {
-            <input type="number" matInput formControlName="length" required>
-          }
-        </mat-form-field>
-      </div>
-
-      <div class="row-1">
-        <mat-form-field>
-          <mat-label>Spieler 1</mat-label>
-          <mat-select formControlName="selectPlayerOne">
-            @for (player of availablePlayers(); track player) {
-              <mat-option [value]="player">{{ player }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-
-        <mat-form-field>
-          <mat-label>Spieler 2</mat-label>
-          <mat-select formControlName="selectPlayerTwo">
-            @for (player of availablePlayers(); track player) {
-              <mat-option [value]="player">{{ player }}</mat-option>
-            }
-          </mat-select>
-        </mat-form-field>
-      </div>
-
-      <div style="display: flex; flex-direction: row; gap: 1em;">
-        <button mat-raised-button type="submit" [disabled]="challengeForm.invalid">Challenge starten</button>
-        <div style="display: flex; flex-direction: column;">
-          @if (challengeForm.errors?.['needed']) {
-            <span class="error-message">Das Mindestausspielziel ist {{ challengeForm.errors?.['needed'] }}.</span>
-          }
-          @if (challengeForm.errors?.['duplicatePlayer']) {
-            <span class="error-message">Spiele gegen sich selbst zählen nicht für den ELO Score :)</span>
-          }
-        </div>
-      </div>
-    </form>
+    <button mat-flat-button class="create" (click)="create()">Neue Challenge</button>
   }
 
   <h3>Laufende Challenges</h3>
