@@ -4,8 +4,9 @@ import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { from } from 'rxjs';
 import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
-import { MatFormField, MatLabel, MatInput } from '@angular/material/input';
+import { MatError, MatFormField, MatLabel, MatInput } from '@angular/material/input';
 import { MatSelect, MatOption } from '@angular/material/select';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { PlayersService } from 'src/app/players/players.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { Match } from 'src/app/tourney-series/models/match';
@@ -17,12 +18,15 @@ import { EloMatchValidators } from '../../elo-match-validators';
 import { LiveChallenge } from '../../models/live-challenge';
 
 const DEFAULT_RACE_LENGTH = 5;
+const DEFAULT_INNING_LIMIT = 30;
+const MIN_INNING_LIMIT = 10;
+const MAX_INNING_LIMIT = 50;
 
 @Component({
   templateUrl: './create-challenge-dialog.component.html',
   styleUrls: ['./create-challenge-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, ReactiveFormsModule, MatFormField, MatLabel, MatSelect, MatOption, MatInput, MatButton]
+  imports: [MatDialogTitle, MatDialogContent, MatDialogActions, ReactiveFormsModule, MatFormField, MatLabel, MatError, MatSelect, MatOption, MatInput, MatButton, MatSlideToggle]
 })
 export class CreateChallengeDialogComponent {
 
@@ -39,7 +43,11 @@ export class CreateChallengeDialogComponent {
     { discipline: new FormControl<PoolDiscipline>(this.disciplines[0], [Validators.required]),
       length: new FormControl<number>(DEFAULT_RACE_LENGTH, [Validators.required]),
       selectPlayerOne: new FormControl<string>('', [Validators.required]),
-      selectPlayerTwo: new FormControl<string>('', [Validators.required]) },
+      selectPlayerTwo: new FormControl<string>('', [Validators.required]),
+      limitInnings: new FormControl<boolean>(false, { nonNullable: true }),
+      // only validated while the inning limit is switched on
+      inningLimit: new FormControl<number>({ value: DEFAULT_INNING_LIMIT, disabled: true },
+        [Validators.required, Validators.min(MIN_INNING_LIMIT), Validators.max(MAX_INNING_LIMIT)]) },
     { validators: [
       EloMatchValidators.DuplicatePlayerValidator,
       EloMatchValidators.MinimumRaceLengthValidator] });
@@ -48,16 +56,32 @@ export class CreateChallengeDialogComponent {
     this.challengeForm.controls.discipline.valueChanges,
     { initialValue: this.challengeForm.controls.discipline.value });
   readonly isStraightPool = computed(() => StraightPool.is(this.discipline()));
+  readonly minInningLimit = MIN_INNING_LIMIT;
+  readonly maxInningLimit = MAX_INNING_LIMIT;
+  readonly limitInnings = toSignal(this.challengeForm.controls.limitInnings.valueChanges, { initialValue: false });
 
   constructor() {
     this.challengeForm.controls.discipline.valueChanges.subscribe(discipline =>
       this.challengeForm.controls.length.setValue(
         StraightPool.is(discipline) ? StraightPool.defaultLength : DEFAULT_RACE_LENGTH));
+
+    // Only 14/1 is scored inning by inning, so only there the inning limit applies.
+    this.challengeForm.valueChanges.subscribe(() => {
+      const inningLimit = this.challengeForm.controls.inningLimit;
+      const enabled = this.isStraightPool() && this.challengeForm.controls.limitInnings.value;
+      if (enabled && inningLimit.disabled) {
+        inningLimit.enable({ emitEvent: false });
+      } else if (!enabled && inningLimit.enabled) {
+        inningLimit.disable({ emitEvent: false });
+      }
+    });
   }
 
   submit(): void {
     const value = this.challengeForm.value;
     this.dialogRef.close({
+      // Firebase rejects undefined values, so the limit is only added when there is one
+      ...(this.challengeForm.controls.inningLimit.enabled ? { inningLimit: value.inningLimit } : {}),
       ...Match.create(
         { ...MatchPlayer.From(value.selectPlayerOne) },
         { ...MatchPlayer.From(value.selectPlayerTwo) },

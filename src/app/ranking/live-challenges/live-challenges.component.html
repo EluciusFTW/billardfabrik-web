@@ -12,8 +12,16 @@
     @for (item of challenges(); track item.challenge.key) {
       @let challenge = item.challenge;
       <div class="challenge">
-        <div class="info">{{ challenge.discipline }}, Ausspielziel {{ challenge.length }}</div>
-        <app-match [match]="challenge" [disabled]="!isLoggedIn()" (change)="scoreChanged(challenge)"></app-match>
+        <div class="info">
+          {{ challenge.discipline }}, Ausspielziel {{ challenge.length }}{{ challenge.inningLimit ? ', ' + challenge.inningLimit + ' Aufnahmen' : '' }}
+          @if (item.isStraightPool) {
+            <a class="scoresheet-link" [routerLink]="challenge.key">
+              <mat-icon>assignment</mat-icon> Spielbericht
+            </a>
+          }
+        </div>
+        <!-- 14/1 challenges are scored inning by inning on the scoresheet page -->
+        <app-match [match]="challenge" [disabled]="!isLoggedIn() || item.isStraightPool" (change)="scoreChanged(challenge)"></app-match>
         @if (isLoggedIn()) {
           <div class="actions">
             <button mat-button [disabled]="!item.isOver" (click)="complete(challenge)">Abschließen</button>

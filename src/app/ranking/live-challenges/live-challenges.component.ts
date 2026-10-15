@@ -3,11 +3,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 import { Db } from 'src/app/shared/firebase-utilities';
 import { OwnConfirmService } from 'src/app/shared/services/own-confirm.service';
 import { MatchComponent } from 'src/app/tourney-series/match/match.component';
-import { Match } from 'src/app/tourney-series/models/match';
+import { StraightPool } from 'src/app/tourney-series/models/straight-pool';
 import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { LiveChallengeService } from '../live-challenge.service';
 import { LiveChallenge } from '../models/live-challenge';
@@ -17,7 +19,7 @@ import { CreateChallengeDialogComponent } from './create-challenge-dialog/create
   templateUrl: './live-challenges.component.html',
   styleUrls: ['./live-challenges.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ContentTileComponent, MatButton, MatchComponent]
+  imports: [ContentTileComponent, MatButton, MatIcon, RouterLink, MatchComponent]
 })
 export class LiveChallengesComponent extends AuthorizedComponent {
 
@@ -27,7 +29,11 @@ export class LiveChallengesComponent extends AuthorizedComponent {
 
   private readonly liveChallenges = toSignal(this.challengeService.getAll(), { initialValue: [] });
   readonly challenges = computed(() => this.liveChallenges()
-    .map(challenge => ({ challenge, isOver: Match.isOver(challenge) })));
+    .map(challenge => ({
+      challenge,
+      isOver: LiveChallenge.isOver(challenge),
+      isStraightPool: StraightPool.is(challenge.discipline)
+    })));
 
   async create(): Promise<void> {
     const challenge = await firstValueFrom(this.dialog

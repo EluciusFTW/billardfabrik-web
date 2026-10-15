@@ -1,0 +1,179 @@
+@let current = challenge();
+
+@if (current === undefined) {
+  <app-content-tile header="Spielbericht">
+    <p>Lade ...</p>
+  </app-content-tile>
+} @else if (current === null) {
+  <app-content-tile header="Spielbericht">
+    <p>Diese Challenge läuft nicht mehr, sie wurde abgeschlossen oder abgebrochen.</p>
+    <a mat-button routerLink="/ranking/challenges">Zurück zu den Challenges</a>
+  </app-content-tile>
+} @else {
+  <app-content-tile [header]="current.playerOne.name + ' vs. ' + current.playerTwo.name">
+    <div class="page">
+
+      <div class="toolbar">
+        <a mat-button routerLink="/ranking/challenges">
+          <mat-icon>arrow_back</mat-icon> Zurück
+        </a>
+        @if (isLoggedIn()) {
+          <button mat-button [disabled]="!hasInnings()" (click)="removeLastInning(current)">
+            <mat-icon>undo</mat-icon> Letzte Aufnahme löschen
+          </button>
+        }
+      </div>
+
+      @if (isOver()) {
+        <div class="panel result">
+          <span><mat-icon>emoji_events</mat-icon> {{ winner() }} hat gewonnen.</span>
+          @if (isLoggedIn()) {
+            <button mat-flat-button (click)="complete(current)">Abschließen</button>
+          }
+        </div>
+      } @else if (isLoggedIn()) {
+        <form class="panel inning" [formGroup]="inningForm" (ngSubmit)="endInning(current, 'none')">
+          <div class="panel-title">Aufnahme von {{ atTableName() }}</div>
+
+          <div class="inning-values">
+            <div class="value">
+              <span class="label">Bälle auf dem Tisch</span>
+              <span class="number">{{ virtualBallsOnTable() }}</span>
+            </div>
+
+            <div class="value">
+              <span class="label">Bälle übrig</span>
+              <span class="stepper">
+                <button mat-icon-button type="button" [disabled]="ballsLeft() <= minBallsLeft()"
+                  (click)="changeBallsLeft(-1)" aria-label="Ein Ball weniger übrig">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <mat-form-field appearance="outline" subscriptSizing="dynamic" class="balls-left">
+                  <input type="number" inputmode="numeric" matInput formControlName="ballsLeft" min="1" max="15" required aria-label="Bälle übrig">
+                </mat-form-field>
+                <button mat-icon-button type="button" [disabled]="ballsLeft() >= maxBallsLeft()"
+                  (click)="changeBallsLeft(1)" aria-label="Ein Ball mehr übrig">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </span>
+            </div>
+
+            <div class="value">
+              <span class="label">Punkte</span>
+              <span class="number">{{ inningPoints() }}</span>
+            </div>
+          </div>
+
+          @if (limitExtended()) {
+            <div class="info-message">Gleichstand nach der Aufnahmebegrenzung: Beide Spieler bekommen 5 weitere Aufnahmen.</div>
+          }
+          @if (inningForm.errors?.['noInningsLeft']) {
+            <div class="error-message">{{ atTableName() }} hat bereits alle Aufnahmen gespielt.</div>
+          }
+          @if (inningForm.errors?.['moreBallsThanOnTable']) {
+            <div class="error-message">Es können nicht mehr Bälle übrig sein, als auf dem Tisch liegen.</div>
+          }
+          @if (inningForm.errors?.['beyondRaceLength'] !== undefined) {
+            <div class="error-message">Höchstens {{ inningForm.errors?.['beyondRaceLength'] }} Punkte bis zum Ausspielziel.</div>
+          }
+
+          <div class="inning-actions">
+            <span class="rack-buttons">
+              <button mat-stroked-button type="button" [disabled]="reracks() === 0" (click)="changeReracks(-1)"
+                aria-label="Neues Rack rückgängig" title="Neues Rack rückgängig">−△</button>
+              @if (canFinishRack()) {
+                <button mat-stroked-button type="button" (click)="changeReracks(1)"
+                  aria-label="Rack beendet, 14 Bälle neu aufbauen" title="Rack beendet, 14 Bälle neu aufbauen">+△</button>
+              }
+            </span>
+            <span class="end-inning">
+              @if (isBreak()) {
+                <button mat-stroked-button class="foul" type="button" [disabled]="inningForm.invalid" (click)="endInning(current, 'breakFoul')"
+                  aria-label="Fehlerhafter Break (-2)" title="Fehlerhafter Break (-2)">
+                  <mat-icon>bolt</mat-icon><mat-icon>bolt</mat-icon> -2
+                </button>
+              }
+              <button mat-stroked-button class="foul" type="button" [disabled]="inningForm.invalid" (click)="endInning(current, 'foul')"
+                aria-label="Foul (-1)" title="Foul (-1)">
+                <mat-icon>bolt</mat-icon> -1
+              </button>
+              <button mat-flat-button class="primary" type="submit" [disabled]="inningForm.invalid">Aufnahme beenden</button>
+            </span>
+          </div>
+        </form>
+      }
+
+      <!-- The inning number sits in the middle, so each player box spans exactly its three columns. -->
+      <table class="scoresheet">
+        <colgroup>
+          <col class="points"><col class="foul"><col>
+          <col class="inning-number">
+          <col class="points"><col class="foul"><col>
+        </colgroup>
+        <thead>
+          <tr class="summary">
+            @for (player of players(); track player.side; let second = $odd) {
+              @if (second) {
+                <th class="inning-number race">
+                  <span class="label">Ziel</span>
+                  <span class="race-length">{{ current.length }}</span>
+                  @if (sheet().inningLimit) {
+                    <span class="label">max. {{ sheet().inningLimit }} Aufn.</span>
+                  }
+                </th>
+              }
+              @let atTable = !isOver() && atTablePlayer() === player.side;
+              <th colspan="3">
+                <button type="button" class="player-summary" [class.at-table]="atTable"
+                  [disabled]="!canChoosePlayer()" (click)="choosePlayer(player.side)">
+                  <span class="name">
+                    {{ player.name }}
+                    @if (atTable) {
+                      <mat-icon aria-label="Am Tisch">play_arrow</mat-icon>
+                    }
+                  </span>
+                  <span class="total">{{ player.sheet.total }}</span>
+                  <span class="stats">
+                    <span>Aufnahmen <strong>{{ player.sheet.innings.length }}</strong></span>
+                    <span>Höchstserie <strong>{{ player.sheet.highRun }}</strong></span>
+                    <span>Durchschnitt <strong>{{ player.sheet.average.toFixed(2) }}</strong></span>
+                    <span [class.warning]="player.sheet.successiveFouls === 2">Fouls in Folge <strong>{{ player.sheet.successiveFouls }}</strong></span>
+                  </span>
+                </button>
+              </th>
+            }
+          </tr>
+          <tr class="columns">
+            <th>Pkt.</th><th>Foul</th><th>Gesamt</th>
+            <th class="inning-number">Aufn.</th>
+            <th>Pkt.</th><th>Foul</th><th>Gesamt</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of rows(); track row.number) {
+            <tr [class.last-innings]="row.lastInnings">
+              @for (inning of [row.one, row.two]; track $index; let second = $odd) {
+                @if (second) {
+                  <td class="inning-number">{{ row.number }}</td>
+                }
+                @if (inning) {
+                  <!-- balls per rack, separated at each re-rack; full racks in between are bullets: 1/●/10 -->
+                  <td class="points">
+                    {{ inning.notation }}
+                    @if (inning.rackRuns.length > 1) {
+                      <span class="inning-points">({{ inning.points }})</span>
+                    }
+                  </td>
+                  <td [class.three-fouls]="inning.threeFouls">{{ inning.penalty ? -inning.penalty : '' }}</td>
+                  <td class="running-total">{{ inning.total }}</td>
+                } @else {
+                  <td></td><td></td><td></td>
+                }
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </app-content-tile>
+}

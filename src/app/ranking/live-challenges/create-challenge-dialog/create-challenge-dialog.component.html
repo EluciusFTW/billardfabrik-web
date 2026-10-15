@@ -23,6 +23,20 @@
       }
     </mat-form-field>
 
+    @if (isStraightPool()) {
+      <mat-slide-toggle formControlName="limitInnings" class="limit-toggle">Aufnahmebegrenzung</mat-slide-toggle>
+      @if (limitInnings()) {
+        <mat-form-field>
+          <mat-label>Aufnahmen pro Spieler</mat-label>
+          <input type="number" inputmode="numeric" matInput formControlName="inningLimit"
+            [min]="minInningLimit" [max]="maxInningLimit" required>
+          @if (challengeForm.controls.inningLimit.invalid) {
+            <mat-error>Zwischen {{ minInningLimit }} und {{ maxInningLimit }} Aufnahmen.</mat-error>
+          }
+        </mat-form-field>
+      }
+    }
+
     <mat-form-field>
       <mat-label>Spieler 1</mat-label>
       <mat-select formControlName="selectPlayerOne">

@@ -5,6 +5,7 @@ import { RankingMatchesComponent } from './ranking-matches/ranking-matches.compo
 import { ScoringDetailsComponent } from './scoring-details/scoring-details.component';
 import { ImportMatchesComponent } from './import-matches/import-matches.component';
 import { LiveChallengesComponent } from './live-challenges/live-challenges.component';
+import { LiveChallengeScoresheetComponent } from './live-challenges/live-challenge-scoresheet/live-challenge-scoresheet.component';
 import { UserGuard } from '../authentication/guards/user.guard';
 import { PlayerListingComponent } from '../players/player-listing/player-listing.component';
 
@@ -16,6 +17,7 @@ export const routes: Routes = [{
     { path: 'players', component: PlayerRankingsComponent },
     { path: 'matches', component: RankingMatchesComponent },
     { path: 'challenges', component: LiveChallengesComponent },
+    { path: 'challenges/:id', component: LiveChallengeScoresheetComponent },
     { path: 'details', component: ScoringDetailsComponent },
     { path: 'import', component: ImportMatchesComponent, canActivate: [UserGuard] },
     { path: 'player-management', component: PlayerListingComponent, canActivate: [UserGuard] }

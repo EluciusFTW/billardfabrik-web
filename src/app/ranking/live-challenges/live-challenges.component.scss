@@ -12,7 +12,23 @@
   max-width: 100%;
 
   .info {
+    display: flex;
+    align-items: center;
+    gap: 1em;
     font-size: .85em;
+  }
+
+  .scoresheet-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .25em;
+    color: inherit;
+
+    mat-icon {
+      font-size: 1.25em;
+      width: 1.25em;
+      height: 1.25em;
+    }
   }
 }
 

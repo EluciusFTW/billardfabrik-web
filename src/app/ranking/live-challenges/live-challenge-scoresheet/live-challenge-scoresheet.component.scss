@@ -1,0 +1,276 @@
+// One centered column; toolbar, panel and scoresheet all share its width.
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+  max-width: 44em;
+  margin: 0 auto;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.panel {
+  padding: 1em 1.25em;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.panel-title {
+  margin-bottom: .75em;
+  font-weight: bold;
+}
+
+.result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1em;
+  font-weight: bold;
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+  }
+}
+
+.inning-values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+
+  .value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .25em;
+  }
+
+  .label {
+    font-size: .85em;
+    color: var(--color-secondary);
+  }
+
+  .number {
+    font-size: 2em;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: .25em;
+  }
+
+  .balls-left {
+    width: 4.5em;
+
+    input {
+      font-size: 1.5em;
+      text-align: center;
+    }
+  }
+}
+
+// on phones the three values are stacked, so the +/- buttons stay easy to hit
+@media (max-width: 600px) {
+  .inning-values {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inning-actions {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .5em;
+  margin-top: 1em;
+}
+
+.rack-buttons,
+.end-inning {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5em;
+}
+
+.end-inning {
+  margin-left: auto;
+}
+
+// two bolts for a breaking violation sit close together
+.foul mat-icon + mat-icon {
+  margin-left: -.6em;
+}
+
+// the theme's flat buttons are white, which disappears on the white panel
+.primary:not(:disabled) {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.info-message {
+  margin-top: .5em;
+  font-size: .85em;
+  text-align: center;
+}
+
+.error-message {
+  margin-top: .5em;
+  color: var(--color-error);
+  font-size: .85em;
+  text-align: center;
+}
+
+.scoresheet {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: center;
+
+  // the rack notation needs the room, the foul column hardly any; Gesamt takes the rest
+  col.inning-number {
+    width: 4.5em;
+  }
+
+  col.points {
+    width: 22%;
+  }
+
+  col.foul {
+    width: 10%;
+  }
+
+  td.points {
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    padding: .3em .5em;
+  }
+
+  tbody td,
+  .columns th {
+    border-bottom: 1px solid #d6cdbf;
+  }
+
+  .columns th {
+    font-size: .85em;
+    color: var(--color-secondary);
+  }
+
+  // the inning numbers in the middle double as the divider between the two players
+  .inning-number {
+    background-color: #ddd3c4;
+    font-weight: bold;
+  }
+
+  .summary th {
+    padding: 0 .25em .75em;
+    background-color: transparent;
+  }
+
+  // race length (and inning limit) between the two player boxes
+  .summary .race {
+    padding: 0 .25em;
+    vertical-align: middle;
+    background-color: #ddd3c4;
+
+    span {
+      display: block;
+    }
+
+    .label {
+      font-size: .75em;
+      font-weight: normal;
+      color: var(--color-secondary);
+    }
+
+    .race-length {
+      font-size: 1.75em;
+    }
+  }
+
+  // the last three innings before the inning limit
+  .last-innings td:not(.inning-number) {
+    background-color: rgba(120, 15, 7, .08);
+  }
+
+  .last-innings .inning-number {
+    color: var(--color-primary);
+  }
+
+  .running-total {
+    font-weight: bold;
+  }
+
+  .inning-points {
+    font-size: .8em;
+    color: #9a9188;
+  }
+
+  .three-fouls {
+    color: var(--color-error);
+    font-weight: bold;
+  }
+}
+
+.player-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: .75em 1em;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-color: #fff;
+  color: inherit;
+  font: inherit;
+
+  &:not(:disabled) {
+    cursor: pointer;
+  }
+
+  &.at-table {
+    border-color: var(--color-primary);
+
+    .name {
+      color: var(--color-primary);
+    }
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+    gap: .25em;
+    font-weight: bold;
+  }
+
+  .total {
+    font-size: 2.5em;
+    line-height: 1.2;
+    font-weight: bold;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .15em 1em;
+    width: 100%;
+    font-size: .8em;
+    font-weight: normal;
+    text-align: left;
+  }
+}
+
+.warning {
+  color: var(--color-error);
+}
