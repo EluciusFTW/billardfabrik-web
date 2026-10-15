@@ -117,8 +117,9 @@
                 <th class="inning-number race">
                   <span class="label">Ziel</span>
                   <span class="race-length">{{ current.length }}</span>
-                  @if (sheet().inningLimit) {
-                    <span class="label">max. {{ sheet().inningLimit }} Aufn.</span>
+                  @let inningLimit = sheet().inningLimit;
+                  @if (inningLimit.kind === 'limited') {
+                    <span class="label">max. {{ inningLimit.innings }} Aufn.</span>
                   }
                 </th>
               }

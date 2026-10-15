@@ -14,6 +14,16 @@
 export type PlayerSide = 'one' | 'two';
 export type StraightPoolFoul = 'none' | 'foul' | 'breakFoul';
 
+// With a limit, the match ends after this many innings per player.
+export type InningLimit =
+  | { kind: 'unlimited' }
+  | { kind: 'limited'; innings: number };
+
+// The limit as it stands after the innings played: extended after a tie, and reached once it is used up.
+export type InningLimitState =
+  | { kind: 'unlimited' }
+  | { kind: 'limited'; innings: number; extended: boolean; reached: boolean };
+
 export type StraightPoolInning = {
   player: PlayerSide;
   ballsLeft: number;
@@ -46,9 +56,7 @@ export type Scoresheet = {
   two: PlayerSheet;
   ballsOnTable: number;
   nextPlayer: PlayerSide;
-  // the inning limit including extensions after a tie, if the match has one
-  inningLimit?: number;
-  limitReached: boolean;
+  inningLimit: InningLimitState;
 };
 
 const FOUL_PENALTY = 1;
@@ -62,14 +70,15 @@ export function opponent(player: PlayerSide): PlayerSide {
   return player === 'one' ? 'two' : 'one';
 }
 
-export function evaluateScoresheet(innings: StraightPoolInning[], inningLimit?: number): Scoresheet {
+export function evaluateScoresheet(innings: StraightPoolInning[], inningLimit: InningLimit): Scoresheet {
   const totals = { one: 0, two: 0 };
   const successiveFouls = { one: 0, two: 0 };
   const scored = { one: [] as ScoredInning[], two: [] as ScoredInning[] };
   let ballsOnTable = BALLS_IN_RACK;
   let nextPlayer: PlayerSide = 'one';
-  let limit = inningLimit;
-  let limitReached = false;
+  let limit: InningLimitState = inningLimit.kind === 'limited'
+    ? { ...inningLimit, extended: false, reached: false }
+    : inningLimit;
 
   for (const inning of innings) {
     const player = inning.player;
@@ -97,17 +106,15 @@ export function evaluateScoresheet(innings: StraightPoolInning[], inningLimit?: 
     ballsOnTable = threeFouls ? BALLS_IN_RACK : inning.ballsLeft;
     nextPlayer = threeFouls ? player : opponent(player);
 
-    if (limit !== undefined) {
-      if (scored.one.length >= limit && scored.two.length >= limit) {
-        if (totals.one === totals.two) {
-          limit += TIE_EXTENSION_INNINGS;
-        } else {
-          limitReached = true;
-        }
+    if (limit.kind === 'limited') {
+      if (scored.one.length >= limit.innings && scored.two.length >= limit.innings) {
+        limit = totals.one === totals.two
+          ? { ...limit, innings: limit.innings + TIE_EXTENSION_INNINGS, extended: true }
+          : { ...limit, reached: true };
       }
 
       // a player who has used up the innings cannot come to the table again, not even after three fouls
-      if (scored[nextPlayer].length >= limit) {
+      if (scored[nextPlayer].length >= limit.innings) {
         nextPlayer = opponent(nextPlayer);
       }
     }
@@ -118,8 +125,7 @@ export function evaluateScoresheet(innings: StraightPoolInning[], inningLimit?: 
     two: playerSheet(scored.two, totals.two, successiveFouls.two),
     ballsOnTable,
     nextPlayer,
-    inningLimit: limit,
-    limitReached
+    inningLimit: limit
   };
 }
 

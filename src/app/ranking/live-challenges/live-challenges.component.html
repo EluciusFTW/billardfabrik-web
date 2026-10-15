@@ -13,7 +13,7 @@
       @let challenge = item.challenge;
       <div class="challenge">
         <div class="info">
-          {{ challenge.discipline }}, Ausspielziel {{ challenge.length }}{{ challenge.inningLimit ? ', ' + challenge.inningLimit + ' Aufnahmen' : '' }}
+          {{ challenge.discipline }}, Ausspielziel {{ challenge.length }}{{ item.inningLimitInfo }}
           @if (item.isStraightPool) {
             <a class="scoresheet-link" [routerLink]="challenge.key">
               <mat-icon>assignment</mat-icon> Spielbericht

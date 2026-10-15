@@ -9,7 +9,6 @@ import { AuthorizedComponent } from 'src/app/shared/authorized.component';
 import { Db } from 'src/app/shared/firebase-utilities';
 import { OwnConfirmService } from 'src/app/shared/services/own-confirm.service';
 import { MatchComponent } from 'src/app/tourney-series/match/match.component';
-import { StraightPool } from 'src/app/tourney-series/models/straight-pool';
 import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { LiveChallengeService } from '../live-challenge.service';
 import { LiveChallenge } from '../models/live-challenge';
@@ -32,7 +31,10 @@ export class LiveChallengesComponent extends AuthorizedComponent {
     .map(challenge => ({
       challenge,
       isOver: LiveChallenge.isOver(challenge),
-      isStraightPool: StraightPool.is(challenge.discipline)
+      isStraightPool: LiveChallenge.isStraightPool(challenge),
+      inningLimitInfo: LiveChallenge.isStraightPool(challenge) && challenge.inningLimit.kind === 'limited'
+        ? `, ${challenge.inningLimit.innings} Aufnahmen`
+        : ''
     })));
 
   async create(): Promise<void> {

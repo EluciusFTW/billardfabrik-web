@@ -4,9 +4,10 @@ import { Observable, map } from 'rxjs';
 import { Db, listValWithKey, unpackSnapshotWithKey } from '../shared/firebase-utilities';
 import { FirebaseService } from '../shared/firebase.service';
 import { OwnMessageService } from '../shared/services/own-message.service';
+import { StraightPool } from '../tourney-series/models/straight-pool';
 import { TourneyFunctions } from '../tourney-series/tourney/tourney-functions';
 import { EloChallengeImportService } from './elo-challenge-import.service';
-import { LiveChallenge } from './models/live-challenge';
+import { LiveChallenge, RackChallenge, StraightPoolChallenge } from './models/live-challenge';
 import { IncomingChallengeMatch } from './models/ranking-match';
 import { StraightPoolInning, evaluateScoresheet } from './straight-pool-scoresheet';
 
@@ -19,13 +20,14 @@ export class LiveChallengeService extends FirebaseService {
   private readonly challengesRef = ref(this.db, DB_LIVE_CHALLENGES_LPATH);
 
   getAll(): Observable<Db<LiveChallenge>[]> {
-    return listValWithKey<LiveChallenge>(this.challengesRef);
+    return listValWithKey<StoredLiveChallenge>(this.challengesRef).pipe(
+      map(challenges => challenges.map(fromDb)));
   }
 
   // Emits null once the challenge is gone, i.e. completed or abandoned.
   get(key: string): Observable<Db<LiveChallenge> | null> {
     return object(this.challengeRef(key)).pipe(
-      map(change => change.snapshot.exists() ? unpackSnapshotWithKey<LiveChallenge>(change) : null));
+      map(change => change.snapshot.exists() ? fromDb(unpackSnapshotWithKey<StoredLiveChallenge>(change)) : null));
   }
 
   create(challenge: LiveChallenge): Promise<void> {
@@ -42,16 +44,16 @@ export class LiveChallengeService extends FirebaseService {
     });
   }
 
-  addInning(challenge: Db<LiveChallenge>, inning: StraightPoolInning): Promise<void> {
-    return this.saveInnings(challenge, [...(challenge.innings ?? []), inning]);
+  addInning(challenge: Db<StraightPoolChallenge>, inning: StraightPoolInning): Promise<void> {
+    return this.saveInnings(challenge, [...challenge.innings, inning]);
   }
 
-  removeLastInning(challenge: Db<LiveChallenge>): Promise<void> {
-    return this.saveInnings(challenge, (challenge.innings ?? []).slice(0, -1));
+  removeLastInning(challenge: Db<StraightPoolChallenge>): Promise<void> {
+    return this.saveInnings(challenge, challenge.innings.slice(0, -1));
   }
 
-  private saveInnings(challenge: Db<LiveChallenge>, innings: StraightPoolInning[]): Promise<void> {
-    const sheet = evaluateScoresheet(innings);
+  private saveInnings(challenge: Db<StraightPoolChallenge>, innings: StraightPoolInning[]): Promise<void> {
+    const sheet = evaluateScoresheet(innings, challenge.inningLimit);
     return update(this.challengeRef(challenge.key), {
       innings,
       'playerOne/points': sheet.one.total,
@@ -89,4 +91,19 @@ export class LiveChallengeService extends FirebaseService {
   private challengeRef(key: string) {
     return ref(this.db, `${DB_LIVE_CHALLENGES_LPATH}/${key}`);
   }
+}
+
+// A 14/1 challenge as it comes back from Firebase: empty arrays are not stored, so there are no
+// innings before the first one is played.
+type StoredStraightPoolChallenge = Omit<StraightPoolChallenge, 'innings'> & {
+  innings?: StraightPoolInning[];
+};
+type StoredLiveChallenge = RackChallenge | StoredStraightPoolChallenge;
+
+function fromDb(challenge: Db<StoredLiveChallenge>): Db<LiveChallenge> {
+  if (challenge.discipline !== StraightPool.discipline) {
+    return challenge;
+  }
+
+  return { ...challenge, innings: challenge.innings ?? [] };
 }

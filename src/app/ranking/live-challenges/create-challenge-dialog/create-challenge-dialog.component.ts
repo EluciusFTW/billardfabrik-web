@@ -11,11 +11,11 @@ import { PlayersService } from 'src/app/players/players.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { Match } from 'src/app/tourney-series/models/match';
 import { MatchPlayer } from 'src/app/tourney-series/models/match-player';
-import { MatchStatus } from 'src/app/tourney-series/models/match-status';
 import { POOL_DISCIPLINES, PoolDiscipline } from 'src/app/tourney-series/models/pool-discipline';
 import { StraightPool } from 'src/app/tourney-series/models/straight-pool';
 import { EloMatchValidators } from '../../elo-match-validators';
 import { LiveChallenge } from '../../models/live-challenge';
+import { InningLimit } from '../../straight-pool-scoresheet';
 
 const DEFAULT_RACE_LENGTH = 5;
 const DEFAULT_INNING_LIMIT = 30;
@@ -79,17 +79,16 @@ export class CreateChallengeDialogComponent {
 
   submit(): void {
     const value = this.challengeForm.value;
-    this.dialogRef.close({
-      // Firebase rejects undefined values, so the limit is only added when there is one
-      ...(this.challengeForm.controls.inningLimit.enabled ? { inningLimit: value.inningLimit } : {}),
-      ...Match.create(
+    const inningLimit: InningLimit = this.challengeForm.controls.inningLimit.enabled
+      ? { kind: 'limited', innings: value.inningLimit }
+      : { kind: 'unlimited' };
+    this.dialogRef.close(LiveChallenge.start(
+      Match.create(
         { ...MatchPlayer.From(value.selectPlayerOne) },
         { ...MatchPlayer.From(value.selectPlayerTwo) },
         value.discipline,
         value.length),
-      status: MatchStatus.inProgress,
-      startedAt: new Date().toISOString()
-    });
+      inningLimit));
   }
 
   abort(): void {
