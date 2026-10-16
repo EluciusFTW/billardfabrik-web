@@ -21,7 +21,6 @@ export class RankedChallengesComponent implements OnInit {
 
   async ngOnInit() {
     const matches = await firstValueFrom(this.eloRankingService.GetRankedChallenges(50));
-    console.log(matches[0]);
     this.dataSource = new MatTableDataSource(matches.reverse());
   }
 }

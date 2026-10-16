@@ -61,6 +61,15 @@ export class EloRankingService extends FirebaseService {
         .map(match => withoutKey(match))));
   }
 
+  // all ranked matches, in the order they were ranked
+  async GetAllRankedMatches(): Promise<ScoredMatch[]> {
+    return firstValueFrom(
+      listValWithKey<ScoredMatch>(ref(this.db, DB_MATCHES_LPATH))
+        .pipe(map(matches => matches
+          .sort(compareByKey)
+          .map(match => withoutKey(match)))));
+  }
+
   GetRankedChallenges(nrOf: number): Observable<ScoredMatch[]> {
     return this.GetRankedMatches('Challenge', nrOf);
   }
