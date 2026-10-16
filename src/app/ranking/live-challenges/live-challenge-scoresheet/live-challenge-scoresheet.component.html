@@ -7,14 +7,14 @@
 } @else if (current === null) {
   <app-content-tile header="Spielbericht">
     <p>Diese Challenge läuft nicht mehr, sie wurde abgeschlossen oder abgebrochen.</p>
-    <a mat-button routerLink="/ranking/challenges">Zurück zu den Challenges</a>
+    <a mat-button routerLink="/ranking/live">Zurück zu den Challenges</a>
   </app-content-tile>
 } @else {
   <app-content-tile [header]="current.playerOne.name + ' vs. ' + current.playerTwo.name">
     <div class="page">
 
       <div class="toolbar">
-        <a mat-button routerLink="/ranking/challenges">
+        <a mat-button routerLink="/ranking/live">
           <mat-icon>arrow_back</mat-icon> Zurück
         </a>
         @if (isLoggedIn()) {

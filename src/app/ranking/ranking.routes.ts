@@ -16,8 +16,8 @@ export const routes: Routes = [{
     { path: '', redirectTo: 'players', pathMatch: 'full' },
     { path: 'players', component: PlayerRankingsComponent },
     { path: 'matches', component: RankingMatchesComponent },
-    { path: 'challenges', component: LiveChallengesComponent },
-    { path: 'challenges/:id', component: LiveChallengeScoresheetComponent },
+    { path: 'live', component: LiveChallengesComponent },
+    { path: 'live/:id', component: LiveChallengeScoresheetComponent },
     { path: 'details', component: ScoringDetailsComponent },
     { path: 'import', component: ImportMatchesComponent, canActivate: [UserGuard] },
     { path: 'player-management', component: PlayerListingComponent, canActivate: [UserGuard] }

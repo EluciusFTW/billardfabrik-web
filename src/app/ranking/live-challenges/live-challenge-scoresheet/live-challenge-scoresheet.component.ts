@@ -270,7 +270,7 @@ export class LiveChallengeScoresheetComponent extends AuthorizedComponent {
 
   async complete(challenge: Db<StraightPoolChallenge>): Promise<void> {
     await this.challengeService.complete(challenge);
-    await this.router.navigate(['ranking', 'challenges']);
+    await this.router.navigate(['ranking', 'live']);
   }
 
   private validPoints(control: AbstractControl): ValidationErrors | null {
