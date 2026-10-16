@@ -7,7 +7,6 @@ import { MatSelect, MatOption } from '@angular/material/select';
 import { MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
-import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { DateKeyPipe } from '../../tourney-series/date-key.pipe';
 import { EloRankingService } from '../elo-ranking.service';
 import { HeadToHead } from '../head-to-head';
@@ -22,7 +21,7 @@ type Selection =
   templateUrl: './head-to-head.component.html',
   styleUrls: ['./head-to-head.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ContentTileComponent, MatFormField, MatLabel, MatSelect, MatOption, MatIconButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DateKeyPipe]
+  imports: [MatFormField, MatLabel, MatSelect, MatOption, MatIconButton, MatIcon, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, DateKeyPipe]
 })
 export class HeadToHeadComponent {
   private readonly eloRankingService = inject(EloRankingService);

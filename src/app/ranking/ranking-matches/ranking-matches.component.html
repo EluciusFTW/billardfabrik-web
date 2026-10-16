@@ -1,20 +1,18 @@
-<app-content-tile [header]="'Letzte Matches'">
-  <p>
-    Hier könnt ihr die letzten Turnierspiele als auch Challenge matches und deren Auswertung finden.
-  </p>
+<p>
+  Hier könnt ihr die letzten Turnierspiele als auch Challenge matches und deren Auswertung finden.
+</p>
 
-  <mat-tab-group mat-stretch-tabs="false">
-    <mat-tab label="Letzte 50 Turnierspiele">
-      <app-ranked-tourney-matches></app-ranked-tourney-matches>
-    </mat-tab>
+<mat-tab-group mat-stretch-tabs="false">
+  <mat-tab label="Letzte 50 Turnierspiele">
+    <app-ranked-tourney-matches></app-ranked-tourney-matches>
+  </mat-tab>
 
-    <mat-tab label="Letzte 50 Challenges">
-      <app-ranked-challenges></app-ranked-challenges>
-    </mat-tab>
+  <mat-tab label="Letzte 50 Challenges">
+    <app-ranked-challenges></app-ranked-challenges>
+  </mat-tab>
 
-    <mat-tab label="Unausgewertete Spiele">
-      <app-incoming-matches></app-incoming-matches>
-    </mat-tab>
-  </mat-tab-group>
+  <mat-tab label="Unausgewertete Spiele">
+    <app-incoming-matches></app-incoming-matches>
+  </mat-tab>
+</mat-tab-group>
 
-</app-content-tile>
