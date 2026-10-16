@@ -1,17 +1,20 @@
 import { Service, inject } from '@angular/core';
 import { EloFunctions } from './elo-functions';
 import { IncomingMatch, ScoredMatch } from './models/ranking-match';
-import { EloPlayer } from './models/elo-models';
+import { EloDataPoint, EloPlayer } from './models/elo-models';
+import { Leaderboard } from './models/ranking-player';
+import { LeaderboardFunctions } from './leaderboard-functions';
 import { Db } from '../shared/firebase-utilities';
 import { PlayerFunctions } from '../players/player-functions';
 import { FirebaseService } from '../shared/firebase.service';
 import { EloRankingService } from './elo-ranking.service';
-import { child, ref, remove, update } from '@angular/fire/database';
+import { ref, update } from '@angular/fire/database';
 
 export const DB_MATCHES_LPATH = 'elo/rankedmatches';
 export const DB_INCOMING_TOURNEY_MATCHES_LPATH = 'elo/incomingmatches/from-tourneys';
 export const DB_INCOMING_CHALLENGE_MATCHES_LPATH = 'elo/incomingmatches/from-challenges';
 export const DB_PLAYERS_PATH = 'elo/players';
+export const DB_LEADERBOARD_PATH = 'elo/leaderboard';
 
 @Service()
 export class EloService extends FirebaseService {
@@ -20,6 +23,7 @@ export class EloService extends FirebaseService {
   async UpdateEloScores(): Promise<void> {
     let eloPlayers = await this.rankingService.GetEloListedPlayers();
     let unrankedMatches = await this.rankingService.GetUnrankedMatches();
+    const persistedLengths = new Map(eloPlayers.map(player => [player.name, player.changes.length]));
 
     let matchData = unrankedMatches
       .map(match => ({
@@ -55,9 +59,12 @@ export class EloService extends FirebaseService {
       });
 
     const evaluatedMatches = matchData.map(data => data.match);
-    await this.SaveRankedMatches(evaluatedMatches);
-    await this.UpdatePlayers(eloPlayers);
-    await this.RemoveIncomingMatches(evaluatedMatches);
+    await update(ref(this.db), {
+      ...this.rankedMatchUpdates(evaluatedMatches),
+      ...this.appendedChanges(eloPlayers, persistedLengths),
+      ...this.incomingMatchRemovals(evaluatedMatches),
+      [DB_LEADERBOARD_PATH]: this.leaderboardOf(eloPlayers),
+    });
   }
 
   private createNewPlayer(name: string, existing: EloPlayer[]) {
@@ -76,32 +83,36 @@ export class EloService extends FirebaseService {
     return newPlayer;
   }
 
-  private async RemoveIncomingMatches(matches: Db<IncomingMatch>[]): Promise<void[]> {
-    const tourneyMatchesRef = ref(this.db, DB_INCOMING_TOURNEY_MATCHES_LPATH);
-    let removals = matches
-      .filter(match => match.source === 'Tourney' || match.source === 'UniqueTourney')
-      .map(match => remove(child(tourneyMatchesRef, match.key)));
-
-    const challengeMatchesRef = ref(this.db, DB_INCOMING_CHALLENGE_MATCHES_LPATH);
-    let challenges = matches
-      .filter(match => match.source === 'Challenge')
-      .map(match => remove(child(challengeMatchesRef, match.key)));
-
-    return Promise.all(removals.concat(challenges));
+  private rankedMatchUpdates(matches: Db<ScoredMatch>[]): Record<string, ScoredMatch> {
+    return Object.fromEntries(matches
+      .map(match => [`${DB_MATCHES_LPATH}/${match.key}`, match]));
   }
 
-  UpdatePlayers(players: EloPlayer[]): Promise<void[]> {
-    let updates = players
-      .map(player => ({ key: PlayerFunctions.keyFromName(player.name), c: { changes: player.changes } }))
-      .map(ranking => update(ref(this.db, `${DB_PLAYERS_PATH}/${ranking.key}`), ranking.c))
-
-    return Promise.all(updates);
+  // Only writes the data points added in this run, players' histories are append-only.
+  private appendedChanges(players: EloPlayer[], persistedLengths: Map<string, number>): Record<string, EloDataPoint> {
+    return Object.fromEntries(players
+      .flatMap(player => {
+        const changesPath = `${DB_PLAYERS_PATH}/${PlayerFunctions.keyFromName(player.name)}/changes`;
+        const persisted = persistedLengths.get(player.name) ?? 0;
+        return player.changes
+          .slice(persisted)
+          .map((change, offset) => [`${changesPath}/${persisted + offset}`, change]);
+      }));
   }
 
-  SaveRankedMatches(matches: Db<ScoredMatch>[]): Promise<void[]> {
-    let updates = matches
-      .map(match => update(ref(this.db, `${DB_MATCHES_LPATH}/${match.key}`), match))
+  private incomingMatchRemovals(matches: Db<IncomingMatch>[]): Record<string, null> {
+    return Object.fromEntries(matches
+      .map(match => [`${this.incomingPathOf(match)}/${match.key}`, null]));
+  }
 
-    return Promise.all(updates);
+  private incomingPathOf(match: IncomingMatch): string {
+    return match.source === 'Challenge'
+      ? DB_INCOMING_CHALLENGE_MATCHES_LPATH
+      : DB_INCOMING_TOURNEY_MATCHES_LPATH;
+  }
+
+  private leaderboardOf(players: EloPlayer[]): Leaderboard {
+    return Object.fromEntries(players
+      .map(player => [PlayerFunctions.keyFromName(player.name), LeaderboardFunctions.entryFor(player)]));
   }
 }

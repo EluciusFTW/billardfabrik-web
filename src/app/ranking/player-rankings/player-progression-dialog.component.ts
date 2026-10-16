@@ -1,7 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent } from "@angular/material/dialog";
 import { ChartConfiguration, ChartOptions } from "chart.js";
-import { ComputedRankingPlayer } from "../models/ranking-player";
+import { RankingPlayer } from "../models/ranking-player";
+import { EloRankingService } from "../elo-ranking.service";
 import { CdkScrollable } from "@angular/cdk/scrolling";
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from "ng2-charts";
 
@@ -13,20 +14,31 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from "ng2
 })
 export class PlayerProgressionDialogComponent {
   dialogRef = inject<MatDialogRef<PlayerProgressionDialogComponent>>(MatDialogRef);
-  player = inject<ComputedRankingPlayer>(MAT_DIALOG_DATA);
+  player = inject<RankingPlayer>(MAT_DIALOG_DATA);
+  private readonly eloRankingService = inject(EloRankingService);
 
-  public lineChartData: ChartConfiguration<'line'>['data'] = {
-    labels: this.player.allScores.map((_, index) => index + 1),
-    datasets: [
-      {
-        data: this.player.allScores,
-        fill: true,
-        tension: 0.5,
-        borderColor: 'black',
-        backgroundColor: 'rgba(255,0,0,0.3)'
-      }
-    ]
-  };
+  public lineChartData: ChartConfiguration<'line'>['data'] | undefined;
+
+  constructor() {
+    this.loadHistory();
+  }
+
+  private async loadHistory(): Promise<void> {
+    const scores = await this.eloRankingService.GetScoreHistory(this.player.name);
+    this.lineChartData = {
+      labels: scores.map((_, index) => index + 1),
+      datasets: [
+        {
+          data: scores,
+          fill: true,
+          tension: 0.5,
+          borderColor: 'black',
+          backgroundColor: 'rgba(255,0,0,0.3)'
+        }
+      ]
+    };
+  }
+
   public lineChartOptions: ChartOptions<'line'> = {
     responsive: false
   };

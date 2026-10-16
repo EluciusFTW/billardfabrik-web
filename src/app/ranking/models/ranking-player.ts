@@ -1,11 +1,12 @@
-export type RankingPlayer = {
-  name: string;
-  allScores: number[]
-}
-
-export type ComputedRankingPlayer = RankingPlayer & {
-  max: number;
-  trend: number;
+export type LeaderboardEntry = {
   ranking: number;
   matches: number;
+  max: number;
+  trend: number;
+}
+
+export type Leaderboard = Record<string, LeaderboardEntry>;
+
+export type RankingPlayer = LeaderboardEntry & {
+  name: string;
 }

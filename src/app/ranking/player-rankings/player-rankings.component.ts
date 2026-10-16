@@ -2,7 +2,7 @@ import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/cor
 import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { PlayerProgressionDialogComponent } from './player-progression-dialog.component';
-import { ComputedRankingPlayer } from '../models/ranking-player';
+import { RankingPlayer } from '../models/ranking-player';
 import { EloRankingService } from '../elo-ranking.service';
 import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { MatIcon } from '@angular/material/icon';
@@ -18,26 +18,16 @@ export class PlayerRankingsComponent implements OnInit {
   private readonly dialog = inject(MatDialog);
 
   flatnessBarrier = 6;
-  dataSource = new MatTableDataSource<ComputedRankingPlayer>();
+  dataSource = new MatTableDataSource<RankingPlayer>();
   displayedColumns = ['place', 'name', 'matches', 'trend', 'max', 'ranking'];
 
   async ngOnInit(): Promise<void> {
     const players = await this.eloRankingService.GetRanking();
-
-    let sorted = players
-      .map(player => ({
-        ... player,
-        ranking: player.allScores[player.allScores.length - 1],
-        matches: player.allScores.length - 1, // -1 bc the initial seed is a score
-        max: Math.max(... player.allScores),
-        trend: player.allScores[player.allScores.length - 1] - player.allScores[player.allScores.length - 6]
-      }))
-      .sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
-
-      this.dataSource = new MatTableDataSource(sorted);
+    const sorted = players.sort((playerOne, playerTwo) => playerTwo.ranking - playerOne.ranking);
+    this.dataSource = new MatTableDataSource(sorted);
   }
 
-  showDetailsOf(player: ComputedRankingPlayer) {
+  showDetailsOf(player: RankingPlayer) {
     this.dialog.open(PlayerProgressionDialogComponent, {
       data: player,
       width: '80%',

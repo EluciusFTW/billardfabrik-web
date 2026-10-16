@@ -1,11 +1,12 @@
 import { Service, inject } from "@angular/core";
 import { FirebaseService } from "../shared/firebase.service";
 import { PlayersService } from "../players/players.service";
-import { RankingPlayer } from "./models/ranking-player";
+import { Leaderboard, RankingPlayer } from "./models/ranking-player";
+import { LeaderboardFunctions } from "./leaderboard-functions";
 import { PlayerFunctions } from "../players/player-functions";
 import { Observable, combineLatest, firstValueFrom, map } from "rxjs";
-import { EloPlayer, EloPlayerData } from "./models/elo-models";
-import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_MATCHES_LPATH, DB_PLAYERS_PATH } from "./elo.service";
+import { EloDataPoint, EloPlayer, EloPlayerData } from "./models/elo-models";
+import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_LEADERBOARD_PATH, DB_MATCHES_LPATH, DB_PLAYERS_PATH } from "./elo.service";
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
 import { compareByKey, Db, listValWithKey, withoutKey } from "../shared/firebase-utilities";
 import { equalTo, limitToLast, objectVal, orderByChild, query, ref } from "@angular/fire/database";
@@ -21,17 +22,30 @@ export class EloRankingService extends FirebaseService {
       .getEloPlayers()
       .then(players => players.map(PlayerFunctions.displayName));
 
-    return firstValueFrom(
-      listValWithKey<EloPlayerData>(this.playersRef)
-        .pipe(
-          map(players => players
-            .filter(player => player.changes?.length > this.lowerBoundOnGames)
-            .map(player => ({
-              name: PlayerFunctions.nameFromKey(player.key),
-              allScores: player.changes.map(match => match.bvf),
-            }))
-            .filter(player => playerNames.includes(player.name))
-          )));
+    const leaderboard = await this.GetLeaderboard();
+
+    return Object
+      .entries(leaderboard)
+      .map(([key, entry]) => ({ name: PlayerFunctions.nameFromKey(key), ...entry }))
+      .filter(player => player.matches >= this.lowerBoundOnGames)
+      .filter(player => playerNames.includes(player.name));
+  }
+
+  async GetScoreHistory(name: string): Promise<number[]> {
+    const changesRef = ref(this.db, `${DB_PLAYERS_PATH}/${PlayerFunctions.keyFromName(name)}/changes`);
+    const changes = await firstValueFrom(objectVal<EloDataPoint[]>(changesRef));
+    return (changes ?? []).map(change => change.bvf);
+  }
+
+  // Falls back to computing from the full history until the first import has written the snapshot.
+  private async GetLeaderboard(): Promise<Leaderboard> {
+    const snapshot = await firstValueFrom(objectVal<Leaderboard>(ref(this.db, DB_LEADERBOARD_PATH)));
+    if (snapshot) {
+      return snapshot;
+    }
+
+    const players = await firstValueFrom(objectVal<Record<string, EloPlayerData>>(this.playersRef));
+    return LeaderboardFunctions.fromPlayers(players ?? {});
   }
 
   async GetEloListedPlayers(): Promise<EloPlayer[]> {
