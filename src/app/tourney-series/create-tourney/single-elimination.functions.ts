@@ -5,6 +5,7 @@ import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { MatchPlayer } from '../models/match-player';
 import { reOrderRandomly } from 'src/app/shared/utility.functions';
+import { toBracketOrder } from './seeding.functions';
 
 export function createSingleEliminationStages(info: TourneyInfo): SingleEliminationEliminationStage[] {
   return getStages(TourneyEliminationStageType.startingStage(info.players.length))
@@ -52,9 +53,7 @@ function getSeededPairs(players: MatchPlayer[]) {
   const playerCopy = [...players];
   const seededPlayers = playerCopy.splice(0, playerCopy.length / 2);
 
-  const seededReordered = seededPlayers.length !== 8
-    ? reOrderRandomly(seededPlayers)
-    : reorderSystematically(seededPlayers);
+  const seededReordered = toBracketOrder(seededPlayers);
   const remainingReordered = reOrderRandomly(playerCopy);
 
   return seededReordered.map((player, index) => [player, remainingReordered[index]]);
@@ -71,18 +70,4 @@ function getStages(startingStage: TourneyEliminationStageType): TourneyEliminati
 function getPlaceholderMatches(stageType: TourneyEliminationStageType, info: TourneyInfo): Match[] {
   return Array(TourneyEliminationStageType.numberOfMatches(stageType))
     .fill(Match.placeHolder(info.discipline, info.raceLength));
-}
-
-function reorderSystematically(players: MatchPlayer[]) {
-  console.log('Ordering systematically!');
-  return [
-    players[4],
-    players[3],
-    players[7],
-    players[0],
-    players[1],
-    players[6],
-    players[2],
-    players[5]
-  ]
 }
