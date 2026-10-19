@@ -56,7 +56,7 @@ export class CreateTourneyComponent implements OnInit{
       mode: 'Doppel-K.O.',
       hasFirstElimination: true,
       hasGroups: false,
-      canBeSeeded: false,
+      canBeSeeded: true,
     }];
   selectedPlayModus: TourneyModeViewModel = this.playModi[0];
 

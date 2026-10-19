@@ -19,7 +19,7 @@ function getEntryStage(entryStage: TourneyDoubleEliminationStageType, info: Doub
     type: entryStage,
     eliminationType: "Double",
     title: TourneyDoubleEliminationStageType.map(entryStage),
-    matches: getMatchesFilledUpWithWalks(info.players, info.raceLength, info.discipline),
+    matches: getMatchesFilledUpWithWalks(info.players, info.seeded, info.raceLength, info.discipline),
     status: TourneyPhaseStatus.waitingForApproval
   }
 }

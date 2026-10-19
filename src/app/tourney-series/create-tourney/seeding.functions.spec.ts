@@ -1,4 +1,4 @@
-import { toBracketOrder } from './seeding.functions';
+import { pairTopHalfWithRandomBottomHalf, toBracketOrder } from './seeding.functions';
 
 describe('toBracketOrder', () => {
   const seeds = (count: number) => Array.from({ length: count }, (_, index) => index + 1);
@@ -24,5 +24,22 @@ describe('toBracketOrder', () => {
 
   it.each([0, 3, 6, 12])('rejects %i seeds', count => {
     expect(() => toBracketOrder(seeds(count))).toThrow();
+  });
+});
+
+describe('pairTopHalfWithRandomBottomHalf', () => {
+  const players = (count: number) => Array.from({ length: count }, (_, index) => index + 1);
+
+  it.each([2, 4, 8, 16, 32])('pairs the top half in bracket order with the bottom half for %i players', count => {
+    const pairs = pairTopHalfWithRandomBottomHalf(players(count));
+
+    expect(pairs.map(([seed]) => seed)).toEqual(toBracketOrder(players(count / 2)));
+    expect(pairs.map(([, unseeded]) => unseeded).sort((a, b) => a - b)).toEqual(players(count).slice(count / 2));
+  });
+
+  it('does not modify the given players', () => {
+    const given = players(8);
+    pairTopHalfWithRandomBottomHalf(given);
+    expect(given).toEqual(players(8));
   });
 });

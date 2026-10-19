@@ -5,7 +5,7 @@ import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { MatchPlayer } from '../models/match-player';
 import { reOrderRandomly } from 'src/app/shared/utility.functions';
-import { toBracketOrder } from './seeding.functions';
+import { pairTopHalfWithRandomBottomHalf } from './seeding.functions';
 
 export function createSingleEliminationStages(info: TourneyInfo): SingleEliminationEliminationStage[] {
   return getStages(TourneyEliminationStageType.startingStage(info.players.length))
@@ -34,7 +34,7 @@ export function createEmptySingleEliminationStages(info: TourneyInfo, startingSt
 
 function getMatches(stageType: TourneyEliminationStageType, info: TourneyInfo): Match[] {
   const players = getPlayers(stageType, info);
-  return getSeededPairs(players)
+  return pairTopHalfWithRandomBottomHalf(players)
     .map(pair => Match.create(pair[0], pair[1], info.discipline, info.raceLength));
 }
 
@@ -47,16 +47,6 @@ function getPlayers(stageType: TourneyEliminationStageType, info: TourneyInfo): 
     ... Array(TourneyEliminationStageType.numberOfPlayers(stageType) - info.players.length)
       .fill(MatchPlayer.Walk())
   ];
-}
-
-function getSeededPairs(players: MatchPlayer[]) {
-  const playerCopy = [...players];
-  const seededPlayers = playerCopy.splice(0, playerCopy.length / 2);
-
-  const seededReordered = toBracketOrder(seededPlayers);
-  const remainingReordered = reOrderRandomly(playerCopy);
-
-  return seededReordered.map((player, index) => [player, remainingReordered[index]]);
 }
 
 function getStages(startingStage: TourneyEliminationStageType): TourneyEliminationStageType[] {

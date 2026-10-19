@@ -1,14 +1,16 @@
 import { Match } from '../models/match';
 import { MatchPlayer } from '../models/match-player';
 import { PoolDiscipline } from '../models/pool-discipline';
+import { pairTopHalfWithRandomBottomHalf } from './seeding.functions';
 
-export function getMatchesFilledUpWithWalks(playerNames: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
-  const randomizedPlayers = [
-    ...getRandomizedPlayers(playerNames),
+export function getMatchesFilledUpWithWalks(playerNames: string[], seeded: boolean, raceTo: number, discipline: PoolDiscipline): Match[] {
+  const players = [
+    ...(seeded ? playerNames.map(name => MatchPlayer.From(name)) : getRandomizedPlayers(playerNames)),
     ...getWalks(nextPowerOfTwo(playerNames.length) - playerNames.length)
   ];
 
-  return getMatchesInternal(randomizedPlayers, raceTo, discipline);
+  return pairTopHalfWithRandomBottomHalf(players)
+    .map(pair => Match.create(pair[0], pair[1], discipline, raceTo));
 }
 
 export function getMatches(playerNames: string[], raceTo: number, discipline: PoolDiscipline): Match[] {
