@@ -7,8 +7,7 @@ import { TourneyPhaseStatus } from '../models/tourney-phase-status';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 
 export function createGroups(info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
-  let randomOrderedPlayers = reOrderRandomly([...info.players]);
-  return buildGroups(randomOrderedPlayers, info);
+  return buildGroups(drawPlayers(info), info);
 }
 
 export function determineStartingStageAfterGroups(info: GroupsThenSingleEliminationTourneyInfo): TourneyEliminationStageType {
@@ -21,25 +20,28 @@ export function determineStartingStageAfterGroups(info: GroupsThenSingleEliminat
         : TourneyEliminationStageType.final;
 }
 
+// When seeded, the top seeds (one per group) are drawn first, so each group gets exactly one of them
+function drawPlayers(info: GroupsThenSingleEliminationTourneyInfo): string[] {
+  return info.seeded
+    ? [
+      ...reOrderRandomly(info.players.slice(0, info.nrOfGroups)),
+      ...reOrderRandomly(info.players.slice(info.nrOfGroups))
+    ]
+    : reOrderRandomly([...info.players]);
+}
+
+// Deals the players round-robin, so the first player of each group comes from the start of the list
+// and group sizes differ by at most one (the first groups get the extra players)
 function buildGroups(players: string[], info: GroupsThenSingleEliminationTourneyInfo): TourneyGroup[] {
-  let groups: TourneyGroup[] = [];
-  let groupSize = Math.ceil(players.length / info.nrOfGroups);
-  let groupNumber = 1
-
-  while (groupNumber <= info.nrOfGroups) {
-    const chunk = players.splice(0, groupSize - 1);
-    groups.push({
-      number: groupNumber++,
-      players: chunk,
-      matches: [],
+  return Array.from({ length: info.nrOfGroups }, (_, index) => {
+    const groupPlayers = players.filter((_, playerIndex) => playerIndex % info.nrOfGroups === index);
+    return {
+      number: index + 1,
+      players: groupPlayers,
+      matches: buildMatches(groupPlayers, info),
       status: TourneyPhaseStatus.waitingForApproval
-    });
-  }
-
-  players.forEach((player, index) => groups[index].players.push(player));
-  groups.forEach(group => group.matches = buildMatches(group.players, info))
-
-  return groups;
+    };
+  });
 }
 
 function buildMatches(players: string[], info: GroupsThenSingleEliminationTourneyInfo): Match[] {

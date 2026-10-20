@@ -48,6 +48,17 @@
             }
           </mat-select>
         </mat-form-field>
+
+        @if (nrOfGroupsSelected > 1) {
+          <mat-form-field>
+            <mat-label>K.O.-Auslosung</mat-label>
+            <mat-select [(value)]="knockoutPairingSelected">
+              @for(pairing of knockoutPairings; track pairing) {
+                <mat-option [value]="pairing"> {{ pairingName(pairing) }} </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
       }
 
       @if (selectedPlayModus?.hasFirstElimination) {
@@ -84,11 +95,9 @@
           Turnier Erstellen
         </button>
 
-        @if (selectedPlayModus.canBeSeeded) {
-          <button mat-raised-button color="primary" [disabled]="!canSubmit" (click)="seedSelected(selectPlayers.selectedOptions.selected)">
-            Gesetztes Turnier Erstellen
-          </button>
-        }
+        <button mat-raised-button color="primary" [disabled]="!canSubmit" (click)="seedSelected(selectPlayers.selectedOptions.selected)">
+          Gesetztes Turnier Erstellen
+        </button>
       </div>
     </div>
   </div>

@@ -18,6 +18,18 @@ export function pairTopHalfWithRandomBottomHalf<T>(players: T[]): [T, T][] {
   return seededReordered.map((player, index) => [player, remainingReordered[index]]);
 }
 
+// The seeds are the top half of the bracket, which is filled up with walks to the next power of two
+export function numberOfBracketSeeds(numberOfPlayers: number): number {
+  return numberOfPlayers < 2
+    ? 0
+    : Math.pow(2, Math.ceil(Math.log2(numberOfPlayers))) / 2;
+}
+
+// Seeds of the same tier (1–2, 3–4, 5–8, 9–16, ...) can meet a higher seed in the same round at the earliest
+export function seedTier(seed: number): number {
+  return Math.max(0, Math.ceil(Math.log2(seed)) - 1);
+}
+
 function seedPositions(numberOfSeeds: number): number[] {
   if (numberOfSeeds < 1 || !Number.isInteger(Math.log2(numberOfSeeds))) {
     throw new Error(`${numberOfSeeds} seeds cannot be arranged in a bracket, it has to be a power of two.`);

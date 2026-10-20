@@ -11,10 +11,14 @@ import { TourneysService } from '../services/tourneys.service';
 import { TourneyInfo } from '../models/tourney-info';
 import { TourneyEliminationStageType } from '../models/tourney-single-elimination-stage-type';
 import { TourneyModeViewModel } from './tourney-mode-view-model';
+import { KNOCKOUT_PAIRINGS, KnockoutPairing } from '../models/knockout-pairing';
 import { PlayersService } from 'src/app/players/players.service';
 import { PlayerFunctions } from 'src/app/players/player-functions';
 import { OrderPlayersDialogComponent } from './order-players/order-players-dialog.component';
+import { SeedingScope } from './order-players/seeding-scope';
+import { numberOfBracketSeeds } from './seeding.functions';
 import { firstValueFrom } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/players/player';
 import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { MatSelectionList, MatListOption } from '@angular/material/list';
@@ -34,6 +38,8 @@ export class CreateTourneyComponent implements OnInit{
   private readonly tourneysService = inject(TourneysService);
   private readonly playersService = inject(PlayersService);
   private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   unique = input(false);
   tourneyName = '';
@@ -43,24 +49,25 @@ export class CreateTourneyComponent implements OnInit{
     {
       mode: 'Gruppe + Einfach-K.O.',
       hasFirstElimination: false,
-      hasGroups: true,
-      canBeSeeded: false,
+      hasGroups: true
     },
     {
       mode: 'Einfach-K.O.',
       hasFirstElimination: false,
-      hasGroups: false,
-      canBeSeeded: true,
+      hasGroups: false
     },
     {
       mode: 'Doppel-K.O.',
       hasFirstElimination: true,
-      hasGroups: false,
-      canBeSeeded: true,
+      hasGroups: false
     }];
   selectedPlayModus: TourneyModeViewModel = this.playModi[0];
 
   nrOfGroupsSelected: number;
+
+  readonly knockoutPairings = KNOCKOUT_PAIRINGS;
+  knockoutPairingSelected: KnockoutPairing = 'Random';
+
   private readonly rackRaceLengths = [3, 4, 5, 6, 7, 8, 9];
   private readonly defaultRackRaceLength = 4;
   raceLengthSelected: number = this.defaultRackRaceLength;
@@ -140,13 +147,19 @@ export class CreateTourneyComponent implements OnInit{
 
     const dialog: MatDialogRef<OrderPlayersDialogComponent, string[]> = this.dialog.open(
       OrderPlayersDialogComponent,
-      { data: { players: players} }
+      { data: { players: players, scope: this.seedingScope(players.length) } }
     );
 
     var sortedPlayers = await firstValueFrom(dialog.afterClosed());
     if (sortedPlayers) {
       this.submit(sortedPlayers, true);
     }
+  }
+
+  private seedingScope(numberOfPlayers: number): SeedingScope {
+    return this.selectedPlayModus.hasGroups
+      ? { kind: 'Groups', numberOfGroups: this.nrOfGroupsSelected }
+      : { kind: 'Bracket', numberOfSeeds: numberOfBracketSeeds(numberOfPlayers) };
   }
 
   get canSubmit(): boolean {
@@ -174,13 +187,24 @@ export class CreateTourneyComponent implements OnInit{
         ? this.createSingleWithGroups(info)
         : this.createDouble(info)
 
-    this.tourneysService.update(this.tourney, { type: 'Created' });
+    this.tourneysService
+      .update(this.tourney, { type: 'Created' })
+      .then(
+        key => this.navigateToTourney(key),
+        // the failure has been reported already, stay on the form so nothing gets lost
+        () => {});
+  }
+
+  private navigateToTourney(key: string): void {
+    const path = this.unique() ? ['unique', key, 'tourney'] : [key, 'tourney'];
+    this.router.navigate(path, { relativeTo: this.route.parent });
   }
 
   createSingleWithGroups(info: TourneyInfo): Tourney {
     let enrichedInfo = {
       ...info,
-      nrOfGroups: this.nrOfGroupsSelected
+      nrOfGroups: this.nrOfGroupsSelected,
+      knockoutPairing: this.knockoutPairingSelected
     }
     return this.createTourneyService.createSingleWithGroups(enrichedInfo);
   }
@@ -195,5 +219,9 @@ export class CreateTourneyComponent implements OnInit{
 
   typeName(type: TourneyEliminationStageType): string {
     return TourneyEliminationStageType.map(type);
+  }
+
+  pairingName(pairing: KnockoutPairing): string {
+    return KnockoutPairing.map(pairing);
   }
 }

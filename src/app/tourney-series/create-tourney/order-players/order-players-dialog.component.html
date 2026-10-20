@@ -1,8 +1,30 @@
 <h1 mat-dialog-title> Spieler sortieren </h1>
 <div mat-dialog-content>
-  <div cdkDropList (cdkDropListDropped)="drop($event)">
+  <p class="hint">
+    @if (!orderMatters) {
+      Bei dieser Teilnehmerzahl spielt die Reihenfolge keine Rolle, alle Spieler werden zugelost.
+    } @else {
+      @switch (scope.kind) {
+        @case ('Bracket') {
+          Die Plätze <strong>1–{{ numberOfSeeds }}</strong> sind gesetzt: Sie treffen in der ersten Runde nicht
+          aufeinander, und je höher die Setzplätze, desto später können sie sich begegnen.
+          Hier zählt die Reihenfolge. Alle weiteren Spieler und die Freilose werden zugelost.
+        }
+        @case ('Groups') {
+          Die Plätze <strong>1–{{ numberOfSeeds }}</strong> sind Gruppenköpfe: Jeder kommt in eine eigene Gruppe,
+          ihre Reihenfolge untereinander spielt keine Rolle. Alle weiteren Spieler werden zugelost.
+        }
+      }
+    }
+  </p>
+
+  <div class="players" cdkDropList (cdkDropListDropped)="drop($event)">
     @for (player of players; track player; let idx = $index) {
-      <div cdkDrag>{{idx + 1}} -- {{ player }}</div>
+      <div class="player-row" [class]="rowClasses(idx)" cdkDrag>
+        <span class="rank">{{ idx + 1 }}</span>
+        <span class="name">{{ player }}</span>
+        <mat-icon class="handle" cdkDragHandle>drag_indicator</mat-icon>
+      </div>
     }
   </div>
 </div>

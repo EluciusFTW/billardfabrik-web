@@ -1,4 +1,4 @@
-import { pairTopHalfWithRandomBottomHalf, toBracketOrder } from './seeding.functions';
+import { numberOfBracketSeeds, pairTopHalfWithRandomBottomHalf, seedTier, toBracketOrder } from './seeding.functions';
 
 describe('toBracketOrder', () => {
   const seeds = (count: number) => Array.from({ length: count }, (_, index) => index + 1);
@@ -41,5 +41,20 @@ describe('pairTopHalfWithRandomBottomHalf', () => {
     const given = players(8);
     pairTopHalfWithRandomBottomHalf(given);
     expect(given).toEqual(players(8));
+  });
+});
+
+describe('numberOfBracketSeeds', () => {
+  it.each([
+    [0, 0], [1, 0], [2, 1], [3, 2], [4, 2], [5, 4], [8, 4], [9, 8], [15, 8], [16, 8], [17, 16], [32, 16],
+  ])('seeds %i players with %i seeds', (players, seeds) => {
+    expect(numberOfBracketSeeds(players)).toBe(seeds);
+  });
+});
+
+describe('seedTier', () => {
+  it('groups the seeds by the round in which they can meet a higher seed at the earliest', () => {
+    const tiers = Array.from({ length: 16 }, (_, index) => seedTier(index + 1));
+    expect(tiers).toEqual([0, 0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3]);
   });
 });

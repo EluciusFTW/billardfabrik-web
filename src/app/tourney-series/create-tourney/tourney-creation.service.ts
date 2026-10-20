@@ -28,7 +28,10 @@ export class TourneyCreationService {
     return {
       groups: createGroups(info),
       eliminationStages: createEmptySingleEliminationStages(info, eliminationStartsAtStage),
-      meta: this.buildMeta(info),
+      meta: {
+        ...this.buildMeta(info),
+        knockoutPairing: info.knockoutPairing
+      },
     }
   }
 

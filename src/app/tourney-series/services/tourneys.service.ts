@@ -54,29 +54,31 @@ export class TourneysService extends FirebaseService {
     return this.getBetween(`${+actualStart + 1}`, 'X');
   }
 
-  update(tourney: Tourney, event: TourneyPhaseEvent): void {
+  // Resolves to the key of the tourney, which is only determined when it is saved for the first time
+  update(tourney: Tourney, event: TourneyPhaseEvent): Promise<string> {
     this.eventService.apply(tourney, event);
     const key = this.tryGetKey(tourney);
-    if (!!key) {
-      update(ref(this.db, `${this.basePath(tourney.meta.unique)}/${key}`), tourney);
-    } else {
-      this.save(tourney);
-    }
+    return !!key
+      ? update(ref(this.db, `${this.basePath(tourney.meta.unique)}/${key}`), tourney).then(() => key)
+      : this.save(tourney);
   }
 
-  async save(tourney: Tourney): Promise<void> {
+  async save(tourney: Tourney): Promise<string> {
     if (!tourney.meta.unique) {
       tourney.meta.occurrence = await this.getLastOccurrence() + 1;
     }
 
-    return set(ref(this.db, this.tourneyPath(tourney)), tourney)
+    const key = TourneyFunctions.Key(tourney);
+    return set(ref(this.db, `${this.basePath(tourney.meta.unique)}/${key}`), tourney)
       .then(
-        () => this.messageService.success('Neues Turnier erfolgreich gespeichert.'),
-        () => this.messageService.failure('Fehler beim Speichern des neuen Turniers.'));
-  }
-
-  private tourneyPath(tourney: Tourney): string {
-    return `${this.basePath(tourney.meta.unique)}/${TourneyFunctions.Key(tourney)}`;
+        () => {
+          this.messageService.success('Neues Turnier erfolgreich gespeichert.');
+          return key;
+        },
+        error => {
+          this.messageService.failure('Fehler beim Speichern des neuen Turniers.');
+          throw error;
+        });
   }
 
   private basePath(unique: boolean | undefined): string {
