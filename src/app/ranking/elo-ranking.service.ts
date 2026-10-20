@@ -9,7 +9,7 @@ import { EloDataPoint, EloPlayer, EloPlayerData } from "./models/elo-models";
 import { DB_INCOMING_CHALLENGE_MATCHES_LPATH, DB_INCOMING_TOURNEY_MATCHES_LPATH, DB_LEADERBOARD_PATH, DB_MATCHES_LPATH, DB_PLAYERS_PATH } from "./elo.service";
 import { IncomingMatch, ScoredMatch } from "./models/ranking-match";
 import { compareByKey, Db, listValWithKey, withoutKey } from "../shared/firebase-utilities";
-import { equalTo, limitToLast, objectVal, orderByChild, query, ref } from "@angular/fire/database";
+import { equalTo, limitToLast, listVal, objectVal, orderByChild, query, ref } from "@angular/fire/database";
 
 @Service()
 export class EloRankingService extends FirebaseService {
@@ -33,8 +33,9 @@ export class EloRankingService extends FirebaseService {
 
   async GetScoreHistory(name: string): Promise<number[]> {
     const changesRef = ref(this.db, `${DB_PLAYERS_PATH}/${PlayerFunctions.keyFromName(name)}/changes`);
-    const changes = await firstValueFrom(objectVal<EloDataPoint[]>(changesRef));
-    return (changes ?? []).map(change => change.bvf);
+    // objectVal would spread the array into a plain object, listVal keeps it a list
+    const changes = await firstValueFrom(listVal<EloDataPoint>(changesRef));
+    return changes.map(change => change.bvf);
   }
 
   // Falls back to computing from the full history until the first import has written the snapshot.
