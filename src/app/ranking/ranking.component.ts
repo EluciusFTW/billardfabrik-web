@@ -14,7 +14,6 @@ export class RankingComponent extends AuthorizedComponent {
 
   publicTabs = [
     { link: 'players', label: 'Rangliste' },
-    { link: 'matches', label: 'Matches' },
     { link: 'live', label: 'Live' },
     { link: 'details', label: 'Details' }
   ] as const;

@@ -1,0 +1,72 @@
+.selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5em;
+
+  mat-form-field {
+    flex: 1 1 12em;
+  }
+
+  button {
+    margin-bottom: 1.25em;
+  }
+}
+
+.summary {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1.5em;
+  margin: 1em 0;
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .wins,
+  .separator {
+    font-size: 3em;
+    line-height: 1.1;
+  }
+
+  .leading {
+    font-weight: bold;
+  }
+}
+
+.totals {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2em;
+  margin: 0 0 2em;
+
+  div {
+    text-align: center;
+  }
+
+  dt {
+    font-size: .85em;
+    opacity: .7;
+  }
+
+  dd {
+    margin: 0;
+    font-size: 1.2em;
+  }
+}
+
+h3 {
+  margin-top: 1.5em;
+}
+
+.pos {
+  color: green;
+}
+
+.neg {
+  color: red;
+}

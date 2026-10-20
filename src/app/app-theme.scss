@@ -76,3 +76,21 @@ $theme: mat.m2-define-light-theme((
 ));
 
 @include mat.all-component-themes($theme);
+
+// On the beige content tiles, the primary (blue-grey 200) makes the active tab paler than the inactive ones,
+// so there it is highlighted in the club color. On the grey background the theme's look stays.
+// The theme sets the tab tokens on the tab elements (not on :root), so the overrides have to as well.
+app-content-tile {
+  .mat-mdc-tab-group,
+  .mat-mdc-tab-nav-bar {
+    @include mat.tabs-overrides((
+      active-label-text-color: var(--color-primary),
+      active-hover-label-text-color: var(--color-primary),
+      active-focus-label-text-color: var(--color-primary),
+      active-indicator-color: var(--color-primary),
+      active-hover-indicator-color: var(--color-primary),
+      active-focus-indicator-color: var(--color-primary),
+      active-indicator-height: 3px,
+    ));
+  }
+}

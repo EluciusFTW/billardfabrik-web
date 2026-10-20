@@ -1,0 +1,120 @@
+<p>
+  Wählt zwei Spieler aus, um ihre Bilanz aus allen gewerteten Matches zu sehen, insgesamt und nach Disziplin.
+  Punkte sind die gewonnenen Spiele (bei 14/1 die Bälle), Elo ist der Elo-Gewinn gegen den anderen.
+</p>
+
+<div class="selection">
+  <mat-form-field>
+    <mat-label>Spieler</mat-label>
+    <mat-select [value]="playerOf(selection())" (selectionChange)="selectPlayer($event.value)">
+      @for (player of players(); track player) {
+        <mat-option [value]="player">{{ player }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-icon-button type="button" aria-label="Spieler tauschen"
+    [disabled]="selection().kind !== 'pair'" (click)="swap()">
+    <mat-icon>swap_horiz</mat-icon>
+  </button>
+
+  <mat-form-field>
+    <mat-label>Gegner</mat-label>
+    <mat-select [value]="opponentOf(selection())" (selectionChange)="selectOpponent($event.value)"
+      [disabled]="selection().kind === 'none'">
+      @for (opponent of opponents(); track opponent) {
+        <mat-option [value]="opponent">{{ opponent }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+</div>
+
+@if (headToHead(); as h2h) {
+  @if (h2h.total.matches === 0) {
+    <p>{{ h2h.player }} und {{ h2h.opponent }} haben noch kein gewertetes Match gegeneinander gespielt.</p>
+  } @else {
+    <div class="summary">
+      <div class="side">
+        <span class="name">{{ h2h.player }}</span>
+        <span class="wins" [class.leading]="h2h.total.wins > h2h.total.losses">{{ h2h.total.wins }}</span>
+      </div>
+      <span class="separator">:</span>
+      <div class="side">
+        <span class="name">{{ h2h.opponent }}</span>
+        <span class="wins" [class.leading]="h2h.total.losses > h2h.total.wins">{{ h2h.total.losses }}</span>
+      </div>
+    </div>
+
+    <dl class="totals">
+      <div><dt>Matches</dt><dd>{{ h2h.total.matches }}</dd></div>
+      @if (h2h.total.draws > 0) {
+        <div><dt>Unentschieden</dt><dd>{{ h2h.total.draws }}</dd></div>
+      }
+      <div><dt>Punkte</dt><dd>{{ h2h.total.pointsFor }} : {{ h2h.total.pointsAgainst }}</dd></div>
+      <div>
+        <dt>Elo</dt>
+        <dd [class.pos]="h2h.total.elo > 0" [class.neg]="h2h.total.elo < 0">{{ h2h.total.elo }} / {{ -h2h.total.elo }}</dd>
+      </div>
+    </dl>
+
+    <h3>Nach Disziplin</h3>
+    <table mat-table [dataSource]="h2h.byDiscipline">
+      <ng-container matColumnDef="discipline">
+        <th mat-header-cell *matHeaderCellDef> Disziplin </th>
+        <td mat-cell *matCellDef="let item"> {{ item.discipline }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="matches">
+        <th mat-header-cell *matHeaderCellDef> Matches </th>
+        <td mat-cell *matCellDef="let item"> {{ item.matches }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="wins">
+        <th mat-header-cell *matHeaderCellDef> Siege </th>
+        <td mat-cell *matCellDef="let item">
+          {{ item.wins }} : {{ item.losses }}
+          @if (item.draws > 0) { ({{ item.draws }} U) }
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef> Punkte </th>
+        <td mat-cell *matCellDef="let item"> {{ item.pointsFor }} : {{ item.pointsAgainst }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="elo">
+        <th mat-header-cell *matHeaderCellDef> Elo </th>
+        <td mat-cell *matCellDef="let item" [class.pos]="item.elo > 0" [class.neg]="item.elo < 0"> {{ item.elo }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="disciplineColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: disciplineColumns;"></tr>
+    </table>
+
+    <h3>Alle Begegnungen</h3>
+    <table mat-table [dataSource]="h2h.encounters">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Datum </th>
+        <td mat-cell *matCellDef="let item"> {{ item.date | dateKey }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="discipline">
+        <th mat-header-cell *matHeaderCellDef> Disziplin </th>
+        <td mat-cell *matCellDef="let item"> {{ item.discipline }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="score">
+        <th mat-header-cell *matHeaderCellDef> Ergebnis </th>
+        <td mat-cell *matCellDef="let item"> {{ item.pointsFor }} : {{ item.pointsAgainst }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="elo">
+        <th mat-header-cell *matHeaderCellDef> Elo </th>
+        <td mat-cell *matCellDef="let item" [class.pos]="item.elo > 0" [class.neg]="item.elo < 0"> {{ item.elo }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="encounterColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: encounterColumns;"></tr>
+    </table>
+  }
+}

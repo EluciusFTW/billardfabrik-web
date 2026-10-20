@@ -4,14 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { PlayerProgressionDialogComponent } from './player-progression-dialog.component';
 import { RankingPlayer } from '../models/ranking-player';
 import { EloRankingService } from '../elo-ranking.service';
-import { ContentTileComponent } from '../../shared/content-tile/content-tile.component';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
   templateUrl: './player-rankings.component.html',
   styleUrls: ['./player-rankings.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [ContentTileComponent, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatIcon, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
+  imports: [MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatIcon, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow]
 })
 export class PlayerRankingsComponent implements OnInit {
   private readonly eloRankingService = inject(EloRankingService);
